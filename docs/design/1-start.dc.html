@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<title>Vertragscheck – Startseite</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Source+Serif+4:wght@400;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F5F6F8}
+a{color:#1F4E8C}a:hover{color:#163A69}
+</style>
+</helmet>
+<div style="min-height: 1400px; background: #F5F6F8; color: #14181F; font-family: Inter, Arial, sans-serif; font-size: 16px; line-height: 1.55">
+
+<header style="background: #FFFFFF; border-bottom: 1px solid #E2E5EA">
+<div style="max-width: 1120px; margin: 0 auto; padding: 18px 24px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px">
+<a href="Main.dc.html" style="display: flex; align-items: center; gap: 10px; text-decoration: none; color: #14181F">
+<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="{{accent}}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 14l2 2 4-4"/></svg>
+<span style="font-weight: 700; font-size: 18px">Vertragscheck</span>
+</a>
+<nav aria-label="Hauptnavigation" style="display: flex; flex-wrap: wrap; gap: 24px; font-size: 15px">
+<a href="#so-gehts" style="text-decoration: none; color: #3D4552">So funktioniert's</a>
+<a href="Stats.dc.html" style="text-decoration: none; color: #3D4552">Transparenz</a>
+<a href="https://github.com/FalkoKammel/vertragscheck" style="text-decoration: none; color: #3D4552">GitHub</a>
+</nav>
+</div>
+</header>
+
+<section style="max-width: 1120px; margin: 0 auto; padding: 72px 24px 48px; display: flex; flex-wrap: wrap; gap: 48px; align-items: center">
+<div style="flex: 1 1 460px; min-width: 0; display: flex; flex-direction: column; gap: 20px">
+<p style="margin: 0; font-size: 13px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: {{accent}}">KI-gestützte Vertragsanalyse · Demo</p>
+<h1 style="margin: 0; font-family: 'Source Serif 4', Georgia, serif; font-size: 46px; line-height: 1.15; font-weight: 600">Verstehe deinen Vertrag, bevor du unterschreibst.</h1>
+<p style="margin: 0; font-size: 18px; color: #3D4552">Lade einen Miet- oder Arbeitsvertrag hoch. Vertragscheck markiert auffällige Klauseln direkt im Text, mit wörtlichem Zitat und kurzer Begründung.</p>
+<div style="display: flex; flex-wrap: wrap; gap: 12px; padding-top: 8px">
+<a href="Result.dc.html" style="display: inline-flex; align-items: center; min-height: 48px; padding: 0 22px; border-radius: 8px; background: {{accent}}; color: #FFFFFF; font-weight: 600; text-decoration: none">Beispiel ansehen</a>
+<a href="Upload.dc.html" style="display: inline-flex; align-items: center; min-height: 48px; padding: 0 22px; border-radius: 8px; border: 1px solid #C9CED6; background: #FFFFFF; color: #14181F; font-weight: 600; text-decoration: none">Eigenen Vertrag prüfen</a>
+</div>
+<p style="margin: 0; font-size: 13px; color: #5B6472">Kein Konto nötig. Hochgeladene Verträge werden nach 30 Tagen automatisch gelöscht.</p>
+</div>
+
+<div style="flex: 1 1 420px; min-width: 0; background: #FFFFFF; border: 1px solid #E2E5EA; border-radius: 12px; padding: 28px; display: flex; flex-direction: column; gap: 14px">
+<div style="font-size: 13px; color: #5B6472">Auszug · Mietvertrag</div>
+<p style="margin: 0; font-family: 'Source Serif 4', Georgia, serif; font-size: 15px; color: #2A303A">§ 4 Mietsicherheit</p>
+<p style="margin: 0; font-family: 'Source Serif 4', Georgia, serif; font-size: 15px; color: #2A303A">Der Mieter leistet eine Kaution in Höhe von <mark style="background: #FBD9C5; color: #14181F; padding: 1px 3px; border-radius: 3px; box-shadow: inset 0 -2px 0 #C2410C">vier Nettokaltmieten</mark>, fällig mit Vertragsbeginn.</p>
+<div style="border-top: 1px solid #E2E5EA; padding-top: 14px; display: flex; gap: 12px; align-items: flex-start">
+<span style="flex: none; font-size: 12px; font-weight: 700; color: #9A3412; background: #FBD9C5; border-radius: 999px; padding: 3px 10px">Kritisch</span>
+<div style="font-size: 14px; color: #2A303A">Die Kaution darf höchstens drei Nettokaltmieten betragen (§ 551 BGB). Ein höherer Betrag ist insoweit unwirksam.</div>
+</div>
+</div>
+</section>
+
+<section id="so-gehts" style="max-width: 1120px; margin: 0 auto; padding: 32px 24px 56px; display: flex; flex-direction: column; gap: 24px">
+<h2 style="margin: 0; font-size: 26px; font-weight: 700">So funktioniert's</h2>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px">
+<div style="background: #FFFFFF; border: 1px solid #E2E5EA; border-radius: 12px; padding: 22px; display: flex; flex-direction: column; gap: 8px">
+<div style="font-size: 13px; font-weight: 700; color: {{accent}}">1</div>
+<div style="font-weight: 600">Hochladen</div>
+<div style="font-size: 14px; color: #3D4552">PDF hochladen und Vertragsart wählen. Text-PDFs bis 10 MB.</div>
+</div>
+<div style="background: #FFFFFF; border: 1px solid #E2E5EA; border-radius: 12px; padding: 22px; display: flex; flex-direction: column; gap: 8px">
+<div style="font-size: 13px; font-weight: 700; color: {{accent}}">2</div>
+<div style="font-weight: 600">Analysieren</div>
+<div style="font-size: 14px; color: #3D4552">Ein Sprachmodell ordnet jede Klausel ein. Jedes Zitat wird gegen den Originaltext geprüft, erfundene Stellen werden verworfen.</div>
+</div>
+<div style="background: #FFFFFF; border: 1px solid #E2E5EA; border-radius: 12px; padding: 22px; display: flex; flex-direction: column; gap: 8px">
+<div style="font-size: 13px; font-weight: 700; color: {{accent}}">3</div>
+<div style="font-weight: 600">Verstehen</div>
+<div style="font-size: 14px; color: #3D4552">Auffällige Stellen sind im Text markiert, mit Begründung, Kosten und Modell der Analyse.</div>
+</div>
+</div>
+</section>
+
+<section style="max-width: 1120px; margin: 0 auto; padding: 0 24px 56px; display: flex; flex-direction: column; gap: 20px">
+<h2 style="margin: 0; font-size: 26px; font-weight: 700">Beispielverträge</h2>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px">
+<a href="Result.dc.html" style="display: flex; flex-direction: column; gap: 8px; background: #FFFFFF; border: 1px solid #E2E5EA; border-radius: 12px; padding: 22px; text-decoration: none; color: #14181F">
+<div style="font-weight: 600">Muster-Mietvertrag</div>
+<div style="font-size: 14px; color: #3D4552">12 Seiten · 2 kritische, 2 zu prüfende Klauseln</div>
+<div style="font-size: 14px; font-weight: 600; color: {{accent}}">Analyse ansehen →</div>
+</a>
+<a href="Result.dc.html" style="display: flex; flex-direction: column; gap: 8px; background: #FFFFFF; border: 1px solid #E2E5EA; border-radius: 12px; padding: 22px; text-decoration: none; color: #14181F">
+<div style="font-weight: 600">Muster-Arbeitsvertrag</div>
+<div style="font-size: 14px; color: #3D4552">8 Seiten · [ANZAHL] auffällige Klauseln</div>
+<div style="font-size: 14px; font-weight: 600; color: {{accent}}">Analyse ansehen →</div>
+</a>
+</div>
+</section>
+
+<footer style="border-top: 1px solid #E2E5EA; background: #FFFFFF">
+<div style="max-width: 1120px; margin: 0 auto; padding: 28px 24px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px; font-size: 13px; color: #5B6472">
+<div style="max-width: 640px">Automatische Einordnung, kann Fehler enthalten und ersetzt keine Rechtsberatung. Portfolio-Projekt von Falko Kammel.</div>
+<div style="display: flex; gap: 20px"><a href="#impressum">Impressum</a><a href="#datenschutz">Datenschutz</a></div>
+</div>
+</footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#1F4E8C","options":["#1F4E8C","#0F5E5A","#14181F"]},"$preview":{"width":1280,"height":1400}}'>
+class Component extends DCLogic {
+renderVals() {
+return { accent: this.props.accent ?? '#1F4E8C' };
+}
+}
+</script>
+</body>
+</html>
