@@ -7,7 +7,7 @@ Full plan: `docs/PLAN.md`. UI designs (source of truth for layout, colours, copy
 ## Stack
 
 - pnpm workspaces, Node 24, TypeScript `strict` everywhere, no `any`
-- `apps/web`: Next.js (App Router, `output: 'export'`, static site on S3 + CloudFront), Tailwind CSS, `next-intl` for German and English (`/de`, `/en`, German is the default). No server actions, route handlers, middleware or request-time SSR: all data comes from the API under `/api/*`. Result page is `/result?id=<id>`, not a dynamic route.
+- `apps/web`: Next.js (App Router, `output: 'export'`, static site on S3 + CloudFront), Mantine for UI components, `next-intl` for German and English (`/de`, `/en`, German is the default). No server actions, route handlers, middleware or request-time SSR: all data comes from the API under `/api/*`. Result page is `/result?id=<id>`, not a dynamic route.
 - `services/api`: AWS Lambda handlers in TypeScript, AWS SDK v3, Zod for every boundary (API input, LLM output, DynamoDB items)
 - `infra`: AWS CDK v2 in TypeScript, region `eu-central-1`
 - LLM: Amazon Bedrock, Converse API. Model ID comes from config (`MODEL_ID`), never hardcoded. Default: `eu.anthropic.claude-haiku-4-5-20251001-v1:0`
@@ -43,6 +43,8 @@ CloudFront serves the static site and routes `/api/*` to API Gateway. The browse
 ## Design
 
 - Follow `docs/design/*.html` closely: layout, spacing, copy, states.
+- Use Mantine components and its theme. Put all design colours, fonts and radii into one Mantine theme (`apps/web/src/theme.ts`), never as hex values in components. Custom styles go in CSS modules, not inline styles.
+- No Tailwind.
 - Colours: ink `#14181F`, body text `#3D4552`, muted `#5B6472`, page background `#F5F6F8`, cards `#FFFFFF` with border `#E2E5EA`, accent `#1F4E8C`.
 - Traffic light: critical bg `#FBD9C5` / line `#C2410C` / text `#9A3412`; check bg `#FDEFC3` / line `#B45309` / text `#7A4A05`; neutral bg `#E3E8EF` / text `#3D4552`.
 - Fonts: Inter for UI, Source Serif 4 for contract text.
