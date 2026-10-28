@@ -66,6 +66,8 @@ CloudFront serves the static site and routes `/api/*` to API Gateway. The browse
 - Ask before adding a new dependency.
 - Never run `cdk deploy`, `cdk destroy` or anything that changes AWS resources without asking.
 - Never commit secrets or `.env` files.
+- Git: work on a feature branch (`feat/<topic>`, `fix/<topic>`), never commit or push to `main`. I review and merge into `main` myself. A hook in `.claude/settings.json` blocks pushes to `main` and force pushes.
+- Before saying a task is done and before every commit, run the `verify` skill and show its result table.
 - When unsure about a requirement, check `docs/PLAN.md` and the design files before asking.
 - When we make a new architecture decision, add a short entry to `docs/decisions.md` (context, decision, consequences).
 
@@ -73,6 +75,7 @@ CloudFront serves the static site and routes `/api/*` to API Gateway. The browse
 
 ```bash
 pnpm install
+pnpm verify                      # typecheck, lint, tests, build (all packages)
 pnpm --filter web dev            # frontend on http://localhost:3000
 pnpm --filter api test           # domain tests
 pnpm --filter infra cdk synth
