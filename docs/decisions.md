@@ -92,3 +92,9 @@ Format per entry: **Context** (the problem), **Decision**, **Consequences** (tra
 - **Context:** 3 analyses per client and day without accounts. API Gateway usage plans work per API key, not per IP, and AWS WAF rate rules count over minutes and add a fixed monthly cost.
 - **Decision:** A DynamoDB item per HMAC(IP, secret) and day, increased with a conditional update when an upload URL is issued, expiring after two days. Captcha is checked first.
 - **Consequences:** Cheap and race-free, no raw IPs stored. Easy to get around by switching networks, which is acceptable because the monthly budget is the hard ceiling.
+
+## 015 · Tooling: pnpm workspace, TypeScript 6.0, ESLint flat config, Vitest
+
+- **Context:** Three packages (`apps/web`, `services/api`, `infra`) need one shared toolchain and one `pnpm verify` entry point.
+- **Decision:** Dev tooling lives once in the root `package.json` with exact versions (`save-exact`). Shared `tsconfig.base.json` with `strict`, `noUncheckedIndexedAccess` and `verbatimModuleSyntax`. One ESLint flat config with `typescript-eslint` `strictTypeChecked` (no `any`), Prettier for formatting (not applied to `docs/` and `.claude/`), one Vitest root config with a project per package. TypeScript is pinned to 6.0.3 and `@types/node` to 24.x (Lambda runtime).
+- **Consequences:** TypeScript 7 is the latest release, but `typescript-eslint` 8.72 only supports `<6.1.0`, so we stay on 6.0 until it catches up. Packages get their own dependencies later (Next.js, CDK, Zod, AWS SDK) and may override `module` settings, e.g. Next.js with `Bundler` resolution.
