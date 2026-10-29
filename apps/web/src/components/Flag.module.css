@@ -1,0 +1,42 @@
+.flag {
+  width: 20px;
+  height: 12px;
+  border-radius: 2px;
+  flex: none;
+}
+
+.deBlack {
+  fill: var(--vc-flag-black);
+}
+
+.deRed {
+  fill: var(--vc-flag-red);
+}
+
+.deGold {
+  fill: var(--vc-flag-gold);
+}
+
+.ukBlue {
+  fill: var(--vc-flag-uk-blue);
+}
+
+.ukWhiteDiagonal {
+  stroke: var(--vc-flag-white);
+  stroke-width: 6;
+}
+
+.ukRedDiagonal {
+  stroke: var(--vc-flag-uk-red);
+  stroke-width: 3;
+}
+
+.ukWhiteCross {
+  stroke: var(--vc-flag-white);
+  stroke-width: 10;
+}
+
+.ukRedCross {
+  stroke: var(--vc-flag-uk-red);
+  stroke-width: 6;
+}
