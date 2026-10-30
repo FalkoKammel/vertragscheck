@@ -8,7 +8,10 @@ let template: Template;
 beforeAll(() => {
   const stack = new CiStack(new App(), 'Test', {
     env: { account: '123456789012', region: 'eu-central-1' },
-    repository: 'FalkoKammel/vertragscheck',
+    owner: 'FalkoKammel',
+    ownerId: 142214925,
+    repository: 'vertragscheck',
+    repositoryId: 1435846023,
     branch: 'main',
   });
   template = Template.fromStack(stack);
@@ -36,7 +39,7 @@ describe('CiStack', () => {
         StringEquals: {
           'token.actions.githubusercontent.com:aud': 'sts.amazonaws.com',
           'token.actions.githubusercontent.com:sub':
-            'repo:FalkoKammel/vertragscheck:ref:refs/heads/main',
+            'repo:FalkoKammel@142214925/vertragscheck@1435846023:ref:refs/heads/main',
         },
       },
     });

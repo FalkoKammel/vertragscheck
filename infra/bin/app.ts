@@ -12,7 +12,10 @@ const env = { account: process.env.CDK_DEFAULT_ACCOUNT, region: 'eu-central-1' }
 if (app.node.tryGetContext('ci') === 'true') {
   new CiStack(app, 'VertragscheckCi', {
     env,
-    repository: 'FalkoKammel/vertragscheck',
+    owner: 'FalkoKammel',
+    ownerId: 142214925,
+    repository: 'vertragscheck',
+    repositoryId: 1435846023,
     branch: 'main',
   });
 } else {
