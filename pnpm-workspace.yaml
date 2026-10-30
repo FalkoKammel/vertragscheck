@@ -2,3 +2,10 @@ packages:
   - apps/*
   - services/*
   - infra
+
+# Install scripts of these packages are not needed: their binaries ship as prebuilt
+# optional packages. Listing them explicitly keeps `pnpm install` from failing on unreviewed builds.
+allowBuilds:
+  '@parcel/watcher': false
+  '@swc/core': false
+  esbuild: false
