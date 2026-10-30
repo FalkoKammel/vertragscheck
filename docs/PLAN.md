@@ -30,7 +30,7 @@ Everything is serverless and defined with AWS CDK in TypeScript (region `eu-cent
 
 ```
 Browser ──▶ CloudFront ──┬─▶ /*      S3 (static Next.js export)
-   │                     └─▶ /api/*  API Gateway ──▶ API Lambdas (create upload, status/result,
+   │                     └─▶ /api/*  API Gateway ──▶ router Lambda (create upload, status/result,
    │                                                 delete, samples, stats)
    │                                                 captcha check, daily limit, budget check
    └─▶ S3 uploads bucket ◀── presigned PUT URL
@@ -50,11 +50,9 @@ The frontend is a static Next.js export: pages are rendered once at build time, 
 
 **CDK stacks**
 
-- `WebStack`: S3 + CloudFront for the static site, with `/api/*` routed to API Gateway
-- `DataStack`: DynamoDB table (TTL), S3 bucket for uploads and extracted text (lifecycle rules)
-- `ApiStack`: API Gateway + Lambdas, stage throttling
-- `AnalysisStack`: SQS + DLQ, analysis Lambda with Bedrock permissions, reserved concurrency
-- `OpsStack`: AWS budget with alert and IAM deny action, CloudWatch alarms (errors, DLQ)
+- `DataStack` (stateful, rarely changes): DynamoDB table (TTL), S3 bucket for uploads and extracted text (lifecycle rules). Retained on `cdk destroy`.
+- `AppStack` (everything that can be rebuilt): the `WebHosting` construct (private S3 bucket, CloudFront with OAC, URL-rewrite function, `BucketDeployment` of `apps/web/out`), API Gateway with `/api/*` routed from CloudFront, the **router Lambda** (one Lambda behind API Gateway that dispatches create upload, status/result, delete, samples and stats), SQS + DLQ and the **analysis Lambda** (SQS-triggered, Bedrock permissions, reserved concurrency), stage throttling.
+- `OpsStack` (later): AWS budget with alert and IAM deny action, CloudWatch alarms (errors, DLQ)
 - CI/CD: GitHub Actions with an OIDC role, `cdk deploy` on push to `main`
 
 ## Data model
