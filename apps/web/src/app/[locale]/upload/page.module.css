@@ -1,0 +1,82 @@
+.main {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 48px 24px;
+}
+
+.card {
+  max-width: 640px;
+  background: var(--vc-card);
+  border: 1px solid var(--vc-border);
+  border-radius: 12px;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.title {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.label {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.dropzone {
+  border: 2px dashed var(--vc-dropzone-border);
+  border-radius: 12px;
+  background: var(--vc-dropzone-bg);
+  padding: 40px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  text-align: center;
+}
+
+.dropIcon {
+  stroke: var(--mantine-color-accent-6);
+}
+
+.dropTitle {
+  font-weight: 600;
+}
+
+.dropHint {
+  font-size: 13px;
+  color: var(--vc-muted);
+}
+
+.file {
+  font: inherit;
+  font-size: 14px;
+}
+
+.captcha {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 64px;
+  padding: 0 16px;
+  border: 1px solid var(--vc-border);
+  border-radius: 8px;
+  background: var(--vc-placeholder-bg);
+  font-size: 14px;
+  color: var(--vc-muted);
+}
+
+.note {
+  margin: 0;
+  font-size: 13px;
+  color: var(--vc-muted);
+}

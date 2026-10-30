@@ -1,0 +1,59 @@
+.header {
+  background: var(--vc-card);
+  border-bottom: 1px solid var(--vc-border);
+}
+
+.inner {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 18px 24px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: var(--vc-ink);
+}
+
+.logo {
+  stroke: var(--mantine-color-accent-6);
+}
+
+.brandName {
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  font-size: 15px;
+}
+
+.link {
+  text-decoration: none;
+  color: var(--vc-body);
+}
+
+.link:hover {
+  color: var(--vc-ink);
+}
+
+.active {
+  color: var(--vc-ink);
+  font-weight: 600;
+}
+
+.localeLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}

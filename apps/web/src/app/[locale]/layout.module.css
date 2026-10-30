@@ -1,0 +1,13 @@
+.shell {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  min-height: 100dvh;
+  background: var(--vc-page);
+  color: var(--vc-ink);
+  font-size: 16px;
+  line-height: 1.55;
+}
+
+.content {
+  min-width: 0;
+}

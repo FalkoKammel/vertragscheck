@@ -1,0 +1,26 @@
+.footer {
+  border-top: 1px solid var(--vc-border);
+  background: var(--vc-card);
+}
+
+.inner {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: clamp(14px, 3vh, 28px) 24px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  font-size: 13px;
+  color: var(--vc-muted);
+}
+
+.disclaimer {
+  max-width: 800px;
+}
+
+.links {
+  display: flex;
+  gap: 20px;
+}
