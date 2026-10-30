@@ -2,17 +2,25 @@ import { existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { App } from 'aws-cdk-lib';
 import { AppStack } from '../lib/app-stack.js';
-
-const webAssetPath = join(import.meta.dirname, '../../apps/web/out');
-if (!existsSync(join(webAssetPath, 'index.html'))) {
-  throw new Error(
-    `Static export not found at ${webAssetPath}. Run "pnpm --filter web build" first.`,
-  );
-}
+import { CiStack } from '../lib/ci-stack.js';
 
 const app = new App();
+const env = { account: process.env.CDK_DEFAULT_ACCOUNT, region: 'eu-central-1' };
 
-new AppStack(app, 'VertragscheckApp', {
-  env: { account: process.env.CDK_DEFAULT_ACCOUNT, region: 'eu-central-1' },
-  webAssetPath,
-});
+// Opt-in so that "cdk deploy --all" in the pipeline never touches the role that deploys it.
+// Deploy by hand: pnpm --filter infra cdk deploy VertragscheckCi -c ci=true
+if (app.node.tryGetContext('ci') === 'true') {
+  new CiStack(app, 'VertragscheckCi', {
+    env,
+    repository: 'FalkoKammel/vertragscheck',
+    branch: 'main',
+  });
+} else {
+  const webAssetPath = join(import.meta.dirname, '../../apps/web/out');
+  if (!existsSync(join(webAssetPath, 'index.html'))) {
+    throw new Error(
+      `Static export not found at ${webAssetPath}. Run "pnpm --filter web build" first.`,
+    );
+  }
+  new AppStack(app, 'VertragscheckApp', { env, webAssetPath });
+}
