@@ -51,7 +51,7 @@ The frontend is a static Next.js export: pages are rendered once at build time, 
 
 **CDK stacks**
 
-- `DataStack` (stateful, rarely changes): DynamoDB table (TTL), S3 bucket for uploads and extracted text (lifecycle rules). Retained on `cdk destroy`.
+- `DataStack` (stateful, rarely changes): DynamoDB table (TTL, `GSI1`), one S3 bucket for uploads and extracted text (lifecycle rule for `uploads/`, CORS for browser POST from `*.cloudfront.net` and localhost, see decision 020). Retained on `cdk destroy`.
 - `AppStack` (everything that can be rebuilt): the `WebHosting` construct (private S3 bucket, CloudFront with OAC, URL-rewrite function, `BucketDeployment` of `apps/web/out`), API Gateway with `/api/*` routed from CloudFront, the **router Lambda** (one Lambda behind API Gateway that dispatches create upload, status/result, delete, samples and stats), SQS + DLQ and the **analysis Lambda** (SQS-triggered, Bedrock permissions, reserved concurrency), stage throttling.
 - `OpsStack` (later): AWS budget with alert and IAM deny action, CloudWatch alarms (errors, DLQ)
 - CI/CD: GitHub Actions with an OIDC role, `cdk deploy` on push to `main`
