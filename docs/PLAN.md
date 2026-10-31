@@ -33,7 +33,7 @@ Browser ──▶ CloudFront ──┬─▶ /*      S3 (static Next.js export)
    │                     └─▶ /api/*  API Gateway ──▶ router Lambda (create upload, status/result,
    │                                                 delete, samples, stats)
    │                                                 captcha check, daily limit, budget check
-   └─▶ S3 uploads bucket ◀── presigned PUT URL
+   └─▶ S3 uploads bucket ◀── presigned POST
           │ S3 event
           ▼
          SQS (+ dead-letter queue)
@@ -148,7 +148,7 @@ Updated with an atomic `ADD` after every analysis.
 - The client is identified by IP address. Because the API sits behind CloudFront, `sourceIp` in the API Gateway event is a CloudFront address; the client IP comes from the `CloudFront-Viewer-Address` header, which CloudFront adds when the origin request policy forwards it.
 - The IP is not stored. The key holds an HMAC of the IP with a secret from SSM Parameter Store, and the item expires after two days.
 - The counter is increased with a conditional update (`attribute_not_exists(count) OR count < :limit`), so two parallel requests cannot both slip through.
-- Order of checks for `POST /uploads`: captcha (Cloudflare Turnstile) → monthly budget → daily limit → presigned URL.
+- Order of checks for `POST /uploads`: captcha (Cloudflare Turnstile) → monthly budget → daily limit → presigned POST (max. 10 MB, PDF only).
 - This is a soft limit: someone switching networks gets around it. The hard ceiling is the monthly budget.
 - AWS WAF is not used: its rate-based rules count over minutes rather than a day, and it adds a fixed monthly cost.
 
