@@ -123,3 +123,9 @@ Format per entry: **Context** (the problem), **Decision**, **Consequences** (tra
 - **Context:** S3 event notifications are delivered at least once, SQS can redeliver a message, and a client can use a valid upload URL twice within its lifetime. Each of these could trigger a second Bedrock call for the same contract.
 - **Decision:** The analysis Lambda moves the analysis from `uploaded` to `running` with a conditional update (`status = uploaded`). If the condition fails, the message is acknowledged and nothing else happens. Only the invocation that won the update calls Bedrock.
 - **Consequences:** Every contract is analysed and billed at most once, retries are safe, and duplicate events cost a single DynamoDB write. A job that crashes while `running` is not picked up again automatically; it ends up in the dead-letter queue and is marked as failed.
+
+## 020 · Wildcard CloudFront origin in the uploads bucket CORS rule
+
+- **Context:** The browser POSTs the PDF straight to S3, so the uploads bucket needs a CORS rule for the site's origin. The bucket lives in `DataStack`, the CloudFront domain in `AppStack`, and `AppStack` already depends on `DataStack` for the table and bucket. Passing the domain back would be a circular dependency.
+- **Decision:** The CORS rule allows `POST` from `https://*.cloudfront.net` and `http://localhost:3000` (development). S3 accepts one `*` per origin. Origins are a prop of `DataStack` (`uploadOrigins`), so they can be replaced by the exact custom domain later.
+- **Consequences:** Any CloudFront site could ask a browser to POST to the bucket, but the bucket is private and a POST only succeeds with a valid presigned policy (key, size and content type are fixed, see 018), so CORS is not the access control. Moving the distribution out of `AppStack`, or adding a custom domain, would allow an exact origin.
