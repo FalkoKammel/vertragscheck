@@ -3,6 +3,7 @@ import { join } from 'node:path';
 import { App } from 'aws-cdk-lib';
 import { AppStack } from '../lib/app-stack.js';
 import { CiStack } from '../lib/ci-stack.js';
+import { DataStack } from '../lib/data-stack.js';
 
 const app = new App();
 const env = { account: process.env.CDK_DEFAULT_ACCOUNT, region: 'eu-central-1' };
@@ -25,5 +26,11 @@ if (app.node.tryGetContext('ci') === 'true') {
       `Static export not found at ${webAssetPath}. Run "pnpm --filter web build" first.`,
     );
   }
-  new AppStack(app, 'VertragscheckApp', { env, webAssetPath });
+  const data = new DataStack(app, 'VertragscheckData', { env });
+  new AppStack(app, 'VertragscheckApp', {
+    env,
+    webAssetPath,
+    table: data.table,
+    bucket: data.bucket,
+  });
 }

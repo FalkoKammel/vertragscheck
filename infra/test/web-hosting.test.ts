@@ -5,15 +5,21 @@ import { App } from 'aws-cdk-lib';
 import { Match, Template } from 'aws-cdk-lib/assertions';
 import { beforeAll, describe, expect, it } from 'vitest';
 import { AppStack } from '../lib/app-stack.js';
+import { DataStack } from '../lib/data-stack.js';
 
 let template: Template;
 
 beforeAll(() => {
   const webAssetPath = mkdtempSync(join(tmpdir(), 'vc-web-'));
   writeFileSync(join(webAssetPath, 'index.html'), '<html></html>');
-  const stack = new AppStack(new App(), 'Test', {
-    env: { account: '123456789012', region: 'eu-central-1' },
+  const app = new App();
+  const env = { account: '123456789012', region: 'eu-central-1' };
+  const data = new DataStack(app, 'TestData', { env });
+  const stack = new AppStack(app, 'Test', {
+    env,
     webAssetPath,
+    table: data.table,
+    bucket: data.bucket,
   });
   template = Template.fromStack(stack);
 });
