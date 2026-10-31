@@ -28,20 +28,21 @@ Architecture decisions and their trade-offs: [`decisions.md`](decisions.md). UI 
 
 Everything is serverless and defined with AWS CDK in TypeScript (region `eu-central-1`). Idle cost is close to zero; the main cost is LLM calls.
 
-```
-Browser ──▶ CloudFront ──┬─▶ /*      S3 (static Next.js export)
-   │                     └─▶ /api/*  API Gateway ──▶ router Lambda (create upload, status/result,
-   │                                                 delete, samples, stats)
-   │                                                 captcha check, daily limit, budget check
-   └─▶ S3 uploads bucket ◀── presigned POST
-          │ S3 event
-          ▼
-         SQS (+ dead-letter queue)
-          ▼
-       Analysis Lambda ──▶ Bedrock (Converse API, JSON schema)
-          │  text extraction, Zod validation, quote verification, cost
-          ├─▶ S3: extracted text
-          └─▶ DynamoDB: analysis + clauses + budget counters
+```mermaid
+flowchart TD
+  B[Browser] --> CF[CloudFront]
+  CF -->|"/*"| WEB[("S3<br/>static Next.js export")]
+  CF -->|"/api/*"| APIGW[API Gateway]
+  APIGW --> API["Router Lambda<br/>upload URL · status/result · delete · samples · stats<br/>captcha · daily limit · budget check"]
+  API -. "presigned POST" .-> B
+  B -->|PDF upload| UP[("S3<br/>uploads")]
+  UP -->|S3 event| Q[SQS]
+  Q -.->|failed jobs| DLQ[Dead-letter queue]
+  Q --> AN["Analysis Lambda<br/>text extraction · Zod validation<br/>quote verification · cost"]
+  AN <-->|"Converse API, JSON schema"| BR[Amazon Bedrock]
+  AN --> TXT[("S3<br/>extracted text")]
+  AN --> DB[("DynamoDB<br/>analysis · clauses · budget")]
+  API --> DB
 ```
 
 The browser uploads straight to S3, the analysis runs asynchronously from a queue, and the result page polls the status. A slow model call never blocks the UI, and failed jobs end up in the dead-letter queue.
