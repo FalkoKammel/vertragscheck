@@ -76,7 +76,7 @@ The PDF is only needed for extraction, so it is not kept. The extracted text liv
 {
   "PK": "ANALYSIS#3f9c…",            // random UUID, also the secret in the result link
   "SK": "META",
-  "status": "done",                   // uploaded | running | done | failed
+  "status": "done",                   // pending_upload | running | done | failed
   "contractType": "rental",           // rental | employment
   "language": "de",                   // language of the explanations
   "createdAt": "2026-11-03T10:15:00Z",
