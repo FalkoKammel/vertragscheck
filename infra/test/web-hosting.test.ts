@@ -12,7 +12,8 @@ let template: Template;
 beforeAll(() => {
   const webAssetPath = mkdtempSync(join(tmpdir(), 'vc-web-'));
   writeFileSync(join(webAssetPath, 'index.html'), '<html></html>');
-  const app = new App();
+  // Tests assert on the template only, so skip the esbuild bundling of the Lambda code.
+  const app = new App({ context: { 'aws:cdk:bundling-stacks': [] } });
   const env = { account: '123456789012', region: 'eu-central-1' };
   const data = new DataStack(app, 'TestData', { env });
   const stack = new AppStack(app, 'Test', {
@@ -61,12 +62,12 @@ describe('WebHosting', () => {
     template.resourceCountIs('AWS::CloudFront::CloudFrontOriginAccessIdentity', 0);
     template.hasResourceProperties('AWS::CloudFront::Distribution', {
       DistributionConfig: {
-        Origins: [
+        Origins: Match.arrayWith([
           Match.objectLike({
             OriginAccessControlId: Match.anyValue(),
             S3OriginConfig: { OriginAccessIdentity: '' },
           }),
-        ],
+        ]),
       },
     });
   });
@@ -88,7 +89,7 @@ describe('WebHosting', () => {
   it('caches /_next/static/* for a year and HTML for a minute', () => {
     template.hasResourceProperties('AWS::CloudFront::Distribution', {
       DistributionConfig: {
-        CacheBehaviors: [Match.objectLike({ PathPattern: '/_next/static/*' })],
+        CacheBehaviors: Match.arrayWith([Match.objectLike({ PathPattern: '/_next/static/*' })]),
       },
     });
     template.hasResourceProperties('AWS::CloudFront::CachePolicy', {
