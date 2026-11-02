@@ -15,7 +15,7 @@ import { S3BucketOrigin } from 'aws-cdk-lib/aws-cloudfront-origins';
 import { BlockPublicAccess, Bucket, BucketEncryption } from 'aws-cdk-lib/aws-s3';
 import { BucketDeployment, Source } from 'aws-cdk-lib/aws-s3-deployment';
 import { Construct } from 'constructs';
-import { urlRewriteCode } from './url-rewrite.js';
+import { listPages, urlRewriteCode } from './url-rewrite.js';
 
 export interface WebHostingProps {
   /** Directory with the Next.js static export (apps/web/out). */
@@ -42,7 +42,7 @@ export class WebHosting extends Construct {
     });
 
     const urlRewrite = new CloudFrontFunction(this, 'UrlRewrite', {
-      code: FunctionCode.fromInline(urlRewriteCode),
+      code: FunctionCode.fromInline(urlRewriteCode(listPages(props.assetPath))),
       runtime: FunctionRuntime.JS_2_0,
     });
 
@@ -92,13 +92,6 @@ export class WebHosting extends Construct {
           responseHeadersPolicy: assetHeaders,
         },
       },
-      // A private bucket answers 403 for missing keys.
-      errorResponses: [403, 404].map((httpStatus) => ({
-        httpStatus,
-        responseHttpStatus: 404,
-        responsePagePath: '/404.html',
-        ttl: Duration.seconds(10),
-      })),
     });
 
     new BucketDeployment(this, 'Deployment', {

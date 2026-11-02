@@ -100,15 +100,23 @@ describe('WebHosting', () => {
     });
   });
 
-  it('serves the exported 404 page for missing files', () => {
-    template.hasResourceProperties('AWS::CloudFront::Distribution', {
-      DistributionConfig: {
-        CustomErrorResponses: Match.arrayWith([
-          Match.objectLike({ ErrorCode: 403, ResponseCode: 404, ResponsePagePath: '/404.html' }),
-          Match.objectLike({ ErrorCode: 404, ResponseCode: 404, ResponsePagePath: '/404.html' }),
-        ]),
-      },
-    });
+  it('has no distribution-wide custom error responses, they would also hit /api/*', () => {
+    const [dist] = Object.values(template.findResources('AWS::CloudFront::Distribution'));
+    const config = (dist?.Properties as { DistributionConfig: Record<string, unknown> })
+      .DistributionConfig;
+    expect(config).not.toHaveProperty('CustomErrorResponses');
+  });
+
+  it('runs the URL rewrite function on the default behavior only', () => {
+    const [dist] = Object.values(template.findResources('AWS::CloudFront::Distribution'));
+    const config = (
+      dist?.Properties as {
+        DistributionConfig: { CacheBehaviors: Record<string, unknown>[] };
+      }
+    ).DistributionConfig;
+    for (const behavior of config.CacheBehaviors) {
+      expect(behavior).not.toHaveProperty('FunctionAssociations');
+    }
   });
 
   it('deploys the export and invalidates the distribution', () => {
