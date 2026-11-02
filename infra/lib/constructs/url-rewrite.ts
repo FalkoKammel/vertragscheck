@@ -19,8 +19,12 @@ const NOT_FOUND_HTML = [
 ].join('');
 
 /**
- * Pages of the static export as request paths (`/de/upload.html`). Files that start with an
- * underscore (`_not-found.html`), `404.html` and `index.html` are not pages users can open.
+ * Pages of the static export as request paths (`/de/upload.html`). This is the list of
+ * URLs the function lets through to S3. The export also contains files that are not
+ * pages visitors should reach, so they are left out and get the 404 page instead:
+ * - `404.html` and `_not-found.html`: Next's own error pages,
+ * - `index.html`: the root page, which is never served because `/` is redirected to `/de`,
+ * - everything under `_next/`: scripts and styles, which have a file extension anyway.
  */
 export function listPages(assetPath: string): string[] {
   const pages: string[] = [];
