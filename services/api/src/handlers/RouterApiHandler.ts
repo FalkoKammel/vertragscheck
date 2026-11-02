@@ -24,20 +24,21 @@ function env(name: string): string {
 const tableName = env('TABLE_NAME');
 const db = DynamoDBDocumentClient.from(new DynamoDBClient({}));
 const secrets = new SsmSecrets(new SSMClient({}));
-const [ipHashSecret, turnstileSecret] = await Promise.all([
+const [ipHashSecret, turnstileSecret, siteHostname] = await Promise.all([
   secrets.get(env('IP_HASH_SECRET_PARAM')),
   secrets.get(env('TURNSTILE_SECRET_PARAM')),
+  secrets.get(env('SITE_HOSTNAME_PARAM')),
 ]);
 const clock = new SystemClock();
 
 const controller = new ApiController({
   requestsUpload: new RequestUpload({
-    captchaVerifier: new TurnstileCaptchaVerifier(turnstileSecret, env('TURNSTILE_HOSTNAME')),
+    captchaVerifier: new TurnstileCaptchaVerifier(turnstileSecret, siteHostname),
     budgetChecker: new DynamoBudgetChecker(
       db,
       tableName,
       clock,
-      Number(env('MONTHLY_BUDGET_MICRO_USD')),
+      Number(env('BUDGET_LIMIT_MICRO_USD')),
     ),
     rateLimiter: new DynamoRateLimiter(db, tableName, ipHashSecret),
     analysisStore: new DynamoAnalysisStore(db, tableName),
