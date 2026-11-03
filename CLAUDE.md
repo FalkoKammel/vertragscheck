@@ -50,6 +50,15 @@ CloudFront serves the static site and routes `/api/*` to API Gateway. The browse
 - Fonts: Inter for UI, Source Serif 4 for contract text.
 - Accessible markup: real buttons, labels, focus states, sufficient contrast.
 
+## Turnstile (captcha)
+
+- Real keys are configured. The secret is only in SSM (`/vertragscheck/turnstile-secret`);
+  never read, print, log or commit it.
+- The site key is public and comes from `NEXT_PUBLIC_TURNSTILE_SITE_KEY` at build time:
+  production value is a GitHub Actions repo variable; local development uses Cloudflare's
+  test site key in `.env.local` together with MSW mocks.
+- The Lambda checks the hostname against SSM `/vertragscheck/site-hostname` (the CloudFront domain).
+
 ## Conventions
 
 - Small, focused modules. Domain logic is pure and unit tested; handlers stay thin.
