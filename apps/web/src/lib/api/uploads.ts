@@ -24,7 +24,6 @@ export type UploadTicket = UploadResponse['uploadTicket'];
 
 const errorBodySchema = z.object({ code: z.string() });
 
-/** `POST /api/uploads`: checks captcha, budget and daily limit and returns a presigned S3 POST. */
 export async function requestUpload(
   input: RequestUploadInput,
   fetchImpl: typeof fetch = fetch,

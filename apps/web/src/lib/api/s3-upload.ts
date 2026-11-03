@@ -1,10 +1,6 @@
 import { NetworkError, S3UploadError } from './errors';
 import type { UploadTicket } from './uploads';
 
-/**
- * Uploads the file with the presigned POST. S3 requires all ticket fields first and the file
- * last. XMLHttpRequest is used because `fetch` cannot report upload progress.
- */
 export function uploadToS3(
   ticket: UploadTicket,
   file: File,

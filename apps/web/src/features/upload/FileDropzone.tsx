@@ -25,7 +25,6 @@ export function FileDropzone({ file, disabled, onChange }: FileDropzoneProps) {
     const result = validateFile(candidate);
     setProblem(result.ok ? null : result.problem);
     onChange(result.ok ? candidate : null);
-    // Allows choosing the same file again after fixing it.
     if (inputRef.current) inputRef.current.value = '';
   }
 
