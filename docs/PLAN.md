@@ -153,6 +153,19 @@ Updated with an atomic `ADD` after every analysis.
 - This is a soft limit: someone switching networks gets around it. The hard ceiling is the monthly budget.
 - AWS WAF is not used: its rate-based rules count over minutes rather than a day, and it adds a fixed monthly cost.
 
+## Upload and progress card
+
+The upload page has the form on the left and a progress card on the right (`docs/design/2-upload.dc.html`). From the user's point of view it is one process: the card shows "Dokument wird hochgeladen …" first and then the analysis steps, not a separate upload screen followed by a processing screen. The card is one shared component (`AnalysisProgress`), used on the upload page and on `/result?id=<id>`.
+
+**Now (interim): redirect after the upload.** The status endpoint (`GET /api/analyses/<id>`) does not exist yet, and the backend status is only `pending_upload | running | done | failed`. So the page shows the upload progress, and as soon as S3 accepts the file it redirects to `/result?id=<id>`. There the same card shows the upload step as done and a single indeterminate step "Klauseln werden analysiert". Nothing is polled and no progress is faked. The old placeholder result view was replaced by this card.
+
+**Later, when the analysis part is built:**
+
+1. Add the status endpoint and let the analysis Lambda report finer steps (text extracted, clauses detected, classified, quotes verified), either as a `step` attribute on the analysis item or as extra values of `status`.
+2. Poll the status in the card and render the steps from the design (the card already takes a list of steps with a state: done, active, pending). The "62 %" bar in the design is optional; the backend has no real percentage.
+3. Stay on `/upload` while the analysis runs and redirect to `/result?id=<id>` only when the status is `done` (the design says "das Ergebnis erscheint automatisch"). On `failed`, show an error in the card with a link back to the form.
+4. `/result?id=<id>` keeps using the card for analyses that are still running, for example when the user opens the link from "Meine Analysen" in the middle of a run.
+
 ## Cost control
 
 Three layers, from fast and friendly to slow and hard:

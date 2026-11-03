@@ -3,6 +3,7 @@
 import { MantineProvider } from '@mantine/core';
 import type { ReactNode } from 'react';
 import { cssVariablesResolver, theme } from '@/theme';
+import { MockProvider } from './MockProvider';
 
 export function Providers({ children }: { children: ReactNode }) {
   return (
@@ -12,7 +13,7 @@ export function Providers({ children }: { children: ReactNode }) {
       defaultColorScheme="light"
       forceColorScheme="light"
     >
-      {children}
+      <MockProvider>{children}</MockProvider>
     </MantineProvider>
   );
 }

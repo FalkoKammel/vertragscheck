@@ -1,0 +1,64 @@
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.label {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.dropzone {
+  border: 2px dashed var(--vc-dropzone-border);
+  border-radius: 12px;
+  background: var(--vc-dropzone-bg);
+  padding: 40px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  text-align: center;
+}
+
+.dragging {
+  border-color: var(--mantine-color-accent-6);
+  background: var(--mantine-color-accent-0);
+}
+
+.icon {
+  stroke: var(--mantine-color-accent-6);
+}
+
+.title {
+  font-weight: 600;
+}
+
+.hint {
+  font-size: 13px;
+  color: var(--vc-muted);
+}
+
+.input {
+  font: inherit;
+  font-size: 14px;
+  max-width: 100%;
+}
+
+.input:focus-visible {
+  outline: 2px solid var(--mantine-color-accent-6);
+  outline-offset: 2px;
+}
+
+.selected {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--vc-ink);
+  overflow-wrap: anywhere;
+}
+
+.problem {
+  margin: 0;
+  font-size: 14px;
+  color: var(--vc-critical-text);
+}
