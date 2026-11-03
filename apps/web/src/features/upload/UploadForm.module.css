@@ -1,14 +1,9 @@
 .layout {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 32px;
-  align-items: flex-start;
+  max-width: 720px;
+  margin: 0 auto;
 }
 
 .card {
-  flex: 1 1 520px;
-  max-width: 640px;
-  min-width: 0;
   background: var(--vc-card);
   border: 1px solid var(--vc-border);
   border-radius: 12px;
@@ -28,12 +23,6 @@
   display: flex;
   flex-direction: column;
   gap: 22px;
-}
-
-.progress {
-  flex: 1 1 380px;
-  max-width: 640px;
-  min-width: 0;
 }
 
 .note {

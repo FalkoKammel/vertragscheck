@@ -3,9 +3,8 @@
 import type { TurnstileInstance } from '@marsidev/react-turnstile';
 import { Alert, Button, Checkbox, NativeSelect } from '@mantine/core';
 import { useLocale, useTranslations } from 'next-intl';
-import { useEffect, useRef, useState, type SubmitEvent } from 'react';
+import { useRef, useState, type SubmitEvent } from 'react';
 import { AnalysisProgress } from '@/components/AnalysisProgress';
-import { useRouter } from '@/i18n/navigation';
 import type { ContractType } from '../../lib/api/uploads';
 import { FileDropzone } from './FileDropzone';
 import { TurnstileField } from './TurnstileField';
@@ -15,7 +14,6 @@ import styles from './UploadForm.module.css';
 export function UploadForm() {
   const t = useTranslations('Upload');
   const locale = useLocale();
-  const router = useRouter();
 
   const [contractType, setContractType] = useState<ContractType>('rental');
   const [file, setFile] = useState<File | null>(null);
@@ -31,12 +29,6 @@ export function UploadForm() {
 
   const { state, start } = useUpload({ onError: handleError });
 
-  useEffect(() => {
-    if (state.status === 'done') {
-      router.push({ pathname: '/result', query: { id: state.analysisId } });
-    }
-  }, [state, router]);
-
   const busy =
     state.status === 'requesting' || state.status === 'uploading' || state.status === 'done';
   const canSubmit = file !== null && consent && captchaToken !== null && !busy;
@@ -45,6 +37,20 @@ export function UploadForm() {
     event.preventDefault();
     if (!file || !captchaToken || !canSubmit) return;
     void start({ file, captchaToken, contractType, language: locale });
+  }
+
+  // The progress card replaces the form. Later it will poll the analysis and go to
+  // /result?id=<id> once it is done (see "Upload and progress card" in PLAN.md).
+  if (busy) {
+    return (
+      <div className={styles.layout}>
+        <AnalysisProgress
+          phase={state.status === 'done' ? 'analyzing' : 'uploading'}
+          uploadProgress={state.status === 'uploading' ? state.progress : 0}
+          fileName={file?.name}
+        />
+      </div>
+    );
   }
 
   return (
@@ -93,17 +99,6 @@ export function UploadForm() {
           <p className={styles.note}>{t('limitNote')}</p>
         </form>
       </section>
-
-      {busy ? (
-        <div className={styles.progress}>
-          <AnalysisProgress
-            heading="h2"
-            phase={state.status === 'done' ? 'analyzing' : 'uploading'}
-            uploadProgress={state.status === 'uploading' ? state.progress : 0}
-            fileName={file?.name}
-          />
-        </div>
-      ) : null}
     </div>
   );
 }
