@@ -1,0 +1,76 @@
+.card {
+  background: var(--vc-card);
+  border: 1px solid var(--vc-border);
+  border-radius: 12px;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.title {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.file {
+  font-size: 14px;
+  color: var(--vc-body);
+  overflow-wrap: anywhere;
+}
+
+.steps {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.step {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.stepPending {
+  color: var(--vc-muted);
+}
+
+.marker {
+  flex: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.markerDone {
+  background: var(--vc-success-bg);
+  color: var(--vc-success-text);
+}
+
+.markerActive {
+  border: 2px solid var(--mantine-color-accent-6);
+}
+
+.markerPending {
+  border: 2px solid var(--vc-border-input);
+}
+
+.labelActive {
+  font-weight: 600;
+}
+
+.hint {
+  margin: 0;
+  font-size: 13px;
+  color: var(--vc-muted);
+}

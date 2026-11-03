@@ -57,31 +57,38 @@
     "dropTitle": "Drag a PDF here or choose a file",
     "dropHint": "Text PDF, max. 10 MB · scanned documents are not supported yet",
     "consent": "I understand that the analysis is automatic, may contain errors and is not legal advice. Sample or redacted contracts work best.",
-    "captcha": "Captcha widget coming soon",
     "submit": "Start analysis",
-    "limitNote": "Without an account: up to 3 analyses per day. Processing in the EU (Frankfurt), automatic deletion after 30 days."
+    "limitNote": "Without an account: up to 3 analyses per day. Processing in the EU (Frankfurt), automatic deletion after 30 days.",
+    "fileSelected": "{name} · {size} MB",
+    "fileProblem": {
+      "empty": "The file is empty.",
+      "notPdf": "This is not a PDF file. Please choose a PDF.",
+      "tooLarge": "The file is larger than 10 MB."
+    },
+    "captchaAria": "Security check",
+    "captchaMissing": "The security check is not configured.",
+    "errorTitle": "That did not work",
+    "errors": {
+      "captchaInvalid": "The security check failed. Please try again.",
+      "dailyLimit": "You have already started 3 analyses today. Come back tomorrow.",
+      "budgetExhausted": "This month’s analysis budget is used up. You can still view the sample analyses.",
+      "network": "Could not reach the server. Please check your connection and try again.",
+      "uploadRejected": "The file was rejected. Please choose a PDF up to 10 MB and try again.",
+      "internal": "Something went wrong. Please try again later."
+    }
+  },
+  "Progress": {
+    "aria": "Analysis in progress",
+    "title": "Analysis in progress …",
+    "stepUploading": "Uploading document … {percent} %",
+    "stepUploaded": "Document uploaded",
+    "stepAnalyzing": "Analysing clauses",
+    "hint": "Usually takes under a minute. You can keep this page open."
   },
   "Result": {
-    "metaPlaceholder": "Contract type · Pages",
-    "fileName": "Analysis",
-    "critical": "{count} critical",
-    "check": "{count} to check",
-    "fine": "{count} unremarkable",
-    "empty": "–",
-    "note": "Automatic assessment, may contain errors and is not legal advice. All quotes have been checked against the original text.",
-    "textAria": "Contract text",
-    "textLabel": "Extracted text",
-    "clausesAria": "Notable clauses",
-    "clausesTitle": "Notable clauses",
-    "statsAria": "Transparency of this analysis",
-    "statsTitle": "This analysis",
-    "model": "Model",
-    "promptVersion": "Prompt version",
-    "tokens": "Tokens in / out",
-    "cost": "Cost",
-    "duration": "Duration",
-    "droppedQuotes": "Quotes dropped",
-    "allMetrics": "View all metrics →"
+    "missingIdTitle": "No analysis selected",
+    "missingIdText": "This page needs an analysis ID in the link. Start a new analysis.",
+    "newAnalysis": "Start a new analysis"
   },
   "Transparency": {
     "title": "Transparency",

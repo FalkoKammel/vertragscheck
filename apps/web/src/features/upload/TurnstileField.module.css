@@ -1,0 +1,9 @@
+.field {
+  min-height: 65px;
+}
+
+.missing {
+  margin: 0;
+  font-size: 14px;
+  color: var(--vc-critical-text);
+}

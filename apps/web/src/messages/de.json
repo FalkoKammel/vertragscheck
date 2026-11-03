@@ -57,31 +57,38 @@
     "dropTitle": "PDF hierher ziehen oder auswählen",
     "dropHint": "Text-PDF, max. 10 MB · gescannte Dokumente werden noch nicht unterstützt",
     "consent": "Ich habe verstanden, dass die Analyse automatisch erfolgt, Fehler enthalten kann und keine Rechtsberatung ist. Am besten Musterverträge oder geschwärzte Verträge verwenden.",
-    "captcha": "Captcha-Widget folgt",
     "submit": "Analyse starten",
-    "limitNote": "Ohne Konto: bis zu 3 Analysen pro Tag. Verarbeitung in der EU (Frankfurt), automatische Löschung nach 30 Tagen."
+    "limitNote": "Ohne Konto: bis zu 3 Analysen pro Tag. Verarbeitung in der EU (Frankfurt), automatische Löschung nach 30 Tagen.",
+    "fileSelected": "{name} · {size} MB",
+    "fileProblem": {
+      "empty": "Die Datei ist leer.",
+      "notPdf": "Das ist keine PDF-Datei. Bitte eine PDF auswählen.",
+      "tooLarge": "Die Datei ist größer als 10 MB."
+    },
+    "captchaAria": "Sicherheitsprüfung",
+    "captchaMissing": "Die Sicherheitsprüfung ist nicht konfiguriert.",
+    "errorTitle": "Das hat nicht geklappt",
+    "errors": {
+      "captchaInvalid": "Die Sicherheitsprüfung ist fehlgeschlagen. Bitte versuche es noch einmal.",
+      "dailyLimit": "Du hast heute bereits 3 Analysen gestartet. Morgen geht es wieder.",
+      "budgetExhausted": "Das Monatsbudget für Analysen ist aufgebraucht. Beispielanalysen kannst du weiterhin ansehen.",
+      "network": "Keine Verbindung zum Server. Bitte prüfe deine Internetverbindung und versuche es noch einmal.",
+      "uploadRejected": "Die Datei wurde abgelehnt. Bitte wähle eine PDF bis 10 MB und versuche es noch einmal.",
+      "internal": "Etwas ist schiefgelaufen. Bitte versuche es später noch einmal."
+    }
+  },
+  "Progress": {
+    "aria": "Analyse läuft",
+    "title": "Analyse läuft …",
+    "stepUploading": "Dokument wird hochgeladen … {percent} %",
+    "stepUploaded": "Dokument hochgeladen",
+    "stepAnalyzing": "Klauseln werden analysiert",
+    "hint": "Dauert meist unter einer Minute. Du kannst die Seite offen lassen."
   },
   "Result": {
-    "metaPlaceholder": "Vertragsart · Seiten",
-    "fileName": "Analyse",
-    "critical": "{count} kritisch",
-    "check": "{count} prüfen",
-    "fine": "{count} unauffällig",
-    "empty": "–",
-    "note": "Automatische Einordnung, kann Fehler enthalten und ersetzt keine Rechtsberatung. Alle Zitate wurden gegen den Originaltext geprüft.",
-    "textAria": "Vertragstext",
-    "textLabel": "Extrahierter Text",
-    "clausesAria": "Auffällige Klauseln",
-    "clausesTitle": "Auffällige Klauseln",
-    "statsAria": "Transparenz dieser Analyse",
-    "statsTitle": "Diese Analyse",
-    "model": "Modell",
-    "promptVersion": "Prompt-Version",
-    "tokens": "Tokens ein / aus",
-    "cost": "Kosten",
-    "duration": "Dauer",
-    "droppedQuotes": "Zitate verworfen",
-    "allMetrics": "Alle Kennzahlen ansehen →"
+    "missingIdTitle": "Keine Analyse ausgewählt",
+    "missingIdText": "Diese Seite braucht eine Analyse-ID im Link. Starte eine neue Analyse.",
+    "newAnalysis": "Neue Analyse starten"
   },
   "Transparency": {
     "title": "Transparenz",
