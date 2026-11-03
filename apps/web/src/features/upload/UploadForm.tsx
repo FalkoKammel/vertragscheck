@@ -39,9 +39,11 @@ export function UploadForm() {
     void start({ file, captchaToken, contractType, language: locale });
   }
 
-  // The progress card replaces the form. Later it will poll the analysis and go to
-  // /result?id=<id> once it is done (see "Upload and progress card" in PLAN.md).
-  if (busy) {
+  // The progress card replaces the form only once the API has accepted the request and issued
+  // the upload link; before that, a refused request (captcha, daily limit, budget) must not make
+  // the card flash up. Later the card will poll the analysis and go to /result?id=<id> once it is
+  // done (see "Upload and progress card" in PLAN.md).
+  if (state.status === 'uploading' || state.status === 'done') {
     return (
       <div className={styles.layout}>
         <AnalysisProgress
@@ -92,7 +94,14 @@ export function UploadForm() {
             </Alert>
           ) : null}
 
-          <Button type="submit" size="md" h={48} fw={600} disabled={!canSubmit}>
+          <Button
+            type="submit"
+            size="md"
+            h={48}
+            fw={600}
+            loading={state.status === 'requesting'}
+            disabled={!canSubmit && state.status !== 'requesting'}
+          >
             {t('submit')}
           </Button>
 
