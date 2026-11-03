@@ -10,7 +10,6 @@ interface AnalysisProgressProps {
   /** Upload progress from 0 to 1, only used in the `uploading` phase. */
   uploadProgress?: number;
   fileName?: string;
-  heading: 'h1' | 'h2';
 }
 
 type StepState = 'done' | 'active' | 'pending';
@@ -26,12 +25,7 @@ const MARKER_BY_STATE: Record<StepState, string> = {
  * analysis. The user sees it as a single process. The backend does not report finer steps
  * yet, so the analysis is one indeterminate step (see "Upload and progress card" in PLAN.md).
  */
-export function AnalysisProgress({
-  phase,
-  uploadProgress = 0,
-  fileName,
-  heading: Heading,
-}: AnalysisProgressProps) {
+export function AnalysisProgress({ phase, uploadProgress = 0, fileName }: AnalysisProgressProps) {
   const t = useTranslations('Progress');
   const percent = Math.round(uploadProgress * 100);
 
@@ -48,8 +42,8 @@ export function AnalysisProgress({
   ];
 
   return (
-    <section className={styles.card} aria-label={t('aria')} aria-busy="true">
-      <Heading className={styles.title}>{t('title')}</Heading>
+    <section className={styles.card} aria-label={t('aria')} aria-busy="true" aria-live="polite">
+      <h1 className={styles.title}>{t('title')}</h1>
       {fileName ? <div className={styles.file}>{fileName}</div> : null}
 
       <ol className={styles.steps}>

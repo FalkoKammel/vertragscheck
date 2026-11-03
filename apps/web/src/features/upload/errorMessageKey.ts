@@ -1,6 +1,5 @@
 import { ApiError, NetworkError, S3UploadError } from '../../lib/api/errors';
 
-/** Keys below `Upload.errors` in the message files. */
 export type UploadErrorKey =
   'captchaInvalid' | 'dailyLimit' | 'budgetExhausted' | 'network' | 'uploadRejected' | 'internal';
 

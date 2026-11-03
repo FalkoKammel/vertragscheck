@@ -1,5 +1,12 @@
+.page {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 48px 24px;
+}
+
 .card {
-  max-width: 640px;
+  max-width: 720px;
+  margin: 0 auto;
   background: var(--vc-card);
   border: 1px solid var(--vc-border);
   border-radius: 12px;
@@ -11,7 +18,8 @@
 }
 
 .progress {
-  max-width: 640px;
+  max-width: 720px;
+  margin: 0 auto;
 }
 
 .title {

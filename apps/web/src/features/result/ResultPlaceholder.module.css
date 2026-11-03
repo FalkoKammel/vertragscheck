@@ -1,0 +1,157 @@
+.top {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 28px 24px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.titleRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.titleBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.meta {
+  font-size: 13px;
+  color: var(--vc-muted);
+}
+
+.title {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.pill {
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 999px;
+  padding: 6px 14px;
+}
+
+.critical {
+  color: var(--vc-critical-text);
+  background: var(--vc-critical-bg);
+}
+
+.check {
+  color: var(--vc-check-text);
+  background: var(--vc-check-bg);
+}
+
+.fine {
+  color: var(--vc-neutral-text);
+  background: var(--vc-neutral-bg);
+}
+
+.note {
+  font-size: 14px;
+  color: var(--vc-body);
+  background: var(--vc-card);
+  border: 1px solid var(--vc-border);
+  border-radius: 8px;
+  padding: 12px 16px;
+}
+
+.main {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 20px 24px 48px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  align-items: flex-start;
+}
+
+.text {
+  flex: 999 1 600px;
+  min-width: 0;
+  min-height: 320px;
+  background: var(--vc-card);
+  border: 1px solid var(--vc-border);
+  border-radius: 12px;
+  padding: 40px 48px;
+  font-family: var(--vc-font-serif);
+  line-height: 1.75;
+  color: var(--vc-contract);
+
+  @media (max-width: 48em) {
+    padding: 24px;
+  }
+}
+
+.textLabel {
+  font-family: var(--mantine-font-family);
+  font-size: 13px;
+  color: var(--vc-muted);
+}
+
+.aside {
+  flex: 1 1 380px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.asideTitle {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.stats {
+  background: var(--vc-card);
+  border: 1px solid var(--vc-border);
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.statsTitle {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.figures {
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px 16px;
+  font-size: 14px;
+}
+
+.figureLabel {
+  color: var(--vc-muted);
+  font-size: 12px;
+}
+
+.figureValue {
+  margin: 0;
+  font-weight: 600;
+}
+
+.allMetrics {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--mantine-color-accent-6);
+}
