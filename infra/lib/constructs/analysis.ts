@@ -1,0 +1,138 @@
+import { join } from 'node:path';
+import { Duration, Stack } from 'aws-cdk-lib';
+import type { ITable } from 'aws-cdk-lib/aws-dynamodb';
+import { Effect, PolicyStatement } from 'aws-cdk-lib/aws-iam';
+import { Architecture, Runtime } from 'aws-cdk-lib/aws-lambda';
+import { SqsEventSource } from 'aws-cdk-lib/aws-lambda-event-sources';
+import { NodejsFunction, OutputFormat } from 'aws-cdk-lib/aws-lambda-nodejs';
+import { LogGroup, RetentionDays } from 'aws-cdk-lib/aws-logs';
+import { Bucket, EventType, type IBucket } from 'aws-cdk-lib/aws-s3';
+import { SqsDestination } from 'aws-cdk-lib/aws-s3-notifications';
+import { Queue } from 'aws-cdk-lib/aws-sqs';
+import { Construct } from 'constructs';
+
+export const DEFAULT_MODEL_ID = 'eu.anthropic.claude-haiku-4-5-20251001-v1:0';
+export const DEFAULT_PROMPT_VERSION = 'v1';
+
+/**
+ * Regions the EU inference profile routes to. The profile may only invoke the foundation
+ * model in these regions, so IAM must allow the model ARN in each of them.
+ * Verify against `aws bedrock get-inference-profile` when changing the model.
+ */
+export const DEFAULT_MODEL_ROUTING_REGIONS: readonly string[] = [
+  'eu-central-1',
+  'eu-west-1',
+  'eu-west-3',
+  'eu-north-1',
+];
+
+export const ANALYSIS_TIMEOUT = Duration.minutes(2);
+
+export interface AnalysisProps {
+  readonly table: ITable;
+  readonly bucket: IBucket;
+  readonly budgetLimitMicroUsd: number;
+  readonly modelId?: string;
+  readonly promptVersion?: string;
+  readonly modelRoutingRegions?: readonly string[];
+}
+
+export class Analysis extends Construct {
+  readonly function: NodejsFunction;
+  readonly queue: Queue;
+  readonly deadLetterQueue: Queue;
+
+  constructor(scope: Construct, id: string, props: AnalysisProps) {
+    super(scope, id);
+    const stack = Stack.of(this);
+    const modelId = props.modelId ?? DEFAULT_MODEL_ID;
+
+    this.deadLetterQueue = new Queue(this, 'DeadLetterQueue', {
+      retentionPeriod: Duration.days(14),
+      enforceSSL: true,
+    });
+    this.queue = new Queue(this, 'Queue', {
+      // Must be at least the function timeout; 6x is the AWS recommendation.
+      visibilityTimeout: Duration.seconds(ANALYSIS_TIMEOUT.toSeconds() * 6),
+      enforceSSL: true,
+      deadLetterQueue: { queue: this.deadLetterQueue, maxReceiveCount: 3 },
+    });
+
+    // Re-import the bucket so the notification resources are created in this stack.
+    // Adding the notification to DataStack's bucket would make DataStack depend on the
+    // queue here, while this stack already depends on DataStack (circular).
+    const uploads = Bucket.fromBucketAttributes(this, 'Uploads', {
+      bucketArn: props.bucket.bucketArn,
+      bucketName: props.bucket.bucketName,
+    });
+    uploads.addEventNotification(EventType.OBJECT_CREATED, new SqsDestination(this.queue), {
+      prefix: 'uploads/',
+      suffix: '.pdf',
+    });
+
+    this.function = new NodejsFunction(this, 'Function', {
+      entry: join(import.meta.dirname, '../../../services/api/src/handlers/AnalysisHandler.ts'),
+      handler: 'analysisHandler',
+      projectRoot: join(import.meta.dirname, '../../..'),
+      depsLockFilePath: join(import.meta.dirname, '../../../pnpm-lock.yaml'),
+      runtime: Runtime.NODEJS_24_X,
+      architecture: Architecture.ARM_64,
+      memorySize: 1024,
+      timeout: ANALYSIS_TIMEOUT,
+      reservedConcurrentExecutions: 2,
+      logGroup: new LogGroup(this, 'LogGroup', { retention: RetentionDays.TWO_WEEKS }),
+      environment: {
+        TABLE_NAME: props.table.tableName,
+        UPLOAD_BUCKET: props.bucket.bucketName,
+        MODEL_ID: modelId,
+        PROMPT_VERSION: props.promptVersion ?? DEFAULT_PROMPT_VERSION,
+        BUDGET_LIMIT_MICRO_USD: String(props.budgetLimitMicroUsd),
+      },
+      bundling: {
+        format: OutputFormat.ESM,
+        target: 'node24',
+        externalModules: [],
+        minify: true,
+        sourceMap: true,
+        banner:
+          "import { createRequire } from 'module'; const require = createRequire(import.meta.url);",
+      },
+    });
+    this.function.addEventSource(new SqsEventSource(this.queue, { batchSize: 1 }));
+
+    props.table.grantReadWriteData(this.function);
+    this.function.addToRolePolicy(
+      new PolicyStatement({
+        effect: Effect.ALLOW,
+        actions: ['s3:GetObject', 's3:DeleteObject'],
+        resources: [props.bucket.arnForObjects('uploads/*')],
+      }),
+    );
+    this.function.addToRolePolicy(
+      new PolicyStatement({
+        effect: Effect.ALLOW,
+        actions: ['s3:PutObject'],
+        resources: [props.bucket.arnForObjects('texts/*')],
+      }),
+    );
+
+    // Converse on an inference profile needs the profile (in our region) and the
+    // foundation model in every region the profile can route to.
+    const baseModelId = modelId.replace(/^[a-z]+\./, '');
+    const profileArn = stack.formatArn({
+      service: 'bedrock',
+      resource: 'inference-profile',
+      resourceName: modelId,
+    });
+    const foundationModelArns = (props.modelRoutingRegions ?? DEFAULT_MODEL_ROUTING_REGIONS).map(
+      (region) => `arn:${stack.partition}:bedrock:${region}::foundation-model/${baseModelId}`,
+    );
+    this.function.addToRolePolicy(
+      new PolicyStatement({
+        effect: Effect.ALLOW,
+        actions: ['bedrock:InvokeModel'],
+        resources: [profileArn, ...foundationModelArns],
+      }),
+    );
+  }
+}
