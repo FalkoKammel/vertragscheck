@@ -56,6 +56,11 @@ export class DataStack extends Stack {
       removalPolicy: RemovalPolicy.RETAIN,
       lifecycleRules: [
         {
+          id: 'ExpireTexts',
+          prefix: 'texts/',
+          expiration: Duration.days(30),
+        },
+        {
           id: 'ExpireUploads',
           prefix: 'uploads/',
           expiration: Duration.days(1),

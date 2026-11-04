@@ -76,10 +76,16 @@ describe('DataStack bucket', () => {
     });
   });
 
-  it('expires uploads/ after one day and nothing else', () => {
+  it('expires uploads/ after one day and texts/ after 30 days, nothing else', () => {
     template.hasResourceProperties('AWS::S3::Bucket', {
       LifecycleConfiguration: {
         Rules: [
+          Match.objectLike({
+            Id: 'ExpireTexts',
+            Prefix: 'texts/',
+            ExpirationInDays: 30,
+            Status: 'Enabled',
+          }),
           Match.objectLike({
             Id: 'ExpireUploads',
             Prefix: 'uploads/',
