@@ -52,7 +52,7 @@ The frontend is a static Next.js export: pages are rendered once at build time, 
 **CDK stacks**
 
 - `DataStack` (stateful, rarely changes): DynamoDB table (TTL, `GSI1`), one S3 bucket for uploads and extracted text (lifecycle rules for `uploads/` (1 day) and `texts/` (30 days), CORS for browser POST from `*.cloudfront.net` and localhost, see decision 020). Retained on `cdk destroy`.
-- `AppStack` (everything that can be rebuilt): the `WebHosting` construct (private S3 bucket, CloudFront with OAC, URL-rewrite function, `BucketDeployment` of `apps/web/out`), API Gateway with `/api/*` routed from CloudFront, the **router Lambda** (one Lambda behind API Gateway that dispatches create upload, status/result, delete, samples and stats), the `Analysis` construct: S3 event (`uploads/*.pdf`) → SQS + DLQ → **analysis Lambda** (batch size 1, Bedrock permissions, reserved concurrency 2, see decision 025), stage throttling.
+- `AppStack` (everything that can be rebuilt): the `WebHosting` construct (private S3 bucket, CloudFront with OAC, URL-rewrite function, `BucketDeployment` of `apps/web/out`), API Gateway with `/api/*` routed from CloudFront, the **router Lambda** (one Lambda behind API Gateway that dispatches create upload, status/result, delete, samples and stats), the `Analysis` construct: S3 event (`uploads/*.pdf`) → SQS + DLQ → **analysis Lambda** (batch size 1, Bedrock permissions, max concurrency 2 on the event source, see decision 025), stage throttling.
 - `OpsStack` (later): AWS budget with alert and IAM deny action, CloudWatch alarms (errors, DLQ)
 - CI/CD: GitHub Actions with an OIDC role, `cdk deploy` on push to `main`
 
@@ -172,7 +172,7 @@ Updated with an atomic `ADD` after every analysis.
 Three layers, from fast and friendly to slow and hard:
 
 1. **In the app (primary).** The Converse API returns token usage with every response. The analysis Lambda prices it with a pricing table in code (`pricing.ts`, per model and token type; Claude on Bedrock is billed via AWS Marketplace, so prices are configured rather than fetched), stores the cost on the analysis and adds it to the monthly budget item. Before issuing an upload URL and again before calling Bedrock, the API checks the budget; at 100 % new analyses are refused with a clear message. Sample analyses keep working.
-2. **Limits on blast radius.** Reserved concurrency on the analysis Lambda (e.g. 2), `maxReceiveCount` on the queue, a maximum input size per request, API Gateway throttling.
+2. **Limits on blast radius.** Max concurrency 2 on the SQS event source of the analysis Lambda (reserved concurrency is not possible while the account quota is 10), `maxReceiveCount` on the queue, a maximum input size per request, API Gateway throttling.
 3. **Account backstop.** An AWS budget with an alert and a budget action that attaches a `Deny bedrock:InvokeModel*` policy to the analysis role. Billing data arrives with a delay, so this only catches what layer 1 missed.
 
 Because this app is the only caller of Bedrock in the account, counting in the app is enough. Bedrock model invocation logging is not needed for cost tracking here.

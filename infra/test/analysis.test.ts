@@ -96,13 +96,12 @@ describe('queues', () => {
 });
 
 describe('analysis Lambda', () => {
-  it('runs on Node 24 / arm64 with 1024 MB, 2 min and reserved concurrency 2', () => {
+  it('runs on Node 24 / arm64 with 1024 MB and 2 min', () => {
     template.hasResourceProperties('AWS::Lambda::Function', {
       Runtime: 'nodejs24.x',
       Architectures: ['arm64'],
       MemorySize: 1024,
       Timeout: 120,
-      ReservedConcurrentExecutions: 2,
       Environment: {
         Variables: {
           TABLE_NAME: Match.anyValue(),
@@ -117,7 +116,10 @@ describe('analysis Lambda', () => {
 
   it('has its own log group and reads the queue with batch size 1', () => {
     template.resourceCountIs('AWS::Logs::LogGroup', 2);
-    template.hasResourceProperties('AWS::Lambda::EventSourceMapping', { BatchSize: 1 });
+    template.hasResourceProperties('AWS::Lambda::EventSourceMapping', {
+      BatchSize: 1,
+      ScalingConfig: { MaximumConcurrency: 2 },
+    });
   });
 });
 

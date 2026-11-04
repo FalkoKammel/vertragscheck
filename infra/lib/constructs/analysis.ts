@@ -26,6 +26,7 @@ export const DEFAULT_MODEL_ROUTING_REGIONS: readonly string[] = [
   'eu-north-1',
 ];
 
+export const MAX_CONCURRENCY = 2;
 export const ANALYSIS_TIMEOUT = Duration.minutes(2);
 
 export interface AnalysisProps {
@@ -79,7 +80,6 @@ export class Analysis extends Construct {
       architecture: Architecture.ARM_64,
       memorySize: 1024,
       timeout: ANALYSIS_TIMEOUT,
-      reservedConcurrentExecutions: 2,
       logGroup: new LogGroup(this, 'LogGroup', { retention: RetentionDays.TWO_WEEKS }),
       environment: {
         TABLE_NAME: props.table.tableName,
@@ -98,7 +98,14 @@ export class Analysis extends Construct {
           "import { createRequire } from 'module'; const require = createRequire(import.meta.url);",
       },
     });
-    this.function.addEventSource(new SqsEventSource(this.queue, { batchSize: 1 }));
+    this.function.addEventSource(
+      new SqsEventSource(this.queue, {
+        batchSize: 1,
+        // Caps parallel invocations at the queue. Reserved concurrency would do the same, but
+        // AWS requires 10 unreserved executions and a new account's quota is only 10.
+        maxConcurrency: MAX_CONCURRENCY,
+      }),
+    );
 
     props.table.grantReadWriteData(this.function);
     this.function.addToRolePolicy(
