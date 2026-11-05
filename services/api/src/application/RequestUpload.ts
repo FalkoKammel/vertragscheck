@@ -1,5 +1,5 @@
 import type { UseCase } from './UseCase';
-import type { Analysis, ContractType, Language } from '../domain/Analysis';
+import { Analysis, type ContractType, type Language } from '../domain/analysis';
 import {
   BudgetExhaustedError,
   CaptchaInvalidError,
@@ -65,7 +65,7 @@ export class RequestUpload implements UseCase<RequestUploadInput, RequestUploadO
     const analysisId = a.idGenerator.generate();
     const deleteToken = a.tokenGenerator.generate();
 
-    const analysis: Analysis = {
+    const analysis = new Analysis({
       id: analysisId,
       status: 'pending_upload',
       contractType: input.contractType,
@@ -73,7 +73,7 @@ export class RequestUpload implements UseCase<RequestUploadInput, RequestUploadO
       createdAt: now,
       expiresAt: expiresAt(now),
       deleteTokenHash: deleteToken.hash,
-    };
+    });
     await a.analysisStore.save(analysis);
 
     const uploadTicket = await a.uploadTicketIssuer.issue({

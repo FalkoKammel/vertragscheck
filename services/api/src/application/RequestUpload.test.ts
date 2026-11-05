@@ -1,6 +1,6 @@
 import { createHash } from 'node:crypto';
 import { describe, expect, it } from 'vitest';
-import type { Analysis } from '../domain/Analysis';
+import type { Analysis } from '../domain/analysis';
 import {
   BudgetExhaustedError,
   CaptchaInvalidError,
@@ -50,6 +50,7 @@ function setup(opts: { captcha?: boolean; budget?: boolean; allowed?: boolean } 
         saved.push(analysis);
         return Promise.resolve();
       },
+      get: () => Promise.resolve(undefined),
     },
     uploadTicketIssuer: {
       issue: (params) => {
@@ -81,7 +82,7 @@ describe('RequestUpload', () => {
       deleteToken: 'plain-token',
       uploadTicket: { url: 'https://s3.example', fields: { key: 'uploads/analysis-1.pdf' } },
     });
-    expect(saved).toEqual([
+    expect(saved.map((a) => a.toProps())).toEqual([
       {
         id: 'analysis-1',
         status: 'pending_upload',
@@ -90,6 +91,11 @@ describe('RequestUpload', () => {
         createdAt: NOW,
         expiresAt: new Date('2026-12-03T10:15:00Z'),
         deleteTokenHash: createHash('sha256').update('plain-token').digest('hex'),
+        clauses: [],
+        quotesDropped: 0,
+        usage: undefined,
+        costMicroUsd: 0,
+        failureReason: undefined,
       },
     ]);
     expect(tickets).toEqual([
@@ -135,6 +141,6 @@ describe('RequestUpload', () => {
     expect(stored?.deleteTokenHash).toBe(
       createHash('sha256').update(out.deleteToken).digest('hex'),
     );
-    expect(JSON.stringify(stored)).not.toContain(out.deleteToken);
+    expect(JSON.stringify(stored?.toProps())).not.toContain(out.deleteToken);
   });
 });
