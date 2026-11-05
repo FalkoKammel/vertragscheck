@@ -27,3 +27,17 @@ export class DailyLimitReachedError extends DomainError {
     super('Daily analysis limit reached');
   }
 }
+
+export class InvalidStatusTransitionError extends DomainError {
+  readonly code = 'INVALID_STATUS_TRANSITION';
+  constructor(from: string, to: string) {
+    super(`Cannot change analysis status from ${from} to ${to}`);
+  }
+}
+
+export class NoTextLayerError extends DomainError {
+  readonly code = 'NO_TEXT_LAYER';
+  constructor() {
+    super('The document has no usable text layer (likely a scanned PDF)');
+  }
+}
