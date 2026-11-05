@@ -12,7 +12,6 @@ const KEEP_HYPHEN_BEFORE = '(?:und|oder|bis|sowie|bzw)';
 const HYPHEN_KEEP = new RegExp(`-\\n(?=${KEEP_HYPHEN_BEFORE}(?![\\p{L}]))`, 'gu');
 const HYPHEN_REMOVE = /-\n(?=\p{Ll})/gu;
 
-/** 1:1 character replacements, so offsets never shift. */
 function normalizeMarks(s: string): string {
   return s.replace(/[„“”«»]/g, '"').replace(/[‚‘’]/g, "'");
 }
@@ -48,12 +47,10 @@ export class ContractText {
     return new ContractText(clean(pages.join('\n\n')));
   }
 
-  /** For text loaded from S3: already cleaned. */
   static fromStored(value: string): ContractText {
     return new ContractText(value);
   }
 
-  /** Throws when the text is too short for the page count (likely a scanned PDF). */
   assertHasTextLayer(pageCount: number): void {
     if (pageCount <= 0 || this.value.length / pageCount < MIN_CHARS_PER_PAGE) {
       throw new NoTextLayerError();
