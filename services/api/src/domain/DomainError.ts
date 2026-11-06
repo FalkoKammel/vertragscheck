@@ -41,3 +41,10 @@ export class NoTextLayerError extends DomainError {
     super('The document has no usable text layer (likely a scanned PDF)');
   }
 }
+
+export class UnknownModelPriceError extends DomainError {
+  readonly code = 'UNKNOWN_MODEL_PRICE';
+  constructor(modelId: string) {
+    super(`The modelId ${modelId} is not known`);
+  }
+}
