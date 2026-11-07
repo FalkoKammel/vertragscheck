@@ -5,7 +5,7 @@ import { DynamoDBDocumentClient } from '@aws-sdk/lib-dynamodb';
 import type { APIGatewayProxyEventV2 } from 'aws-lambda';
 import { ApiController } from '../adapters/ApiController';
 import { DynamoAnalysisStore } from '../adapters/DynamoAnalysisStore';
-import { DynamoBudgetChecker } from '../adapters/DynamoBudgetChecker';
+import { DynamoBudgetStore } from '../adapters/DynamoBudgetStore';
 import { DynamoRateLimiter } from '../adapters/DynamoRateLimiter';
 import { RandomTokenGenerator } from '../adapters/RandomTokenGenerator';
 import { S3UploadTicketIssuer } from '../adapters/S3UploadTicketIssuer';
@@ -34,12 +34,7 @@ const clock = new SystemClock();
 const controller = new ApiController({
   requestsUpload: new RequestUpload({
     captchaVerifier: new TurnstileCaptchaVerifier(turnstileSecret, siteHostname),
-    budgetChecker: new DynamoBudgetChecker(
-      db,
-      tableName,
-      clock,
-      Number(env('BUDGET_LIMIT_MICRO_USD')),
-    ),
+    budget: new DynamoBudgetStore(db, tableName, clock, Number(env('BUDGET_LIMIT_MICRO_USD'))),
     rateLimiter: new DynamoRateLimiter(db, tableName, ipHashSecret),
     analysisStore: new DynamoAnalysisStore(db, tableName),
     uploadTicketIssuer: new S3UploadTicketIssuer(new S3Client({}), env('UPLOAD_BUCKET')),

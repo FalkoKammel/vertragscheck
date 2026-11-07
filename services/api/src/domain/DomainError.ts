@@ -48,3 +48,31 @@ export class UnknownModelPriceError extends DomainError {
     super(`The modelId ${modelId} is not known`);
   }
 }
+
+export class AnalysisNotFoundError extends DomainError {
+  readonly code = 'ANALYSIS_NOT_FOUND';
+  constructor() {
+    super('Analysis not found');
+  }
+}
+
+export class InvalidPdfError extends DomainError {
+  readonly code = 'INVALID_PDF';
+  constructor() {
+    super('The file is not a readable PDF (broken or encrypted)');
+  }
+}
+
+export class TooManyPagesError extends DomainError {
+  readonly code = 'TOO_MANY_PAGES';
+  constructor() {
+    super('The document has more pages than allowed');
+  }
+}
+
+export class LlmInvalidOutputError extends DomainError {
+  readonly code = 'LLM_INVALID_OUTPUT';
+  constructor() {
+    super('The model returned no usable clauses');
+  }
+}

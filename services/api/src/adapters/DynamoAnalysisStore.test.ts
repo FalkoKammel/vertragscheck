@@ -1,9 +1,17 @@
+import { ConditionalCheckFailedException } from '@aws-sdk/client-dynamodb';
 import type { DynamoDBDocumentClient } from '@aws-sdk/lib-dynamodb';
 import { describe, expect, it } from 'vitest';
-import { Analysis } from '../domain/analysis';
+import { Analysis, type ModelRun } from '../domain/analysis';
 import { DynamoAnalysisStore } from './DynamoAnalysisStore';
 
 const createdAt = new Date('2026-11-03T10:15:00Z');
+const RUN: ModelRun = {
+  modelId: 'model-1',
+  promptVersion: 'v1',
+  usage: { inputTokens: 1, outputTokens: 2 },
+  costMicroUsd: 7,
+  latencyMs: 900,
+};
 const expiresAt = new Date('2026-12-03T10:15:00Z');
 
 function pending() {
@@ -67,6 +75,67 @@ describe('DynamoAnalysisStore', () => {
     expect(loaded?.toProps()).toEqual(pending().toProps());
   });
 
+  it('round-trips an analysis with a run and dropped counters', async () => {
+    const analysis = new Analysis({
+      ...pending().toProps(),
+      status: 'done',
+      unverifiedQuotes: 2,
+      invalidClauses: 3,
+      run: RUN,
+    });
+    const writer = fakeDb();
+    await writer.store.save(analysis);
+    const item = writer.sent[0]?.input.Item;
+    expect(item).toMatchObject({ run: RUN, unverifiedQuotes: 2, invalidClauses: 3 });
+    expect(item).not.toHaveProperty('usage');
+    expect(item).not.toHaveProperty('costMicroUsd');
+    expect(item).not.toHaveProperty('quotes');
+
+    const loaded = await fakeDb(item).store.get('a1');
+    expect(loaded?.toProps()).toEqual(analysis.toProps());
+  });
+
+  it('writes no run attribute when there is none', async () => {
+    const writer = fakeDb();
+    await writer.store.save(pending());
+    expect(writer.sent[0]?.input.Item).not.toHaveProperty('run');
+  });
+
+  it('loads an old item with top-level usage and cost but no run', async () => {
+    const loaded = await fakeDb({
+      PK: 'ANALYSIS#a1',
+      SK: 'META',
+      status: 'done',
+      contractType: 'rental',
+      language: 'de',
+      createdAt: '2026-11-03T10:15:00.000Z',
+      deleteTokenHash: 'sha256:abc',
+      usage: { inputTokens: 1, outputTokens: 2 },
+      costMicroUsd: 5,
+      ttl: Math.floor(expiresAt.getTime() / 1000),
+    }).store.get('a1');
+    expect(loaded?.run).toBeUndefined();
+    expect(loaded?.unverifiedQuotes).toBe(0);
+    expect(loaded?.invalidClauses).toBe(0);
+  });
+
+  it('loads an old item with quotes and schemaDropped and zeroes both counters', async () => {
+    const loaded = await fakeDb({
+      PK: 'ANALYSIS#a1',
+      SK: 'META',
+      status: 'done',
+      contractType: 'rental',
+      language: 'de',
+      createdAt: '2026-11-03T10:15:00.000Z',
+      deleteTokenHash: 'sha256:abc',
+      quotes: { total: 5, dropped: 2 },
+      schemaDropped: 3,
+      ttl: Math.floor(expiresAt.getTime() / 1000),
+    }).store.get('a1');
+    expect(loaded?.unverifiedQuotes).toBe(0);
+    expect(loaded?.invalidClauses).toBe(0);
+  });
+
   it('reads items written before clauses existed', async () => {
     const loaded = await fakeDb({
       PK: 'ANALYSIS#a1',
@@ -84,5 +153,67 @@ describe('DynamoAnalysisStore', () => {
   it('throws on an invalid item', async () => {
     const { store } = fakeDb({ PK: 'ANALYSIS#a1', SK: 'META', status: 'bogus' });
     await expect(store.get('a1')).rejects.toThrow();
+  });
+
+  describe('saveResult', () => {
+    it('updates only the result fields, and only while running', async () => {
+      const sent: { input: Record<string, unknown> }[] = [];
+      const db = {
+        send: (command: { input: Record<string, unknown> }) => {
+          sent.push(command);
+          return Promise.resolve({});
+        },
+      } as unknown as DynamoDBDocumentClient;
+      const analysis = new Analysis({ ...pending().toProps(), status: 'running' });
+      analysis.fail('INVALID_PDF', RUN);
+      await new DynamoAnalysisStore(db, 'table').saveResult(analysis);
+
+      expect(sent[0]?.input).toMatchObject({
+        Key: { PK: 'ANALYSIS#a1', SK: 'META' },
+        ConditionExpression: '#status = :running',
+        ExpressionAttributeValues: {
+          ':running': 'running',
+          ':status': 'failed',
+          ':run': RUN,
+          ':unverifiedQuotes': 0,
+          ':invalidClauses': 0,
+          ':failureReason': 'INVALID_PDF',
+        },
+      });
+    });
+  });
+
+  describe('markRunning', () => {
+    function updateDb(error?: Error) {
+      const sent: { input: Record<string, unknown> }[] = [];
+      const db = {
+        send: (command: { input: Record<string, unknown> }) => {
+          sent.push(command);
+          return error ? Promise.reject(error) : Promise.resolve({});
+        },
+      } as unknown as DynamoDBDocumentClient;
+      return { sent, store: new DynamoAnalysisStore(db, 'table') };
+    }
+
+    it('sets running if the analysis is pending_upload', async () => {
+      const { sent, store } = updateDb();
+      expect(await store.markRunning('a1')).toBe(true);
+      expect(sent[0]?.input).toMatchObject({
+        Key: { PK: 'ANALYSIS#a1', SK: 'META' },
+        ConditionExpression: '#status = :pendingUpload',
+        ExpressionAttributeValues: { ':running': 'running', ':pendingUpload': 'pending_upload' },
+      });
+    });
+
+    it('returns false when the condition fails', async () => {
+      const error = new ConditionalCheckFailedException({ message: 'no', $metadata: {} });
+      expect(await updateDb(error).store.markRunning('a1')).toBe(false);
+    });
+
+    it('rethrows other errors', async () => {
+      await expect(updateDb(new Error('throttled')).store.markRunning('a1')).rejects.toThrow(
+        'throttled',
+      );
+    });
   });
 });

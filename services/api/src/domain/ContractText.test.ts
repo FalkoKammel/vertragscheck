@@ -46,7 +46,7 @@ describe('verify quotes', () => {
   it('finds an exact quote with correct offsets', () => {
     const result = contractText.verifyQuotes([llmClause]);
 
-    expect(result.dropped).toBe(0);
+    expect(result.unverifiedQuotes).toBe(0);
     expect(result.clauses).toHaveLength(1);
     const [clause] = result.clauses;
     if (!clause) throw new Error('expected one clause');
@@ -63,7 +63,7 @@ describe('verify quotes', () => {
     };
     const result = text.verifyQuotes([clause]);
 
-    expect(result.dropped).toBe(0);
+    expect(result.unverifiedQuotes).toBe(0);
     const [found] = result.clauses;
     expect(found?.quote).toBe('„Haustiere“ nur mit Zustimmung.');
     expect(found?.quote).toBe(text.value.slice(found?.start, found?.end));
@@ -77,7 +77,7 @@ describe('verify quotes', () => {
       reason: 'Haustiere dürfen nicht generell verboten werden',
     };
     const result = contractText.verifyQuotes([llmClauseWithoutQuote]);
-    expect(result.dropped).toBe(1);
+    expect(result.unverifiedQuotes).toBe(1);
     expect(result.clauses).toHaveLength(0);
   });
   it('uses the first occurrence when the quote appears twice', () => {
@@ -90,11 +90,11 @@ describe('verify quotes', () => {
 
   it('matches case-sensitively', () => {
     const result = contractText.verifyQuotes([{ ...llmClause, quote: 'haustiere sind verboten.' }]);
-    expect(result).toEqual({ clauses: [], dropped: 1 });
+    expect(result).toEqual({ clauses: [], unverifiedQuotes: 1 });
   });
 
   it('returns an empty result for empty input', () => {
-    expect(contractText.verifyQuotes([])).toEqual({ clauses: [], dropped: 0 });
+    expect(contractText.verifyQuotes([])).toEqual({ clauses: [], unverifiedQuotes: 0 });
   });
 
   it('produces clauses that pass storedClauseSchema and keeps ref', () => {
@@ -103,10 +103,10 @@ describe('verify quotes', () => {
     expect(result.clauses[0]?.ref).toBe('§ 7');
   });
 
-  it('keeps valid clauses and counts only the dropped ones', () => {
+  it('keeps valid clauses and counts only the unverifiedQuotes ones', () => {
     const missing: LlmClause = { ...llmClause, quote: 'gibt es nicht' };
     const result = contractText.verifyQuotes([missing, llmClause]);
-    expect(result.dropped).toBe(1);
+    expect(result.unverifiedQuotes).toBe(1);
     expect(result.clauses).toHaveLength(1);
   });
 });

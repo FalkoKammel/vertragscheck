@@ -2,6 +2,7 @@ export const DAILY_LIMIT = 3;
 export const MAX_UPLOAD_BYTES = 10 * 1024 * 1024;
 export const UPLOAD_TTL_SECONDS = 5 * 60;
 export const RETENTION_DAYS = 30;
+export const MAX_PDF_PAGES = 30;
 
 const DAY_MS = 24 * 60 * 60 * 1000;
 

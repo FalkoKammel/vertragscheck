@@ -1,6 +1,15 @@
-import { DynamoDBDocumentClient, GetCommand, PutCommand } from '@aws-sdk/lib-dynamodb';
+import { ConditionalCheckFailedException } from '@aws-sdk/client-dynamodb';
+import {
+  DynamoDBDocumentClient,
+  GetCommand,
+  PutCommand,
+  UpdateCommand,
+} from '@aws-sdk/lib-dynamodb';
 import { z } from 'zod';
 import type { StoresAnalysis } from '../application/adapters/StoresAnalysis';
+import type { GetsAnalysis } from '../application/adapters/GetsAnalysis';
+import type { StoresAnalysisResult } from '../application/adapters/StoresAnalysisResult';
+import type { MarksAnalysisRunning } from '../application/adapters/MarksAnalysisRunning';
 import {
   Analysis,
   ANALYSIS_STATUSES,
@@ -13,6 +22,14 @@ import { storedClauseSchema } from '../domain/schemas';
 
 const HASH_PREFIX = 'sha256:';
 
+const runSchema = z.object({
+  modelId: z.string(),
+  promptVersion: z.string(),
+  usage: z.object({ inputTokens: z.number(), outputTokens: z.number() }),
+  costMicroUsd: z.number().int(),
+  latencyMs: z.number(),
+});
+
 const analysisItemSchema = z.object({
   status: z.enum(ANALYSIS_STATUSES),
   contractType: z.enum(CONTRACT_TYPES),
@@ -21,13 +38,15 @@ const analysisItemSchema = z.object({
   deleteTokenHash: z.string().startsWith(HASH_PREFIX),
   ttl: z.number().int().nonnegative(),
   clauses: z.array(storedClauseSchema).optional(),
-  quotes: z.object({ total: z.number().int(), dropped: z.number().int() }).optional(),
-  usage: z.object({ inputTokens: z.number(), outputTokens: z.number() }).optional(),
-  costMicroUsd: z.number().int().optional(),
+  unverifiedQuotes: z.number().int().default(0),
+  invalidClauses: z.number().int().default(0),
+  run: runSchema.optional(),
   failureReason: z.enum(FAILURE_REASONS).optional(),
 });
 
-export class DynamoAnalysisStore implements StoresAnalysis {
+export class DynamoAnalysisStore
+  implements StoresAnalysis, GetsAnalysis, MarksAnalysisRunning, StoresAnalysisResult
+{
   constructor(
     private readonly db: DynamoDBDocumentClient,
     private readonly tableName: string,
@@ -36,7 +55,6 @@ export class DynamoAnalysisStore implements StoresAnalysis {
   async save(analysis: Analysis): Promise<void> {
     const props = analysis.toProps();
     const clauses = props.clauses ?? [];
-    const dropped = props.quotesDropped ?? 0;
     const createdAt = props.createdAt.toISOString();
     await this.db.send(
       new PutCommand({
@@ -50,9 +68,9 @@ export class DynamoAnalysisStore implements StoresAnalysis {
           createdAt,
           deleteTokenHash: `${HASH_PREFIX}${props.deleteTokenHash}`,
           clauses,
-          quotes: { total: clauses.length + dropped, dropped },
-          costMicroUsd: props.costMicroUsd ?? 0,
-          ...(props.usage ? { usage: props.usage } : {}),
+          unverifiedQuotes: props.unverifiedQuotes ?? 0,
+          invalidClauses: props.invalidClauses ?? 0,
+          ...(props.run ? { run: props.run } : {}),
           ...(props.failureReason ? { failureReason: props.failureReason } : {}),
           GSI1PK: `MONTH#${monthKey(props.createdAt)}`,
           GSI1SK: createdAt,
@@ -61,6 +79,56 @@ export class DynamoAnalysisStore implements StoresAnalysis {
         ConditionExpression: 'attribute_not_exists(PK)',
       }),
     );
+  }
+
+  /** Writes the outcome of a running analysis; fails if it is not `running`. */
+  async saveResult(analysis: Analysis): Promise<void> {
+    const props = analysis.toProps();
+    const clauses = props.clauses ?? [];
+    await this.db.send(
+      new UpdateCommand({
+        TableName: this.tableName,
+        Key: { PK: `ANALYSIS#${props.id}`, SK: 'META' },
+        UpdateExpression:
+          'SET #status = :status, clauses = :clauses, unverifiedQuotes = :unverifiedQuotes, invalidClauses = :invalidClauses' +
+          (props.run ? ', #run = :run' : '') +
+          (props.failureReason ? ', failureReason = :failureReason' : ''),
+        ConditionExpression: '#status = :running',
+        ExpressionAttributeNames: {
+          '#status': 'status',
+          ...(props.run ? { '#run': 'run' } : {}),
+        },
+        ExpressionAttributeValues: {
+          ':running': 'running',
+          ':status': props.status,
+          ':clauses': clauses,
+          ':unverifiedQuotes': props.unverifiedQuotes ?? 0,
+          ':invalidClauses': props.invalidClauses ?? 0,
+          ...(props.run ? { ':run': props.run } : {}),
+          ...(props.failureReason ? { ':failureReason': props.failureReason } : {}),
+        },
+      }),
+    );
+  }
+
+  /** Returns false if the analysis is not waiting for its upload (duplicate event). */
+  async markRunning(analysisId: string): Promise<boolean> {
+    try {
+      await this.db.send(
+        new UpdateCommand({
+          TableName: this.tableName,
+          Key: { PK: `ANALYSIS#${analysisId}`, SK: 'META' },
+          UpdateExpression: 'SET #status = :running',
+          ConditionExpression: '#status = :pendingUpload',
+          ExpressionAttributeNames: { '#status': 'status' },
+          ExpressionAttributeValues: { ':running': 'running', ':pendingUpload': 'pending_upload' },
+        }),
+      );
+      return true;
+    } catch (err) {
+      if (err instanceof ConditionalCheckFailedException) return false;
+      throw err;
+    }
   }
 
   async get(id: string): Promise<Analysis | undefined> {
@@ -82,9 +150,9 @@ export class DynamoAnalysisStore implements StoresAnalysis {
       expiresAt: new Date(item.ttl * 1000),
       deleteTokenHash: item.deleteTokenHash.slice(HASH_PREFIX.length),
       clauses: item.clauses,
-      quotesDropped: item.quotes?.dropped,
-      usage: item.usage,
-      costMicroUsd: item.costMicroUsd,
+      unverifiedQuotes: item.unverifiedQuotes,
+      invalidClauses: item.invalidClauses,
+      run: item.run,
       failureReason: item.failureReason,
     });
   }

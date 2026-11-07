@@ -31,7 +31,7 @@ function setup(opts: { captcha?: boolean; budget?: boolean; allowed?: boolean } 
         return Promise.resolve(opts.captcha ?? true);
       },
     },
-    budgetChecker: {
+    budget: {
       hasRemainingBudget: () => {
         calls.push('budget');
         return Promise.resolve(opts.budget ?? true);
@@ -50,7 +50,6 @@ function setup(opts: { captcha?: boolean; budget?: boolean; allowed?: boolean } 
         saved.push(analysis);
         return Promise.resolve();
       },
-      get: () => Promise.resolve(undefined),
     },
     uploadTicketIssuer: {
       issue: (params) => {
@@ -92,9 +91,9 @@ describe('RequestUpload', () => {
         expiresAt: new Date('2026-12-03T10:15:00Z'),
         deleteTokenHash: createHash('sha256').update('plain-token').digest('hex'),
         clauses: [],
-        quotesDropped: 0,
-        usage: undefined,
-        costMicroUsd: 0,
+        unverifiedQuotes: 0,
+        invalidClauses: 0,
+        run: undefined,
         failureReason: undefined,
       },
     ]);

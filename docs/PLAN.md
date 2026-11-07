@@ -83,12 +83,15 @@ The PDF is only needed for extraction, so it is not kept. The extracted text liv
   "pageCount": 12,
   "textKey": "texts/3f9c….json",
   "deleteTokenHash": "sha256:…",      // see "Retention and deletion"
-  "model": "eu.anthropic.claude-haiku-4-5-20251001-v1:0",
-  "promptVersion": "v3",
-  "usage": { "inputTokens": 7412, "outputTokens": 1388 },
-  "costMicroUsd": 14300,              // integer, no float rounding
-  "durationMs": 6200,
-  "quotes": { "total": 19, "dropped": 1 },
+  "run": {                            // everything about the model call; absent if the analysis failed before Bedrock
+    "modelId": "eu.anthropic.claude-haiku-4-5-20251001-v1:0",
+    "promptVersion": "v3",
+    "usage": { "inputTokens": 7412, "outputTokens": 1388 },
+    "costMicroUsd": 14300,            // integer, no float rounding
+    "latencyMs": 6200                 // from the Converse response metrics
+  },
+  "unverifiedQuotes": 1,              // clauses dropped because their quote was not found in the text
+  "invalidClauses": 0,                // clauses dropped because they failed schema validation
   "clauses": [
     {
       "ref": "§ 4",
@@ -105,7 +108,7 @@ The PDF is only needed for extraction, so it is not kept. The extracted text liv
 }
 ```
 
-Clauses are embedded because they are always read and written together with their analysis, and 20–30 clauses stay well below 50 KB. One `GetItem` loads the whole result. Cost and usage belong to the analysis, so they sit in the same item.
+Clauses are embedded because they are always read and written together with their analysis, and 20–30 clauses stay well below 50 KB. One `GetItem` loads the whole result. The model run (model, prompt version, usage, cost, latency) belongs to the analysis, so they sit in the same item.
 
 **Monthly budget and counters:**
 

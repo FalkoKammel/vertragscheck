@@ -1,41 +1,75 @@
 import type { SQSEvent } from 'aws-lambda';
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { analysisHandler } from './AnalysisHandler';
+import type { AnalyseContractInput } from '../application/AnalyseContract';
 
 const sqsEvent = (body: unknown): SQSEvent =>
   ({ Records: [{ body: JSON.stringify(body) }] }) as SQSEvent;
 
-const logged = (spy: { mock: { calls: unknown[][] } }): string[] =>
-  spy.mock.calls.map((call) => String(call[0]));
+const s3Event = (key: string) => ({ Records: [{ s3: { object: { key, size: 10 } } }] });
+
+const execute = vi.hoisted(() => vi.fn<(input: AnalyseContractInput) => Promise<void>>());
+
+vi.mock('../application/AnalyseContract', () => ({
+  AnalyseContract: class {
+    execute = execute;
+  },
+}));
+
+async function setup(fail?: Error) {
+  vi.stubEnv('TABLE_NAME', 'table');
+  vi.stubEnv('UPLOAD_BUCKET', 'bucket');
+  vi.stubEnv('MODEL_ID', 'model');
+  vi.stubEnv('BUDGET_LIMIT_MICRO_USD', '1000');
+  vi.resetModules();
+  execute.mockReset();
+  if (fail) execute.mockRejectedValue(fail);
+  else execute.mockResolvedValue(undefined);
+  const { analysisHandler } = await import('./AnalysisHandler');
+  return { handler: analysisHandler, execute };
+}
 
 afterEach(() => {
   vi.restoreAllMocks();
+  vi.unstubAllEnvs();
 });
 
 describe('analysisHandler', () => {
-  it('logs the key and analysis id of an upload', async () => {
-    const log = vi.spyOn(console, 'log').mockImplementation(() => undefined);
-    await analysisHandler(
-      sqsEvent({ Records: [{ s3: { object: { key: 'uploads/abc-123.pdf', size: 10 } } }] }),
-    );
-    expect(logged(log)).toEqual([
-      JSON.stringify({
-        msg: 'upload received',
-        key: 'uploads/abc-123.pdf',
-        analysisId: 'abc-123',
-      }),
-    ]);
+  it('runs the use case with the analysis id and key of an upload', async () => {
+    vi.spyOn(console, 'log').mockImplementation(() => undefined);
+    const { execute, handler } = await setup();
+    await handler(sqsEvent(s3Event('uploads/abc-123.pdf')));
+    expect(execute.mock.calls).toEqual([[{ analysisId: 'abc-123', key: 'uploads/abc-123.pdf' }]]);
   });
 
-  it('acknowledges the s3:TestEvent without throwing', async () => {
+  it('decodes URL-encoded keys', async () => {
+    vi.spyOn(console, 'log').mockImplementation(() => undefined);
+    const { execute, handler } = await setup();
+    await handler(sqsEvent(s3Event('uploads/a%2Db.pdf')));
+    expect(execute.mock.calls).toEqual([[{ analysisId: 'a-b', key: 'uploads/a-b.pdf' }]]);
+  });
+
+  it('acknowledges the s3:TestEvent without running the use case', async () => {
     const log = vi.spyOn(console, 'log').mockImplementation(() => undefined);
+    const { execute, handler } = await setup();
     await expect(
-      analysisHandler(
+      handler(
         sqsEvent({ Service: 'Amazon S3', Event: 's3:TestEvent', Bucket: 'b', RequestId: 'r' }),
       ),
     ).resolves.toBeUndefined();
-    expect(logged(log)).toEqual([
-      JSON.stringify({ msg: 'message ignored, not an S3 object event' }),
-    ]);
+    expect(execute).not.toHaveBeenCalled();
+    expect(String(log.mock.calls[0]?.[0])).toContain('message ignored');
+  });
+
+  it('ignores keys that do not match the upload key format', async () => {
+    vi.spyOn(console, 'log').mockImplementation(() => undefined);
+    const { execute, handler } = await setup();
+    await handler(sqsEvent(s3Event('texts/abc.txt')));
+    expect(execute).not.toHaveBeenCalled();
+  });
+
+  it('lets errors through so SQS retries the message', async () => {
+    vi.spyOn(console, 'log').mockImplementation(() => undefined);
+    const { handler } = await setup(new Error('dynamo down'));
+    await expect(handler(sqsEvent(s3Event('uploads/abc.pdf')))).rejects.toThrow('dynamo down');
   });
 });
