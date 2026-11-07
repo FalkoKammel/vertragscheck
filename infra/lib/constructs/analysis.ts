@@ -72,7 +72,7 @@ export class Analysis extends Construct {
     });
 
     this.function = new NodejsFunction(this, 'Function', {
-      entry: join(import.meta.dirname, '../../../services/api/src/handlers/AnalysisLambda.ts'),
+      entry: join(import.meta.dirname, '../../../services/api/src/handlers/AnalysisHandler.ts'),
       handler: 'analysisHandler',
       projectRoot: join(import.meta.dirname, '../../..'),
       depsLockFilePath: join(import.meta.dirname, '../../../pnpm-lock.yaml'),

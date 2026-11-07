@@ -20,7 +20,7 @@ import type { MarksAnalysisRunning } from './adapters/MarksAnalysisRunning';
 import type { ProvidesTime } from './adapters/ProvidesTime';
 import type { PutsText } from './adapters/PutsText';
 import type { RunsAnalysis } from './adapters/RunsAnalysis';
-import type { StoresAnalysis } from './adapters/StoresAnalysis';
+import type { StoresAnalysisResult } from './adapters/StoresAnalysisResult';
 import type { UseCase } from './UseCase';
 
 export interface AnalyseContractInput {
@@ -29,7 +29,7 @@ export interface AnalyseContractInput {
 }
 
 export interface AnalyseContractAdapters {
-  analysisStore: GetsAnalysis & MarksAnalysisRunning & StoresAnalysis;
+  analysisStore: GetsAnalysis & MarksAnalysisRunning & StoresAnalysisResult;
   documentStore: GetsPdfFile & PutsText & DeletesPdf;
   textExtractor: ExtractsText;
   budget: ChecksMonthlyBudget & AddsBudget;
@@ -43,7 +43,7 @@ export class AnalyseContract implements UseCase<AnalyseContractInput, void> {
   async execute({ analysisId, key }: AnalyseContractInput): Promise<void> {
     const analysis = await this.a.analysisStore.get(analysisId);
     if (!analysis || analysis.isExpired(this.a.clock.now())) return;
-    if (!(await this.a.analysisStore.markRunning(analysisId))) return; // duplicate event
+    if (!(await this.a.analysisStore.markRunning(analysisId))) return;
     analysis.start();
 
     let usage: Usage | undefined;
@@ -54,7 +54,7 @@ export class AnalyseContract implements UseCase<AnalyseContractInput, void> {
       const pages = await this.a.textExtractor.extract(await this.a.documentStore.getPdf(key)); // InvalidPdfError
       if (pages.length > MAX_PDF_PAGES) throw new TooManyPagesError();
       const text = ContractText.fromExtracted(pages);
-      text.assertHasTextLayer(pages.length); // NoTextLayerError
+      text.assertHasTextLayer(pages.length);
       await this.a.documentStore.putText(analysisId, text.value);
 
       const result = await this.a.analyser.analyse({
@@ -82,7 +82,7 @@ export class AnalyseContract implements UseCase<AnalyseContractInput, void> {
     } finally {
       await this.a.documentStore.deletePdf(key);
     }
-    await this.a.analysisStore.save(analysis);
+    await this.a.analysisStore.saveResult(analysis);
   }
 }
 

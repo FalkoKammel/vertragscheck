@@ -10,7 +10,7 @@ const budgetItem = z.object({
   limitMicroUsd: z.number().optional(),
 });
 
-export class DynamoBudgetChecker implements ChecksMonthlyBudget, AddsBudget {
+export class DynamoBudgetStore implements ChecksMonthlyBudget, AddsBudget {
   constructor(
     private readonly db: DynamoDBDocumentClient,
     private readonly tableName: string,

@@ -38,7 +38,7 @@ export interface RequestUploadAdapters {
   rateLimiter: LimitsRates;
   captchaVerifier: VerifiesCaptcha;
   analysisStore: StoresAnalysis;
-  budgetChecker: ChecksMonthlyBudget;
+  budget: ChecksMonthlyBudget;
   uploadTicketIssuer: IssuesTicket;
   tokenGenerator: GeneratesToken;
   idGenerator: GeneratesId;
@@ -54,7 +54,7 @@ export class RequestUpload implements UseCase<RequestUploadInput, RequestUploadO
     if (!(await a.captchaVerifier.verify(input.captchaToken, input.clientIp))) {
       throw new CaptchaInvalidError();
     }
-    if (!(await a.budgetChecker.hasRemainingBudget())) {
+    if (!(await a.budget.hasRemainingBudget())) {
       throw new BudgetExhaustedError();
     }
     const now = a.clock.now();

@@ -23,7 +23,7 @@ const outputSchemas = {
 } satisfies Record<ContractType, z.ZodType>;
 
 function toolConfig(contractType: ContractType): ToolConfiguration {
-  // Round trip gives plain JSON, which is what the API expects as a document.
+  // Round trip gives plain JSON, which is what the API expects as a document
   const inputSchema = JSON.parse(
     JSON.stringify(z.toJSONSchema(outputSchemas[contractType])),
   ) as Record<string, ToolInputSchema.JsonMember['json']>;

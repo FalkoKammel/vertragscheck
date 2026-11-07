@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { InvalidPdfError } from '../domain/DomainError';
 import { UnpdfTextExtractor } from './UnpdfTextExtractor';
 
-/** Smallest valid one-page PDF with a text layer; xref offsets are computed. */
+// Smallest valid one-page PDF with a text layer; xref offsets are computed
 function pdfWithText(text: string): Uint8Array {
   const stream = `BT /F1 12 Tf 20 100 Td (${text}) Tj ET`;
   const objects = [

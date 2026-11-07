@@ -31,13 +31,13 @@ function fakeDb(getItem?: Record<string, unknown>) {
 }
 
 describe('DynamoAnalysisStore', () => {
-  it('saves the item with keys, GSI1, ttl and a create-or-finish condition', async () => {
+  it('saves the item with keys, GSI1, ttl and a create-only condition', async () => {
     const { sent, store } = fakeDb();
     await store.save(pending());
 
     expect(sent[0]?.input).toMatchObject({
       TableName: 'table',
-      ConditionExpression: 'attribute_not_exists(PK) OR #status = :running',
+      ConditionExpression: 'attribute_not_exists(PK)',
       Item: {
         PK: 'ANALYSIS#a1',
         SK: 'META',
@@ -87,6 +87,34 @@ describe('DynamoAnalysisStore', () => {
     await expect(store.get('a1')).rejects.toThrow();
   });
 
+  describe('saveResult', () => {
+    it('updates only the result fields, and only while running', async () => {
+      const sent: { input: Record<string, unknown> }[] = [];
+      const db = {
+        send: (command: { input: Record<string, unknown> }) => {
+          sent.push(command);
+          return Promise.resolve({});
+        },
+      } as unknown as DynamoDBDocumentClient;
+      const analysis = new Analysis({ ...pending().toProps(), status: 'running' });
+      analysis.fail('INVALID_PDF', { inputTokens: 1, outputTokens: 2 }, 7);
+      await new DynamoAnalysisStore(db, 'table').saveResult(analysis);
+
+      expect(sent[0]?.input).toMatchObject({
+        Key: { PK: 'ANALYSIS#a1', SK: 'META' },
+        ConditionExpression: '#status = :running',
+        ExpressionAttributeValues: {
+          ':running': 'running',
+          ':status': 'failed',
+          ':cost': 7,
+          ':usage': { inputTokens: 1, outputTokens: 2 },
+          ':failureReason': 'INVALID_PDF',
+          ':quotes': { total: 0, dropped: 0 },
+        },
+      });
+    });
+  });
+
   describe('markRunning', () => {
     function updateDb(error?: Error) {
       const sent: { input: Record<string, unknown> }[] = [];
@@ -104,8 +132,8 @@ describe('DynamoAnalysisStore', () => {
       expect(await store.markRunning('a1')).toBe(true);
       expect(sent[0]?.input).toMatchObject({
         Key: { PK: 'ANALYSIS#a1', SK: 'META' },
-        ConditionExpression: '#status = :pending',
-        ExpressionAttributeValues: { ':running': 'running', ':pending': 'pending_upload' },
+        ConditionExpression: '#status = :pendingUpload',
+        ExpressionAttributeValues: { ':running': 'running', ':pendingUpload': 'pending_upload' },
       });
     });
 

@@ -8,6 +8,7 @@ import {
 import { z } from 'zod';
 import type { StoresAnalysis } from '../application/adapters/StoresAnalysis';
 import type { GetsAnalysis } from '../application/adapters/GetsAnalysis';
+import type { StoresAnalysisResult } from '../application/adapters/StoresAnalysisResult';
 import type { MarksAnalysisRunning } from '../application/adapters/MarksAnalysisRunning';
 import {
   Analysis,
@@ -35,7 +36,9 @@ const analysisItemSchema = z.object({
   failureReason: z.enum(FAILURE_REASONS).optional(),
 });
 
-export class DynamoAnalysisStore implements StoresAnalysis, GetsAnalysis, MarksAnalysisRunning {
+export class DynamoAnalysisStore
+  implements StoresAnalysis, GetsAnalysis, MarksAnalysisRunning, StoresAnalysisResult
+{
   constructor(
     private readonly db: DynamoDBDocumentClient,
     private readonly tableName: string,
@@ -66,10 +69,38 @@ export class DynamoAnalysisStore implements StoresAnalysis, GetsAnalysis, MarksA
           GSI1SK: createdAt,
           ttl: Math.floor(props.expiresAt.getTime() / 1000),
         },
-        // Creates the item, or overwrites it once the analysis is running (final result).
-        ConditionExpression: 'attribute_not_exists(PK) OR #status = :running',
-        ExpressionAttributeNames: { '#status': 'status' },
-        ExpressionAttributeValues: { ':running': 'running' },
+        ConditionExpression: 'attribute_not_exists(PK)',
+      }),
+    );
+  }
+
+  /** Writes the outcome of a running analysis; fails if it is not `running`. */
+  async saveResult(analysis: Analysis): Promise<void> {
+    const props = analysis.toProps();
+    const clauses = props.clauses ?? [];
+    const dropped = props.quotesDropped ?? 0;
+    await this.db.send(
+      new UpdateCommand({
+        TableName: this.tableName,
+        Key: { PK: `ANALYSIS#${props.id}`, SK: 'META' },
+        UpdateExpression:
+          'SET #status = :status, clauses = :clauses, quotes = :quotes, costMicroUsd = :cost' +
+          (props.usage ? ', #usage = :usage' : '') +
+          (props.failureReason ? ', failureReason = :failureReason' : ''),
+        ConditionExpression: '#status = :running',
+        ExpressionAttributeNames: {
+          '#status': 'status',
+          ...(props.usage ? { '#usage': 'usage' } : {}),
+        },
+        ExpressionAttributeValues: {
+          ':running': 'running',
+          ':status': props.status,
+          ':clauses': clauses,
+          ':quotes': { total: clauses.length + dropped, dropped },
+          ':cost': props.costMicroUsd ?? 0,
+          ...(props.usage ? { ':usage': props.usage } : {}),
+          ...(props.failureReason ? { ':failureReason': props.failureReason } : {}),
+        },
       }),
     );
   }
@@ -82,9 +113,9 @@ export class DynamoAnalysisStore implements StoresAnalysis, GetsAnalysis, MarksA
           TableName: this.tableName,
           Key: { PK: `ANALYSIS#${analysisId}`, SK: 'META' },
           UpdateExpression: 'SET #status = :running',
-          ConditionExpression: '#status = :pending',
+          ConditionExpression: '#status = :pendingUpload',
           ExpressionAttributeNames: { '#status': 'status' },
-          ExpressionAttributeValues: { ':running': 'running', ':pending': 'pending_upload' },
+          ExpressionAttributeValues: { ':running': 'running', ':pendingUpload': 'pending_upload' },
         }),
       );
       return true;

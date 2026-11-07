@@ -31,7 +31,7 @@ function setup(opts: { captcha?: boolean; budget?: boolean; allowed?: boolean } 
         return Promise.resolve(opts.captcha ?? true);
       },
     },
-    budgetChecker: {
+    budget: {
       hasRemainingBudget: () => {
         calls.push('budget');
         return Promise.resolve(opts.budget ?? true);

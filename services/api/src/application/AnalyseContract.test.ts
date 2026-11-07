@@ -67,7 +67,7 @@ function setup(
     analysisStore: {
       get: () => Promise.resolve(opts.missing ? undefined : analysis),
       markRunning: () => Promise.resolve(opts.markRunning ?? true),
-      save: (a) => {
+      saveResult: (a) => {
         calls.saved.push(a);
         return Promise.resolve();
       },
