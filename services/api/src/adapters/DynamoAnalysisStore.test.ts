@@ -1,3 +1,4 @@
+import { ConditionalCheckFailedException } from '@aws-sdk/client-dynamodb';
 import type { DynamoDBDocumentClient } from '@aws-sdk/lib-dynamodb';
 import { describe, expect, it } from 'vitest';
 import { Analysis } from '../domain/analysis';
@@ -30,13 +31,13 @@ function fakeDb(getItem?: Record<string, unknown>) {
 }
 
 describe('DynamoAnalysisStore', () => {
-  it('saves the item with keys, GSI1, ttl and a create-only condition', async () => {
+  it('saves the item with keys, GSI1, ttl and a create-or-finish condition', async () => {
     const { sent, store } = fakeDb();
     await store.save(pending());
 
     expect(sent[0]?.input).toMatchObject({
       TableName: 'table',
-      ConditionExpression: 'attribute_not_exists(PK)',
+      ConditionExpression: 'attribute_not_exists(PK) OR #status = :running',
       Item: {
         PK: 'ANALYSIS#a1',
         SK: 'META',
@@ -84,5 +85,39 @@ describe('DynamoAnalysisStore', () => {
   it('throws on an invalid item', async () => {
     const { store } = fakeDb({ PK: 'ANALYSIS#a1', SK: 'META', status: 'bogus' });
     await expect(store.get('a1')).rejects.toThrow();
+  });
+
+  describe('markRunning', () => {
+    function updateDb(error?: Error) {
+      const sent: { input: Record<string, unknown> }[] = [];
+      const db = {
+        send: (command: { input: Record<string, unknown> }) => {
+          sent.push(command);
+          return error ? Promise.reject(error) : Promise.resolve({});
+        },
+      } as unknown as DynamoDBDocumentClient;
+      return { sent, store: new DynamoAnalysisStore(db, 'table') };
+    }
+
+    it('sets running if the analysis is pending_upload', async () => {
+      const { sent, store } = updateDb();
+      expect(await store.markRunning('a1')).toBe(true);
+      expect(sent[0]?.input).toMatchObject({
+        Key: { PK: 'ANALYSIS#a1', SK: 'META' },
+        ConditionExpression: '#status = :pending',
+        ExpressionAttributeValues: { ':running': 'running', ':pending': 'pending_upload' },
+      });
+    });
+
+    it('returns false when the condition fails', async () => {
+      const error = new ConditionalCheckFailedException({ message: 'no', $metadata: {} });
+      expect(await updateDb(error).store.markRunning('a1')).toBe(false);
+    });
+
+    it('rethrows other errors', async () => {
+      await expect(updateDb(new Error('throttled')).store.markRunning('a1')).rejects.toThrow(
+        'throttled',
+      );
+    });
   });
 });

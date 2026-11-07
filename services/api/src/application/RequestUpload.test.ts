@@ -50,7 +50,6 @@ function setup(opts: { captcha?: boolean; budget?: boolean; allowed?: boolean } 
         saved.push(analysis);
         return Promise.resolve();
       },
-      get: () => Promise.resolve(undefined),
     },
     uploadTicketIssuer: {
       issue: (params) => {

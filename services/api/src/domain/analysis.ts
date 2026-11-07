@@ -115,6 +115,10 @@ export class Analysis {
     this._status = 'failed';
   }
 
+  isExpired(now: Date): boolean {
+    return this.expiresAt <= now;
+  }
+
   toProps(): AnalysisProps {
     return {
       id: this.id,

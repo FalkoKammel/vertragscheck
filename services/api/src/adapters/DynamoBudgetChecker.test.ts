@@ -35,4 +35,21 @@ describe('DynamoBudgetChecker', () => {
     const item = { costMicroUsd: 5, limitMicroUsd: 5 };
     expect(await checker(item).checker.hasRemainingBudget()).toBe(false);
   });
+
+  it('adds the cost to the month total', async () => {
+    const sent: { input: Record<string, unknown> }[] = [];
+    const db = {
+      send: (command: { input: Record<string, unknown> }) => {
+        sent.push(command);
+        return Promise.resolve({});
+      },
+    } as unknown as DynamoDBDocumentClient;
+    await new DynamoBudgetChecker(db, 'table', clock, LIMIT).add(3850);
+    expect(sent[0]?.input).toMatchObject({
+      TableName: 'table',
+      Key: { PK: 'BUDGET#2026-11', SK: 'TOTAL' },
+      UpdateExpression: 'ADD costMicroUsd :cost',
+      ExpressionAttributeValues: { ':cost': 3850 },
+    });
+  });
 });

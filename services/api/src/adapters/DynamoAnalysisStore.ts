@@ -1,6 +1,14 @@
-import { DynamoDBDocumentClient, GetCommand, PutCommand } from '@aws-sdk/lib-dynamodb';
+import { ConditionalCheckFailedException } from '@aws-sdk/client-dynamodb';
+import {
+  DynamoDBDocumentClient,
+  GetCommand,
+  PutCommand,
+  UpdateCommand,
+} from '@aws-sdk/lib-dynamodb';
 import { z } from 'zod';
 import type { StoresAnalysis } from '../application/adapters/StoresAnalysis';
+import type { GetsAnalysis } from '../application/adapters/GetsAnalysis';
+import type { MarksAnalysisRunning } from '../application/adapters/MarksAnalysisRunning';
 import {
   Analysis,
   ANALYSIS_STATUSES,
@@ -27,7 +35,7 @@ const analysisItemSchema = z.object({
   failureReason: z.enum(FAILURE_REASONS).optional(),
 });
 
-export class DynamoAnalysisStore implements StoresAnalysis {
+export class DynamoAnalysisStore implements StoresAnalysis, GetsAnalysis, MarksAnalysisRunning {
   constructor(
     private readonly db: DynamoDBDocumentClient,
     private readonly tableName: string,
@@ -58,9 +66,32 @@ export class DynamoAnalysisStore implements StoresAnalysis {
           GSI1SK: createdAt,
           ttl: Math.floor(props.expiresAt.getTime() / 1000),
         },
-        ConditionExpression: 'attribute_not_exists(PK)',
+        // Creates the item, or overwrites it once the analysis is running (final result).
+        ConditionExpression: 'attribute_not_exists(PK) OR #status = :running',
+        ExpressionAttributeNames: { '#status': 'status' },
+        ExpressionAttributeValues: { ':running': 'running' },
       }),
     );
+  }
+
+  /** Returns false if the analysis is not waiting for its upload (duplicate event). */
+  async markRunning(analysisId: string): Promise<boolean> {
+    try {
+      await this.db.send(
+        new UpdateCommand({
+          TableName: this.tableName,
+          Key: { PK: `ANALYSIS#${analysisId}`, SK: 'META' },
+          UpdateExpression: 'SET #status = :running',
+          ConditionExpression: '#status = :pending',
+          ExpressionAttributeNames: { '#status': 'status' },
+          ExpressionAttributeValues: { ':running': 'running', ':pending': 'pending_upload' },
+        }),
+      );
+      return true;
+    } catch (err) {
+      if (err instanceof ConditionalCheckFailedException) return false;
+      throw err;
+    }
   }
 
   async get(id: string): Promise<Analysis | undefined> {
