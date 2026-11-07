@@ -3,7 +3,7 @@ import { storedClauseSchema, type LlmClause, type StoredClause } from './schemas
 
 export interface QuoteVerificationResult {
   clauses: StoredClause[];
-  dropped: number;
+  unverifiedQuotes: number;
 }
 
 const MIN_CHARS_PER_PAGE = 100;
@@ -60,13 +60,13 @@ export class ContractText {
   verifyQuotes(clauses: LlmClause[]): QuoteVerificationResult {
     const haystack = normalizeMarks(this.value);
     const verified: StoredClause[] = [];
-    let dropped = 0;
+    let unverifiedQuotes = 0;
 
     for (const clause of clauses) {
       const needle = normalizeMarks(clause.quote.normalize('NFKC')).replace(/\s+/g, ' ').trim();
       const start = needle.length > 0 ? haystack.indexOf(needle) : -1;
       if (start === -1) {
-        dropped++;
+        unverifiedQuotes++;
         continue;
       }
       const end = start + needle.length;
@@ -81,8 +81,8 @@ export class ContractText {
       };
       const parsed = storedClauseSchema.safeParse(candidate);
       if (parsed.success) verified.push(parsed.data);
-      else dropped++;
+      else unverifiedQuotes++;
     }
-    return { clauses: verified, dropped };
+    return { clauses: verified, unverifiedQuotes };
   }
 }

@@ -91,9 +91,9 @@ describe('RequestUpload', () => {
         expiresAt: new Date('2026-12-03T10:15:00Z'),
         deleteTokenHash: createHash('sha256').update('plain-token').digest('hex'),
         clauses: [],
-        quotesDropped: 0,
-        usage: undefined,
-        costMicroUsd: 0,
+        unverifiedQuotes: 0,
+        invalidClauses: 0,
+        run: undefined,
         failureReason: undefined,
       },
     ]);

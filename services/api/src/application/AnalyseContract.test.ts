@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { Analysis } from '../domain/analysis';
-import type { Usage } from '../domain/analysis';
+import type { ModelRun, Usage } from '../domain/analysis';
 import { InvalidPdfError } from '../domain/DomainError';
 import { MAX_PDF_PAGES } from '../domain/policy';
 import type { LlmClause } from '../domain/schemas';
@@ -18,6 +18,16 @@ const MODEL = 'eu.anthropic.claude-haiku-4-5-20251001-v1:0';
 const USAGE: Usage = { inputTokens: 1000, outputTokens: 500 };
 // 1000 * 1.1 + 500 * 5.5
 const COST = 3850;
+const PROMPT = 'v-test';
+const LATENCY = 1234;
+const RUN: ModelRun = {
+  modelId: MODEL,
+  promptVersion: PROMPT,
+  usage: USAGE,
+  costMicroUsd: COST,
+  latencyMs: LATENCY,
+};
+const base = { modelId: MODEL, promptVersion: PROMPT, usage: USAGE, latencyMs: LATENCY };
 const SENTENCE = 'Der Mieter zahlt eine Kaution von sechs Monatsmieten.';
 const PAGE = `${SENTENCE} ${'Dies ist ein längerer Vertragstext mit genügend Zeichen. '.repeat(3)}`;
 
@@ -59,9 +69,9 @@ function setup(
   };
   const result: AnalysisResult | Error = opts.result ?? {
     ok: true,
-    modelId: MODEL,
-    usage: USAGE,
+    ...base,
     clauses: [clause(SENTENCE)],
+    invalidClauses: 0,
   };
   const adapters: AnalyseContractAdapters = {
     analysisStore: {
@@ -110,14 +120,13 @@ function setup(
 }
 
 describe('AnalyseContract', () => {
-  it('stores a done analysis with verified clauses, usage and cost', async () => {
+  it('stores a done analysis with verified clauses and the full model run', async () => {
     const { run, calls, analysis } = setup();
     await run();
     expect(analysis.status).toBe('done');
     expect(analysis.clauses).toHaveLength(1);
     expect(analysis.clauses[0]?.quote).toBe(SENTENCE);
-    expect(analysis.usage).toEqual(USAGE);
-    expect(analysis.costMicroUsd).toBe(COST);
+    expect(analysis.run).toEqual(RUN);
     expect(calls.added).toEqual([COST]);
     expect(calls.saved).toEqual([analysis]);
     expect(calls.texts).toHaveLength(1);
@@ -128,6 +137,7 @@ describe('AnalyseContract', () => {
     const { run, calls, analysis } = setup({ budgetOk: false });
     await run();
     expect(analysis.failureReason).toBe('BUDGET_EXHAUSTED');
+    expect(analysis.run).toBeUndefined();
     expect(calls.analysed).toBe(0);
     expect(calls.added).toEqual([]);
     expect(calls.deleted).toEqual(['uploads/a1.pdf']);
@@ -156,46 +166,68 @@ describe('AnalyseContract', () => {
     const { run, analysis, calls } = setup({ pages: ['', '  '] });
     await run();
     expect(analysis.failureReason).toBe('NO_TEXT_LAYER');
+    expect(analysis.run).toBeUndefined();
     expect(calls.analysed).toBe(0);
   });
 
-  it('still books the cost when the model output is invalid', async () => {
-    const { run, analysis, calls } = setup({ result: { ok: false, modelId: MODEL, usage: USAGE } });
+  it('stores the run and books the cost when the model output is invalid', async () => {
+    const { run, analysis, calls } = setup({ result: { ok: false, ...base } });
     await run();
     expect(analysis.failureReason).toBe('LLM_INVALID_OUTPUT');
     expect(calls.added).toEqual([COST]);
-    expect(analysis.costMicroUsd).toBe(COST);
-    expect(analysis.usage).toEqual(USAGE);
+    expect(analysis.run).toEqual(RUN);
     expect(calls.saved).toHaveLength(1);
   });
 
   it('fails when every quote is dropped', async () => {
     const { run, analysis, calls } = setup({
-      result: { ok: true, modelId: MODEL, usage: USAGE, clauses: [clause('steht nicht im Text')] },
+      result: { ok: true, ...base, clauses: [clause('steht nicht im Text')], invalidClauses: 0 },
     });
     await run();
     expect(analysis.failureReason).toBe('LLM_INVALID_OUTPUT');
+    expect(analysis.run).toEqual(RUN);
     expect(calls.added).toEqual([COST]);
+  });
+
+  it('fails when every clause was schema-invalid', async () => {
+    const { run, analysis, calls } = setup({
+      result: { ok: true, ...base, clauses: [], invalidClauses: 2 },
+    });
+    await run();
+    expect(analysis.failureReason).toBe('LLM_INVALID_OUTPUT');
+    expect(analysis.run).toEqual(RUN);
+    expect(calls.added).toEqual([COST]);
+  });
+
+  it('stores invalidClauses as invalidClauses', async () => {
+    const { run, analysis } = setup({
+      result: { ok: true, ...base, clauses: [clause(SENTENCE)], invalidClauses: 2 },
+    });
+    await run();
+    expect(analysis.status).toBe('done');
+    expect(analysis.invalidClauses).toBe(2);
+    expect(analysis.unverifiedQuotes).toBe(0);
   });
 
   it('keeps the verified clauses and counts the dropped ones', async () => {
     const { run, analysis } = setup({
       result: {
         ok: true,
-        modelId: MODEL,
-        usage: USAGE,
+        ...base,
         clauses: [clause(SENTENCE), clause('steht nicht im Text')],
+        invalidClauses: 0,
       },
     });
     await run();
     expect(analysis.status).toBe('done');
     expect(analysis.clauses).toHaveLength(1);
-    expect(analysis.quotesDropped).toBe(1);
+    expect(analysis.unverifiedQuotes).toBe(1);
+    expect(analysis.invalidClauses).toBe(0);
   });
 
   it('treats zero clauses from the model as a success', async () => {
     const { run, analysis, calls } = setup({
-      result: { ok: true, modelId: MODEL, usage: USAGE, clauses: [] },
+      result: { ok: true, ...base, clauses: [], invalidClauses: 0 },
     });
     await run();
     expect(analysis.status).toBe('done');

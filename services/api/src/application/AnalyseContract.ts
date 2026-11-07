@@ -7,7 +7,7 @@ import {
   NoTextLayerError,
   TooManyPagesError,
 } from '../domain/DomainError';
-import type { FailureReason, Usage } from '../domain/analysis';
+import type { FailureReason, ModelRun } from '../domain/analysis';
 import { calculateCostMicroUsd } from '../domain/pricing';
 import { MAX_PDF_PAGES } from '../domain/policy';
 import type { AddsBudget } from './adapters/AddsBudget';
@@ -46,8 +46,7 @@ export class AnalyseContract implements UseCase<AnalyseContractInput, void> {
     if (!(await this.a.analysisStore.markRunning(analysisId))) return;
     analysis.start();
 
-    let usage: Usage | undefined;
-    let cost = 0;
+    let run: ModelRun | undefined;
     try {
       if (!(await this.a.budget.hasRemainingBudget())) throw new BudgetExhaustedError();
 
@@ -62,18 +61,24 @@ export class AnalyseContract implements UseCase<AnalyseContractInput, void> {
         language: analysis.language,
         text: text.value,
       });
-      usage = result.usage;
-      cost = calculateCostMicroUsd(result.modelId, result.usage);
-      await this.a.budget.add(cost);
+      const costMicroUsd = calculateCostMicroUsd(result.modelId, result.usage);
+      run = {
+        modelId: result.modelId,
+        promptVersion: result.promptVersion,
+        usage: result.usage,
+        costMicroUsd,
+        latencyMs: result.latencyMs,
+      };
+      await this.a.budget.add(costMicroUsd);
       if (!result.ok) throw new LlmInvalidOutputError();
 
       const verification = text.verifyQuotes(result.clauses);
-      if (result.clauses.length > 0 && verification.clauses.length === 0)
-        throw new LlmInvalidOutputError();
+      const returned = result.clauses.length + result.invalidClauses;
+      if (returned > 0 && verification.clauses.length === 0) throw new LlmInvalidOutputError();
 
-      analysis.complete({ verification, usage, costMicroUsd: cost });
+      analysis.complete({ verification, invalidClauses: result.invalidClauses, run });
     } catch (err) {
-      analysis.fail(toFailureReason(err), usage, cost);
+      analysis.fail(toFailureReason(err), run);
       if (!(err instanceof DomainError))
         console.error('analysis failed', {
           analysisId,

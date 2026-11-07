@@ -1,5 +1,6 @@
 import type { BedrockRuntimeClient } from '@aws-sdk/client-bedrock-runtime';
 import { describe, expect, it } from 'vitest';
+import { PROMPT_VERSION } from '../application/prompts/buildSystemPrompt';
 import { BedrockAnalyser } from './BedrockAnalyser';
 
 const MODEL = 'eu.anthropic.claude-haiku-4-5-20251001-v1:0';
@@ -18,6 +19,7 @@ function analyser(response: unknown) {
 
 const toolResponse = (input: unknown, name = 'report_clauses') => ({
   usage,
+  metrics: { latencyMs: 321 },
   output: {
     message: { role: 'assistant', content: [{ toolUse: { toolUseId: 't', name, input } }] },
   },
@@ -40,7 +42,7 @@ describe('BedrockAnalyser', () => {
       };
     };
     expect(input.modelId).toBe(MODEL);
-    expect(input.messages[0]?.content[0]?.text).toBe('Vertragstext');
+    expect(input.messages[0]?.content[0]?.text).toBe('<contract>\nVertragstext\n</contract>');
     expect(input.toolConfig.toolChoice).toEqual({ tool: { name: 'report_clauses' } });
     const schema = input.toolConfig.tools[0]?.toolSpec.inputSchema.json;
     expect(input.toolConfig.tools[0]?.toolSpec.name).toBe('report_clauses');
@@ -61,15 +63,36 @@ describe('BedrockAnalyser', () => {
     expect(await a.analyse(request)).toEqual({
       ok: true,
       modelId: MODEL,
+      promptVersion: PROMPT_VERSION,
       usage,
+      latencyMs: 321,
       clauses: [goodClause],
+      invalidClauses: 0,
     });
   });
 
-  it('returns ok: false with usage when a clause is invalid', async () => {
+  it('keeps valid clauses and counts the invalid one', async () => {
     const bad = { ...goodClause, category: 'non_compete' };
-    const { analyser: a } = analyser(toolResponse({ clauses: [bad] }));
-    expect(await a.analyse(request)).toEqual({ ok: false, modelId: MODEL, usage });
+    const { analyser: a } = analyser(toolResponse({ clauses: [goodClause, bad] }));
+    expect(await a.analyse(request)).toMatchObject({
+      ok: true,
+      clauses: [goodClause],
+      invalidClauses: 1,
+    });
+  });
+
+  it('returns ok: false with the run data when the output hit max_tokens', async () => {
+    const { analyser: a } = analyser({
+      ...toolResponse({ clauses: [goodClause] }),
+      stopReason: 'max_tokens',
+    });
+    expect(await a.analyse(request)).toEqual({
+      ok: false,
+      modelId: MODEL,
+      promptVersion: PROMPT_VERSION,
+      usage,
+      latencyMs: 321,
+    });
   });
 
   it('returns ok: false when the tool was not called', async () => {
@@ -77,7 +100,7 @@ describe('BedrockAnalyser', () => {
       usage,
       output: { message: { role: 'assistant', content: [{ text: 'Sorry' }] } },
     });
-    expect(await a.analyse(request)).toEqual({ ok: false, modelId: MODEL, usage });
+    expect(await a.analyse(request)).toMatchObject({ ok: false, modelId: MODEL, usage });
   });
 
   it('returns ok: false when the tool input has no clauses array', async () => {

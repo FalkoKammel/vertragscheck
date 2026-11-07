@@ -7,9 +7,12 @@ export interface AnalysisRequest {
   text: string;
 }
 
-export type AnalysisResult = { modelId: string; usage: Usage } & (
-  { ok: true; clauses: LlmClause[] } | { ok: false }
-);
+export type AnalysisResult = {
+  modelId: string;
+  promptVersion: string;
+  usage: Usage;
+  latencyMs: number;
+} & ({ ok: true; clauses: LlmClause[]; invalidClauses: number } | { ok: false });
 
 export interface RunsAnalysis {
   analyse(request: AnalysisRequest): Promise<AnalysisResult>;

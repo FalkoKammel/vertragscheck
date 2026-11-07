@@ -24,6 +24,14 @@ export interface Usage {
   outputTokens: number;
 }
 
+export interface ModelRun {
+  modelId: string;
+  promptVersion: string;
+  usage: Usage;
+  costMicroUsd: number;
+  latencyMs: number;
+}
+
 export interface AnalysisProps {
   id: string;
   status: AnalysisStatus;
@@ -33,9 +41,9 @@ export interface AnalysisProps {
   expiresAt: Date;
   deleteTokenHash: string;
   clauses?: StoredClause[];
-  quotesDropped?: number;
-  usage?: Usage;
-  costMicroUsd?: number;
+  unverifiedQuotes?: number;
+  invalidClauses?: number;
+  run?: ModelRun;
   failureReason?: FailureReason;
 }
 
@@ -49,9 +57,9 @@ export class Analysis {
 
   private _status: AnalysisStatus;
   private _clauses: StoredClause[];
-  private _quotesDropped: number;
-  private _usage?: Usage;
-  private _costMicroUsd: number;
+  private _unverifiedQuotes: number;
+  private _invalidClauses: number;
+  private _run?: ModelRun;
   private _failureReason?: FailureReason;
 
   constructor(props: AnalysisProps) {
@@ -63,9 +71,9 @@ export class Analysis {
     this.deleteTokenHash = props.deleteTokenHash;
     this._status = props.status;
     this._clauses = props.clauses ?? [];
-    this._quotesDropped = props.quotesDropped ?? 0;
-    this._usage = props.usage;
-    this._costMicroUsd = props.costMicroUsd ?? 0;
+    this._unverifiedQuotes = props.unverifiedQuotes ?? 0;
+    this._invalidClauses = props.invalidClauses ?? 0;
+    this._run = props.run;
     this._failureReason = props.failureReason;
   }
 
@@ -75,14 +83,14 @@ export class Analysis {
   get clauses(): readonly StoredClause[] {
     return this._clauses;
   }
-  get quotesDropped() {
-    return this._quotesDropped;
+  get unverifiedQuotes() {
+    return this._unverifiedQuotes;
   }
-  get usage() {
-    return this._usage;
+  get invalidClauses() {
+    return this._invalidClauses;
   }
-  get costMicroUsd() {
-    return this._costMicroUsd;
+  get run() {
+    return this._run;
   }
   get failureReason() {
     return this._failureReason;
@@ -96,22 +104,21 @@ export class Analysis {
 
   complete(result: {
     verification: QuoteVerificationResult;
-    usage: Usage;
-    costMicroUsd: number;
+    invalidClauses: number;
+    run: ModelRun;
   }): void {
     if (this._status !== 'running') throw new InvalidStatusTransitionError(this._status, 'done');
     this._clauses = result.verification.clauses;
-    this._quotesDropped = result.verification.dropped;
-    this._usage = result.usage;
-    this._costMicroUsd = result.costMicroUsd;
+    this._unverifiedQuotes = result.verification.unverifiedQuotes;
+    this._invalidClauses = result.invalidClauses;
+    this._run = result.run;
     this._status = 'done';
   }
 
-  fail(reason: FailureReason, usage?: Usage, costMicroUsd = 0): void {
+  fail(reason: FailureReason, run?: ModelRun): void {
     if (this._status !== 'running') throw new InvalidStatusTransitionError(this._status, 'failed');
     this._failureReason = reason;
-    this._usage = usage;
-    this._costMicroUsd = costMicroUsd;
+    this._run = run;
     this._status = 'failed';
   }
 
@@ -129,9 +136,9 @@ export class Analysis {
       expiresAt: this.expiresAt,
       deleteTokenHash: this.deleteTokenHash,
       clauses: [...this._clauses],
-      quotesDropped: this._quotesDropped,
-      usage: this._usage,
-      costMicroUsd: this._costMicroUsd,
+      unverifiedQuotes: this._unverifiedQuotes,
+      invalidClauses: this._invalidClauses,
+      run: this._run,
       failureReason: this._failureReason,
     };
   }

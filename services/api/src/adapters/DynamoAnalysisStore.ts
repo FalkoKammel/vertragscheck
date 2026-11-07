@@ -22,6 +22,14 @@ import { storedClauseSchema } from '../domain/schemas';
 
 const HASH_PREFIX = 'sha256:';
 
+const runSchema = z.object({
+  modelId: z.string(),
+  promptVersion: z.string(),
+  usage: z.object({ inputTokens: z.number(), outputTokens: z.number() }),
+  costMicroUsd: z.number().int(),
+  latencyMs: z.number(),
+});
+
 const analysisItemSchema = z.object({
   status: z.enum(ANALYSIS_STATUSES),
   contractType: z.enum(CONTRACT_TYPES),
@@ -30,9 +38,9 @@ const analysisItemSchema = z.object({
   deleteTokenHash: z.string().startsWith(HASH_PREFIX),
   ttl: z.number().int().nonnegative(),
   clauses: z.array(storedClauseSchema).optional(),
-  quotes: z.object({ total: z.number().int(), dropped: z.number().int() }).optional(),
-  usage: z.object({ inputTokens: z.number(), outputTokens: z.number() }).optional(),
-  costMicroUsd: z.number().int().optional(),
+  unverifiedQuotes: z.number().int().default(0),
+  invalidClauses: z.number().int().default(0),
+  run: runSchema.optional(),
   failureReason: z.enum(FAILURE_REASONS).optional(),
 });
 
@@ -47,7 +55,6 @@ export class DynamoAnalysisStore
   async save(analysis: Analysis): Promise<void> {
     const props = analysis.toProps();
     const clauses = props.clauses ?? [];
-    const dropped = props.quotesDropped ?? 0;
     const createdAt = props.createdAt.toISOString();
     await this.db.send(
       new PutCommand({
@@ -61,9 +68,9 @@ export class DynamoAnalysisStore
           createdAt,
           deleteTokenHash: `${HASH_PREFIX}${props.deleteTokenHash}`,
           clauses,
-          quotes: { total: clauses.length + dropped, dropped },
-          costMicroUsd: props.costMicroUsd ?? 0,
-          ...(props.usage ? { usage: props.usage } : {}),
+          unverifiedQuotes: props.unverifiedQuotes ?? 0,
+          invalidClauses: props.invalidClauses ?? 0,
+          ...(props.run ? { run: props.run } : {}),
           ...(props.failureReason ? { failureReason: props.failureReason } : {}),
           GSI1PK: `MONTH#${monthKey(props.createdAt)}`,
           GSI1SK: createdAt,
@@ -78,27 +85,26 @@ export class DynamoAnalysisStore
   async saveResult(analysis: Analysis): Promise<void> {
     const props = analysis.toProps();
     const clauses = props.clauses ?? [];
-    const dropped = props.quotesDropped ?? 0;
     await this.db.send(
       new UpdateCommand({
         TableName: this.tableName,
         Key: { PK: `ANALYSIS#${props.id}`, SK: 'META' },
         UpdateExpression:
-          'SET #status = :status, clauses = :clauses, quotes = :quotes, costMicroUsd = :cost' +
-          (props.usage ? ', #usage = :usage' : '') +
+          'SET #status = :status, clauses = :clauses, unverifiedQuotes = :unverifiedQuotes, invalidClauses = :invalidClauses' +
+          (props.run ? ', #run = :run' : '') +
           (props.failureReason ? ', failureReason = :failureReason' : ''),
         ConditionExpression: '#status = :running',
         ExpressionAttributeNames: {
           '#status': 'status',
-          ...(props.usage ? { '#usage': 'usage' } : {}),
+          ...(props.run ? { '#run': 'run' } : {}),
         },
         ExpressionAttributeValues: {
           ':running': 'running',
           ':status': props.status,
           ':clauses': clauses,
-          ':quotes': { total: clauses.length + dropped, dropped },
-          ':cost': props.costMicroUsd ?? 0,
-          ...(props.usage ? { ':usage': props.usage } : {}),
+          ':unverifiedQuotes': props.unverifiedQuotes ?? 0,
+          ':invalidClauses': props.invalidClauses ?? 0,
+          ...(props.run ? { ':run': props.run } : {}),
           ...(props.failureReason ? { ':failureReason': props.failureReason } : {}),
         },
       }),
@@ -144,9 +150,9 @@ export class DynamoAnalysisStore
       expiresAt: new Date(item.ttl * 1000),
       deleteTokenHash: item.deleteTokenHash.slice(HASH_PREFIX.length),
       clauses: item.clauses,
-      quotesDropped: item.quotes?.dropped,
-      usage: item.usage,
-      costMicroUsd: item.costMicroUsd,
+      unverifiedQuotes: item.unverifiedQuotes,
+      invalidClauses: item.invalidClauses,
+      run: item.run,
       failureReason: item.failureReason,
     });
   }
