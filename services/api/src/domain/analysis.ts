@@ -4,6 +4,8 @@ import { InvalidStatusTransitionError } from './DomainError';
 import { RUNNING_TIMEOUT_MS, UPLOAD_TIMEOUT_MS } from './policy';
 
 export const ANALYSIS_STATUSES = ['pending_upload', 'running', 'done', 'failed'] as const;
+/** What a running analysis is doing right now, for the progress card. */
+export const ANALYSIS_STAGES = ['extracting', 'analysing'] as const;
 export const CONTRACT_TYPES = ['rental', 'employment'] as const;
 export const LANGUAGES = ['de', 'en'] as const;
 export const FAILURE_REASONS = [
@@ -18,6 +20,7 @@ export const FAILURE_REASONS = [
 ] as const;
 
 export type AnalysisStatus = (typeof ANALYSIS_STATUSES)[number];
+export type AnalysisStage = (typeof ANALYSIS_STAGES)[number];
 export type ContractType = (typeof CONTRACT_TYPES)[number];
 export type Language = (typeof LANGUAGES)[number];
 export type FailureReason = (typeof FAILURE_REASONS)[number];
@@ -42,6 +45,7 @@ export interface AnalysisProps {
   language: Language;
   createdAt: Date;
   startedAt?: Date;
+  stage?: AnalysisStage;
   expiresAt: Date;
   deleteTokenHash: string;
   clauses?: StoredClause[];
@@ -65,6 +69,7 @@ export class Analysis {
   readonly deleteTokenHash: string;
 
   private _startedAt?: Date;
+  private _stage?: AnalysisStage;
   private _status: AnalysisStatus;
   private _clauses: StoredClause[];
   private _unverifiedQuotes: number;
@@ -80,6 +85,7 @@ export class Analysis {
     this.expiresAt = props.expiresAt;
     this.deleteTokenHash = props.deleteTokenHash;
     this._startedAt = props.startedAt;
+    this._stage = props.stage;
     this._status = props.status;
     this._clauses = props.clauses ?? [];
     this._unverifiedQuotes = props.unverifiedQuotes ?? 0;
@@ -93,6 +99,9 @@ export class Analysis {
   }
   get startedAt() {
     return this._startedAt;
+  }
+  get stage() {
+    return this._stage;
   }
   get clauses(): readonly StoredClause[] {
     return this._clauses;
@@ -115,6 +124,12 @@ export class Analysis {
       throw new InvalidStatusTransitionError(this._status, 'running');
     this._status = 'running';
     this._startedAt = now;
+    this._stage = 'extracting';
+  }
+
+  setStage(stage: AnalysisStage): void {
+    if (this._status !== 'running') throw new InvalidStatusTransitionError(this._status, 'running');
+    this._stage = stage;
   }
 
   complete(result: {
@@ -127,6 +142,7 @@ export class Analysis {
     this._unverifiedQuotes = result.verification.unverifiedQuotes;
     this._invalidClauses = result.invalidClauses;
     this._run = result.run;
+    this._stage = undefined;
     this._status = 'done';
   }
 
@@ -134,6 +150,7 @@ export class Analysis {
     if (this._status !== 'running') throw new InvalidStatusTransitionError(this._status, 'failed');
     this._failureReason = reason;
     this._run = run;
+    this._stage = undefined;
     this._status = 'failed';
   }
 
@@ -168,6 +185,7 @@ export class Analysis {
       language: this.language,
       createdAt: this.createdAt,
       startedAt: this._startedAt,
+      stage: this._stage,
       expiresAt: this.expiresAt,
       deleteTokenHash: this.deleteTokenHash,
       clauses: [...this._clauses],

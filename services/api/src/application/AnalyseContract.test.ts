@@ -67,6 +67,7 @@ function setup(
     texts: [] as string[],
     analysed: 0,
     startedAt: [] as Date[],
+    stages: [] as string[],
   };
   const result: AnalysisResult | Error = opts.result ?? {
     ok: true,
@@ -80,6 +81,10 @@ function setup(
       markRunning: (_id, startedAt) => {
         calls.startedAt.push(startedAt);
         return Promise.resolve(opts.markRunning ?? true);
+      },
+      markStage: (_id, stage) => {
+        calls.stages.push(stage);
+        return Promise.resolve();
       },
       saveResult: (a) => {
         calls.saved.push(a);
@@ -237,6 +242,25 @@ describe('AnalyseContract', () => {
     expect(analysis.status).toBe('done');
     expect(analysis.clauses).toHaveLength(0);
     expect(calls.added).toEqual([COST]);
+  });
+
+  it('marks the stage analysing right before the Bedrock call', async () => {
+    const { run, calls, analysis } = setup();
+    await run();
+    expect(calls.stages).toEqual(['analysing']);
+    expect(analysis.stage).toBeUndefined(); // cleared when the analysis is done
+  });
+
+  it('does not mark a stage when extraction fails', async () => {
+    const { run, calls } = setup({ extractError: new InvalidPdfError() });
+    await run();
+    expect(calls.stages).toEqual([]);
+  });
+
+  it('does not mark a stage on a duplicate event', async () => {
+    const { run, calls } = setup({ markRunning: false });
+    await run();
+    expect(calls.stages).toEqual([]);
   });
 
   it('records the start time from the clock', async () => {

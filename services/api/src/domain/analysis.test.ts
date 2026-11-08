@@ -83,6 +83,34 @@ describe('Analysis', () => {
     expect(a.startedAt).toEqual(now);
   });
 
+  it('start sets the stage extracting and setStage changes it', () => {
+    const a = new Analysis({ ...running().toProps(), status: 'pending_upload' });
+    a.start(new Date());
+    expect(a.stage).toBe('extracting');
+    a.setStage('analysing');
+    expect(a.stage).toBe('analysing');
+  });
+
+  it('complete and fail clear the stage', () => {
+    const done = new Analysis({ ...running().toProps(), stage: 'analysing' });
+    done.complete({
+      verification: { clauses: [], unverifiedQuotes: 0 },
+      invalidClauses: 0,
+      run: RUN,
+    });
+    expect(done.stage).toBeUndefined();
+    const failed = new Analysis({ ...running().toProps(), stage: 'analysing' });
+    failed.fail('INTERNAL');
+    expect(failed.stage).toBeUndefined();
+  });
+
+  it('setStage is only allowed while running', () => {
+    const a = new Analysis({ ...running().toProps(), status: 'pending_upload' });
+    expect(() => {
+      a.setStage('analysing');
+    }).toThrow(InvalidStatusTransitionError);
+  });
+
   it('start is only allowed from pending_upload', () => {
     expect(() => {
       running().start(new Date());

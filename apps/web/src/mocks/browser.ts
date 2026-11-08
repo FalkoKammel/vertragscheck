@@ -5,7 +5,7 @@ import { analysisFixture, FIXTURE_STATES, type FixtureState } from './analysisFi
 const MOCK_S3_URL = 'https://mock-uploads.s3.eu-central-1.amazonaws.com/';
 
 // Add ?mock=captcha, limit, budget or internal to the page URL to get that error from the API.
-// On /result?id=<id>, ?mock=pending_upload, running, done (default), failed or notfound picks the
+// On /result?id=<id>, ?mock=pending_upload, running (extracting), analysing, done (default), failed or notfound picks the
 // answer of GET /api/analyses/:id.
 const API_ERRORS: Record<string, { status: number; code: string }> = {
   captcha: { status: 403, code: 'CAPTCHA_INVALID' },

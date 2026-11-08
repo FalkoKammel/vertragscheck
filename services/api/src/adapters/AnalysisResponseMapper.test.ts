@@ -83,6 +83,24 @@ describe('toAnalysisResponse', () => {
     });
   });
 
+  it('includes the stage only while running', () => {
+    const a = analysis({ status: 'running', stage: 'analysing' });
+    expect(toAnalysisResponse({ analysis: a, status: 'running' })).toEqual({
+      ...BASE,
+      status: 'running',
+      stage: 'analysing',
+    });
+    // e.g. a running item reported as failed because of the timeout
+    expect(
+      toAnalysisResponse({ analysis: a, status: 'failed', failureReason: 'TIMEOUT' }),
+    ).not.toHaveProperty('stage');
+  });
+
+  it('omits the stage for a running analysis that has none yet', () => {
+    const a = analysis({ status: 'running' });
+    expect(toAnalysisResponse({ analysis: a, status: 'running' })).not.toHaveProperty('stage');
+  });
+
   it('maps a pending upload', () => {
     const a = analysis({ status: 'pending_upload', startedAt: undefined });
     expect(toAnalysisResponse({ analysis: a, status: 'pending_upload' })).toEqual({

@@ -81,6 +81,7 @@ The PDF is only needed for extraction, so it is not kept. The extracted text liv
   "language": "de",                   // language of the explanations
   "createdAt": "2026-11-03T10:15:00Z",
   "startedAt": "2026-11-03T10:16:02Z", // set when the analysis Lambda moves it to running; absent before
+  "stage": "analysing",               // only while running: extracting | analysing; removed when the result is saved
   "pageCount": 12,
   "textKey": "texts/3f9c….json",
   "deleteTokenHash": "sha256:…",      // see "Retention and deletion"
@@ -165,7 +166,7 @@ Updated with an atomic `ADD` after every analysis.
 
 **Later, when the analysis part is built:**
 
-1. Add the status endpoint and let the analysis Lambda report finer steps (text extracted, clauses detected, classified, quotes verified), either as a `step` attribute on the analysis item or as extra values of `status`.
+1. Add the status endpoint and let the analysis Lambda report finer steps (text extracted, clauses detected, classified, quotes verified), as the `stage` attribute on the analysis item (`extracting` → `analysing`, see decision 029). Further steps (clauses detected, quotes verified) would extend `stage`.
 2. Poll the status in the card and render the steps from the design (the card already takes a list of steps with a state: done, active, pending). The "62 %" bar in the design is optional; the backend has no real percentage.
 3. Redirect to `/result?id=<id>` only when the status is `done`. On `failed`, show an error in the card with a link back to the form.
 4. Handle `404` from the status endpoint, which covers an unknown ID, an early-deleted analysis and an expired one (`ttl < now`, see "Retention and deletion"). Show "Analyse nicht gefunden" with a link to the upload page instead of the progress card. Today `/result?id=<anything>` shows the progress card because nothing is looked up.

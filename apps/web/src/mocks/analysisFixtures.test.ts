@@ -7,17 +7,25 @@ describe('analysis fixtures', () => {
     const fixture = analysisFixture(state, 'a1');
     expect(analysisResponseSchema.parse(fixture)).toEqual(fixture);
     expect(fixture.id).toBe('a1');
-    expect(fixture.status).toBe(state);
+    expect(fixture.status).toBe(state === 'analysing' ? 'running' : state);
   });
 
   it('only the done fixture has a result and only the failed one a reason', () => {
     expect(analysisFixture('done', 'a1').result).toBeDefined();
     expect(analysisFixture('failed', 'a1').failureReason).toBeDefined();
-    for (const state of ['pending_upload', 'running', 'failed'] as const) {
+    for (const state of ['pending_upload', 'running', 'analysing', 'failed'] as const) {
       expect(analysisFixture(state, 'a1').result).toBeUndefined();
     }
-    for (const state of ['pending_upload', 'running', 'done'] as const) {
+    for (const state of ['pending_upload', 'running', 'analysing', 'done'] as const) {
       expect(analysisFixture(state, 'a1').failureReason).toBeUndefined();
+    }
+  });
+
+  it('only running fixtures have a stage', () => {
+    expect(analysisFixture('running', 'a1').stage).toBe('extracting');
+    expect(analysisFixture('analysing', 'a1').stage).toBe('analysing');
+    for (const state of ['pending_upload', 'done', 'failed'] as const) {
+      expect(analysisFixture(state, 'a1').stage).toBeUndefined();
     }
   });
 

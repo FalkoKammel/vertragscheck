@@ -17,6 +17,7 @@ import type { ExtractsText } from './adapters/ExtractsText';
 import type { GetsAnalysis } from './adapters/GetsAnalysis';
 import type { GetsPdfFile } from './adapters/GetsPdfFile';
 import type { MarksAnalysisRunning } from './adapters/MarksAnalysisRunning';
+import type { MarksAnalysisStage } from './adapters/MarksAnalysisStage';
 import type { ProvidesTime } from './adapters/ProvidesTime';
 import type { PutsText } from './adapters/PutsText';
 import type { RunsAnalysis } from './adapters/RunsAnalysis';
@@ -29,7 +30,7 @@ export interface AnalyseContractInput {
 }
 
 export interface AnalyseContractAdapters {
-  analysisStore: GetsAnalysis & MarksAnalysisRunning & StoresAnalysisResult;
+  analysisStore: GetsAnalysis & MarksAnalysisRunning & MarksAnalysisStage & StoresAnalysisResult;
   documentStore: GetsPdfFile & PutsText & DeletesPdf;
   textExtractor: ExtractsText;
   budget: ChecksMonthlyBudget & AddsBudget;
@@ -57,6 +58,8 @@ export class AnalyseContract implements UseCase<AnalyseContractInput, void> {
       text.assertHasTextLayer(pages.length);
       await this.a.documentStore.putText(analysisId, text.value);
 
+      await this.a.analysisStore.markStage(analysisId, 'analysing');
+      analysis.setStage('analysing');
       const result = await this.a.analyser.analyse({
         contractType: analysis.contractType,
         language: analysis.language,

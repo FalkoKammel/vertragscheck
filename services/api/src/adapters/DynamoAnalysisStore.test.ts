@@ -107,6 +107,23 @@ describe('DynamoAnalysisStore', () => {
     expect(loaded?.startedAt).toEqual(startedAt);
   });
 
+  it('round-trips the stage and loads old running items without one', async () => {
+    const running = new Analysis({
+      ...pending().toProps(),
+      status: 'running',
+      startedAt,
+      stage: 'analysing',
+    });
+    const writer = fakeDb();
+    await writer.store.save(running);
+    const item = writer.sent[0]?.input.Item;
+    expect(item).toMatchObject({ stage: 'analysing' });
+    expect((await fakeDb(item).store.get('a1'))?.stage).toBe('analysing');
+
+    const old = { ...item, stage: undefined };
+    expect((await fakeDb(old).store.get('a1'))?.stage).toBeUndefined();
+  });
+
   it('writes no startedAt attribute before the analysis started', async () => {
     const writer = fakeDb();
     await writer.store.save(pending());
@@ -204,6 +221,7 @@ describe('DynamoAnalysisStore', () => {
       expect(sent[0]?.input).toMatchObject({
         Key: { PK: 'ANALYSIS#a1', SK: 'META' },
         ConditionExpression: '#status = :running',
+        UpdateExpression: expect.stringMatching(/ REMOVE stage$/) as string,
         ExpressionAttributeValues: {
           ':running': 'running',
           ':status': 'failed',
@@ -213,6 +231,41 @@ describe('DynamoAnalysisStore', () => {
           ':failureReason': 'INVALID_PDF',
         },
       });
+    });
+  });
+
+  describe('markStage', () => {
+    function stageDb(error?: Error) {
+      const sent: { input: Record<string, unknown> }[] = [];
+      const db = {
+        send: (command: { input: Record<string, unknown> }) => {
+          sent.push(command);
+          return error ? Promise.reject(error) : Promise.resolve({});
+        },
+      } as unknown as DynamoDBDocumentClient;
+      return { sent, store: new DynamoAnalysisStore(db, 'table') };
+    }
+
+    it('sets the stage, conditional on status = running', async () => {
+      const { sent, store } = stageDb();
+      await store.markStage('a1', 'analysing');
+      expect(sent[0]?.input).toMatchObject({
+        Key: { PK: 'ANALYSIS#a1', SK: 'META' },
+        UpdateExpression: 'SET stage = :stage',
+        ConditionExpression: '#status = :running',
+        ExpressionAttributeValues: { ':stage': 'analysing', ':running': 'running' },
+      });
+    });
+
+    it('ignores a failed condition (the analysis is no longer running)', async () => {
+      const error = new ConditionalCheckFailedException({ message: 'no', $metadata: {} });
+      await expect(stageDb(error).store.markStage('a1', 'analysing')).resolves.toBeUndefined();
+    });
+
+    it('rethrows other errors', async () => {
+      await expect(
+        stageDb(new Error('throttled')).store.markStage('a1', 'analysing'),
+      ).rejects.toThrow('throttled');
     });
   });
 
@@ -233,12 +286,13 @@ describe('DynamoAnalysisStore', () => {
       expect(await store.markRunning('a1', startedAt)).toBe(true);
       expect(sent[0]?.input).toMatchObject({
         Key: { PK: 'ANALYSIS#a1', SK: 'META' },
-        UpdateExpression: 'SET #status = :running, startedAt = :startedAt',
+        UpdateExpression: 'SET #status = :running, startedAt = :startedAt, stage = :extracting',
         ConditionExpression: '#status = :pendingUpload',
         ExpressionAttributeValues: {
           ':running': 'running',
           ':pendingUpload': 'pending_upload',
           ':startedAt': '2026-11-03T10:16:00.000Z',
+          ':extracting': 'extracting',
         },
       });
     });

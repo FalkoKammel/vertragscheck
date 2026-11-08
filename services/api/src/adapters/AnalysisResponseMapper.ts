@@ -1,5 +1,11 @@
 import type { GetAnalysisOutput } from '../application/GetAnalysis';
-import type { FailureReason, AnalysisStatus, ContractType, Language } from '../domain/analysis';
+import type {
+  AnalysisStage,
+  FailureReason,
+  AnalysisStatus,
+  ContractType,
+  Language,
+} from '../domain/analysis';
 import type { StoredClause } from '../domain/schemas';
 
 /** The JSON body of `GET /api/analyses/{id}`. The frontend validates it with its own Zod schema. */
@@ -10,6 +16,8 @@ export interface AnalysisResponse {
   language: Language;
   createdAt: string;
   expiresAt: string;
+  /** Only while `running`. */
+  stage?: AnalysisStage;
   failureReason?: FailureReason;
   result?: {
     text: string;
@@ -38,6 +46,7 @@ export function toAnalysisResponse(output: GetAnalysisOutput): AnalysisResponse 
     createdAt: analysis.createdAt.toISOString(),
     expiresAt: analysis.expiresAt.toISOString(),
   };
+  if (status === 'running' && analysis.stage) response.stage = analysis.stage;
   if (status === 'failed' && failureReason) response.failureReason = failureReason;
   if (status === 'done' && text !== undefined && analysis.run) {
     const { usage, modelId, promptVersion, costMicroUsd, latencyMs } = analysis.run;

@@ -1,6 +1,7 @@
 import type { AnalysisResponse, Clause } from '../lib/api/analyses';
 
-export const FIXTURE_STATES = ['pending_upload', 'running', 'done', 'failed'] as const;
+// `running` is the extracting stage, `analysing` is running in the analysing stage.
+export const FIXTURE_STATES = ['pending_upload', 'running', 'analysing', 'done', 'failed'] as const;
 export type FixtureState = (typeof FIXTURE_STATES)[number];
 
 // Same shape as the real extracted text: cleaned paragraphs separated by a blank line.
@@ -69,7 +70,9 @@ export function analysisFixture(state: FixtureState, id: string): AnalysisRespon
     case 'pending_upload':
       return { ...BASE, id, status: 'pending_upload' };
     case 'running':
-      return { ...BASE, id, status: 'running' };
+      return { ...BASE, id, status: 'running', stage: 'extracting' };
+    case 'analysing':
+      return { ...BASE, id, status: 'running', stage: 'analysing' };
     case 'failed':
       return { ...BASE, id, status: 'failed', failureReason: 'NO_TEXT_LAYER' };
     case 'done':
