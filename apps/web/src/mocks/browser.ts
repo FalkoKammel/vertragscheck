@@ -1,5 +1,6 @@
 import { setupWorker } from 'msw/browser';
 import { http, HttpResponse } from 'msw/http';
+import { analysisFixture, FIXTURE_STATES, type FixtureState } from './analysisFixtures';
 
 const MOCK_S3_URL = 'https://mock-uploads.s3.eu-central-1.amazonaws.com/';
 
@@ -10,6 +11,12 @@ const API_ERRORS: Record<string, { status: number; code: string }> = {
   budget: { status: 503, code: 'BUDGET_EXHAUSTED' },
   internal: { status: 500, code: 'INTERNAL' },
 };
+
+function fixtureState(): FixtureState | 'notfound' {
+  const value = new URLSearchParams(window.location.search).get('mock');
+  if (value === 'notfound') return value;
+  return FIXTURE_STATES.find((state) => state === value) ?? 'done';
+}
 
 let started: Promise<unknown> | undefined;
 
@@ -33,6 +40,16 @@ async function startWorker(): Promise<void> {
         },
         { status: 201 },
       );
+    }),
+    http.get('/api/analyses/:id', ({ params }) => {
+      const state = fixtureState();
+      if (state === 'notfound') {
+        return HttpResponse.json({ code: 'ANALYSIS_NOT_FOUND' }, { status: 404 });
+      }
+      const id = typeof params.id === 'string' ? params.id : 'mock';
+      return HttpResponse.json(analysisFixture(state, id), {
+        headers: { 'cache-control': 'no-store' },
+      });
     }),
     // Fake S3, with a short delay so the progress card is visible.
     http.post(MOCK_S3_URL, async () => {

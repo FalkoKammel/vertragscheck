@@ -10,12 +10,15 @@ import type { StoresAnalysis } from '../application/adapters/StoresAnalysis';
 import type { GetsAnalysis } from '../application/adapters/GetsAnalysis';
 import type { StoresAnalysisResult } from '../application/adapters/StoresAnalysisResult';
 import type { MarksAnalysisRunning } from '../application/adapters/MarksAnalysisRunning';
+import type { MarksAnalysisStage } from '../application/adapters/MarksAnalysisStage';
 import {
   Analysis,
+  ANALYSIS_STAGES,
   ANALYSIS_STATUSES,
   CONTRACT_TYPES,
   FAILURE_REASONS,
   LANGUAGES,
+  type AnalysisStage,
 } from '../domain/analysis';
 import { monthKey } from '../domain/policy';
 import { storedClauseSchema } from '../domain/schemas';
@@ -35,6 +38,8 @@ const analysisItemSchema = z.object({
   contractType: z.enum(CONTRACT_TYPES),
   language: z.enum(LANGUAGES),
   createdAt: z.iso.datetime(),
+  startedAt: z.iso.datetime().optional(),
+  stage: z.enum(ANALYSIS_STAGES).optional(),
   deleteTokenHash: z.string().startsWith(HASH_PREFIX),
   ttl: z.number().int().nonnegative(),
   clauses: z.array(storedClauseSchema).optional(),
@@ -45,7 +50,12 @@ const analysisItemSchema = z.object({
 });
 
 export class DynamoAnalysisStore
-  implements StoresAnalysis, GetsAnalysis, MarksAnalysisRunning, StoresAnalysisResult
+  implements
+    StoresAnalysis,
+    GetsAnalysis,
+    MarksAnalysisRunning,
+    MarksAnalysisStage,
+    StoresAnalysisResult
 {
   constructor(
     private readonly db: DynamoDBDocumentClient,
@@ -66,6 +76,8 @@ export class DynamoAnalysisStore
           contractType: props.contractType,
           language: props.language,
           createdAt,
+          ...(props.startedAt ? { startedAt: props.startedAt.toISOString() } : {}),
+          ...(props.stage ? { stage: props.stage } : {}),
           deleteTokenHash: `${HASH_PREFIX}${props.deleteTokenHash}`,
           clauses,
           unverifiedQuotes: props.unverifiedQuotes ?? 0,
@@ -92,7 +104,8 @@ export class DynamoAnalysisStore
         UpdateExpression:
           'SET #status = :status, clauses = :clauses, unverifiedQuotes = :unverifiedQuotes, invalidClauses = :invalidClauses' +
           (props.run ? ', #run = :run' : '') +
-          (props.failureReason ? ', failureReason = :failureReason' : ''),
+          (props.failureReason ? ', failureReason = :failureReason' : '') +
+          ' REMOVE stage',
         ConditionExpression: '#status = :running',
         ExpressionAttributeNames: {
           '#status': 'status',
@@ -112,21 +125,44 @@ export class DynamoAnalysisStore
   }
 
   /** Returns false if the analysis is not waiting for its upload (duplicate event). */
-  async markRunning(analysisId: string): Promise<boolean> {
+  async markRunning(analysisId: string, startedAt: Date): Promise<boolean> {
     try {
       await this.db.send(
         new UpdateCommand({
           TableName: this.tableName,
           Key: { PK: `ANALYSIS#${analysisId}`, SK: 'META' },
-          UpdateExpression: 'SET #status = :running',
+          UpdateExpression: 'SET #status = :running, startedAt = :startedAt, stage = :extracting',
           ConditionExpression: '#status = :pendingUpload',
           ExpressionAttributeNames: { '#status': 'status' },
-          ExpressionAttributeValues: { ':running': 'running', ':pendingUpload': 'pending_upload' },
+          ExpressionAttributeValues: {
+            ':running': 'running',
+            ':pendingUpload': 'pending_upload',
+            ':startedAt': startedAt.toISOString(),
+            ':extracting': 'extracting',
+          },
         }),
       );
       return true;
     } catch (err) {
       if (err instanceof ConditionalCheckFailedException) return false;
+      throw err;
+    }
+  }
+
+  async markStage(analysisId: string, stage: AnalysisStage): Promise<void> {
+    try {
+      await this.db.send(
+        new UpdateCommand({
+          TableName: this.tableName,
+          Key: { PK: `ANALYSIS#${analysisId}`, SK: 'META' },
+          UpdateExpression: 'SET stage = :stage',
+          ConditionExpression: '#status = :running',
+          ExpressionAttributeNames: { '#status': 'status' },
+          ExpressionAttributeValues: { ':stage': stage, ':running': 'running' },
+        }),
+      );
+    } catch (err) {
+      if (err instanceof ConditionalCheckFailedException) return;
       throw err;
     }
   }
@@ -147,6 +183,8 @@ export class DynamoAnalysisStore
       contractType: item.contractType,
       language: item.language,
       createdAt: new Date(item.createdAt),
+      startedAt: item.startedAt ? new Date(item.startedAt) : undefined,
+      stage: item.stage,
       expiresAt: new Date(item.ttl * 1000),
       deleteTokenHash: item.deleteTokenHash.slice(HASH_PREFIX.length),
       clauses: item.clauses,

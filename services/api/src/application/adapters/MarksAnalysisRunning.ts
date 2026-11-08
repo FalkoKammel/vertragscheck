@@ -1,3 +1,3 @@
 export interface MarksAnalysisRunning {
-  markRunning: (analysisId: string) => Promise<boolean>;
+  markRunning: (analysisId: string, startedAt: Date) => Promise<boolean>;
 }

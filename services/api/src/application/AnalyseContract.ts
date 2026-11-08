@@ -17,6 +17,7 @@ import type { ExtractsText } from './adapters/ExtractsText';
 import type { GetsAnalysis } from './adapters/GetsAnalysis';
 import type { GetsPdfFile } from './adapters/GetsPdfFile';
 import type { MarksAnalysisRunning } from './adapters/MarksAnalysisRunning';
+import type { MarksAnalysisStage } from './adapters/MarksAnalysisStage';
 import type { ProvidesTime } from './adapters/ProvidesTime';
 import type { PutsText } from './adapters/PutsText';
 import type { RunsAnalysis } from './adapters/RunsAnalysis';
@@ -29,7 +30,7 @@ export interface AnalyseContractInput {
 }
 
 export interface AnalyseContractAdapters {
-  analysisStore: GetsAnalysis & MarksAnalysisRunning & StoresAnalysisResult;
+  analysisStore: GetsAnalysis & MarksAnalysisRunning & MarksAnalysisStage & StoresAnalysisResult;
   documentStore: GetsPdfFile & PutsText & DeletesPdf;
   textExtractor: ExtractsText;
   budget: ChecksMonthlyBudget & AddsBudget;
@@ -42,9 +43,10 @@ export class AnalyseContract implements UseCase<AnalyseContractInput, void> {
 
   async execute({ analysisId, key }: AnalyseContractInput): Promise<void> {
     const analysis = await this.a.analysisStore.get(analysisId);
-    if (!analysis || analysis.isExpired(this.a.clock.now())) return;
-    if (!(await this.a.analysisStore.markRunning(analysisId))) return;
-    analysis.start();
+    const now = this.a.clock.now();
+    if (!analysis || analysis.isExpired(now)) return;
+    if (!(await this.a.analysisStore.markRunning(analysisId, now))) return;
+    analysis.start(now);
 
     let run: ModelRun | undefined;
     try {
@@ -56,6 +58,8 @@ export class AnalyseContract implements UseCase<AnalyseContractInput, void> {
       text.assertHasTextLayer(pages.length);
       await this.a.documentStore.putText(analysisId, text.value);
 
+      await this.a.analysisStore.markStage(analysisId, 'analysing');
+      analysis.setStage('analysing');
       const result = await this.a.analyser.analyse({
         contractType: analysis.contractType,
         language: analysis.language,

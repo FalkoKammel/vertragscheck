@@ -62,11 +62,14 @@ describe('router Lambda', () => {
 });
 
 describe('least privilege', () => {
-  it('limits S3 writes to uploads/*', () => {
+  it('limits S3 access to PutObject on uploads/* and GetObject on texts/*', () => {
     const s3 = statements().filter((s) => JSON.stringify(s.Action).includes('s3:'));
-    expect(s3).toHaveLength(1);
-    expect(s3[0]?.Action).toBe('s3:PutObject');
-    expect(JSON.stringify(s3[0]?.Resource)).toContain('/uploads/*');
+    expect(s3).toHaveLength(2);
+    const put = s3.find((s) => s.Action === 's3:PutObject');
+    const get = s3.find((s) => s.Action === 's3:GetObject');
+    expect(JSON.stringify(put?.Resource)).toContain('/uploads/*');
+    expect(JSON.stringify(get?.Resource)).toContain('/texts/*');
+    expect(JSON.stringify(get?.Resource)).not.toContain('uploads');
   });
 
   it('grants DynamoDB read/write on the table, without wildcard resources', () => {
@@ -107,7 +110,13 @@ describe('HTTP API', () => {
     template.hasResourceProperties('AWS::ApiGatewayV2::Route', {
       RouteKey: 'POST /api/uploads',
     });
-    template.resourceCountIs('AWS::ApiGatewayV2::Route', 1);
+  });
+
+  it('routes GET /api/analyses/{id} to the same Lambda', () => {
+    template.hasResourceProperties('AWS::ApiGatewayV2::Route', {
+      RouteKey: 'GET /api/analyses/{id}',
+    });
+    template.resourceCountIs('AWS::ApiGatewayV2::Route', 2);
   });
 
   it('throttles the stage', () => {

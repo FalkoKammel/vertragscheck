@@ -1,8 +1,10 @@
 import type { StoredClause } from './schemas';
 import type { QuoteVerificationResult } from './ContractText';
 import { InvalidStatusTransitionError } from './DomainError';
+import { RUNNING_TIMEOUT_MS, UPLOAD_TIMEOUT_MS } from './policy';
 
 export const ANALYSIS_STATUSES = ['pending_upload', 'running', 'done', 'failed'] as const;
+export const ANALYSIS_STAGES = ['extracting', 'analysing'] as const;
 export const CONTRACT_TYPES = ['rental', 'employment'] as const;
 export const LANGUAGES = ['de', 'en'] as const;
 export const FAILURE_REASONS = [
@@ -12,9 +14,12 @@ export const FAILURE_REASONS = [
   'NO_TEXT_LAYER',
   'LLM_INVALID_OUTPUT',
   'INTERNAL',
+  'TIMEOUT',
+  'UPLOAD_MISSING',
 ] as const;
 
 export type AnalysisStatus = (typeof ANALYSIS_STATUSES)[number];
+export type AnalysisStage = (typeof ANALYSIS_STAGES)[number];
 export type ContractType = (typeof CONTRACT_TYPES)[number];
 export type Language = (typeof LANGUAGES)[number];
 export type FailureReason = (typeof FAILURE_REASONS)[number];
@@ -38,12 +43,19 @@ export interface AnalysisProps {
   contractType: ContractType;
   language: Language;
   createdAt: Date;
+  startedAt?: Date;
+  stage?: AnalysisStage;
   expiresAt: Date;
   deleteTokenHash: string;
   clauses?: StoredClause[];
   unverifiedQuotes?: number;
   invalidClauses?: number;
   run?: ModelRun;
+  failureReason?: FailureReason;
+}
+
+export interface EffectiveStatus {
+  status: AnalysisStatus;
   failureReason?: FailureReason;
 }
 
@@ -55,6 +67,8 @@ export class Analysis {
   readonly expiresAt: Date;
   readonly deleteTokenHash: string;
 
+  private _startedAt?: Date;
+  private _stage?: AnalysisStage;
   private _status: AnalysisStatus;
   private _clauses: StoredClause[];
   private _unverifiedQuotes: number;
@@ -69,6 +83,8 @@ export class Analysis {
     this.createdAt = props.createdAt;
     this.expiresAt = props.expiresAt;
     this.deleteTokenHash = props.deleteTokenHash;
+    this._startedAt = props.startedAt;
+    this._stage = props.stage;
     this._status = props.status;
     this._clauses = props.clauses ?? [];
     this._unverifiedQuotes = props.unverifiedQuotes ?? 0;
@@ -79,6 +95,12 @@ export class Analysis {
 
   get status() {
     return this._status;
+  }
+  get startedAt() {
+    return this._startedAt;
+  }
+  get stage() {
+    return this._stage;
   }
   get clauses(): readonly StoredClause[] {
     return this._clauses;
@@ -96,10 +118,17 @@ export class Analysis {
     return this._failureReason;
   }
 
-  start(): void {
+  start(now: Date): void {
     if (this._status !== 'pending_upload')
       throw new InvalidStatusTransitionError(this._status, 'running');
     this._status = 'running';
+    this._startedAt = now;
+    this._stage = 'extracting';
+  }
+
+  setStage(stage: AnalysisStage): void {
+    if (this._status !== 'running') throw new InvalidStatusTransitionError(this._status, 'running');
+    this._stage = stage;
   }
 
   complete(result: {
@@ -112,6 +141,7 @@ export class Analysis {
     this._unverifiedQuotes = result.verification.unverifiedQuotes;
     this._invalidClauses = result.invalidClauses;
     this._run = result.run;
+    this._stage = undefined;
     this._status = 'done';
   }
 
@@ -119,11 +149,26 @@ export class Analysis {
     if (this._status !== 'running') throw new InvalidStatusTransitionError(this._status, 'failed');
     this._failureReason = reason;
     this._run = run;
+    this._stage = undefined;
     this._status = 'failed';
   }
 
   isExpired(now: Date): boolean {
     return this.expiresAt <= now;
+  }
+
+  effectiveStatus(now: Date): EffectiveStatus {
+    if (this._status === 'running' && this._startedAt) {
+      if (now.getTime() - this._startedAt.getTime() > RUNNING_TIMEOUT_MS)
+        return { status: 'failed', failureReason: 'TIMEOUT' };
+    }
+    if (this._status === 'pending_upload') {
+      if (now.getTime() - this.createdAt.getTime() > UPLOAD_TIMEOUT_MS)
+        return { status: 'failed', failureReason: 'UPLOAD_MISSING' };
+    }
+    return this._failureReason
+      ? { status: this._status, failureReason: this._failureReason }
+      : { status: this._status };
   }
 
   toProps(): AnalysisProps {
@@ -133,6 +178,8 @@ export class Analysis {
       contractType: this.contractType,
       language: this.language,
       createdAt: this.createdAt,
+      startedAt: this._startedAt,
+      stage: this._stage,
       expiresAt: this.expiresAt,
       deleteTokenHash: this.deleteTokenHash,
       clauses: [...this._clauses],
