@@ -24,7 +24,7 @@ export interface UploadApiProps {
   readonly throttlingBurstLimit?: number;
 }
 
-/** Router Lambda behind an HTTP API (`POST /api/uploads`), reached through CloudFront. */
+/** Router Lambda behind an HTTP API (`POST /api/uploads`, `GET /api/analyses/{id}`), reached through CloudFront. */
 export class UploadApi extends Construct {
   readonly function: NodejsFunction;
   readonly api: HttpApi;
@@ -76,6 +76,14 @@ export class UploadApi extends Construct {
         resources: [props.bucket.arnForObjects('uploads/*')],
       }),
     );
+    // The status endpoint returns the extracted contract text.
+    this.function.addToRolePolicy(
+      new PolicyStatement({
+        effect: Effect.ALLOW,
+        actions: ['s3:GetObject'],
+        resources: [props.bucket.arnForObjects('texts/*')],
+      }),
+    );
 
     const parameterArn = (name: string) =>
       stack.formatArn({
@@ -125,6 +133,11 @@ export class UploadApi extends Construct {
       path: '/api/uploads',
       methods: [HttpMethod.POST],
       integration: new HttpLambdaIntegration('Router', this.function),
+    });
+    this.api.addRoutes({
+      path: '/api/analyses/{id}',
+      methods: [HttpMethod.GET],
+      integration: new HttpLambdaIntegration('RouterAnalyses', this.function),
     });
 
     this.originDomainName = Fn.select(2, Fn.split('/', this.api.apiEndpoint));
