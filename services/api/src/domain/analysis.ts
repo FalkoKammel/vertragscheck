@@ -4,7 +4,6 @@ import { InvalidStatusTransitionError } from './DomainError';
 import { RUNNING_TIMEOUT_MS, UPLOAD_TIMEOUT_MS } from './policy';
 
 export const ANALYSIS_STATUSES = ['pending_upload', 'running', 'done', 'failed'] as const;
-/** What a running analysis is doing right now, for the progress card. */
 export const ANALYSIS_STAGES = ['extracting', 'analysing'] as const;
 export const CONTRACT_TYPES = ['rental', 'employment'] as const;
 export const LANGUAGES = ['de', 'en'] as const;
@@ -158,11 +157,6 @@ export class Analysis {
     return this.expiresAt <= now;
   }
 
-  /**
-   * The status as the client should see it. Read-only: a stored `running` or `pending_upload`
-   * that has outlived its timeout is reported as failed, but nothing is written back.
-   * A `running` item without `startedAt` (written before the field existed) never times out.
-   */
   effectiveStatus(now: Date): EffectiveStatus {
     if (this._status === 'running' && this._startedAt) {
       if (now.getTime() - this._startedAt.getTime() > RUNNING_TIMEOUT_MS)

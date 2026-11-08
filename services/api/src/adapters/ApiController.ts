@@ -21,7 +21,6 @@ export const STATUS_BY_CODE: Record<string, number> = {
 
 const HEADERS = { 'content-type': 'application/json', 'cache-control': 'no-store' };
 
-// IDs are issued by UuidGenerator; anything else cannot exist.
 const analysisIdSchema = z.uuid();
 
 const requestUploadBody = z.strictObject({

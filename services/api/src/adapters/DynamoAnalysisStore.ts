@@ -149,7 +149,6 @@ export class DynamoAnalysisStore
     }
   }
 
-  /** Progress hint for the status endpoint. Does nothing if the analysis is no longer running. */
   async markStage(analysisId: string, stage: AnalysisStage): Promise<void> {
     try {
       await this.db.send(

@@ -24,7 +24,6 @@ export interface UploadApiProps {
   readonly throttlingBurstLimit?: number;
 }
 
-/** Router Lambda behind an HTTP API (`POST /api/uploads`, `GET /api/analyses/{id}`), reached through CloudFront. */
 export class UploadApi extends Construct {
   readonly function: NodejsFunction;
   readonly api: HttpApi;
@@ -76,7 +75,6 @@ export class UploadApi extends Construct {
         resources: [props.bucket.arnForObjects('uploads/*')],
       }),
     );
-    // The status endpoint returns the extracted contract text.
     this.function.addToRolePolicy(
       new PolicyStatement({
         effect: Effect.ALLOW,

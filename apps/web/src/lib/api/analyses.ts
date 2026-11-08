@@ -1,8 +1,5 @@
 import { z } from 'zod';
 
-// Mirrors the response of GET /api/analyses/{id} (services/api AnalysisResponseMapper).
-// There is no shared package: like the upload response, the frontend validates the JSON itself.
-
 export const ANALYSIS_STATUSES = ['pending_upload', 'running', 'done', 'failed'] as const;
 export const ANALYSIS_STAGES = ['extracting', 'analysing'] as const;
 export const FAILURE_REASONS = [
@@ -33,7 +30,7 @@ export const analysisResponseSchema = z.object({
   language: z.enum(['de', 'en']),
   createdAt: z.iso.datetime(),
   expiresAt: z.iso.datetime(),
-  stage: z.enum(ANALYSIS_STAGES).optional(), // only while running
+  stage: z.enum(ANALYSIS_STAGES).optional(),
   failureReason: z.enum(FAILURE_REASONS).optional(),
   result: z
     .object({

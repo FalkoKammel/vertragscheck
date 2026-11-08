@@ -11,7 +11,6 @@ export interface GetAnalysisInput {
 
 export interface GetAnalysisOutput extends EffectiveStatus {
   analysis: Analysis;
-  /** Only present when the effective status is `done`. */
   text?: string;
 }
 
@@ -27,7 +26,6 @@ export class GetAnalysis implements UseCase<GetAnalysisInput, GetAnalysisOutput>
   async execute({ analysisId }: GetAnalysisInput): Promise<GetAnalysisOutput> {
     const now = this.a.clock.now();
     const analysis = await this.a.analysisStore.get(analysisId);
-    // Unknown, deleted and expired look the same, so the API does not reveal that an ID existed.
     if (!analysis || analysis.isExpired(now)) throw new AnalysisNotFoundError();
 
     const effective = analysis.effectiveStatus(now);

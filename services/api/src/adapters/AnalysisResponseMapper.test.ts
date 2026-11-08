@@ -90,7 +90,6 @@ describe('toAnalysisResponse', () => {
       status: 'running',
       stage: 'analysing',
     });
-    // e.g. a running item reported as failed because of the timeout
     expect(
       toAnalysisResponse({ analysis: a, status: 'failed', failureReason: 'TIMEOUT' }),
     ).not.toHaveProperty('stage');

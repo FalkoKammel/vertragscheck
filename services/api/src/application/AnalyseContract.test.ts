@@ -248,7 +248,7 @@ describe('AnalyseContract', () => {
     const { run, calls, analysis } = setup();
     await run();
     expect(calls.stages).toEqual(['analysing']);
-    expect(analysis.stage).toBeUndefined(); // cleared when the analysis is done
+    expect(analysis.stage).toBeUndefined();
   });
 
   it('does not mark a stage when extraction fails', async () => {

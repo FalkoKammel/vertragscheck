@@ -1,10 +1,8 @@
 import type { AnalysisResponse, Clause } from '../lib/api/analyses';
 
-// `running` is the extracting stage, `analysing` is running in the analysing stage.
 export const FIXTURE_STATES = ['pending_upload', 'running', 'analysing', 'done', 'failed'] as const;
 export type FixtureState = (typeof FIXTURE_STATES)[number];
 
-// Same shape as the real extracted text: cleaned paragraphs separated by a blank line.
 const PARAGRAPHS = [
   'Wohnraummietvertrag zwischen Herrn Thomas Beispiel, Musterweg 1, 10115 Berlin (Vermieter) und Frau Anna Muster (Mieterin).',
   '§ 1 Mietsache. Vermietet wird die Wohnung im 2. Obergeschoss links des Hauses Musterweg 1 in 10115 Berlin mit drei Zimmern, Küche und Bad sowie einem Kellerraum.',
@@ -64,7 +62,6 @@ const BASE = {
   expiresAt: '2026-12-03T10:15:00.000Z',
 } as const;
 
-/** A response for each backend state, typed with the shared response type. */
 export function analysisFixture(state: FixtureState, id: string): AnalysisResponse {
   switch (state) {
     case 'pending_upload':

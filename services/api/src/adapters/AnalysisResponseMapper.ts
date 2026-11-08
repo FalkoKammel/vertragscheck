@@ -8,7 +8,6 @@ import type {
 } from '../domain/analysis';
 import type { StoredClause } from '../domain/schemas';
 
-/** The JSON body of `GET /api/analyses/{id}`. The frontend validates it with its own Zod schema. */
 export interface AnalysisResponse {
   id: string;
   status: AnalysisStatus;
@@ -16,7 +15,6 @@ export interface AnalysisResponse {
   language: Language;
   createdAt: string;
   expiresAt: string;
-  /** Only while `running`. */
   stage?: AnalysisStage;
   failureReason?: FailureReason;
   result?: {
@@ -35,7 +33,6 @@ export interface AnalysisResponse {
   };
 }
 
-/** Builds the response field by field, so internal fields never leak (deleteTokenHash, startedAt). */
 export function toAnalysisResponse(output: GetAnalysisOutput): AnalysisResponse {
   const { analysis, status, failureReason, text } = output;
   const response: AnalysisResponse = {
