@@ -13,6 +13,7 @@ const RUN: ModelRun = {
   latencyMs: 900,
 };
 const expiresAt = new Date('2026-12-03T10:15:00Z');
+const startedAt = new Date('2026-11-03T10:16:00Z');
 
 function pending() {
   return new Analysis({
@@ -93,6 +94,38 @@ describe('DynamoAnalysisStore', () => {
 
     const loaded = await fakeDb(item).store.get('a1');
     expect(loaded?.toProps()).toEqual(analysis.toProps());
+  });
+
+  it('round-trips startedAt', async () => {
+    const analysis = new Analysis({ ...pending().toProps(), status: 'running', startedAt });
+    const writer = fakeDb();
+    await writer.store.save(analysis);
+    const item = writer.sent[0]?.input.Item;
+    expect(item).toMatchObject({ startedAt: '2026-11-03T10:16:00.000Z' });
+
+    const loaded = await fakeDb(item).store.get('a1');
+    expect(loaded?.startedAt).toEqual(startedAt);
+  });
+
+  it('writes no startedAt attribute before the analysis started', async () => {
+    const writer = fakeDb();
+    await writer.store.save(pending());
+    expect(writer.sent[0]?.input.Item).not.toHaveProperty('startedAt');
+  });
+
+  it('loads an old running item without startedAt', async () => {
+    const loaded = await fakeDb({
+      PK: 'ANALYSIS#a1',
+      SK: 'META',
+      status: 'running',
+      contractType: 'rental',
+      language: 'de',
+      createdAt: '2026-11-03T10:15:00.000Z',
+      deleteTokenHash: 'sha256:abc',
+      ttl: Math.floor(expiresAt.getTime() / 1000),
+    }).store.get('a1');
+    expect(loaded?.status).toBe('running');
+    expect(loaded?.startedAt).toBeUndefined();
   });
 
   it('writes no run attribute when there is none', async () => {
@@ -197,23 +230,28 @@ describe('DynamoAnalysisStore', () => {
 
     it('sets running if the analysis is pending_upload', async () => {
       const { sent, store } = updateDb();
-      expect(await store.markRunning('a1')).toBe(true);
+      expect(await store.markRunning('a1', startedAt)).toBe(true);
       expect(sent[0]?.input).toMatchObject({
         Key: { PK: 'ANALYSIS#a1', SK: 'META' },
+        UpdateExpression: 'SET #status = :running, startedAt = :startedAt',
         ConditionExpression: '#status = :pendingUpload',
-        ExpressionAttributeValues: { ':running': 'running', ':pendingUpload': 'pending_upload' },
+        ExpressionAttributeValues: {
+          ':running': 'running',
+          ':pendingUpload': 'pending_upload',
+          ':startedAt': '2026-11-03T10:16:00.000Z',
+        },
       });
     });
 
     it('returns false when the condition fails', async () => {
       const error = new ConditionalCheckFailedException({ message: 'no', $metadata: {} });
-      expect(await updateDb(error).store.markRunning('a1')).toBe(false);
+      expect(await updateDb(error).store.markRunning('a1', startedAt)).toBe(false);
     });
 
     it('rethrows other errors', async () => {
-      await expect(updateDb(new Error('throttled')).store.markRunning('a1')).rejects.toThrow(
-        'throttled',
-      );
+      await expect(
+        updateDb(new Error('throttled')).store.markRunning('a1', startedAt),
+      ).rejects.toThrow('throttled');
     });
   });
 });

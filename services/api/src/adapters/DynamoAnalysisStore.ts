@@ -35,6 +35,7 @@ const analysisItemSchema = z.object({
   contractType: z.enum(CONTRACT_TYPES),
   language: z.enum(LANGUAGES),
   createdAt: z.iso.datetime(),
+  startedAt: z.iso.datetime().optional(),
   deleteTokenHash: z.string().startsWith(HASH_PREFIX),
   ttl: z.number().int().nonnegative(),
   clauses: z.array(storedClauseSchema).optional(),
@@ -66,6 +67,7 @@ export class DynamoAnalysisStore
           contractType: props.contractType,
           language: props.language,
           createdAt,
+          ...(props.startedAt ? { startedAt: props.startedAt.toISOString() } : {}),
           deleteTokenHash: `${HASH_PREFIX}${props.deleteTokenHash}`,
           clauses,
           unverifiedQuotes: props.unverifiedQuotes ?? 0,
@@ -112,16 +114,20 @@ export class DynamoAnalysisStore
   }
 
   /** Returns false if the analysis is not waiting for its upload (duplicate event). */
-  async markRunning(analysisId: string): Promise<boolean> {
+  async markRunning(analysisId: string, startedAt: Date): Promise<boolean> {
     try {
       await this.db.send(
         new UpdateCommand({
           TableName: this.tableName,
           Key: { PK: `ANALYSIS#${analysisId}`, SK: 'META' },
-          UpdateExpression: 'SET #status = :running',
+          UpdateExpression: 'SET #status = :running, startedAt = :startedAt',
           ConditionExpression: '#status = :pendingUpload',
           ExpressionAttributeNames: { '#status': 'status' },
-          ExpressionAttributeValues: { ':running': 'running', ':pendingUpload': 'pending_upload' },
+          ExpressionAttributeValues: {
+            ':running': 'running',
+            ':pendingUpload': 'pending_upload',
+            ':startedAt': startedAt.toISOString(),
+          },
         }),
       );
       return true;
@@ -147,6 +153,7 @@ export class DynamoAnalysisStore
       contractType: item.contractType,
       language: item.language,
       createdAt: new Date(item.createdAt),
+      startedAt: item.startedAt ? new Date(item.startedAt) : undefined,
       expiresAt: new Date(item.ttl * 1000),
       deleteTokenHash: item.deleteTokenHash.slice(HASH_PREFIX.length),
       clauses: item.clauses,

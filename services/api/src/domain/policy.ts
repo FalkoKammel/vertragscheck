@@ -3,6 +3,10 @@ export const MAX_UPLOAD_BYTES = 10 * 1024 * 1024;
 export const UPLOAD_TTL_SECONDS = 5 * 60;
 export const RETENTION_DAYS = 30;
 export const MAX_PDF_PAGES = 30;
+/** A `running` analysis older than this is reported as failed (Lambda timed out or crashed). */
+export const RUNNING_TIMEOUT_MS = 5 * 60 * 1000;
+/** A `pending_upload` analysis older than this is reported as failed (the PDF never arrived). */
+export const UPLOAD_TIMEOUT_MS = 15 * 60 * 1000;
 
 const DAY_MS = 24 * 60 * 60 * 1000;
 

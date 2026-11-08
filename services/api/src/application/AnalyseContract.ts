@@ -42,9 +42,10 @@ export class AnalyseContract implements UseCase<AnalyseContractInput, void> {
 
   async execute({ analysisId, key }: AnalyseContractInput): Promise<void> {
     const analysis = await this.a.analysisStore.get(analysisId);
-    if (!analysis || analysis.isExpired(this.a.clock.now())) return;
-    if (!(await this.a.analysisStore.markRunning(analysisId))) return;
-    analysis.start();
+    const now = this.a.clock.now();
+    if (!analysis || analysis.isExpired(now)) return;
+    if (!(await this.a.analysisStore.markRunning(analysisId, now))) return;
+    analysis.start(now);
 
     let run: ModelRun | undefined;
     try {

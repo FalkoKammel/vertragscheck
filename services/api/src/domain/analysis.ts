@@ -1,6 +1,7 @@
 import type { StoredClause } from './schemas';
 import type { QuoteVerificationResult } from './ContractText';
 import { InvalidStatusTransitionError } from './DomainError';
+import { RUNNING_TIMEOUT_MS, UPLOAD_TIMEOUT_MS } from './policy';
 
 export const ANALYSIS_STATUSES = ['pending_upload', 'running', 'done', 'failed'] as const;
 export const CONTRACT_TYPES = ['rental', 'employment'] as const;
@@ -12,6 +13,8 @@ export const FAILURE_REASONS = [
   'NO_TEXT_LAYER',
   'LLM_INVALID_OUTPUT',
   'INTERNAL',
+  'TIMEOUT',
+  'UPLOAD_MISSING',
 ] as const;
 
 export type AnalysisStatus = (typeof ANALYSIS_STATUSES)[number];
@@ -38,12 +41,18 @@ export interface AnalysisProps {
   contractType: ContractType;
   language: Language;
   createdAt: Date;
+  startedAt?: Date;
   expiresAt: Date;
   deleteTokenHash: string;
   clauses?: StoredClause[];
   unverifiedQuotes?: number;
   invalidClauses?: number;
   run?: ModelRun;
+  failureReason?: FailureReason;
+}
+
+export interface EffectiveStatus {
+  status: AnalysisStatus;
   failureReason?: FailureReason;
 }
 
@@ -55,6 +64,7 @@ export class Analysis {
   readonly expiresAt: Date;
   readonly deleteTokenHash: string;
 
+  private _startedAt?: Date;
   private _status: AnalysisStatus;
   private _clauses: StoredClause[];
   private _unverifiedQuotes: number;
@@ -69,6 +79,7 @@ export class Analysis {
     this.createdAt = props.createdAt;
     this.expiresAt = props.expiresAt;
     this.deleteTokenHash = props.deleteTokenHash;
+    this._startedAt = props.startedAt;
     this._status = props.status;
     this._clauses = props.clauses ?? [];
     this._unverifiedQuotes = props.unverifiedQuotes ?? 0;
@@ -79,6 +90,9 @@ export class Analysis {
 
   get status() {
     return this._status;
+  }
+  get startedAt() {
+    return this._startedAt;
   }
   get clauses(): readonly StoredClause[] {
     return this._clauses;
@@ -96,10 +110,11 @@ export class Analysis {
     return this._failureReason;
   }
 
-  start(): void {
+  start(now: Date): void {
     if (this._status !== 'pending_upload')
       throw new InvalidStatusTransitionError(this._status, 'running');
     this._status = 'running';
+    this._startedAt = now;
   }
 
   complete(result: {
@@ -126,6 +141,25 @@ export class Analysis {
     return this.expiresAt <= now;
   }
 
+  /**
+   * The status as the client should see it. Read-only: a stored `running` or `pending_upload`
+   * that has outlived its timeout is reported as failed, but nothing is written back.
+   * A `running` item without `startedAt` (written before the field existed) never times out.
+   */
+  effectiveStatus(now: Date): EffectiveStatus {
+    if (this._status === 'running' && this._startedAt) {
+      if (now.getTime() - this._startedAt.getTime() > RUNNING_TIMEOUT_MS)
+        return { status: 'failed', failureReason: 'TIMEOUT' };
+    }
+    if (this._status === 'pending_upload') {
+      if (now.getTime() - this.createdAt.getTime() > UPLOAD_TIMEOUT_MS)
+        return { status: 'failed', failureReason: 'UPLOAD_MISSING' };
+    }
+    return this._failureReason
+      ? { status: this._status, failureReason: this._failureReason }
+      : { status: this._status };
+  }
+
   toProps(): AnalysisProps {
     return {
       id: this.id,
@@ -133,6 +167,7 @@ export class Analysis {
       contractType: this.contractType,
       language: this.language,
       createdAt: this.createdAt,
+      startedAt: this._startedAt,
       expiresAt: this.expiresAt,
       deleteTokenHash: this.deleteTokenHash,
       clauses: [...this._clauses],

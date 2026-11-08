@@ -80,6 +80,7 @@ The PDF is only needed for extraction, so it is not kept. The extracted text liv
   "contractType": "rental",           // rental | employment
   "language": "de",                   // language of the explanations
   "createdAt": "2026-11-03T10:15:00Z",
+  "startedAt": "2026-11-03T10:16:02Z", // set when the analysis Lambda moves it to running; absent before
   "pageCount": 12,
   "textKey": "texts/3f9c….json",
   "deleteTokenHash": "sha256:…",      // see "Retention and deletion"

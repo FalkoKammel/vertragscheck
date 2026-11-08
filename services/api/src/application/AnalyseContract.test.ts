@@ -66,6 +66,7 @@ function setup(
     deleted: [] as string[],
     texts: [] as string[],
     analysed: 0,
+    startedAt: [] as Date[],
   };
   const result: AnalysisResult | Error = opts.result ?? {
     ok: true,
@@ -76,7 +77,10 @@ function setup(
   const adapters: AnalyseContractAdapters = {
     analysisStore: {
       get: () => Promise.resolve(opts.missing ? undefined : analysis),
-      markRunning: () => Promise.resolve(opts.markRunning ?? true),
+      markRunning: (_id, startedAt) => {
+        calls.startedAt.push(startedAt);
+        return Promise.resolve(opts.markRunning ?? true);
+      },
       saveResult: (a) => {
         calls.saved.push(a);
         return Promise.resolve();
@@ -233,6 +237,13 @@ describe('AnalyseContract', () => {
     expect(analysis.status).toBe('done');
     expect(analysis.clauses).toHaveLength(0);
     expect(calls.added).toEqual([COST]);
+  });
+
+  it('records the start time from the clock', async () => {
+    const { run, calls, analysis } = setup();
+    await run();
+    expect(calls.startedAt).toEqual([NOW]);
+    expect(analysis.startedAt).toEqual(NOW);
   });
 
   it('does nothing on a duplicate event', async () => {
