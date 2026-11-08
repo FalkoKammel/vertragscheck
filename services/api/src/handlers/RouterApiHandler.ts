@@ -13,6 +13,8 @@ import { SsmSecrets } from '../adapters/SsmSecrets';
 import { SystemClock } from '../adapters/SystemClock';
 import { TurnstileCaptchaVerifier } from '../adapters/TurnstileCaptchaVerifier';
 import { UuidGenerator } from '../adapters/UuidGenerator';
+import { S3DocumentStore } from '../adapters/S3DocumentStore';
+import { GetAnalysis } from '../application/GetAnalysis';
 import { RequestUpload } from '../application/RequestUpload';
 
 function env(name: string): string {
@@ -30,6 +32,7 @@ const [ipHashSecret, turnstileSecret, siteHostname] = await Promise.all([
   secrets.get(env('SITE_HOSTNAME_PARAM')),
 ]);
 const clock = new SystemClock();
+const s3 = new S3Client({});
 
 const controller = new ApiController({
   requestsUpload: new RequestUpload({
@@ -37,9 +40,14 @@ const controller = new ApiController({
     budget: new DynamoBudgetStore(db, tableName, clock, Number(env('BUDGET_LIMIT_MICRO_USD'))),
     rateLimiter: new DynamoRateLimiter(db, tableName, ipHashSecret),
     analysisStore: new DynamoAnalysisStore(db, tableName),
-    uploadTicketIssuer: new S3UploadTicketIssuer(new S3Client({}), env('UPLOAD_BUCKET')),
+    uploadTicketIssuer: new S3UploadTicketIssuer(s3, env('UPLOAD_BUCKET')),
     tokenGenerator: new RandomTokenGenerator(),
     idGenerator: new UuidGenerator(),
+    clock,
+  }),
+  getsAnalysis: new GetAnalysis({
+    analysisStore: new DynamoAnalysisStore(db, tableName),
+    textStore: new S3DocumentStore(s3, env('UPLOAD_BUCKET')),
     clock,
   }),
 });

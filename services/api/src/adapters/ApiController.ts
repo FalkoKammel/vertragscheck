@@ -2,20 +2,27 @@ import { isIP } from 'node:net';
 import type { APIGatewayProxyEventV2, APIGatewayProxyStructuredResultV2 } from 'aws-lambda';
 import { z } from 'zod';
 import type { UseCase } from '../application/UseCase';
+import type { GetAnalysisInput, GetAnalysisOutput } from '../application/GetAnalysis';
 import type { RequestUploadInput, RequestUploadOutput } from '../application/RequestUpload';
-import { DomainError } from '../domain/DomainError';
+import { AnalysisNotFoundError, DomainError } from '../domain/DomainError';
+import { toAnalysisResponse } from './AnalysisResponseMapper';
 
 export interface ApiUseCases {
   requestsUpload: UseCase<RequestUploadInput, RequestUploadOutput>;
+  getsAnalysis: UseCase<GetAnalysisInput, GetAnalysisOutput>;
 }
 
 export const STATUS_BY_CODE: Record<string, number> = {
   CAPTCHA_INVALID: 403,
   DAILY_LIMIT_REACHED: 429,
   BUDGET_EXHAUSTED: 503,
+  ANALYSIS_NOT_FOUND: 404,
 };
 
 const HEADERS = { 'content-type': 'application/json', 'cache-control': 'no-store' };
+
+// IDs are issued by UuidGenerator; anything else cannot exist.
+const analysisIdSchema = z.uuid();
 
 const requestUploadBody = z.strictObject({
   captchaToken: z.string().min(1).max(4096),
@@ -70,6 +77,14 @@ export class ApiController {
             clientIp: clientIpOf(event),
           });
           return json(201, output);
+        }
+        case 'GET /api/analyses/{id}': {
+          const id = analysisIdSchema.safeParse(event.pathParameters?.id);
+          if (!id.success) throw new AnalysisNotFoundError();
+
+          const output = await this._useCases.getsAnalysis.execute({ analysisId: id.data });
+          console.log(JSON.stringify({ msg: 'analysis read', id: id.data, status: output.status }));
+          return json(200, toAnalysisResponse(output));
         }
         default:
           return json(404, { code: 'NOT_FOUND' });
