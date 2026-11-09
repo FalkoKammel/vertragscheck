@@ -1,0 +1,105 @@
+Arbeitsvertrag
+
+Zwischen der Brücknau Analytics AG, Theaterplatz 3, 01067 Dresden, vertreten durch den Vorstand Dr. Felix Brücknau, nachfolgend Arbeitgeber genannt, und Herrn Lukas Ferreira, Kamenzer Straße 19, 01099 Dresden, nachfolgend Arbeitnehmer genannt, wird folgender Arbeitsvertrag geschlossen.
+
+§ 1 Beginn des Arbeitsverhältnisses
+
+(1) Das Arbeitsverhältnis beginnt am 1. Juli 2027 und wird auf unbestimmte Zeit geschlossen.
+
+(2) Vor Beginn des Arbeitsverhältnisses ist die ordentliche Kündigung ausgeschlossen.
+
+§ 2 Tätigkeit
+
+(1) Der Arbeitnehmer wird als Senior Data Engineer im Bereich Energiedatenplattformen eingestellt.
+
+(2) Der Arbeitgeber kann dem Arbeitnehmer im Rahmen des § 106 GewO andere zumutbare und gleichwertige Aufgaben übertragen, die seinen Kenntnissen und Fähigkeiten entsprechen.
+
+§ 3 Arbeitsort und mobiles Arbeiten
+
+(1) Arbeitsort ist der Sitz der Gesellschaft in Dresden.
+
+(2) Der Arbeitnehmer kann nach Absprache mit seiner Führungskraft an bis zu zwei Tagen pro Woche mobil arbeiten. Die Vorgaben zum Datenschutz und zur Informationssicherheit sind dabei einzuhalten.
+
+§ 4 Probezeit
+
+(1) Die ersten sechs Monate des Arbeitsverhältnisses gelten als Probezeit. In dieser Zeit kann das Arbeitsverhältnis von beiden Seiten mit einer Frist von zwei Wochen gekündigt werden.
+
+§ 5 Arbeitszeit
+
+(1) Die regelmäßige wöchentliche Arbeitszeit beträgt 40 Stunden an fünf Arbeitstagen von Montag bis Freitag.
+
+(2) Angeordnete Überstunden werden nach Wahl des Arbeitnehmers durch Freizeit ausgeglichen oder mit dem anteiligen Stundenlohn vergütet.
+
+§ 6 Vergütung
+
+(1) Der Arbeitnehmer erhält ein monatliches Bruttogehalt von 6.200,00 Euro.
+
+(2) Die Vergütung ist am letzten Werktag des Monats fällig und wird auf ein vom Arbeitnehmer benanntes Konto überwiesen.
+
+§ 7 Variable Vergütung
+
+(1) Der Arbeitnehmer kann zusätzlich eine variable Vergütung von bis zu 10 Prozent seines Jahresbruttogehalts erhalten. Die Ziele und deren Gewichtung werden in einer Zielvereinbarung festgelegt, die die Parteien jeweils bis zum 31. Januar eines Jahres abschließen.
+
+§ 8 Urlaub
+
+(1) Der Arbeitnehmer hat Anspruch auf 30 Arbeitstage Erholungsurlaub im Kalenderjahr bei einer Fünftagewoche.
+
+(2) Der Urlaub ist im laufenden Kalenderjahr zu nehmen. Urlaub, der nicht bis zum 31. März des Folgejahres genommen wurde, verfällt ersatzlos; dies gilt auch dann, wenn der Arbeitnehmer den Urlaub wegen Arbeitsunfähigkeit nicht nehmen konnte, und unabhängig davon, ob der Arbeitgeber auf den drohenden Verfall hingewiesen hat.
+
+§ 9 Arbeitsverhinderung und Krankheit
+
+(1) Der Arbeitnehmer hat dem Arbeitgeber jede Arbeitsverhinderung und ihre voraussichtliche Dauer unverzüglich mitzuteilen.
+
+(2) Im Falle der Arbeitsunfähigkeit infolge Krankheit leistet der Arbeitgeber Entgeltfortzahlung nach den Bestimmungen des Entgeltfortzahlungsgesetzes.
+
+§ 10 Fortbildung und Rückzahlung
+
+(1) Der Arbeitgeber übernimmt die Kosten der Zertifizierung zum Cloud Data Architect einschließlich Lehrgangs- und Prüfungsgebühren in Höhe von voraussichtlich 4.500 Euro und stellt den Arbeitnehmer für die Lehrgangstage unter Fortzahlung der Vergütung frei.
+
+(2) Scheidet der Arbeitnehmer innerhalb von zwölf Monaten nach Abschluss der Fortbildung aus dem Arbeitsverhältnis aus, ist er verpflichtet, die vom Arbeitgeber getragenen Lehrgangs- und Prüfungsgebühren anteilig zurückzuzahlen. Der Rückzahlungsbetrag mindert sich für jeden vollen Monat der Beschäftigung nach Abschluss der Fortbildung um ein Zwölftel. Dies gilt auch, wenn das Arbeitsverhältnis durch eine Kündigung des Arbeitgebers endet.
+
+§ 11 Nebentätigkeit
+
+(1) Der Arbeitnehmer zeigt jede entgeltliche Nebentätigkeit vor ihrer Aufnahme an. Der Arbeitgeber kann sie nur untersagen, wenn berechtigte betriebliche Interessen beeinträchtigt werden, insbesondere bei einer Tätigkeit für einen Wettbewerber oder bei Überschreitung der Höchstarbeitszeit.
+
+§ 12 Verschwiegenheit
+
+(1) Der Arbeitnehmer verpflichtet sich, über Betriebs- und Geschäftsgeheimnisse sowie über Kundendaten während und nach Beendigung des Arbeitsverhältnisses Stillschweigen zu bewahren.
+
+§ 13 Nachvertragliches Wettbewerbsverbot
+
+(1) Der Arbeitnehmer verpflichtet sich, für die Dauer von zwölf Monaten nach Beendigung des Arbeitsverhältnisses nicht für ein Unternehmen tätig zu werden, das im Bereich der Datenanalyse für Energieversorger mit dem Arbeitgeber in Wettbewerb steht.
+
+(2) Für die Dauer des Wettbewerbsverbots zahlt der Arbeitgeber eine Entschädigung in Höhe von 25 Prozent der zuletzt bezogenen vertragsmäßigen Leistungen.
+
+(3) Im Übrigen gelten die §§ 74 ff. HGB.
+
+§ 14 Kündigung
+
+(1) Nach Ablauf der Probezeit gelten die gesetzlichen Kündigungsfristen. Verlängert sich die Kündigungsfrist für den Arbeitgeber kraft Gesetzes, gilt die verlängerte Frist auch für eine Kündigung durch den Arbeitnehmer.
+
+(2) Die Kündigung bedarf der Schriftform; die elektronische Form ist ausgeschlossen.
+
+§ 15 Vertragsstrafe
+
+(1) Tritt der Arbeitnehmer die Arbeit nicht an oder beendet er das Arbeitsverhältnis ohne Einhaltung der maßgeblichen Kündigungsfrist, hat er eine Vertragsstrafe in Höhe des Bruttoentgelts zu zahlen, das er bei ordnungsgemäßer Kündigung bis zum Fristablauf erhalten hätte, höchstens jedoch ein Bruttomonatsgehalt.
+
+§ 16 Ausschlussfristen
+
+(1) Ansprüche aus dem Arbeitsverhältnis verfallen, wenn sie nicht innerhalb von drei Monaten nach Fälligkeit in Textform gegenüber der anderen Vertragspartei geltend gemacht werden; dies gilt nicht für Ansprüche aus der Verletzung des Lebens, des Körpers oder der Gesundheit sowie für Ansprüche aus vorsätzlicher oder grob fahrlässiger Pflichtverletzung.
+
+§ 17 Vertragsänderungen
+
+(1) Änderungen und Ergänzungen dieses Vertrags sowie Nebenabreden bedürfen zu ihrer Wirksamkeit der Schriftform. Dies gilt auch für die Aufhebung dieses Schriftformerfordernisses.
+
+§ 18 Rückgabe von Arbeitsmitteln und Schlussbestimmungen
+
+(1) Bei Beendigung des Arbeitsverhältnisses hat der Arbeitnehmer alle ihm überlassenen Arbeitsmittel, insbesondere Laptop, Mobiltelefon und Zugangskarten, unverzüglich zurückzugeben.
+
+(2) Sollte eine Bestimmung dieses Vertrags unwirksam sein, bleibt die Wirksamkeit der übrigen Bestimmungen unberührt.
+
+Dresden, den 20. Mai 2027
+
+Dr. Felix Brücknau für die Brücknau Analytics AG
+
+Lukas Ferreira

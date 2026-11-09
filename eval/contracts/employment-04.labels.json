@@ -1,0 +1,66 @@
+{
+  "contractType": "employment",
+  "description": "Langer Vertrag mit 18 Paragraphen: Urlaubsverfall ohne Rücksicht auf Krankheit und Hinweispflicht, Rückzahlung auch bei Arbeitgeberkündigung, zu niedrige Karenzentschädigung, Ausschlussfrist ohne Mindestlohnausnahme und doppelte Schriftformklausel zwischen vielen korrekten Klauseln.",
+  "expected": [
+    {
+      "id": "employment-04-vacation-forfeiture",
+      "anchor": "verfällt ersatzlos; dies gilt auch dann, wenn der Arbeitnehmer den Urlaub wegen Arbeitsunfähigkeit nicht nehmen konnte, und unabhängig davon, ob der Arbeitgeber auf den drohenden Verfall hingewiesen hat",
+      "category": "vacation",
+      "level": "critical",
+      "acceptLevels": ["check"],
+      "note": "Der gesetzliche Mindesturlaub verfällt nur, wenn der Arbeitgeber seine Mitwirkungsobliegenheiten erfüllt hat, also rechtzeitig auffordert und auf den Verfall hinweist (BAG, 19.02.2019 – 9 AZR 423/16). Bei durchgehender Arbeitsunfähigkeit erlischt er erst 15 Monate nach Ende des Urlaubsjahres. Abweichung zulasten des Arbeitnehmers nach § 13 Abs. 1 BUrlG unwirksam. Die Klausel unterscheidet nicht zwischen gesetzlichem und vertraglichem Mehrurlaub."
+    },
+    {
+      "id": "employment-04-repayment-employer-termination",
+      "anchor": "Dies gilt auch, wenn das Arbeitsverhältnis durch eine Kündigung des Arbeitgebers endet.",
+      "category": "repayment",
+      "level": "critical",
+      "note": "Staffelung und Bindungsdauer sind für sich vertretbar. Die Rückzahlungspflicht darf aber nicht an Beendigungsgründe aus der Sphäre des Arbeitgebers geknüpft werden, etwa eine betriebsbedingte Kündigung; außerdem fehlt eine Ausnahme für die Eigenkündigung wegen unverschuldeter dauerhafter Leistungsunfähigkeit (BAG, 01.03.2022 – 9 AZR 260/21). Klausel nach § 307 Abs. 1 BGB insgesamt unwirksam."
+    },
+    {
+      "id": "employment-04-non-compete-low-compensation",
+      "anchor": "eine Entschädigung in Höhe von 25 Prozent der zuletzt bezogenen vertragsmäßigen Leistungen",
+      "category": "non_compete",
+      "level": "critical",
+      "acceptLevels": ["check"],
+      "note": "§ 74 Abs. 2 HGB verlangt mindestens die Hälfte der zuletzt bezogenen vertragsmäßigen Leistungen. Bei 25 Prozent ist das Wettbewerbsverbot für den Arbeitnehmer unverbindlich (nicht nichtig): Er kann wählen, ob er sich gegen die zugesagte Entschädigung daran hält oder frei ist. Der Verweis auf §§ 74 ff. HGB heilt das nicht."
+    },
+    {
+      "id": "employment-04-exclusion-period-no-minimum-wage",
+      "anchor": "Ansprüche aus dem Arbeitsverhältnis verfallen, wenn sie nicht innerhalb von drei Monaten nach Fälligkeit in Textform gegenüber der anderen Vertragspartei geltend gemacht werden; dies gilt nicht für Ansprüche aus der Verletzung des Lebens, des Körpers oder der Gesundheit sowie für Ansprüche aus vorsätzlicher oder grob fahrlässiger Pflichtverletzung.",
+      "category": "exclusion_periods",
+      "level": "critical",
+      "note": "Frist, Textform und Vorsatzausnahme sind korrekt, es fehlt aber die ausdrückliche Ausnahme für den gesetzlichen Mindestlohn. Bei Verträgen ab 01.01.2015 ist die Klausel deshalb nach § 307 Abs. 1 S. 2 BGB insgesamt unwirksam (BAG, 18.09.2018 – 9 AZR 162/18)."
+    },
+    {
+      "id": "employment-04-double-written-form",
+      "anchor": "Änderungen und Ergänzungen dieses Vertrags sowie Nebenabreden bedürfen zu ihrer Wirksamkeit der Schriftform. Dies gilt auch für die Aufhebung dieses Schriftformerfordernisses.",
+      "category": "other",
+      "level": "critical",
+      "acceptLevels": ["check"],
+      "note": "Doppelte Schriftformklausel erweckt den irreführenden Eindruck, auch mündliche Individualabreden seien unwirksam (entgegen § 305b BGB); sie ist nach § 307 Abs. 1 BGB insgesamt unwirksam (BAG, 20.05.2008 – 9 AZR 382/07)."
+    }
+  ],
+  "clean": [
+    {
+      "anchor": "Die ersten sechs Monate des Arbeitsverhältnisses gelten als Probezeit.",
+      "note": "§ 622 Abs. 3 BGB eingehalten."
+    },
+    {
+      "anchor": "leistet der Arbeitgeber Entgeltfortzahlung nach den Bestimmungen des Entgeltfortzahlungsgesetzes",
+      "note": "Standardverweis auf das EFZG."
+    },
+    {
+      "anchor": "Der Arbeitgeber kann sie nur untersagen, wenn berechtigte betriebliche Interessen beeinträchtigt werden",
+      "note": "Anzeigepflicht mit eng begrenzter Untersagung, wirksam (vgl. BAG, 11.12.2001 – 9 AZR 464/00)."
+    },
+    {
+      "anchor": "gilt die verlängerte Frist auch für eine Kündigung durch den Arbeitnehmer",
+      "note": "Gleichlauf nach § 622 Abs. 6 BGB zulässig."
+    },
+    {
+      "anchor": "bis zum Fristablauf erhalten hätte, höchstens jedoch ein Bruttomonatsgehalt",
+      "note": "Vertragsstrafe auf die Vergütung bis zum Ende der jeweiligen Kündigungsfrist begrenzt; entspricht dem Maßstab von BAG, 04.03.2004 – 8 AZR 196/03. Direkter Kontrast zu employment-03."
+    }
+  ]
+}

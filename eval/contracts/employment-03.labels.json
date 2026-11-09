@@ -1,0 +1,56 @@
+{
+  "contractType": "employment",
+  "description": "Subtile Fehler neben wirksamen Grenzfallklauseln: Probezeit mit Zweiwochenfrist über sechs Monate, Freiwilligkeits- plus Widerrufsvorbehalt, Vertragsstrafe höher als die Probezeitfrist und Ausschlussfrist mit Mindestlohn-Ausnahme, aber Schriftform und ohne Vorsatzausnahme.",
+  "expected": [
+    {
+      "id": "employment-03-probation-nine-months",
+      "anchor": "Die ersten neun Monate des Arbeitsverhältnisses gelten als Probezeit. Während der Probezeit kann das Arbeitsverhältnis von beiden Seiten mit einer Frist von zwei Wochen gekündigt werden.",
+      "category": "probation",
+      "level": "check",
+      "acceptLevels": ["critical"],
+      "note": "Eine längere Probezeit ist im unbefristeten Vertrag nicht per se unwirksam, die Wartezeit des § 1 Abs. 1 KSchG endet aber unabhängig davon nach sechs Monaten. Die verkürzte Zweiwochenfrist ist nach § 622 Abs. 3 BGB nur für höchstens sechs Monate zulässig; für Monat 7 bis 9 gilt § 622 Abs. 1 BGB (vier Wochen zum 15. oder Monatsende). Teilweise unwirksam und irreführend."
+    },
+    {
+      "id": "employment-03-bonus-voluntary-and-revocable",
+      "anchor": "Die Zahlung erfolgt freiwillig und unter dem Vorbehalt des jederzeitigen Widerrufs",
+      "category": "compensation",
+      "level": "critical",
+      "acceptLevels": ["check"],
+      "note": "Die Kombination von Freiwilligkeits- und Widerrufsvorbehalt ist widersprüchlich und nach § 307 Abs. 1 S. 2 BGB intransparent (BAG, 14.09.2011 – 10 AZR 526/10; bestätigt BAG, 21.02.2024 – 10 AZR 345/22). Zudem ist das Weihnachtsgeld in Satz 1 als Anspruch formuliert. Folge: Anspruch auf das Weihnachtsgeld."
+    },
+    {
+      "id": "employment-03-penalty-exceeds-probation-notice",
+      "anchor": "eine Vertragsstrafe in Höhe eines Bruttomonatsgehalts zu zahlen",
+      "category": "penalty",
+      "level": "critical",
+      "acceptLevels": ["check"],
+      "note": "Ein Bruttomonatsgehalt wirkt auf den ersten Blick üblich. Maßstab ist aber die Vergütung bis zum Ablauf der maßgeblichen Kündigungsfrist; bei zwei Wochen in der Probezeit ist ein volles Monatsgehalt unangemessen hoch (BAG, 04.03.2004 – 8 AZR 196/03; 23.09.2010 – 8 AZR 897/08). Keine geltungserhaltende Reduktion, Klausel insgesamt unwirksam."
+    },
+    {
+      "id": "employment-03-exclusion-period-written-form-no-intent",
+      "anchor": "Ansprüche aus dem Arbeitsverhältnis verfallen, wenn sie nicht innerhalb von drei Monaten nach Fälligkeit schriftlich gegenüber der anderen Vertragspartei geltend gemacht werden; ausgenommen sind Ansprüche auf den gesetzlichen Mindestlohn.",
+      "category": "exclusion_periods",
+      "level": "critical",
+      "acceptLevels": ["check"],
+      "note": "Frist und Mindestlohnausnahme sind korrekt, trotzdem unwirksam: Ansprüche aus Vorsatzhaftung sind nicht ausgenommen, Verstoß gegen § 202 Abs. 1 BGB, Klausel nach § 134 BGB insgesamt nichtig (BAG, 26.11.2020 – 8 AZR 58/20). Außerdem verlangt sie Schriftform statt Textform (§ 309 Nr. 13 BGB, Verträge ab 01.10.2016). Auch § 309 Nr. 7 BGB (Leben, Körper, Gesundheit, grobes Verschulden) ist nicht berücksichtigt."
+    }
+  ],
+  "clean": [
+    {
+      "anchor": "einen anderen Arbeitsort an einem Standort der Gesellschaft innerhalb der Bundesrepublik Deutschland zuzuweisen",
+      "note": "Bundesweite Versetzungsklausel, die § 106 GewO nachbildet, ist wirksam; einen Radius oder eine Ankündigungsfrist braucht sie nicht (BAG, 13.04.2010 – 9 AZR 36/09). Geprüft wird erst die einzelne Versetzung nach billigem Ermessen. check wäre übervorsichtig."
+    },
+    {
+      "anchor": "Mit dem Bruttogehalt sind bis zu 20 Überstunden im Kalendermonat abgegolten",
+      "note": "Bezifferte Pauschalabgeltung von 20 Stunden ist transparent und wirksam (BAG, 16.05.2012 – 5 AZR 331/11)."
+    },
+    {
+      "anchor": "Die Zustimmung ist zu erteilen, wenn berechtigte betriebliche Interessen nicht entgegenstehen.",
+      "note": "Erlaubnisvorbehalt mit Anspruch auf Zustimmung, kein Verbot (BAG, 11.12.2001 – 9 AZR 464/00)."
+    },
+    {
+      "anchor": "gilt die verlängerte Frist auch für eine Kündigung durch die Arbeitnehmerin",
+      "note": "Gleichlauf der Fristen ist nach § 622 Abs. 6 BGB zulässig; keine Benachteiligung."
+    }
+  ]
+}

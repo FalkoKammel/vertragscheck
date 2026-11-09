@@ -1,0 +1,55 @@
+{
+  "contractType": "rental",
+  "description": "Subtile Fehler neben korrekten Nachbarklauseln: Kündigungsverzicht knapp über vier Jahre, Kaution auf Bruttobasis, anlasslose Besichtigung sowie eine weiche Renovierungsklausel, deren Wirksamkeit vom Zustand bei Übergabe abhängt.",
+  "expected": [
+    {
+      "id": "rental-03-termination-waiver-over-four-years",
+      "anchor": "Eine ordentliche Kündigung kann erstmals nach Ablauf dieses Zeitraums erklärt werden.",
+      "category": "term_termination",
+      "level": "critical",
+      "acceptLevels": ["check"],
+      "note": "Die Vierjahresgrenze wird vom Vertragsschluss bis zu dem Zeitpunkt gerechnet, zu dem der Mieter den Vertrag erstmals beenden kann (BGH, 08.12.2010 – VIII ZR 86/10). Darf die Kündigung erst nach vier Jahren erklärt werden, endet das Mietverhältnis frühestens nach vier Jahren und drei Monaten; der Verzicht ist dann nach § 307 Abs. 1 BGB insgesamt unwirksam. Satz 1 allein wäre wirksam."
+    },
+    {
+      "id": "rental-03-deposit-gross-rent",
+      "anchor": "drei Monatsmieten einschließlich der Betriebskostenvorauszahlungen",
+      "category": "deposit",
+      "level": "critical",
+      "note": "§ 551 Abs. 1 BGB: Höchstgrenze ist die dreifache Monatsmiete ohne die als Pauschale oder Vorauszahlung ausgewiesenen Betriebskosten, hier 2.070 Euro. Soweit 630 Euro mehr verlangt werden, ist die Abrede nach § 551 Abs. 4 BGB unwirksam; im Übrigen bleibt sie bestehen."
+    },
+    {
+      "id": "rental-03-cosmetic-repairs-depends-on-handover",
+      "anchor": "Der Mieter übernimmt auf eigene Kosten die Schönheitsreparaturen, die im Allgemeinen in Küchen, Bädern und Duschen alle fünf Jahre",
+      "category": "cosmetic_repairs",
+      "level": "check",
+      "acceptLevels": ["critical"],
+      "note": "Weiche Fristen (\"im Allgemeinen\") sind für sich genommen zulässig (BGH, 23.06.2004 – VIII ZR 361/03). Die formularmäßige Abwälzung ist aber unwirksam, wenn die Wohnung unrenoviert oder renovierungsbedürftig übergeben wurde und kein angemessener Ausgleich gewährt wird (BGH, 18.03.2015 – VIII ZR 185/14). Der Vertrag schweigt zum Zustand bei Übergabe, die Wirksamkeit hängt also von Fakten außerhalb des Textes ab."
+    },
+    {
+      "id": "rental-03-inspection-without-cause",
+      "anchor": "die Wohnung einmal jährlich nach vorheriger Ankündigung zur Überprüfung ihres Zustands zu besichtigen",
+      "category": "other",
+      "level": "critical",
+      "acceptLevels": ["check"],
+      "note": "Ein periodisches, anlassloses Besichtigungsrecht benachteiligt den Mieter unangemessen; die Formularklausel ist nach § 307 Abs. 1 BGB unwirksam (BGH, 04.06.2014 – VIII ZR 289/13). Der Vermieter braucht einen konkreten sachlichen Grund."
+    }
+  ],
+  "clean": [
+    {
+      "anchor": "die Sicherheit in drei gleichen monatlichen Teilzahlungen zu leisten",
+      "note": "§ 551 Abs. 2 BGB korrekt. Testet, ob der Fehler in Absatz 1 auf den Ratenabsatz übertragen wird."
+    },
+    {
+      "anchor": "Die Kostentragung ist auf 100 Euro je Einzelreparatur und auf höchstens 8 Prozent der Jahresnettokaltmiete, jedoch nicht mehr als 300 Euro im Kalenderjahr begrenzt.",
+      "note": "Gegenständlich auf Teile mit häufigem Zugriff beschränkt, Einzel- und Jahreshöchstbetrag, keine Vornahmepflicht (BGH VIII ZR 91/88, VIII ZR 129/91). Feste Beträge gibt der BGH nicht vor; 100 Euro liegen am oberen Rand, check wäre vertretbar."
+    },
+    {
+      "anchor": "kann er die Erlaubnis nach Maßgabe des § 553 BGB verlangen",
+      "note": "Erlaubnisvorbehalt mit gesetzlichem Anspruch nach § 553 BGB, wirksam."
+    },
+    {
+      "anchor": "Aus besonderem Anlass, insbesondere zur Feststellung oder Beseitigung von Mängeln oder bei beabsichtigtem Verkauf",
+      "note": "Besichtigung mit konkretem Anlass und Ankündigung ist zulässig (BGH VIII ZR 289/13). Direkter Kontrast zum unwirksamen Absatz 1."
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "contractType": "employment",
+  "description": "Weitgehend sauberer Grundvertrag mit zwei Fehlern: längere Kündigungsfrist nur für die Arbeitnehmerin und zweimonatige Ausschlussfrist.",
+  "expected": [
+    {
+      "id": "employment-01-termination-asymmetric",
+      "anchor": "Für die Kündigung durch die Arbeitnehmerin gilt eine Frist von drei Monaten zum Monatsende.",
+      "category": "termination",
+      "level": "critical",
+      "note": "§ 622 Abs. 6 BGB: Für die Kündigung durch den Arbeitnehmer darf keine längere Frist vereinbart werden als für die Kündigung durch den Arbeitgeber. Die gesetzliche Arbeitgeberfrist beträgt in den ersten zwei Jahren nur vier Wochen zum 15. oder Monatsende. Die Vereinbarung ist insoweit nichtig (§ 134 BGB). Zur Rechtsfolge hat das BAG zunächst angenommen, auch der Arbeitgeber müsse die längere Frist einhalten (BAG, 02.06.2005 – 2 AZR 296/04, § 89 Abs. 2 S. 2 HGB analog); später hat es die Analogie verneint (BAG, 18.10.2018 – 2 AZR 374/18). Unstreitig ist nur die Unwirksamkeit zulasten der Arbeitnehmerin."
+    },
+    {
+      "id": "employment-01-exclusion-period-too-short",
+      "anchor": "nicht innerhalb von zwei Monaten nach ihrer Fälligkeit",
+      "category": "exclusion_periods",
+      "level": "critical",
+      "note": "Formularmäßige Ausschlussfristen unter drei Monaten benachteiligen unangemessen und sind nach § 307 Abs. 1 BGB unwirksam (BAG, 28.09.2005 – 5 AZR 52/05). Die Ausnahmen in Absatz 2 (Mindestlohn, Vorsatz, Leben/Körper/Gesundheit) und die Textform sind korrekt; der Fehler liegt allein in der Frist."
+    }
+  ],
+  "clean": [
+    {
+      "anchor": "Die ersten sechs Monate des Arbeitsverhältnisses gelten als Probezeit.",
+      "note": "§ 622 Abs. 3 BGB: verkürzte Frist von zwei Wochen für höchstens sechs Monate."
+    },
+    {
+      "anchor": "Mit dem Bruttogehalt sind bis zu zehn Überstunden im Kalendermonat abgegolten.",
+      "note": "Bezifferte Pauschalabgeltung ist transparent und wirksam (BAG, 16.05.2012 – 5 AZR 331/11, dort sogar 20 Stunden)."
+    },
+    {
+      "anchor": "Erholungsurlaub von 28 Arbeitstagen bei einer Fünftagewoche",
+      "note": "Über dem gesetzlichen Minimum von 20 Arbeitstagen (§ 3 Abs. 1 BUrlG)."
+    },
+    {
+      "anchor": "Die Entgeltfortzahlung im Krankheitsfall richtet sich nach dem Entgeltfortzahlungsgesetz.",
+      "note": "Verweis auf das EFZG, Standard."
+    },
+    {
+      "anchor": "Der Arbeitgeber kann die Nebentätigkeit nur untersagen, wenn sie die Erfüllung der arbeitsvertraglichen Pflichten beeinträchtigt",
+      "note": "Anzeigepflicht mit Untersagung nur bei berechtigtem Interesse; zulässig (vgl. BAG, 11.12.2001 – 9 AZR 464/00)."
+    }
+  ]
+}
