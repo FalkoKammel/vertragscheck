@@ -255,6 +255,22 @@ importers:
         specifier: 7.0.1
         version: 7.0.1(postcss@8.5.32)
 
+  eval:
+    dependencies:
+      '@aws-sdk/client-bedrock-runtime':
+        specifier: ^3.1163.0
+        version: 3.1163.0
+      api:
+        specifier: workspace:*
+        version: link:../services/api
+      zod:
+        specifier: ^4.6.7
+        version: 4.6.7
+    devDependencies:
+      tsx:
+        specifier: 4.23.15
+        version: 4.23.15
+
   infra:
     dependencies:
       aws-cdk-lib:

@@ -1,0 +1,20 @@
+{
+  "name": "eval",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "eval": "tsx src/run.ts",
+    "eval:grade": "tsx src/regrade.ts",
+    "eval:check": "tsx src/check.ts",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run --passWithNoTests"
+  },
+  "dependencies": {
+    "@aws-sdk/client-bedrock-runtime": "^3.1163.0",
+    "api": "workspace:*",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "tsx": "4.23.15"
+  }
+}
