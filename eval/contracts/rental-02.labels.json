@@ -1,0 +1,76 @@
+{
+  "contractType": "rental",
+  "description": "Viele grobe Fehler: Kaution in Höhe und Fälligkeit, starrer Fristenplan, Endrenovierung, einseitiger Kündigungsverzicht, Verwaltungskosten, Untervermietungs- und Tierverbot.",
+  "expected": [
+    {
+      "id": "rental-02-termination-waiver",
+      "anchor": "Der Mieter verzichtet für die Dauer von fünf Jahren ab Vertragsschluss auf sein Recht zur ordentlichen Kündigung.",
+      "category": "term_termination",
+      "level": "critical",
+      "note": "Formularmäßiger Kündigungsverzicht über vier Jahre ist nach § 307 Abs. 1 BGB insgesamt unwirksam (BGH, 06.04.2005 – VIII ZR 27/04; 08.12.2010 – VIII ZR 86/10). Zusätzlich einseitig nur zulasten des Mieters ohne Staffelmiete; ein solcher einseitiger Ausschluss ist in AGB nur zusammen mit einer Staffelmiete nach § 557a Abs. 3 BGB zulässig."
+    },
+    {
+      "id": "rental-02-operating-costs-administration",
+      "anchor": "trägt der Mieter anteilig die Kosten der Hausverwaltung sowie die Kontoführungsgebühren der Vermieterin",
+      "category": "operating_costs",
+      "level": "critical",
+      "note": "Verwaltungskosten sind keine Betriebskosten (§ 1 Abs. 2 Nr. 1 BetrKV); ihre Umlage weicht von § 556 Abs. 1 BGB ab und ist nach § 556 Abs. 4 BGB unwirksam (BGH, 19.12.2018 – VIII ZR 254/17). Kontoführungsgebühren des Vermieters gehören ebenfalls nicht zum Katalog des § 2 BetrKV."
+    },
+    {
+      "id": "rental-02-deposit",
+      "anchor": "eine Kaution in Höhe von vier Nettokaltmieten",
+      "category": "deposit",
+      "level": "critical",
+      "note": "§ 551 Abs. 1 BGB: höchstens drei Nettokaltmieten. Nach § 551 Abs. 4 BGB unwirksam, soweit der Betrag drei Monatsmieten übersteigt."
+    },
+    {
+      "id": "rental-02-deposit-lump-sum",
+      "anchor": "Die Kaution ist vor Übergabe der Wohnung in einer Summe zu zahlen. Eine Zahlung in Teilbeträgen ist ausgeschlossen.",
+      "category": "deposit",
+      "level": "critical",
+      "note": "§ 551 Abs. 2 BGB: Recht auf drei Monatsraten, erste Rate zu Beginn des Mietverhältnisses; abweichende Vereinbarung nach § 551 Abs. 4 BGB unwirksam. Nach BGH, 25.06.2003 – VIII ZR 344/02 ist nur die Fälligkeitsregel unwirksam, die Kautionsabrede im Übrigen bleibt bestehen."
+    },
+    {
+      "id": "rental-02-repairs-schedule",
+      "anchor": "in Küche und Bad spätestens alle drei Jahre",
+      "category": "cosmetic_repairs",
+      "level": "critical",
+      "note": "Starrer Fristenplan (\"spätestens\") ohne Rücksicht auf den tatsächlichen Renovierungsbedarf; unwirksam nach § 307 BGB (BGH, 23.06.2004 – VIII ZR 361/03). Folge: Die Abwälzung der Schönheitsreparaturen entfällt insgesamt."
+    },
+    {
+      "id": "rental-02-final-renovation",
+      "anchor": "unabhängig vom Zeitpunkt der letzten Schönheitsreparaturen vollständig renoviert zurückzugeben",
+      "category": "cosmetic_repairs",
+      "level": "critical",
+      "note": "Endrenovierungsklausel unabhängig vom Zustand bzw. vom Zeitpunkt der letzten Renovierung ist nach § 307 BGB unwirksam (BGH, 14.05.2003 – VIII ZR 308/02)."
+    },
+    {
+      "id": "rental-02-sublet",
+      "anchor": "Die Untervermietung ist ausnahmslos untersagt",
+      "category": "use_subletting",
+      "level": "critical",
+      "acceptLevels": ["check"],
+      "note": "§ 553 Abs. 1 BGB gibt bei nachträglich entstandenem berechtigtem Interesse einen Anspruch auf Erlaubnis zur Teiluntervermietung; abweichende Vereinbarung zulasten des Mieters nach § 553 Abs. 3 BGB unwirksam."
+    },
+    {
+      "id": "rental-02-pets-total-ban",
+      "anchor": "Jede Tierhaltung, auch die Haltung von Kleintieren wie Zierfischen oder Hamstern, ist in der Wohnung untersagt.",
+      "category": "pets",
+      "level": "critical",
+      "note": "Kleintierhaltung gehört zum vertragsgemäßen Gebrauch (BGH, 14.11.2007 – VIII ZR 340/06); auch ein generelles Hunde- und Katzenverbot ist unwirksam (BGH, 20.03.2013 – VIII ZR 168/12). Klausel nach § 307 Abs. 1, Abs. 2 Nr. 1 BGB unwirksam."
+    }
+  ],
+  "clean": [
+    {
+      "anchor": "Die Miete ist monatlich im Voraus, spätestens bis zum dritten Werktag",
+      "note": "§ 556b Abs. 1 BGB, Standard."
+    },
+    {
+      "anchor": "trägt der Mieter die Betriebskosten im Sinne des § 2 der Betriebskostenverordnung",
+      "note": "Wirksame Umlage der Betriebskosten (BGH, 10.02.2016 – VIII ZR 137/15). Testet, ob der fehlerhafte Absatz 2 auf Absatz 1 abfärbt."
+    },
+    {
+      "anchor": "Der Mieter erhält bei Einzug zwei Wohnungsschlüssel"
+    }
+  ]
+}

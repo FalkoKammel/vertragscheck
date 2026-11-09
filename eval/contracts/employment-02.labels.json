@@ -1,0 +1,69 @@
+{
+  "contractType": "employment",
+  "description": "Viele grobe Fehler: Wettbewerbsverbot ohne Karenzentschädigung, einmonatige Ausschlussfrist ohne Ausnahmen, pauschale Überstundenabgeltung, Urlaub unter Minimum, ungestaffelte Rückzahlung, überhöhte Vertragsstrafe und generelles Nebentätigkeitsverbot.",
+  "expected": [
+    {
+      "id": "employment-02-overtime-all-included",
+      "anchor": "Sämtliche Überstunden sind mit dem Gehalt abgegolten.",
+      "category": "working_time",
+      "level": "critical",
+      "note": "Pauschalabgeltung ohne Angabe des Umfangs ist intransparent und nach § 307 Abs. 1 S. 2 BGB unwirksam (BAG, 01.09.2010 – 5 AZR 517/09); der Arbeitnehmer kann nicht erkennen, was auf ihn zukommt. Zulässig wäre eine bezifferte Grenze (BAG, 16.05.2012 – 5 AZR 331/11)."
+    },
+    {
+      "id": "employment-02-vacation-below-minimum",
+      "anchor": "18 Arbeitstage Erholungsurlaub bei einer Fünftagewoche",
+      "category": "vacation",
+      "level": "critical",
+      "note": "§ 3 Abs. 1 BUrlG: 24 Werktage bei Sechstagewoche, umgerechnet 20 Arbeitstage bei Fünftagewoche. Abweichung zulasten des Arbeitnehmers nach § 13 Abs. 1 BUrlG unwirksam; es gilt der gesetzliche Mindesturlaub."
+    },
+    {
+      "id": "employment-02-repayment-any-reason",
+      "anchor": "diese Kosten in voller Höhe zurückzuzahlen, wenn das Arbeitsverhältnis innerhalb von drei Jahren nach Abschluss der Fortbildung endet, gleich aus welchem Grund",
+      "category": "repayment",
+      "level": "critical",
+      "note": "Rückzahlungspflicht ohne Staffelung, ohne Bezug der Bindungsdauer zu Dauer und Wert der Fortbildung und auch bei Beendigung aus Gründen der Arbeitgebersphäre (z. B. betriebsbedingte Kündigung). Die Pflicht darf nicht schlechthin an jedes Ausscheiden geknüpft werden (BAG, 01.03.2022 – 9 AZR 260/21). Unwirksam nach § 307 Abs. 1 BGB, keine geltungserhaltende Reduktion."
+    },
+    {
+      "id": "employment-02-side-jobs-total-ban",
+      "anchor": "Jede Nebentätigkeit, gleich ob entgeltlich oder unentgeltlich, ist dem Arbeitnehmer untersagt.",
+      "category": "side_jobs",
+      "level": "critical",
+      "note": "Generelles Nebentätigkeitsverbot verletzt die Berufsfreiheit (Art. 12 GG) und benachteiligt unangemessen (§ 307 Abs. 1 BGB). Zulässig ist nur ein Erlaubnisvorbehalt, bei dem der Arbeitnehmer einen Anspruch auf Zustimmung hat, wenn keine berechtigten Interessen des Arbeitgebers entgegenstehen (BAG, 11.12.2001 – 9 AZR 464/00)."
+    },
+    {
+      "id": "employment-02-penalty-three-salaries",
+      "anchor": "eine Vertragsstrafe in Höhe von drei Bruttomonatsgehältern",
+      "category": "penalty",
+      "level": "critical",
+      "note": "Vertragsstrafen sind in Formulararbeitsverträgen nicht per se unzulässig, dürfen aber die Vergütung bis zum Ablauf der Kündigungsfrist nicht übersteigen (BAG, 04.03.2004 – 8 AZR 196/03). Drei Monatsgehälter bei zwei Wochen Probezeitfrist bzw. vier Wochen gesetzlicher Frist sind unangemessen; keine geltungserhaltende Reduktion."
+    },
+    {
+      "id": "employment-02-non-compete-no-compensation",
+      "anchor": "Eine Entschädigung wird für die Dauer des Wettbewerbsverbots nicht gezahlt.",
+      "category": "non_compete",
+      "level": "critical",
+      "note": "Nachvertragliches Wettbewerbsverbot ohne Karenzentschädigung ist nach § 74 Abs. 2 HGB i. V. m. § 110 GewO nichtig; auch eine salvatorische Klausel heilt das nicht (BAG, 22.03.2017 – 10 AZR 448/15)."
+    },
+    {
+      "id": "employment-02-exclusion-period-one-month",
+      "anchor": "nicht innerhalb eines Monats nach Fälligkeit schriftlich geltend gemacht werden",
+      "category": "exclusion_periods",
+      "level": "critical",
+      "note": "Mehrfach unwirksam: Frist unter drei Monaten (BAG, 28.09.2005 – 5 AZR 52/05), keine Ausnahme für den Mindestlohn (BAG, 18.09.2018 – 9 AZR 162/18), keine Ausnahme für Vorsatzhaftung (§ 202 Abs. 1 BGB, BAG, 26.11.2020 – 8 AZR 58/20) und Schriftform statt Textform (§ 309 Nr. 13 BGB für Verträge ab 01.10.2016)."
+    }
+  ],
+  "clean": [
+    {
+      "anchor": "Die Vergütung ist jeweils am letzten Werktag des Monats fällig",
+      "note": "Fälligkeit zum Monatsende entspricht § 614 BGB."
+    },
+    {
+      "anchor": "Die Entgeltfortzahlung im Krankheitsfall richtet sich nach den gesetzlichen Bestimmungen.",
+      "note": "Verweis auf das EFZG, Standard."
+    },
+    {
+      "anchor": "Nach Ablauf der Probezeit gelten für beide Seiten die gesetzlichen Kündigungsfristen.",
+      "note": "§ 622 BGB, keine Asymmetrie."
+    }
+  ]
+}

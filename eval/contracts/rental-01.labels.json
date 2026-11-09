@@ -1,0 +1,46 @@
+{
+  "contractType": "rental",
+  "description": "Weitgehend sauberer Grundvertrag mit zwei Fehlern: Kleinreparaturklausel ohne Jahreshöchstbetrag und verschuldensunabhängige Haftung für Schlüsselverlust.",
+  "expected": [
+    {
+      "id": "rental-01-minor-repairs-no-annual-cap",
+      "anchor": "soweit die einzelne Reparatur einen Betrag von 120 Euro nicht übersteigt",
+      "category": "minor_repairs",
+      "level": "critical",
+      "note": "Kleinreparaturklausel nennt nur einen Einzelbetrag, aber keine Höchstgrenze für mehrere Reparaturen im Jahr. Nach BGH, 07.06.1989 – VIII ZR 91/88 und 06.05.1992 – VIII ZR 129/91 sind Einzel- und Jahreshöchstbetrag erforderlich; fehlt die Jahresgrenze, ist die Klausel nach § 307 Abs. 1 BGB insgesamt unwirksam. 120 Euro je Fall liegt zudem am oberen Rand der Instanzrechtsprechung."
+    },
+    {
+      "id": "rental-01-key-loss-strict-liability",
+      "anchor": "haftet die Mieterin unabhängig von einem Verschulden für die Kosten des Austauschs der Schließanlage",
+      "category": "other",
+      "level": "critical",
+      "note": "Formularmäßige verschuldensunabhängige Haftung für Schlüsselverlust weicht vom Verschuldensprinzip (§§ 280 Abs. 1 S. 2, 538 BGB) ab und ist nach § 307 Abs. 1, Abs. 2 Nr. 1 BGB unwirksam. Ein Ersatzanspruch für den Austausch der Schließanlage setzt zudem Verschulden und eine konkrete Missbrauchsgefahr voraus (vgl. BGH, 05.03.2014 – VIII ZR 205/13)."
+    }
+  ],
+  "clean": [
+    {
+      "anchor": "Die Kündigung richtet sich nach den gesetzlichen Vorschriften.",
+      "note": "Gesetzliche Fristen nach § 573c BGB, kein Kündigungsverzicht."
+    },
+    {
+      "anchor": "Die Miete ist monatlich im Voraus, spätestens bis zum dritten Werktag",
+      "note": "§ 556b Abs. 1 BGB, Standard; Rechtzeitigkeit nach Überweisungsauftrag mieterfreundlich."
+    },
+    {
+      "anchor": "eine Mietsicherheit in Höhe von drei Nettokaltmieten",
+      "note": "§ 551 Abs. 1 BGB, Höchstgrenze eingehalten."
+    },
+    {
+      "anchor": "die Sicherheit in drei gleichen monatlichen Teilzahlungen zu erbringen",
+      "note": "§ 551 Abs. 2 BGB, Ratenzahlung korrekt geregelt."
+    },
+    {
+      "anchor": "Die Schönheitsreparaturen in der Wohnung führt der Vermieter durch.",
+      "note": "Entspricht der gesetzlichen Regel des § 535 Abs. 1 S. 2 BGB."
+    },
+    {
+      "anchor": "Die Haltung von Kleintieren wie Zierfischen, Ziervögeln, Hamstern oder Meerschweinchen in üblicher Anzahl bedarf keiner Zustimmung.",
+      "note": "Kleintiere frei, Hunde und Katzen nach Einzelfallabwägung; entspricht BGH VIII ZR 340/06 und VIII ZR 168/12."
+    }
+  ]
+}

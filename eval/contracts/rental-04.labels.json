@@ -1,0 +1,64 @@
+{
+  "contractType": "rental",
+  "description": "Langer Vertrag mit 18 Paragraphen: prozentuale Staffelmiete, Aufrechnungs- und Minderungsausschluss, Quotenabgeltung und Tierklausel ohne Kleintierausnahme, verteilt zwischen vielen korrekten Standardklauseln.",
+  "expected": [
+    {
+      "id": "rental-04-rent-percentage-steps",
+      "anchor": "Die Nettokaltmiete erhöht sich jeweils zum 1. Juni eines jeden Jahres um 3 Prozent der zuletzt geschuldeten Nettokaltmiete",
+      "category": "rent",
+      "level": "critical",
+      "note": "Staffelmiete muss die jeweilige Miete oder Erhöhung in einem Geldbetrag ausweisen (§ 557a Abs. 1 BGB); eine prozentuale Steigerung ist unwirksam (vgl. BGH VIII ZR 197/11). Als Indexmiete taugt sie nicht, weil § 557b BGB eine Bindung an den Verbraucherpreisindex verlangt. Abweichung zulasten der Mieterin unwirksam (§ 557a Abs. 5 BGB); es bleibt bei der Ausgangsmiete und den §§ 558 ff. BGB."
+    },
+    {
+      "id": "rental-04-set-off-ban",
+      "anchor": "Die Mieterin kann gegen Mietforderungen weder aufrechnen noch ein Zurückbehaltungsrecht ausüben.",
+      "category": "rent",
+      "level": "critical",
+      "note": "Ausnahmsloser Ausschluss widerspricht § 556b Abs. 2 BGB (Aufrechnung und Zurückbehaltung mit Forderungen aus §§ 536a, 539 BGB oder wegen überzahlter Miete nach Anzeige einen Monat vorher; abweichende Vereinbarung unwirksam) sowie § 309 Nr. 2 und Nr. 3 BGB (auch unbestrittene oder rechtskräftig festgestellte Forderungen ausgeschlossen)."
+    },
+    {
+      "id": "rental-04-rent-reduction-excluded",
+      "anchor": "Eine Minderung der Miete wegen Mängeln der Wohnung ist ausgeschlossen",
+      "category": "rent",
+      "level": "critical",
+      "note": "Bei Wohnraum ist eine zum Nachteil des Mieters abweichende Vereinbarung über die Minderung unwirksam (§ 536 Abs. 4 BGB). Die Minderung tritt kraft Gesetzes ein und hängt nicht vom Vertretenmüssen des Vermieters ab."
+    },
+    {
+      "id": "rental-04-quota-clause",
+      "anchor": "hat die Mieterin die anteiligen Kosten nach folgenden Quoten zu tragen",
+      "category": "cosmetic_repairs",
+      "level": "critical",
+      "note": "Quotenabgeltungsklauseln sind nach § 307 Abs. 1 BGB unwirksam, weil der Mieter den auf ihn entfallenden Kostenanteil bei Vertragsschluss nicht verlässlich einschätzen kann (BGH, 18.03.2015 – VIII ZR 242/13)."
+    },
+    {
+      "id": "rental-04-pets-consent-without-small-animals",
+      "anchor": "Jede Tierhaltung mit Ausnahme von Zierfischen bedarf der vorherigen Zustimmung der Vermieter.",
+      "category": "pets",
+      "level": "critical",
+      "acceptLevels": ["check"],
+      "note": "Zustimmungsvorbehalt, der andere Kleintiere wie Hamster, Ziervögel oder Schildkröten nicht ausnimmt, ist nach § 307 Abs. 1 BGB unwirksam (BGH, 14.11.2007 – VIII ZR 340/06); Kleintierhaltung gehört zum vertragsgemäßen Gebrauch. Weniger offensichtlich als ein Totalverbot, daher check vertretbar."
+    }
+  ],
+  "clean": [
+    {
+      "anchor": "Die Kündigungsfrist für die Mieterin beträgt drei Monate",
+      "note": "Entspricht § 573c Abs. 1 S. 1 BGB."
+    },
+    {
+      "anchor": "Die Mieterin leistet eine Mietsicherheit in Höhe von drei Nettokaltmieten, das sind 3.450,00 Euro.",
+      "note": "§ 551 Abs. 1 BGB eingehalten; Ratenzahlung in Absatz 2 korrekt."
+    },
+    {
+      "anchor": "Die Mieterin übernimmt die Schönheitsreparaturen. Diese werden im Allgemeinen in Küchen, Bädern und Duschen alle fünf Jahre",
+      "note": "Weiche Fristen sind zulässig (BGH VIII ZR 361/03), und § 8 stellt eine renoviert übergebene Wohnung fest, sodass die Abwälzung nach BGH VIII ZR 185/14 wirksam ist. Die unwirksame Quotenabgeltung in Absatz 2 ist eine eigenständige Regelung. Testet, ob der Kontext aus § 8 berücksichtigt wird; check wäre übervorsichtig."
+    },
+    {
+      "anchor": "Einrichtungen, mit denen sie die Wohnung versehen hat, zu entfernen und den ursprünglichen Zustand wiederherzustellen",
+      "note": "Rückbaupflicht entspricht §§ 539 Abs. 2, 546 Abs. 1 BGB."
+    },
+    {
+      "anchor": "dürfen die Wohnung aus besonderem Anlass, insbesondere zur Prüfung angezeigter Mängel",
+      "note": "Betretungsrecht nur mit konkretem Anlass und Ankündigung, entspricht BGH VIII ZR 289/13."
+    }
+  ]
+}
