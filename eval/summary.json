@@ -2,73 +2,73 @@
   "eu.anthropic.claude-haiku-4-5-20251001-v1:0": {
     "model": "eu.anthropic.claude-haiku-4-5-20251001-v1:0",
     "promptVersion": "v1",
-    "date": "2026-11-09T17:48:07.967Z",
+    "date": "2026-11-09T18:05:30.165Z",
     "runs": 3,
     "contracts": 8,
     "labels": 72,
     "summary": {
       "recall": {
-        "num": 75,
-        "den": 93,
-        "mean": 0.805050505050505,
-        "min": 0.7333333333333333,
-        "max": 0.8484848484848485
+        "num": 87,
+        "den": 111,
+        "mean": 0.7837837837837838,
+        "min": 0.7837837837837838,
+        "max": 0.7837837837837838
       },
       "recallCritical": {
-        "num": 70,
-        "den": 88,
-        "mean": 0.7931547619047619,
-        "min": 0.7142857142857143,
-        "max": 0.84375
+        "num": 81,
+        "den": 105,
+        "mean": 0.7714285714285715,
+        "min": 0.7714285714285715,
+        "max": 0.7714285714285715
       },
       "recallCheck": {
-        "num": 5,
-        "den": 5,
+        "num": 6,
+        "den": 6,
         "mean": 1,
         "min": 1,
         "max": 1
       },
-      "missedSeenAsFine": 1,
-      "missedNotHit": 17,
+      "missedSeenAsFine": 3,
+      "missedNotHit": 21,
       "consistency": {
         "num": 29,
         "den": 37
       },
       "levelAccuracy": {
-        "num": 69,
-        "den": 75
+        "num": 81,
+        "den": 87
       },
       "categoryAccuracy": {
-        "num": 71,
-        "den": 75
+        "num": 81,
+        "den": 87
       },
       "falseAlarmRate": {
-        "num": 2,
-        "den": 81
+        "num": 3,
+        "den": 105
       },
       "overcautiousRate": {
         "num": 3,
-        "den": 81
+        "den": 105
       },
       "unverifiedQuotes": {
         "num": 3,
-        "den": 115
+        "den": 152
       },
       "invalidClauses": {
         "num": 0,
-        "den": 115
+        "den": 152
       },
       "failedRuns": {
-        "num": 5,
+        "num": 0,
         "den": 24
       },
       "costMicroUsd": {
-        "mean": 10581.421052631578,
-        "total": 201047
+        "mean": 10944.833333333334,
+        "total": 262676
       },
       "latencyMs": {
-        "mean": 5976.473684210527,
-        "p95": 13273
+        "mean": 6434.583333333333,
+        "p95": 11971
       }
     }
   }
