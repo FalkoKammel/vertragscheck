@@ -147,13 +147,31 @@ export function unmatchedMarkdown(g: GradeResult): string {
   return `# Unmatched clauses\n\nClauses the model returned that overlap no label. Review by hand: each is either a missing label or a false positive.\n\n${blocks.join('\n')}`;
 }
 
+export const MAX_FAILED_SHARE = 0.1;
+
+export function reportGate(s: Summary): { complete: boolean; warning?: string } {
+  const { num, den } = s.failedRuns;
+  if (num === 0) return { complete: true };
+  const share = den === 0 ? 1 : num / den;
+  const text = `${String(num)} of ${String(den)} calls failed, results incomplete`;
+  return share > MAX_FAILED_SHARE
+    ? {
+        complete: false,
+        warning: `${text}. docs/eval.md, eval/summary.json and the unmatched file were NOT written (limit: more than ${String(MAX_FAILED_SHARE * 100)} % failed). The raw results file is kept; rerun, or fix the cause and use eval:grade.`,
+      }
+    : { complete: true, warning: `${text}.` };
+}
+
 export function gradeAndReport(
   meta: Meta,
   contracts: Contract[],
   g: GradeResult,
   options: { baseName: string; regraded: boolean },
 ): void {
+  const gate = reportGate(g.summary);
+  if (gate.warning) console.warn(`\nWARNING: ${gate.warning}`);
   printReport(g);
+  if (!gate.complete) return;
   mkdirSync(dirname(EVAL_DOC), { recursive: true });
   if (!existsSync(EVAL_DOC)) {
     writeFileSync(

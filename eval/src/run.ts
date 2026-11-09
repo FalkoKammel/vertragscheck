@@ -10,7 +10,11 @@ import { grade } from './grade';
 import { formatProblems, loadContracts } from './load';
 import { CONTRACTS_DIR, RESULTS_DIR } from './paths';
 import { gradeAndReport } from './report';
+import { withRetry } from './retry';
 import type { CallRecord, ResultsFile } from './results.schema';
+
+const MAX_ATTEMPTS = 3;
+const RETRY_DELAY_MS = 30_000;
 
 export function modelShortName(model: string): string {
   const last = model.split('.').pop() ?? model;
@@ -78,11 +82,24 @@ async function main(): Promise<void> {
       const started = Date.now();
       const label = `[${String(n)}/${String(total)}] ${contract.id} run ${String(run)}`;
       try {
-        const result = await analyser.analyse({
-          contractType: contract.contractType,
-          language: 'de',
-          text: contract.text.value,
-        });
+        const result = await withRetry(
+          () =>
+            analyser.analyse({
+              contractType: contract.contractType,
+              language: 'de',
+              text: contract.text.value,
+            }),
+          {
+            attempts: MAX_ATTEMPTS,
+            delayMs: RETRY_DELAY_MS,
+            onRetry: (attempt, e) => {
+              const first = (e instanceof Error ? e.message : 'unknown error').split('\n')[0] ?? '';
+              console.log(
+                `${label}: attempt ${String(attempt)} failed (${first.slice(0, 80)}), retrying in ${String(RETRY_DELAY_MS / 1000)} s`,
+              );
+            },
+          },
+        );
         const costMicroUsd = calculateCostMicroUsd(model, result.usage);
         const verification = result.ok ? contract.text.verifyQuotes(result.clauses) : undefined;
         calls.push({
@@ -100,8 +117,17 @@ async function main(): Promise<void> {
         const error = e instanceof Error ? `${e.name}: ${e.message}` : 'unknown error';
         calls.push({ contractId: contract.id, run, error, wallMs: Date.now() - started });
         console.log(`${label}: ERROR ${error.split('\n')[0] ?? ''}`);
+        if (n === 1) {
+          console.error('First call failed after retries. Stopping, nothing written.');
+          process.exit(1);
+        }
       }
     }
+  }
+
+  if (calls.every((c) => c.error !== undefined)) {
+    console.error('Every call failed. Nothing written.');
+    process.exit(1);
   }
 
   const now = new Date();
