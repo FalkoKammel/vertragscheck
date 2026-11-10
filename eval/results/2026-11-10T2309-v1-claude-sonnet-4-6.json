@@ -1,0 +1,1450 @@
+{
+  "meta": {
+    "model": "eu.anthropic.claude-sonnet-4-6",
+    "promptVersion": "v1",
+    "runs": 1,
+    "date": "2026-11-10T23:09:46.610Z",
+    "commit": "e7ed14ffbde2ec6c3aa4939f7c6034f6d7578062",
+    "contractIds": [
+      "employment-01",
+      "employment-02",
+      "employment-03",
+      "employment-04",
+      "rental-01",
+      "rental-02",
+      "rental-03",
+      "rental-04"
+    ]
+  },
+  "calls": [
+    {
+      "contractId": "employment-01",
+      "run": 1,
+      "result": {
+        "ok": true,
+        "modelId": "eu.anthropic.claude-sonnet-4-6",
+        "promptVersion": "v1",
+        "usage": {
+          "inputTokens": 3331,
+          "outputTokens": 1674
+        },
+        "latencyMs": 12495,
+        "clauses": [
+          {
+            "ref": "§ 2",
+            "category": "probation",
+            "level": "fine",
+            "quote": "Die ersten sechs Monate des Arbeitsverhältnisses gelten als Probezeit. Während der Probezeit kann das Arbeitsverhältnis von beiden Seiten mit einer Frist von zwei Wochen gekündigt werden.",
+            "reason": "Die Probezeit beträgt sechs Monate und die Kündigungsfrist zwei Wochen – beides entspricht genau dem gesetzlichen Rahmen (§ 622 Abs. 3 BGB). Diese Regelung ist unauffällig."
+          },
+          {
+            "ref": "§ 3 Abs. 2",
+            "category": "working_time",
+            "level": "check",
+            "quote": "Mit dem Bruttogehalt sind bis zu zehn Überstunden im Kalendermonat abgegolten.",
+            "reason": "Eine pauschale Abgeltung von bis zu zehn Überstunden pro Monat ist nach der Rechtsprechung des BAG grundsätzlich zulässig, wenn die Vergütung angemessen ist. Bei einem Gehalt von 4.800 € brutto und 40 Stunden/Woche sollte geprüft werden, ob der effektive Stundenlohn auch bei regelmäßig geleisteten Überstunden noch deutlich über dem Mindestlohn liegt und ob die Klausel hinreichend transparent ist. Überstunden darüber hinaus werden ausgeglichen oder vergütet – das ist positiv."
+          },
+          {
+            "ref": "§ 4 Abs. 1",
+            "category": "compensation",
+            "level": "fine",
+            "quote": "Die Arbeitnehmerin erhält ein monatliches Bruttogehalt von 4.800,00 Euro.",
+            "reason": "Das Gehalt ist klar und fest vereinbart, ohne Freiwilligkeits- oder Widerrufsvorbehalt. Diese Regelung ist unproblematisch."
+          },
+          {
+            "ref": "§ 5 Abs. 1",
+            "category": "vacation",
+            "level": "fine",
+            "quote": "Die Arbeitnehmerin hat Anspruch auf einen jährlichen Erholungsurlaub von 28 Arbeitstagen bei einer Fünftagewoche. Davon entfallen 20 Arbeitstage auf den gesetzlichen Mindesturlaub.",
+            "reason": "28 Urlaubstage bei einer Fünftagewoche liegen über dem gesetzlichen Minimum von 20 Tagen (§ 3 BUrlG). Die Regelung ist für die Arbeitnehmerin günstig und unauffällig."
+          },
+          {
+            "ref": "§ 9 Abs. 1",
+            "category": "termination",
+            "level": "critical",
+            "quote": "Nach Ablauf der Probezeit gilt für die Kündigung durch den Arbeitgeber die gesetzliche Kündigungsfrist nach § 622 BGB. Für die Kündigung durch die Arbeitnehmerin gilt eine Frist von drei Monaten zum Monatsende.",
+            "reason": "Hier werden unterschiedliche Kündigungsfristen für Arbeitgeber und Arbeitnehmerin vereinbart: Der Arbeitgeber kündigt nach den gesetzlichen Staffelfristen des § 622 BGB (beginnend mit 4 Wochen), während die Arbeitnehmerin stets 3 Monate einhalten muss. Das BAG hält solche einseitig verlängerten Fristen für Arbeitnehmer für unwirksam, wenn sie die Frist des Arbeitgebers übersteigen – die Arbeitnehmerin wäre dann an eine Frist gebunden, die sie schlechter stellt als der Arbeitgeber. Die Klausel ist daher wahrscheinlich unwirksam."
+          },
+          {
+            "ref": "§ 7",
+            "category": "side_jobs",
+            "level": "fine",
+            "quote": "Die Arbeitnehmerin hat jede entgeltliche Nebentätigkeit vor ihrer Aufnahme dem Arbeitgeber anzuzeigen. Der Arbeitgeber kann die Nebentätigkeit nur untersagen, wenn sie die Erfüllung der arbeitsvertraglichen Pflichten beeinträchtigt, gegen das Arbeitszeitgesetz verstößt oder eine Tätigkeit für einen Wettbewerber darstellt.",
+            "reason": "Die Klausel beschränkt das Untersagungsrecht des Arbeitgebers auf sachlich berechtigte Gründe und enthält kein generelles Verbot. Das ist arbeitnehmerfreundlich und rechtlich einwandfrei."
+          },
+          {
+            "ref": "§ 10 Abs. 1",
+            "category": "exclusion_periods",
+            "level": "critical",
+            "quote": "Alle beiderseitigen Ansprüche aus dem Arbeitsverhältnis verfallen, wenn sie nicht innerhalb von zwei Monaten nach ihrer Fälligkeit gegenüber der anderen Vertragspartei in Textform geltend gemacht werden.",
+            "reason": "Eine Ausschlussfrist von nur zwei Monaten ist nach ständiger Rechtsprechung des BAG zu kurz – das Minimum beträgt drei Monate. Die Klausel ist daher wahrscheinlich insgesamt unwirksam, was bedeutet, dass gar keine Ausschlussfrist gilt. Zwar enthält § 10 Abs. 2 wichtige Ausnahmen (u. a. Mindestlohn), aber die zu kurze Frist macht die gesamte Regelung hinfällig."
+          },
+          {
+            "ref": "§ 1 Abs. 2",
+            "category": "place_of_work",
+            "level": "check",
+            "quote": "Arbeitsort ist der Sitz der Gesellschaft in Hamburg.",
+            "reason": "Der Arbeitsort ist konkret auf Hamburg festgelegt, ohne eine Versetzungsklausel. Das ist grundsätzlich positiv für die Arbeitnehmerin. Es gibt jedoch keine Regelung zu Homeoffice, sodass ein etwaiger Anspruch darauf nicht vertraglich gesichert ist."
+          }
+        ],
+        "invalidClauses": 0
+      },
+      "verification": {
+        "clauses": [
+          {
+            "ref": "§ 2",
+            "category": "probation",
+            "level": "fine",
+            "quote": "Die ersten sechs Monate des Arbeitsverhältnisses gelten als Probezeit. Während der Probezeit kann das Arbeitsverhältnis von beiden Seiten mit einer Frist von zwei Wochen gekündigt werden.",
+            "reason": "Die Probezeit beträgt sechs Monate und die Kündigungsfrist zwei Wochen – beides entspricht genau dem gesetzlichen Rahmen (§ 622 Abs. 3 BGB). Diese Regelung ist unauffällig.",
+            "start": 582,
+            "end": 769
+          },
+          {
+            "ref": "§ 3 Abs. 2",
+            "category": "working_time",
+            "level": "check",
+            "quote": "Mit dem Bruttogehalt sind bis zu zehn Überstunden im Kalendermonat abgegolten.",
+            "reason": "Eine pauschale Abgeltung von bis zu zehn Überstunden pro Monat ist nach der Rechtsprechung des BAG grundsätzlich zulässig, wenn die Vergütung angemessen ist. Bei einem Gehalt von 4.800 € brutto und 40 Stunden/Woche sollte geprüft werden, ob der effektive Stundenlohn auch bei regelmäßig geleisteten Überstunden noch deutlich über dem Mindestlohn liegt und ob die Klausel hinreichend transparent ist. Überstunden darüber hinaus werden ausgeglichen oder vergütet – das ist positiv.",
+            "start": 1091,
+            "end": 1169
+          },
+          {
+            "ref": "§ 4 Abs. 1",
+            "category": "compensation",
+            "level": "fine",
+            "quote": "Die Arbeitnehmerin erhält ein monatliches Bruttogehalt von 4.800,00 Euro.",
+            "reason": "Das Gehalt ist klar und fest vereinbart, ohne Freiwilligkeits- oder Widerrufsvorbehalt. Diese Regelung ist unproblematisch.",
+            "start": 1334,
+            "end": 1407
+          },
+          {
+            "ref": "§ 5 Abs. 1",
+            "category": "vacation",
+            "level": "fine",
+            "quote": "Die Arbeitnehmerin hat Anspruch auf einen jährlichen Erholungsurlaub von 28 Arbeitstagen bei einer Fünftagewoche. Davon entfallen 20 Arbeitstage auf den gesetzlichen Mindesturlaub.",
+            "reason": "28 Urlaubstage bei einer Fünftagewoche liegen über dem gesetzlichen Minimum von 20 Tagen (§ 3 BUrlG). Die Regelung ist für die Arbeitnehmerin günstig und unauffällig.",
+            "start": 1569,
+            "end": 1749
+          },
+          {
+            "ref": "§ 9 Abs. 1",
+            "category": "termination",
+            "level": "critical",
+            "quote": "Nach Ablauf der Probezeit gilt für die Kündigung durch den Arbeitgeber die gesetzliche Kündigungsfrist nach § 622 BGB. Für die Kündigung durch die Arbeitnehmerin gilt eine Frist von drei Monaten zum Monatsende.",
+            "reason": "Hier werden unterschiedliche Kündigungsfristen für Arbeitgeber und Arbeitnehmerin vereinbart: Der Arbeitgeber kündigt nach den gesetzlichen Staffelfristen des § 622 BGB (beginnend mit 4 Wochen), während die Arbeitnehmerin stets 3 Monate einhalten muss. Das BAG hält solche einseitig verlängerten Fristen für Arbeitnehmer für unwirksam, wenn sie die Frist des Arbeitgebers übersteigen – die Arbeitnehmerin wäre dann an eine Frist gebunden, die sie schlechter stellt als der Arbeitgeber. Die Klausel ist daher wahrscheinlich unwirksam.",
+            "start": 2975,
+            "end": 3185
+          },
+          {
+            "ref": "§ 7",
+            "category": "side_jobs",
+            "level": "fine",
+            "quote": "Die Arbeitnehmerin hat jede entgeltliche Nebentätigkeit vor ihrer Aufnahme dem Arbeitgeber anzuzeigen. Der Arbeitgeber kann die Nebentätigkeit nur untersagen, wenn sie die Erfüllung der arbeitsvertraglichen Pflichten beeinträchtigt, gegen das Arbeitszeitgesetz verstößt oder eine Tätigkeit für einen Wettbewerber darstellt.",
+            "reason": "Die Klausel beschränkt das Untersagungsrecht des Arbeitgebers auf sachlich berechtigte Gründe und enthält kein generelles Verbot. Das ist arbeitnehmerfreundlich und rechtlich einwandfrei.",
+            "start": 2394,
+            "end": 2717
+          },
+          {
+            "ref": "§ 10 Abs. 1",
+            "category": "exclusion_periods",
+            "level": "critical",
+            "quote": "Alle beiderseitigen Ansprüche aus dem Arbeitsverhältnis verfallen, wenn sie nicht innerhalb von zwei Monaten nach ihrer Fälligkeit gegenüber der anderen Vertragspartei in Textform geltend gemacht werden.",
+            "reason": "Eine Ausschlussfrist von nur zwei Monaten ist nach ständiger Rechtsprechung des BAG zu kurz – das Minimum beträgt drei Monate. Die Klausel ist daher wahrscheinlich insgesamt unwirksam, was bedeutet, dass gar keine Ausschlussfrist gilt. Zwar enthält § 10 Abs. 2 wichtige Ausnahmen (u. a. Mindestlohn), aber die zu kurze Frist macht die gesamte Regelung hinfällig.",
+            "start": 3301,
+            "end": 3504
+          },
+          {
+            "ref": "§ 1 Abs. 2",
+            "category": "place_of_work",
+            "level": "check",
+            "quote": "Arbeitsort ist der Sitz der Gesellschaft in Hamburg.",
+            "reason": "Der Arbeitsort ist konkret auf Hamburg festgelegt, ohne eine Versetzungsklausel. Das ist grundsätzlich positiv für die Arbeitnehmerin. Es gibt jedoch keine Regelung zu Homeoffice, sodass ein etwaiger Anspruch darauf nicht vertraglich gesichert ist.",
+            "start": 509,
+            "end": 561
+          }
+        ],
+        "unverifiedQuotes": 0
+      },
+      "costMicroUsd": 38614,
+      "wallMs": 13383
+    },
+    {
+      "contractId": "employment-02",
+      "run": 1,
+      "result": {
+        "ok": true,
+        "modelId": "eu.anthropic.claude-sonnet-4-6",
+        "promptVersion": "v1",
+        "usage": {
+          "inputTokens": 2966,
+          "outputTokens": 2055
+        },
+        "latencyMs": 14903,
+        "clauses": [
+          {
+            "ref": "§ 2",
+            "category": "probation",
+            "level": "fine",
+            "quote": "Die ersten sechs Monate gelten als Probezeit. Während der Probezeit kann das Arbeitsverhältnis beiderseits mit einer Frist von zwei Wochen gekündigt werden.",
+            "reason": "Die Probezeit beträgt sechs Monate und die Kündigungsfrist zwei Wochen – beides entspricht dem gesetzlichen Rahmen (§ 622 Abs. 3 BGB). Diese Regelung ist unauffällig."
+          },
+          {
+            "ref": "§ 3 Abs. 2",
+            "category": "working_time",
+            "level": "critical",
+            "quote": "Der Arbeitnehmer ist verpflichtet, bei Bedarf Überstunden zu leisten. Sämtliche Überstunden sind mit dem Gehalt abgegolten.",
+            "reason": "Eine pauschale Abgeltung aller Überstunden ohne jede Begrenzung (weder nach Anzahl noch nach Prozentsatz des Gehalts) ist nach ständiger Rechtsprechung des BAG wahrscheinlich unwirksam. Der Arbeitnehmer könnte einen Anspruch auf gesonderte Vergütung geleisteter Überstunden haben."
+          },
+          {
+            "ref": "§ 4 Abs. 1",
+            "category": "compensation",
+            "level": "fine",
+            "quote": "Der Arbeitnehmer erhält ein monatliches Bruttogehalt von 3.600,00 Euro.",
+            "reason": "Das Gehalt ist klar und ohne Freiwilligkeits- oder Widerrufsvorbehalt geregelt. Diese Klausel ist unauffällig."
+          },
+          {
+            "ref": "§ 5 Abs. 1",
+            "category": "vacation",
+            "level": "critical",
+            "quote": "Der Arbeitnehmer erhält jährlich 18 Arbeitstage Erholungsurlaub bei einer Fünftagewoche.",
+            "reason": "Das Bundesurlaubsgesetz schreibt bei einer Fünftagewoche mindestens 20 Urlaubstage pro Jahr vor (§ 3 BUrlG). 18 Tage unterschreiten dieses gesetzliche Minimum – die Klausel ist insoweit wahrscheinlich unwirksam, und der Arbeitnehmer hat Anspruch auf mindestens 20 Tage."
+          },
+          {
+            "ref": "§ 7 Abs. 1",
+            "category": "repayment",
+            "level": "critical",
+            "quote": "Übernimmt der Arbeitgeber die Kosten einer Fortbildung des Arbeitnehmers, ist der Arbeitnehmer verpflichtet, diese Kosten in voller Höhe zurückzuzahlen, wenn das Arbeitsverhältnis innerhalb von drei Jahren nach Abschluss der Fortbildung endet, gleich aus welchem Grund.",
+            "reason": "Die Klausel ist gleich in mehrfacher Hinsicht problematisch: Sie sieht keine zeitliche Staffelung der Rückzahlungspflicht vor, sie gilt unabhängig davon, wer das Arbeitsverhältnis aus welchem Grund beendet (also auch bei arbeitgeberseitiger Kündigung), und sie nimmt keine Rücksicht auf die Dauer der Fortbildung. Nach BAG-Rechtsprechung ist eine solche pauschale, unstaffelte Rückzahlungsklausel wahrscheinlich unwirksam."
+          },
+          {
+            "ref": "§ 8 Abs. 1",
+            "category": "side_jobs",
+            "level": "critical",
+            "quote": "Jede Nebentätigkeit, gleich ob entgeltlich oder unentgeltlich, ist dem Arbeitnehmer untersagt.",
+            "reason": "Ein generelles, ausnahmsloses Verbot jeder Nebentätigkeit – auch unentgeltlicher – ohne Anknüpfung an ein berechtigtes Interesse des Arbeitgebers ist nach der Rechtsprechung des BAG wahrscheinlich unwirksam. Zulässig wäre nur ein Verbot von Tätigkeiten, die betriebliche Interessen konkret beeinträchtigen."
+          },
+          {
+            "ref": "§ 9 Abs. 1",
+            "category": "termination",
+            "level": "fine",
+            "quote": "Nach Ablauf der Probezeit gelten für beide Seiten die gesetzlichen Kündigungsfristen.",
+            "reason": "Die Kündigungsfristen richten sich für beide Seiten nach dem Gesetz (§ 622 BGB). Es gibt keine einseitig verlängerte Frist zulasten des Arbeitnehmers. Diese Regelung ist unauffällig."
+          },
+          {
+            "ref": "§ 10 Abs. 1",
+            "category": "penalty",
+            "level": "critical",
+            "quote": "Tritt der Arbeitnehmer die Arbeit nicht an oder beendet er das Arbeitsverhältnis ohne Einhaltung der maßgeblichen Kündigungsfrist, zahlt er eine Vertragsstrafe in Höhe von drei Bruttomonatsgehältern.",
+            "reason": "Nach ständiger BAG-Rechtsprechung darf eine Vertragsstrafe für das Nichtantreten oder vertragswidrige Beenden des Arbeitsverhältnisses in der Regel ein Bruttomonatsgehalt nicht übersteigen. Drei Monatsgehälter sind daher wahrscheinlich unwirksam – zumindest soweit sie diesen Rahmen überschreiten."
+          },
+          {
+            "ref": "§ 11",
+            "category": "non_compete",
+            "level": "critical",
+            "quote": "Der Arbeitnehmer verpflichtet sich, für die Dauer von zwei Jahren nach Beendigung des Arbeitsverhältnisses im Gebiet der Bundesrepublik Deutschland nicht für ein Unternehmen tätig zu werden, das mit dem Arbeitgeber in Wettbewerb steht. Eine Entschädigung wird für die Dauer des Wettbewerbsverbots nicht gezahlt.",
+            "reason": "Ein nachvertragliches Wettbewerbsverbot ist nach §§ 74 ff. HGB nur wirksam, wenn der Arbeitgeber eine Karenzentschädigung von mindestens 50 % der zuletzt bezogenen Vergütung zahlt. Da hier ausdrücklich keine Entschädigung vorgesehen ist, ist das Wettbewerbsverbot wahrscheinlich unverbindlich – der Arbeitnehmer kann es ignorieren, ist aber nicht dazu verpflichtet."
+          },
+          {
+            "ref": "§ 12 Abs. 1",
+            "category": "exclusion_periods",
+            "level": "critical",
+            "quote": "Alle Ansprüche aus dem Arbeitsverhältnis verfallen, wenn sie nicht innerhalb eines Monats nach Fälligkeit schriftlich geltend gemacht werden.",
+            "reason": "Eine Ausschlussfrist von nur einem Monat ist deutlich kürzer als die von der BAG-Rechtsprechung geforderten Mindestfrist von drei Monaten und daher wahrscheinlich unwirksam. Zudem werden Ansprüche auf den gesetzlichen Mindestlohn nicht ausdrücklich ausgenommen, was nach § 3 MiLoG ebenfalls zur Unwirksamkeit führt."
+          }
+        ],
+        "invalidClauses": 0
+      },
+      "verification": {
+        "clauses": [
+          {
+            "ref": "§ 2",
+            "category": "probation",
+            "level": "fine",
+            "quote": "Die ersten sechs Monate gelten als Probezeit. Während der Probezeit kann das Arbeitsverhältnis beiderseits mit einer Frist von zwei Wochen gekündigt werden.",
+            "reason": "Die Probezeit beträgt sechs Monate und die Kündigungsfrist zwei Wochen – beides entspricht dem gesetzlichen Rahmen (§ 622 Abs. 3 BGB). Diese Regelung ist unauffällig.",
+            "start": 559,
+            "end": 715
+          },
+          {
+            "ref": "§ 3 Abs. 2",
+            "category": "working_time",
+            "level": "critical",
+            "quote": "Der Arbeitnehmer ist verpflichtet, bei Bedarf Überstunden zu leisten. Sämtliche Überstunden sind mit dem Gehalt abgegolten.",
+            "reason": "Eine pauschale Abgeltung aller Überstunden ohne jede Begrenzung (weder nach Anzahl noch nach Prozentsatz des Gehalts) ist nach ständiger Rechtsprechung des BAG wahrscheinlich unwirksam. Der Arbeitnehmer könnte einen Anspruch auf gesonderte Vergütung geleisteter Überstunden haben.",
+            "start": 825,
+            "end": 948
+          },
+          {
+            "ref": "§ 4 Abs. 1",
+            "category": "compensation",
+            "level": "fine",
+            "quote": "Der Arbeitnehmer erhält ein monatliches Bruttogehalt von 3.600,00 Euro.",
+            "reason": "Das Gehalt ist klar und ohne Freiwilligkeits- oder Widerrufsvorbehalt geregelt. Diese Klausel ist unauffällig.",
+            "start": 969,
+            "end": 1040
+          },
+          {
+            "ref": "§ 5 Abs. 1",
+            "category": "vacation",
+            "level": "critical",
+            "quote": "Der Arbeitnehmer erhält jährlich 18 Arbeitstage Erholungsurlaub bei einer Fünftagewoche.",
+            "reason": "Das Bundesurlaubsgesetz schreibt bei einer Fünftagewoche mindestens 20 Urlaubstage pro Jahr vor (§ 3 BUrlG). 18 Tage unterschreiten dieses gesetzliche Minimum – die Klausel ist insoweit wahrscheinlich unwirksam, und der Arbeitnehmer hat Anspruch auf mindestens 20 Tage.",
+            "start": 1188,
+            "end": 1276
+          },
+          {
+            "ref": "§ 7 Abs. 1",
+            "category": "repayment",
+            "level": "critical",
+            "quote": "Übernimmt der Arbeitgeber die Kosten einer Fortbildung des Arbeitnehmers, ist der Arbeitnehmer verpflichtet, diese Kosten in voller Höhe zurückzuzahlen, wenn das Arbeitsverhältnis innerhalb von drei Jahren nach Abschluss der Fortbildung endet, gleich aus welchem Grund.",
+            "reason": "Die Klausel ist gleich in mehrfacher Hinsicht problematisch: Sie sieht keine zeitliche Staffelung der Rückzahlungspflicht vor, sie gilt unabhängig davon, wer das Arbeitsverhältnis aus welchem Grund beendet (also auch bei arbeitgeberseitiger Kündigung), und sie nimmt keine Rücksicht auf die Dauer der Fortbildung. Nach BAG-Rechtsprechung ist eine solche pauschale, unstaffelte Rückzahlungsklausel wahrscheinlich unwirksam.",
+            "start": 1484,
+            "end": 1753
+          },
+          {
+            "ref": "§ 8 Abs. 1",
+            "category": "side_jobs",
+            "level": "critical",
+            "quote": "Jede Nebentätigkeit, gleich ob entgeltlich oder unentgeltlich, ist dem Arbeitnehmer untersagt.",
+            "reason": "Ein generelles, ausnahmsloses Verbot jeder Nebentätigkeit – auch unentgeltlicher – ohne Anknüpfung an ein berechtigtes Interesse des Arbeitgebers ist nach der Rechtsprechung des BAG wahrscheinlich unwirksam. Zulässig wäre nur ein Verbot von Tätigkeiten, die betriebliche Interessen konkret beeinträchtigen.",
+            "start": 1779,
+            "end": 1873
+          },
+          {
+            "ref": "§ 9 Abs. 1",
+            "category": "termination",
+            "level": "fine",
+            "quote": "Nach Ablauf der Probezeit gelten für beide Seiten die gesetzlichen Kündigungsfristen.",
+            "reason": "Die Kündigungsfristen richten sich für beide Seiten nach dem Gesetz (§ 622 BGB). Es gibt keine einseitig verlängerte Frist zulasten des Arbeitnehmers. Diese Regelung ist unauffällig.",
+            "start": 1894,
+            "end": 1979
+          },
+          {
+            "ref": "§ 10 Abs. 1",
+            "category": "penalty",
+            "level": "critical",
+            "quote": "Tritt der Arbeitnehmer die Arbeit nicht an oder beendet er das Arbeitsverhältnis ohne Einhaltung der maßgeblichen Kündigungsfrist, zahlt er eine Vertragsstrafe in Höhe von drei Bruttomonatsgehältern.",
+            "reason": "Nach ständiger BAG-Rechtsprechung darf eine Vertragsstrafe für das Nichtantreten oder vertragswidrige Beenden des Arbeitsverhältnisses in der Regel ein Bruttomonatsgehalt nicht übersteigen. Drei Monatsgehälter sind daher wahrscheinlich unwirksam – zumindest soweit sie diesen Rahmen überschreiten.",
+            "start": 2049,
+            "end": 2248
+          },
+          {
+            "ref": "§ 12 Abs. 1",
+            "category": "exclusion_periods",
+            "level": "critical",
+            "quote": "Alle Ansprüche aus dem Arbeitsverhältnis verfallen, wenn sie nicht innerhalb eines Monats nach Fälligkeit schriftlich geltend gemacht werden.",
+            "reason": "Eine Ausschlussfrist von nur einem Monat ist deutlich kürzer als die von der BAG-Rechtsprechung geforderten Mindestfrist von drei Monaten und daher wahrscheinlich unwirksam. Zudem werden Ansprüche auf den gesetzlichen Mindestlohn nicht ausdrücklich ausgenommen, was nach § 3 MiLoG ebenfalls zur Unwirksamkeit führt.",
+            "start": 2624,
+            "end": 2765
+          }
+        ],
+        "unverifiedQuotes": 1
+      },
+      "costMicroUsd": 43696,
+      "wallMs": 15028
+    },
+    {
+      "contractId": "employment-03",
+      "run": 1,
+      "result": {
+        "ok": true,
+        "modelId": "eu.anthropic.claude-sonnet-4-6",
+        "promptVersion": "v1",
+        "usage": {
+          "inputTokens": 3071,
+          "outputTokens": 1937
+        },
+        "latencyMs": 14942,
+        "clauses": [
+          {
+            "ref": "§ 3 Abs. 1",
+            "category": "probation",
+            "level": "critical",
+            "quote": "Die ersten neun Monate des Arbeitsverhältnisses gelten als Probezeit.",
+            "reason": "Die Probezeit beträgt hier neun Monate. Nach § 622 Abs. 3 BGB ist eine Probezeit von maximal sechs Monaten zulässig. Eine längere Probezeit ist in einem unbefristeten Arbeitsverhältnis ohne sachlichen Grund wahrscheinlich unwirksam – die Probezeit würde auf sechs Monate reduziert."
+          },
+          {
+            "ref": "§ 4 Abs. 2",
+            "category": "working_time",
+            "level": "check",
+            "quote": "Mit dem Bruttogehalt sind bis zu 20 Überstunden im Kalendermonat abgegolten; darüber hinausgehende Überstunden werden mit dem anteiligen Stundenlohn vergütet.",
+            "reason": "Die pauschale Abgeltung von bis zu 20 Überstunden pro Monat (das entspricht bis zu 240 Stunden im Jahr, also rund 30 % Mehrarbeit) ist nach der Rechtsprechung des BAG nur wirksam, wenn die Anzahl der abgegoltenen Überstunden klar begrenzt ist und der Stundenlohn nicht unter den Mindestlohn sinkt. Bei einem Gehalt von 5.600 € brutto ist die Mindestlohngrenze hier nicht das Problem, aber die Klausel ist dennoch unvorteilhaft: Bis zu 20 Überstunden monatlich werden ohne zusätzliche Vergütung erwartet."
+          },
+          {
+            "ref": "§ 5 Abs. 2",
+            "category": "compensation",
+            "level": "critical",
+            "quote": "Die Zahlung erfolgt freiwillig und unter dem Vorbehalt des jederzeitigen Widerrufs; ein Rechtsanspruch wird auch durch wiederholte Zahlung nicht begründet.",
+            "reason": "Die Kombination aus Freiwilligkeitsvorbehalt und Widerrufsvorbehalt in ein und derselben Klausel ist nach ständiger Rechtsprechung des BAG widersprüchlich und daher wahrscheinlich unwirksam. Wer eine Leistung als freiwillig bezeichnet, kann sie nicht gleichzeitig widerrufen – das schließt sich logisch aus. Im Ergebnis könnte nach mehrmaliger Zahlung ein Rechtsanspruch entstehen."
+          },
+          {
+            "ref": "§ 6 Abs. 1",
+            "category": "vacation",
+            "level": "fine",
+            "quote": "Die Arbeitnehmerin hat Anspruch auf 30 Arbeitstage Erholungsurlaub im Kalenderjahr bei einer Fünftagewoche.",
+            "reason": "30 Arbeitstage Urlaub bei einer Fünftagewoche sind großzügig und liegen deutlich über dem gesetzlichen Mindesturlaub von 20 Tagen (§ 3 BUrlG). Diese Regelung ist für die Arbeitnehmerin vorteilhaft."
+          },
+          {
+            "ref": "§ 8 Abs. 1",
+            "category": "side_jobs",
+            "level": "fine",
+            "quote": "Eine entgeltliche Nebentätigkeit bedarf der vorherigen Zustimmung des Arbeitgebers. Die Zustimmung ist zu erteilen, wenn berechtigte betriebliche Interessen nicht entgegenstehen.",
+            "reason": "Die Klausel verlangt zwar eine Genehmigung, verpflichtet den Arbeitgeber aber ausdrücklich zur Erteilung, wenn keine berechtigten betrieblichen Interessen entgegenstehen. Das entspricht der gesetzlichen Rechtslage und ist nicht zu beanstanden."
+          },
+          {
+            "ref": "§ 9 Abs. 1",
+            "category": "termination",
+            "level": "critical",
+            "quote": "Verlängert sich die Kündigungsfrist für den Arbeitgeber kraft Gesetzes, gilt die verlängerte Frist auch für eine Kündigung durch die Arbeitnehmerin.",
+            "reason": "Nach § 622 Abs. 6 BGB darf die Kündigungsfrist für die Arbeitnehmerin nicht länger sein als die für den Arbeitgeber. Diese Klausel dreht das Prinzip um: Sie verlängert die Frist der Arbeitnehmerin automatisch mit, wenn die Arbeitgeberfrist steigt. Das ist zwar symmetrisch, aber nach dem Wortlaut des § 622 Abs. 6 BGB ist eine Verlängerung der Arbeitnehmerfrist über die Grundfrist von vier Wochen hinaus nur durch Tarifvertrag zulässig – nicht durch Einzelarbeitsvertrag. Die Klausel ist daher wahrscheinlich unwirksam."
+          },
+          {
+            "ref": "§ 10 Abs. 1",
+            "category": "penalty",
+            "level": "check",
+            "quote": "Tritt die Arbeitnehmerin die Arbeit nicht an oder löst sie das Arbeitsverhältnis unter Verstoß gegen die maßgebliche Kündigungsfrist, hat sie eine Vertragsstrafe in Höhe eines Bruttomonatsgehalts zu zahlen.",
+            "reason": "Eine Vertragsstrafe in Höhe eines Bruttomonatsgehalts ist nach der BAG-Rechtsprechung grundsätzlich noch zulässig. Allerdings muss die Klausel auch den Fall des Nichtantritts der Arbeit erfassen dürfen – das ist hier der Fall. Problematisch könnte die Klausel werden, wenn die zugrundeliegende Kündigungsfrist (§ 9 Abs. 1) unwirksam ist (s. o.), da sich die Vertragsstrafe dann auf eine unwirksame Frist bezieht."
+          },
+          {
+            "ref": "§ 11 Abs. 1",
+            "category": "exclusion_periods",
+            "level": "check",
+            "quote": "Ansprüche aus dem Arbeitsverhältnis verfallen, wenn sie nicht innerhalb von drei Monaten nach Fälligkeit schriftlich gegenüber der anderen Vertragspartei geltend gemacht werden; ausgenommen sind Ansprüche auf den gesetzlichen Mindestlohn.",
+            "reason": "Die Frist von drei Monaten entspricht der Mindestgrenze, die das BAG für einstufige Ausschlussfristen akzeptiert. Der Mindestlohn ist ausdrücklich ausgenommen, was gesetzlich erforderlich ist (§ 3 MiLoG). Die Klausel ist damit gerade noch zulässig, aber die Arbeitnehmerin muss beachten, dass sie alle Ansprüche (z. B. auf Überstundenvergütung oder Urlaubsabgeltung) innerhalb von drei Monaten nach Fälligkeit schriftlich geltend machen muss, sonst verliert sie diese."
+          }
+        ],
+        "invalidClauses": 0
+      },
+      "verification": {
+        "clauses": [
+          {
+            "ref": "§ 3 Abs. 1",
+            "category": "probation",
+            "level": "critical",
+            "quote": "Die ersten neun Monate des Arbeitsverhältnisses gelten als Probezeit.",
+            "reason": "Die Probezeit beträgt hier neun Monate. Nach § 622 Abs. 3 BGB ist eine Probezeit von maximal sechs Monaten zulässig. Eine längere Probezeit ist in einem unbefristeten Arbeitsverhältnis ohne sachlichen Grund wahrscheinlich unwirksam – die Probezeit würde auf sechs Monate reduziert.",
+            "start": 919,
+            "end": 988
+          },
+          {
+            "ref": "§ 4 Abs. 2",
+            "category": "working_time",
+            "level": "check",
+            "quote": "Mit dem Bruttogehalt sind bis zu 20 Überstunden im Kalendermonat abgegolten; darüber hinausgehende Überstunden werden mit dem anteiligen Stundenlohn vergütet.",
+            "reason": "Die pauschale Abgeltung von bis zu 20 Überstunden pro Monat (das entspricht bis zu 240 Stunden im Jahr, also rund 30 % Mehrarbeit) ist nach der Rechtsprechung des BAG nur wirksam, wenn die Anzahl der abgegoltenen Überstunden klar begrenzt ist und der Stundenlohn nicht unter den Mindestlohn sinkt. Bei einem Gehalt von 5.600 € brutto ist die Mindestlohngrenze hier nicht das Problem, aber die Klausel ist dennoch unvorteilhaft: Bis zu 20 Überstunden monatlich werden ohne zusätzliche Vergütung erwartet.",
+            "start": 1329,
+            "end": 1487
+          },
+          {
+            "ref": "§ 5 Abs. 2",
+            "category": "compensation",
+            "level": "critical",
+            "quote": "Die Zahlung erfolgt freiwillig und unter dem Vorbehalt des jederzeitigen Widerrufs; ein Rechtsanspruch wird auch durch wiederholte Zahlung nicht begründet.",
+            "reason": "Die Kombination aus Freiwilligkeitsvorbehalt und Widerrufsvorbehalt in ein und derselben Klausel ist nach ständiger Rechtsprechung des BAG widersprüchlich und daher wahrscheinlich unwirksam. Wer eine Leistung als freiwillig bezeichnet, kann sie nicht gleichzeitig widerrufen – das schließt sich logisch aus. Im Ergebnis könnte nach mehrmaliger Zahlung ein Rechtsanspruch entstehen.",
+            "start": 1773,
+            "end": 1928
+          },
+          {
+            "ref": "§ 6 Abs. 1",
+            "category": "vacation",
+            "level": "fine",
+            "quote": "Die Arbeitnehmerin hat Anspruch auf 30 Arbeitstage Erholungsurlaub im Kalenderjahr bei einer Fünftagewoche.",
+            "reason": "30 Arbeitstage Urlaub bei einer Fünftagewoche sind großzügig und liegen deutlich über dem gesetzlichen Mindesturlaub von 20 Tagen (§ 3 BUrlG). Diese Regelung ist für die Arbeitnehmerin vorteilhaft.",
+            "start": 1946,
+            "end": 2053
+          },
+          {
+            "ref": "§ 8 Abs. 1",
+            "category": "side_jobs",
+            "level": "fine",
+            "quote": "Eine entgeltliche Nebentätigkeit bedarf der vorherigen Zustimmung des Arbeitgebers. Die Zustimmung ist zu erteilen, wenn berechtigte betriebliche Interessen nicht entgegenstehen.",
+            "reason": "Die Klausel verlangt zwar eine Genehmigung, verpflichtet den Arbeitgeber aber ausdrücklich zur Erteilung, wenn keine berechtigten betrieblichen Interessen entgegenstehen. Das entspricht der gesetzlichen Rechtslage und ist nicht zu beanstanden.",
+            "start": 2243,
+            "end": 2421
+          },
+          {
+            "ref": "§ 9 Abs. 1",
+            "category": "termination",
+            "level": "critical",
+            "quote": "Verlängert sich die Kündigungsfrist für den Arbeitgeber kraft Gesetzes, gilt die verlängerte Frist auch für eine Kündigung durch die Arbeitnehmerin.",
+            "reason": "Nach § 622 Abs. 6 BGB darf die Kündigungsfrist für die Arbeitnehmerin nicht länger sein als die für den Arbeitgeber. Diese Klausel dreht das Prinzip um: Sie verlängert die Frist der Arbeitnehmerin automatisch mit, wenn die Arbeitgeberfrist steigt. Das ist zwar symmetrisch, aber nach dem Wortlaut des § 622 Abs. 6 BGB ist eine Verlängerung der Arbeitnehmerfrist über die Grundfrist von vier Wochen hinaus nur durch Tarifvertrag zulässig – nicht durch Einzelarbeitsvertrag. Die Klausel ist daher wahrscheinlich unwirksam.",
+            "start": 2506,
+            "end": 2654
+          },
+          {
+            "ref": "§ 10 Abs. 1",
+            "category": "penalty",
+            "level": "check",
+            "quote": "Tritt die Arbeitnehmerin die Arbeit nicht an oder löst sie das Arbeitsverhältnis unter Verstoß gegen die maßgebliche Kündigungsfrist, hat sie eine Vertragsstrafe in Höhe eines Bruttomonatsgehalts zu zahlen.",
+            "reason": "Eine Vertragsstrafe in Höhe eines Bruttomonatsgehalts ist nach der BAG-Rechtsprechung grundsätzlich noch zulässig. Allerdings muss die Klausel auch den Fall des Nichtantritts der Arbeit erfassen dürfen – das ist hier der Fall. Problematisch könnte die Klausel werden, wenn die zugrundeliegende Kündigungsfrist (§ 9 Abs. 1) unwirksam ist (s. o.), da sich die Vertragsstrafe dann auf eine unwirksame Frist bezieht.",
+            "start": 2724,
+            "end": 2930
+          },
+          {
+            "ref": "§ 11 Abs. 1",
+            "category": "exclusion_periods",
+            "level": "check",
+            "quote": "Ansprüche aus dem Arbeitsverhältnis verfallen, wenn sie nicht innerhalb von drei Monaten nach Fälligkeit schriftlich gegenüber der anderen Vertragspartei geltend gemacht werden; ausgenommen sind Ansprüche auf den gesetzlichen Mindestlohn.",
+            "reason": "Die Frist von drei Monaten entspricht der Mindestgrenze, die das BAG für einstufige Ausschlussfristen akzeptiert. Der Mindestlohn ist ausdrücklich ausgenommen, was gesetzlich erforderlich ist (§ 3 MiLoG). Die Klausel ist damit gerade noch zulässig, aber die Arbeitnehmerin muss beachten, dass sie alle Ansprüche (z. B. auf Überstundenvergütung oder Urlaubsabgeltung) innerhalb von drei Monaten nach Fälligkeit schriftlich geltend machen muss, sonst verliert sie diese.",
+            "start": 2960,
+            "end": 3198
+          }
+        ],
+        "unverifiedQuotes": 0
+      },
+      "costMicroUsd": 42095,
+      "wallMs": 15056
+    },
+    {
+      "contractId": "employment-04",
+      "run": 1,
+      "result": {
+        "ok": true,
+        "modelId": "eu.anthropic.claude-sonnet-4-6",
+        "promptVersion": "v1",
+        "usage": {
+          "inputTokens": 4151,
+          "outputTokens": 2792
+        },
+        "latencyMs": 19434,
+        "clauses": [
+          {
+            "ref": "§ 4",
+            "category": "probation",
+            "level": "fine",
+            "quote": "Die ersten sechs Monate des Arbeitsverhältnisses gelten als Probezeit. In dieser Zeit kann das Arbeitsverhältnis von beiden Seiten mit einer Frist von zwei Wochen gekündigt werden.",
+            "reason": "Die Probezeit beträgt sechs Monate und die Kündigungsfrist zwei Wochen – beides entspricht genau dem gesetzlichen Rahmen (§ 622 Abs. 3 BGB). Diese Regelung ist unauffällig."
+          },
+          {
+            "ref": "§ 5 Abs. 2",
+            "category": "working_time",
+            "level": "fine",
+            "quote": "Angeordnete Überstunden werden nach Wahl des Arbeitnehmers durch Freizeit ausgeglichen oder mit dem anteiligen Stundenlohn vergütet.",
+            "reason": "Überstunden werden entweder durch Freizeit ausgeglichen oder vergütet – eine pauschale Abgeltung ohne Grenze ist nicht vereinbart. Diese Regelung ist für den Arbeitnehmer günstig."
+          },
+          {
+            "ref": "§ 7",
+            "category": "compensation",
+            "level": "check",
+            "quote": "Der Arbeitnehmer kann zusätzlich eine variable Vergütung von bis zu 10 Prozent seines Jahresbruttogehalts erhalten. Die Ziele und deren Gewichtung werden in einer Zielvereinbarung festgelegt, die die Parteien jeweils bis zum 31. Januar eines Jahres abschließen.",
+            "reason": "Die Formulierung „kann … erhalten\" lässt offen, ob ein echter Anspruch besteht oder ob es sich um eine freiwillige Leistung handelt. Außerdem ist nicht geregelt, was gilt, wenn bis zum 31. Januar keine Zielvereinbarung zustande kommt – nach BAG-Rechtsprechung kann der Arbeitnehmer dann ggf. Schadensersatz in Höhe des vollen Bonus verlangen. Die genaue Ausgestaltung sollte vor Unterzeichnung geklärt werden."
+          },
+          {
+            "ref": "§ 8 Abs. 1",
+            "category": "vacation",
+            "level": "fine",
+            "quote": "Der Arbeitnehmer hat Anspruch auf 30 Arbeitstage Erholungsurlaub im Kalenderjahr bei einer Fünftagewoche.",
+            "reason": "30 Arbeitstage Urlaub bei einer Fünftagewoche liegen deutlich über dem gesetzlichen Mindesturlaub von 20 Tagen (§ 3 BUrlG). Diese Regelung ist für den Arbeitnehmer vorteilhaft."
+          },
+          {
+            "ref": "§ 8 Abs. 2",
+            "category": "vacation",
+            "level": "critical",
+            "quote": "Urlaub, der nicht bis zum 31. März des Folgejahres genommen wurde, verfällt ersatzlos; dies gilt auch dann, wenn der Arbeitnehmer den Urlaub wegen Arbeitsunfähigkeit nicht nehmen konnte, und unabhängig davon, ob der Arbeitgeber auf den drohenden Verfall hingewiesen hat.",
+            "reason": "Diese Klausel ist in zwei Punkten wahrscheinlich unwirksam: (1) Nach der Rechtsprechung des EuGH und des BAG verfällt Urlaub bei krankheitsbedingter Arbeitsunfähigkeit frühestens 15 Monate nach Ende des Urlaubsjahres (also zum 31. März des übernächsten Jahres), nicht schon zum 31. März des Folgejahres. (2) Der Urlaub verfällt nach BAG-Rechtsprechung grundsätzlich nur, wenn der Arbeitgeber den Arbeitnehmer zuvor konkret auf den drohenden Verfall hingewiesen hat. Der Ausschluss dieser Hinweispflicht ist daher likely invalid."
+          },
+          {
+            "ref": "§ 10 Abs. 2",
+            "category": "repayment",
+            "level": "critical",
+            "quote": "Scheidet der Arbeitnehmer innerhalb von zwölf Monaten nach Abschluss der Fortbildung aus dem Arbeitsverhältnis aus, ist er verpflichtet, die vom Arbeitgeber getragenen Lehrgangs- und Prüfungsgebühren anteilig zurückzuzahlen. Der Rückzahlungsbetrag mindert sich für jeden vollen Monat der Beschäftigung nach Abschluss der Fortbildung um ein Zwölftel. Dies gilt auch, wenn das Arbeitsverhältnis durch eine Kündigung des Arbeitgebers endet.",
+            "reason": "Die Klausel verpflichtet zur Rückzahlung auch dann, wenn der Arbeitgeber selbst kündigt – unabhängig davon, ob der Arbeitnehmer dafür einen Grund gesetzt hat. Nach ständiger BAG-Rechtsprechung ist eine Rückzahlungsklausel unwirksam, wenn sie den Arbeitnehmer auch bei einer arbeitgeberseitigen Kündigung ohne Verschulden des Arbeitnehmers zur Rückzahlung verpflichtet, da dies seine Berufsfreiheit unzulässig einschränkt. Die Klausel ist insoweit likely invalid."
+          },
+          {
+            "ref": "§ 11",
+            "category": "side_jobs",
+            "level": "fine",
+            "quote": "Der Arbeitnehmer zeigt jede entgeltliche Nebentätigkeit vor ihrer Aufnahme an. Der Arbeitgeber kann sie nur untersagen, wenn berechtigte betriebliche Interessen beeinträchtigt werden, insbesondere bei einer Tätigkeit für einen Wettbewerber oder bei Überschreitung der Höchstarbeitszeit.",
+            "reason": "Die Klausel enthält kein generelles Verbot, sondern erlaubt Nebentätigkeiten und beschränkt das Untersagungsrecht des Arbeitgebers auf sachlich berechtigte Gründe. Das entspricht der Rechtslage und ist für den Arbeitnehmer fair."
+          },
+          {
+            "ref": "§ 13 Abs. 2",
+            "category": "non_compete",
+            "level": "critical",
+            "quote": "Für die Dauer des Wettbewerbsverbots zahlt der Arbeitgeber eine Entschädigung in Höhe von 25 Prozent der zuletzt bezogenen vertragsmäßigen Leistungen.",
+            "reason": "Nach § 74 Abs. 2 HGB ist ein nachvertragliches Wettbewerbsverbot nur verbindlich, wenn der Arbeitgeber eine Entschädigung von mindestens 50 % der zuletzt bezogenen vertragsmäßigen Leistungen zusagt. Die hier vereinbarten 25 % unterschreiten diese Grenze deutlich. Die Klausel ist daher likely invalid – der Arbeitnehmer wäre an das Verbot nicht gebunden, könnte aber auch keine Entschädigung verlangen."
+          },
+          {
+            "ref": "§ 14 Abs. 1",
+            "category": "termination",
+            "level": "critical",
+            "quote": "Verlängert sich die Kündigungsfrist für den Arbeitgeber kraft Gesetzes, gilt die verlängerte Frist auch für eine Kündigung durch den Arbeitnehmer.",
+            "reason": "Nach § 622 Abs. 6 BGB darf die Kündigungsfrist für den Arbeitnehmer nicht länger sein als für den Arbeitgeber. Eine Gleichstellung ist zwar zulässig, aber die gesetzlichen Fristen verlängern sich für den Arbeitgeber mit zunehmender Betriebszugehörigkeit erheblich (bis zu 7 Monate). Für den Arbeitnehmer bedeutet das eine deutlich längere Bindung als die gesetzliche Grundfrist von 4 Wochen, was bei langer Betriebszugehörigkeit stark einschränkend wirken kann. Die Klausel ist zwar formal zulässig, aber für den Arbeitnehmer erheblich nachteilig."
+          },
+          {
+            "ref": "§ 15",
+            "category": "penalty",
+            "level": "fine",
+            "quote": "Tritt der Arbeitnehmer die Arbeit nicht an oder beendet er das Arbeitsverhältnis ohne Einhaltung der maßgeblichen Kündigungsfrist, hat er eine Vertragsstrafe in Höhe des Bruttoentgelts zu zahlen, das er bei ordnungsgemäßer Kündigung bis zum Fristablauf erhalten hätte, höchstens jedoch ein Bruttomonatsgehalt.",
+            "reason": "Die Vertragsstrafe ist auf ein Bruttomonatsgehalt begrenzt, was der BAG-Rechtsprechung entspricht. Tatbestand und Höhe sind klar definiert. Diese Regelung ist unauffällig."
+          },
+          {
+            "ref": "§ 16",
+            "category": "exclusion_periods",
+            "level": "critical",
+            "quote": "Ansprüche aus dem Arbeitsverhältnis verfallen, wenn sie nicht innerhalb von drei Monaten nach Fälligkeit in Textform gegenüber der anderen Vertragspartei geltend gemacht werden; dies gilt nicht für Ansprüche aus der Verletzung des Lebens, des Körpers oder der Gesundheit sowie für Ansprüche aus vorsätzlicher oder grob fahrlässiger Pflichtverletzung.",
+            "reason": "Die Frist von drei Monaten ist zwar gerade noch zulässig (das BAG hält weniger als drei Monate für unwirksam). Problematisch ist jedoch, dass Ansprüche auf den gesetzlichen Mindestlohn nicht ausdrücklich ausgenommen sind. Nach § 3 MiLoG sind Vereinbarungen, die Mindestlohnansprüche beschränken, unwirksam; eine Ausschlussfristenklausel, die den Mindestlohn nicht ausdrücklich ausnimmt, ist nach BAG-Rechtsprechung insgesamt likely invalid."
+          }
+        ],
+        "invalidClauses": 0
+      },
+      "verification": {
+        "clauses": [
+          {
+            "ref": "§ 4",
+            "category": "probation",
+            "level": "fine",
+            "quote": "Die ersten sechs Monate des Arbeitsverhältnisses gelten als Probezeit. In dieser Zeit kann das Arbeitsverhältnis von beiden Seiten mit einer Frist von zwei Wochen gekündigt werden.",
+            "reason": "Die Probezeit beträgt sechs Monate und die Kündigungsfrist zwei Wochen – beides entspricht genau dem gesetzlichen Rahmen (§ 622 Abs. 3 BGB). Diese Regelung ist unauffällig.",
+            "start": 1125,
+            "end": 1305
+          },
+          {
+            "ref": "§ 5 Abs. 2",
+            "category": "working_time",
+            "level": "fine",
+            "quote": "Angeordnete Überstunden werden nach Wahl des Arbeitnehmers durch Freizeit ausgeglichen oder mit dem anteiligen Stundenlohn vergütet.",
+            "reason": "Überstunden werden entweder durch Freizeit ausgeglichen oder vergütet – eine pauschale Abgeltung ohne Grenze ist nicht vereinbart. Diese Regelung ist für den Arbeitnehmer günstig.",
+            "start": 1438,
+            "end": 1570
+          },
+          {
+            "ref": "§ 7",
+            "category": "compensation",
+            "level": "check",
+            "quote": "Der Arbeitnehmer kann zusätzlich eine variable Vergütung von bis zu 10 Prozent seines Jahresbruttogehalts erhalten. Die Ziele und deren Gewichtung werden in einer Zielvereinbarung festgelegt, die die Parteien jeweils bis zum 31. Januar eines Jahres abschließen.",
+            "reason": "Die Formulierung „kann … erhalten\" lässt offen, ob ein echter Anspruch besteht oder ob es sich um eine freiwillige Leistung handelt. Außerdem ist nicht geregelt, was gilt, wenn bis zum 31. Januar keine Zielvereinbarung zustande kommt – nach BAG-Rechtsprechung kann der Arbeitnehmer dann ggf. Schadensersatz in Höhe des vollen Bonus verlangen. Die genaue Ausgestaltung sollte vor Unterzeichnung geklärt werden.",
+            "start": 1814,
+            "end": 2075
+          },
+          {
+            "ref": "§ 8 Abs. 1",
+            "category": "vacation",
+            "level": "fine",
+            "quote": "Der Arbeitnehmer hat Anspruch auf 30 Arbeitstage Erholungsurlaub im Kalenderjahr bei einer Fünftagewoche.",
+            "reason": "30 Arbeitstage Urlaub bei einer Fünftagewoche liegen deutlich über dem gesetzlichen Mindesturlaub von 20 Tagen (§ 3 BUrlG). Diese Regelung ist für den Arbeitnehmer vorteilhaft.",
+            "start": 2093,
+            "end": 2198
+          },
+          {
+            "ref": "§ 8 Abs. 2",
+            "category": "vacation",
+            "level": "critical",
+            "quote": "Urlaub, der nicht bis zum 31. März des Folgejahres genommen wurde, verfällt ersatzlos; dies gilt auch dann, wenn der Arbeitnehmer den Urlaub wegen Arbeitsunfähigkeit nicht nehmen konnte, und unabhängig davon, ob der Arbeitgeber auf den drohenden Verfall hingewiesen hat.",
+            "reason": "Diese Klausel ist in zwei Punkten wahrscheinlich unwirksam: (1) Nach der Rechtsprechung des EuGH und des BAG verfällt Urlaub bei krankheitsbedingter Arbeitsunfähigkeit frühestens 15 Monate nach Ende des Urlaubsjahres (also zum 31. März des übernächsten Jahres), nicht schon zum 31. März des Folgejahres. (2) Der Urlaub verfällt nach BAG-Rechtsprechung grundsätzlich nur, wenn der Arbeitgeber den Arbeitnehmer zuvor konkret auf den drohenden Verfall hingewiesen hat. Der Ausschluss dieser Hinweispflicht ist daher likely invalid.",
+            "start": 2256,
+            "end": 2526
+          },
+          {
+            "ref": "§ 10 Abs. 2",
+            "category": "repayment",
+            "level": "critical",
+            "quote": "Scheidet der Arbeitnehmer innerhalb von zwölf Monaten nach Abschluss der Fortbildung aus dem Arbeitsverhältnis aus, ist er verpflichtet, die vom Arbeitgeber getragenen Lehrgangs- und Prüfungsgebühren anteilig zurückzuzahlen. Der Rückzahlungsbetrag mindert sich für jeden vollen Monat der Beschäftigung nach Abschluss der Fortbildung um ein Zwölftel. Dies gilt auch, wenn das Arbeitsverhältnis durch eine Kündigung des Arbeitgebers endet.",
+            "reason": "Die Klausel verpflichtet zur Rückzahlung auch dann, wenn der Arbeitgeber selbst kündigt – unabhängig davon, ob der Arbeitnehmer dafür einen Grund gesetzt hat. Nach ständiger BAG-Rechtsprechung ist eine Rückzahlungsklausel unwirksam, wenn sie den Arbeitnehmer auch bei einer arbeitgeberseitigen Kündigung ohne Verschulden des Arbeitnehmers zur Rückzahlung verpflichtet, da dies seine Berufsfreiheit unzulässig einschränkt. Die Klausel ist insoweit likely invalid.",
+            "start": 3143,
+            "end": 3580
+          },
+          {
+            "ref": "§ 11",
+            "category": "side_jobs",
+            "level": "fine",
+            "quote": "Der Arbeitnehmer zeigt jede entgeltliche Nebentätigkeit vor ihrer Aufnahme an. Der Arbeitgeber kann sie nur untersagen, wenn berechtigte betriebliche Interessen beeinträchtigt werden, insbesondere bei einer Tätigkeit für einen Wettbewerber oder bei Überschreitung der Höchstarbeitszeit.",
+            "reason": "Die Klausel enthält kein generelles Verbot, sondern erlaubt Nebentätigkeiten und beschränkt das Untersagungsrecht des Arbeitgebers auf sachlich berechtigte Gründe. Das entspricht der Rechtslage und ist für den Arbeitnehmer fair.",
+            "start": 3607,
+            "end": 3893
+          },
+          {
+            "ref": "§ 13 Abs. 2",
+            "category": "non_compete",
+            "level": "critical",
+            "quote": "Für die Dauer des Wettbewerbsverbots zahlt der Arbeitgeber eine Entschädigung in Höhe von 25 Prozent der zuletzt bezogenen vertragsmäßigen Leistungen.",
+            "reason": "Nach § 74 Abs. 2 HGB ist ein nachvertragliches Wettbewerbsverbot nur verbindlich, wenn der Arbeitgeber eine Entschädigung von mindestens 50 % der zuletzt bezogenen vertragsmäßigen Leistungen zusagt. Die hier vereinbarten 25 % unterschreiten diese Grenze deutlich. Die Klausel ist daher likely invalid – der Arbeitnehmer wäre an das Verbot nicht gebunden, könnte aber auch keine Entschädigung verlangen.",
+            "start": 4400,
+            "end": 4550
+          },
+          {
+            "ref": "§ 14 Abs. 1",
+            "category": "termination",
+            "level": "critical",
+            "quote": "Verlängert sich die Kündigungsfrist für den Arbeitgeber kraft Gesetzes, gilt die verlängerte Frist auch für eine Kündigung durch den Arbeitnehmer.",
+            "reason": "Nach § 622 Abs. 6 BGB darf die Kündigungsfrist für den Arbeitnehmer nicht länger sein als für den Arbeitgeber. Eine Gleichstellung ist zwar zulässig, aber die gesetzlichen Fristen verlängern sich für den Arbeitgeber mit zunehmender Betriebszugehörigkeit erheblich (bis zu 7 Monate). Für den Arbeitnehmer bedeutet das eine deutlich längere Bindung als die gesetzliche Grundfrist von 4 Wochen, was bei langer Betriebszugehörigkeit stark einschränkend wirken kann. Die Klausel ist zwar formal zulässig, aber für den Arbeitnehmer erheblich nachteilig.",
+            "start": 4683,
+            "end": 4829
+          },
+          {
+            "ref": "§ 15",
+            "category": "penalty",
+            "level": "fine",
+            "quote": "Tritt der Arbeitnehmer die Arbeit nicht an oder beendet er das Arbeitsverhältnis ohne Einhaltung der maßgeblichen Kündigungsfrist, hat er eine Vertragsstrafe in Höhe des Bruttoentgelts zu zahlen, das er bei ordnungsgemäßer Kündigung bis zum Fristablauf erhalten hätte, höchstens jedoch ein Bruttomonatsgehalt.",
+            "reason": "Die Vertragsstrafe ist auf ein Bruttomonatsgehalt begrenzt, was der BAG-Rechtsprechung entspricht. Tatbestand und Höhe sind klar definiert. Diese Regelung ist unauffällig.",
+            "start": 4942,
+            "end": 5251
+          },
+          {
+            "ref": "§ 16",
+            "category": "exclusion_periods",
+            "level": "critical",
+            "quote": "Ansprüche aus dem Arbeitsverhältnis verfallen, wenn sie nicht innerhalb von drei Monaten nach Fälligkeit in Textform gegenüber der anderen Vertragspartei geltend gemacht werden; dies gilt nicht für Ansprüche aus der Verletzung des Lebens, des Körpers oder der Gesundheit sowie für Ansprüche aus vorsätzlicher oder grob fahrlässiger Pflichtverletzung.",
+            "reason": "Die Frist von drei Monaten ist zwar gerade noch zulässig (das BAG hält weniger als drei Monate für unwirksam). Problematisch ist jedoch, dass Ansprüche auf den gesetzlichen Mindestlohn nicht ausdrücklich ausgenommen sind. Nach § 3 MiLoG sind Vereinbarungen, die Mindestlohnansprüche beschränken, unwirksam; eine Ausschlussfristenklausel, die den Mindestlohn nicht ausdrücklich ausnimmt, ist nach BAG-Rechtsprechung insgesamt likely invalid.",
+            "start": 5281,
+            "end": 5631
+          }
+        ],
+        "unverifiedQuotes": 0
+      },
+      "costMicroUsd": 59767,
+      "wallMs": 19562
+    },
+    {
+      "contractId": "rental-01",
+      "run": 1,
+      "result": {
+        "ok": true,
+        "modelId": "eu.anthropic.claude-sonnet-4-6",
+        "promptVersion": "v1",
+        "usage": {
+          "inputTokens": 3810,
+          "outputTokens": 1398
+        },
+        "latencyMs": 9762,
+        "clauses": [
+          {
+            "ref": "§ 3 Abs. 1",
+            "category": "rent",
+            "level": "fine",
+            "quote": "Die monatliche Nettokaltmiete beträgt 780,00 Euro.",
+            "reason": "Eine einfache Nettokaltmiete ohne Staffel- oder Indexvereinbarung ist standard. Keine Besonderheiten zu beanstanden."
+          },
+          {
+            "ref": "§ 4 Abs. 1",
+            "category": "operating_costs",
+            "level": "fine",
+            "quote": "Neben der Nettokaltmiete trägt die Mieterin die Betriebskosten im Sinne des § 2 der Betriebskostenverordnung einschließlich der Kosten für Heizung und Warmwasser.",
+            "reason": "Die Umlage ist auf die gesetzlich zulässigen Betriebskosten nach der BetrKV beschränkt. Das ist korrekt und üblich."
+          },
+          {
+            "ref": "§ 5 Abs. 1",
+            "category": "deposit",
+            "level": "fine",
+            "quote": "Die Mieterin leistet eine Mietsicherheit in Höhe von drei Nettokaltmieten, das sind 2.340,00 Euro.",
+            "reason": "Drei Nettokaltmieten sind das gesetzliche Maximum (§ 551 BGB) – hier genau eingehalten. Die Ratenzahlung in drei Teilen ist ebenfalls korrekt geregelt."
+          },
+          {
+            "ref": "§ 6 Abs. 1",
+            "category": "cosmetic_repairs",
+            "level": "fine",
+            "quote": "Die Schönheitsreparaturen in der Wohnung führt der Vermieter durch.",
+            "reason": "Der Vermieter übernimmt die Schönheitsreparaturen vollständig. Das ist für die Mieterin günstig und rechtlich einwandfrei."
+          },
+          {
+            "ref": "§ 7 Abs. 1",
+            "category": "minor_repairs",
+            "level": "critical",
+            "quote": "Die Mieterin trägt die Kosten für kleine Instandhaltungsmaßnahmen an Installationsgegenständen für Elektrizität, Wasser und Gas, an Heiz- und Kocheinrichtungen, an Fenster- und Türverschlüssen sowie an Verschlussvorrichtungen von Fensterläden, soweit die einzelne Reparatur einen Betrag von 120 Euro nicht übersteigt.",
+            "reason": "Die Klausel nennt zwar eine Obergrenze pro Einzelreparatur (120 €), fehlt aber eine jährliche Gesamtobergrenze (üblicherweise 6–8 % der Jahresmiete). Nach ständiger BGH-Rechtsprechung ist eine Kleinreparaturklausel ohne jährliche Höchstgrenze insgesamt unwirksam, weil die Mieterin sonst unbegrenzt belastet werden kann."
+          },
+          {
+            "ref": "§ 8 Abs. 1",
+            "category": "use_subletting",
+            "level": "fine",
+            "quote": "Entsteht für die Mieterin nach Abschluss dieses Vertrags ein berechtigtes Interesse, einen Teil der Wohnung einem Dritten zum Gebrauch zu überlassen, kann sie die Erlaubnis nach Abwägung des § 553 BGB verlangen.",
+            "reason": "Das Erlaubniserfordernis für Untervermietung ist gesetzeskonform, und der Anspruch auf Erlaubnis bei berechtigtem Interesse (§ 553 BGB) ist ausdrücklich vorbehalten. Das ist in Ordnung."
+          },
+          {
+            "ref": "§ 8 Abs. 2",
+            "category": "pets",
+            "level": "fine",
+            "quote": "Die Haltung von Hunden und Katzen bedarf der Zustimmung des Vermieters, über die er nach Abwägung der beiderseitigen Interessen im Einzelfall entscheidet.",
+            "reason": "Ein generelles Verbot von Hunden und Katzen liegt nicht vor. Der Vermieter muss im Einzelfall abwägen – das entspricht der BGH-Rechtsprechung und ist für die Mieterin akzeptabel."
+          },
+          {
+            "ref": "§ 9 Abs. 2",
+            "category": "other",
+            "level": "critical",
+            "quote": "Bei Verlust eines Schlüssels haftet die Mieterin unabhängig von einem Verschulden für die Kosten des Austauschs der Schließanlage.",
+            "reason": "Eine verschuldensunabhängige Haftung der Mieterin ist mit dem gesetzlichen Haftungsmaßstab (§ 276 BGB: Vorsatz und Fahrlässigkeit) nicht vereinbar und daher likely invalid. Außerdem ist die Haftung auf den Austausch der gesamten Schließanlage unverhältnismäßig weit."
+          }
+        ],
+        "invalidClauses": 0
+      },
+      "verification": {
+        "clauses": [
+          {
+            "ref": "§ 3 Abs. 1",
+            "category": "rent",
+            "level": "fine",
+            "quote": "Die monatliche Nettokaltmiete beträgt 780,00 Euro.",
+            "reason": "Eine einfache Nettokaltmiete ohne Staffel- oder Indexvereinbarung ist standard. Keine Besonderheiten zu beanstanden.",
+            "start": 1204,
+            "end": 1254
+          },
+          {
+            "ref": "§ 4 Abs. 1",
+            "category": "operating_costs",
+            "level": "fine",
+            "quote": "Neben der Nettokaltmiete trägt die Mieterin die Betriebskosten im Sinne des § 2 der Betriebskostenverordnung einschließlich der Kosten für Heizung und Warmwasser.",
+            "reason": "Die Umlage ist auf die gesetzlich zulässigen Betriebskosten nach der BetrKV beschränkt. Das ist korrekt und üblich.",
+            "start": 1530,
+            "end": 1692
+          },
+          {
+            "ref": "§ 5 Abs. 1",
+            "category": "deposit",
+            "level": "fine",
+            "quote": "Die Mieterin leistet eine Mietsicherheit in Höhe von drei Nettokaltmieten, das sind 2.340,00 Euro.",
+            "reason": "Drei Nettokaltmieten sind das gesetzliche Maximum (§ 551 BGB) – hier genau eingehalten. Die Ratenzahlung in drei Teilen ist ebenfalls korrekt geregelt.",
+            "start": 2289,
+            "end": 2387
+          },
+          {
+            "ref": "§ 6 Abs. 1",
+            "category": "cosmetic_repairs",
+            "level": "fine",
+            "quote": "Die Schönheitsreparaturen in der Wohnung führt der Vermieter durch.",
+            "reason": "Der Vermieter übernimmt die Schönheitsreparaturen vollständig. Das ist für die Mieterin günstig und rechtlich einwandfrei.",
+            "start": 2923,
+            "end": 2990
+          },
+          {
+            "ref": "§ 7 Abs. 1",
+            "category": "minor_repairs",
+            "level": "critical",
+            "quote": "Die Mieterin trägt die Kosten für kleine Instandhaltungsmaßnahmen an Installationsgegenständen für Elektrizität, Wasser und Gas, an Heiz- und Kocheinrichtungen, an Fenster- und Türverschlüssen sowie an Verschlussvorrichtungen von Fensterläden, soweit die einzelne Reparatur einen Betrag von 120 Euro nicht übersteigt.",
+            "reason": "Die Klausel nennt zwar eine Obergrenze pro Einzelreparatur (120 €), fehlt aber eine jährliche Gesamtobergrenze (üblicherweise 6–8 % der Jahresmiete). Nach ständiger BGH-Rechtsprechung ist eine Kleinreparaturklausel ohne jährliche Höchstgrenze insgesamt unwirksam, weil die Mieterin sonst unbegrenzt belastet werden kann.",
+            "start": 3412,
+            "end": 3729
+          },
+          {
+            "ref": "§ 8 Abs. 2",
+            "category": "pets",
+            "level": "fine",
+            "quote": "Die Haltung von Hunden und Katzen bedarf der Zustimmung des Vermieters, über die er nach Abwägung der beiderseitigen Interessen im Einzelfall entscheidet.",
+            "reason": "Ein generelles Verbot von Hunden und Katzen liegt nicht vor. Der Vermieter muss im Einzelfall abwägen – das entspricht der BGH-Rechtsprechung und ist für die Mieterin akzeptabel.",
+            "start": 4360,
+            "end": 4514
+          },
+          {
+            "ref": "§ 9 Abs. 2",
+            "category": "other",
+            "level": "critical",
+            "quote": "Bei Verlust eines Schlüssels haftet die Mieterin unabhängig von einem Verschulden für die Kosten des Austauschs der Schließanlage.",
+            "reason": "Eine verschuldensunabhängige Haftung der Mieterin ist mit dem gesetzlichen Haftungsmaßstab (§ 276 BGB: Vorsatz und Fahrlässigkeit) nicht vereinbar und daher likely invalid. Außerdem ist die Haftung auf den Austausch der gesamten Schließanlage unverhältnismäßig weit.",
+            "start": 4818,
+            "end": 4948
+          }
+        ],
+        "unverifiedQuotes": 1
+      },
+      "costMicroUsd": 35640,
+      "wallMs": 9895
+    },
+    {
+      "contractId": "rental-02",
+      "run": 1,
+      "result": {
+        "ok": true,
+        "modelId": "eu.anthropic.claude-sonnet-4-6",
+        "promptVersion": "v1",
+        "usage": {
+          "inputTokens": 2967,
+          "outputTokens": 1748
+        },
+        "latencyMs": 12477,
+        "clauses": [
+          {
+            "ref": "§ 2 Abs. 2",
+            "category": "term_termination",
+            "level": "critical",
+            "quote": "Der Mieter verzichtet für die Dauer von fünf Jahren ab Vertragsschluss auf sein Recht zur ordentlichen Kündigung. Das Recht der Vermieterin zur Kündigung nach den gesetzlichen Vorschriften bleibt unberührt.",
+            "reason": "Ein einseitiger Kündigungsverzicht des Mieters ist nach der Rechtsprechung des BGH nur wirksam, wenn er vier Jahre nicht überschreitet. Fünf Jahre sind daher wahrscheinlich unwirksam. Zudem ist der Verzicht einseitig: Die Vermieterin kann weiterhin kündigen, der Mieter aber nicht – das ist eine erhebliche Benachteiligung."
+          },
+          {
+            "ref": "§ 3 Abs. 1",
+            "category": "rent",
+            "level": "fine",
+            "quote": "Die monatliche Nettokaltmiete beträgt 920,00 Euro.",
+            "reason": "Eine einfache Nettokaltmiete ohne Staffel- oder Indexvereinbarung ist die gesetzliche Standardform. Keine Besonderheiten erkennbar; die Mietpreisbremse (§ 556d BGB) sollte der Mieter jedoch separat prüfen, da Köln als Gebiet mit angespanntem Wohnungsmarkt gilt."
+          },
+          {
+            "ref": "§ 4 Abs. 2",
+            "category": "operating_costs",
+            "level": "critical",
+            "quote": "Darüber hinaus trägt der Mieter anteilig die Kosten der Hausverwaltung sowie die Kontoführungsgebühren der Vermieterin.",
+            "reason": "Hausverwaltungskosten und Kontoführungsgebühren der Vermieterin sind keine umlagefähigen Betriebskosten im Sinne der BetrKV und dürfen nicht auf den Mieter umgelegt werden. Diese Klausel ist nach ständiger BGH-Rechtsprechung wahrscheinlich unwirksam."
+          },
+          {
+            "ref": "§ 5 Abs. 1",
+            "category": "deposit",
+            "level": "critical",
+            "quote": "Der Mieter leistet eine Kaution in Höhe von vier Nettokaltmieten, das sind 3.680,00 Euro.",
+            "reason": "Nach § 551 BGB darf die Kaution höchstens drei Nettokaltmieten (hier: 2.760 €) betragen. Eine Kaution von vier Nettokaltmieten ist gesetzwidrig und insoweit wahrscheinlich unwirksam."
+          },
+          {
+            "ref": "§ 5 Abs. 2",
+            "category": "deposit",
+            "level": "critical",
+            "quote": "Die Kaution ist vor Übergabe der Wohnung in einer Summe zu zahlen. Eine Zahlung in Teilbeträgen ist ausgeschlossen.",
+            "reason": "§ 551 Abs. 2 BGB gibt dem Mieter zwingend das Recht, die Kaution in drei gleichen monatlichen Raten zu zahlen. Der Ausschluss der Ratenzahlung ist gesetzwidrig und wahrscheinlich unwirksam."
+          },
+          {
+            "ref": "§ 6 Abs. 1",
+            "category": "cosmetic_repairs",
+            "level": "critical",
+            "quote": "Der Mieter übernimmt die Schönheitsreparaturen. Er hat sie in Küche und Bad spätestens alle drei Jahre, in Wohn- und Schlafräumen spätestens alle fünf Jahre und in sonstigen Räumen spätestens alle sieben Jahre fachgerecht auszuführen.",
+            "reason": "Starre Renovierungsfristen (\"spätestens alle X Jahre\") sind nach ständiger BGH-Rechtsprechung unwirksam, weil sie den Mieter unabhängig vom tatsächlichen Zustand der Wohnung zur Renovierung verpflichten. Die gesamte Schönheitsreparaturklausel ist damit wahrscheinlich unwirksam."
+          },
+          {
+            "ref": "§ 6 Abs. 2",
+            "category": "cosmetic_repairs",
+            "level": "critical",
+            "quote": "Bei Beendigung des Mietverhältnisses hat der Mieter die Wohnung unabhängig vom Zeitpunkt der letzten Schönheitsreparaturen vollständig renoviert zurückzugeben.",
+            "reason": "Eine Endrenovierungspflicht unabhängig vom Zustand der Wohnung ist nach BGH-Rechtsprechung unwirksam. Da bereits § 6 Abs. 1 unwirksam ist, kann diese Pflicht auch nicht als eigenständige Regelung aufrechterhalten werden."
+          },
+          {
+            "ref": "§ 7 Abs. 1",
+            "category": "use_subletting",
+            "level": "critical",
+            "quote": "Die Untervermietung ist ausnahmslos untersagt, auch die Überlassung einzelner Räume an Dritte.",
+            "reason": "Ein pauschales, ausnahmsloses Untervermietungsverbot ist nach § 553 BGB wahrscheinlich unwirksam. Der Mieter hat einen gesetzlichen Anspruch auf Erlaubnis zur Untervermietung, wenn er ein berechtigtes Interesse daran hat. Das Wort \"ausnahmslos\" schließt diesen Anspruch unzulässig aus."
+          },
+          {
+            "ref": "§ 8 Abs. 1",
+            "category": "pets",
+            "level": "critical",
+            "quote": "Jede Tierhaltung, auch die Haltung von Kleintieren wie Zierfischen oder Hamstern, ist in der Wohnung untersagt.",
+            "reason": "Ein generelles Verbot jeglicher Tierhaltung – einschließlich völlig ungefährlicher Kleintiere – ist nach BGH-Rechtsprechung (Az. VIII ZR 168/12) als Formularklausel unwirksam, weil es den Mieter unangemessen benachteiligt. Die Haltung von Kleintieren, die keine Beeinträchtigung verursachen, kann nicht pauschal verboten werden."
+          }
+        ],
+        "invalidClauses": 0
+      },
+      "verification": {
+        "clauses": [
+          {
+            "ref": "§ 2 Abs. 2",
+            "category": "term_termination",
+            "level": "critical",
+            "quote": "Der Mieter verzichtet für die Dauer von fünf Jahren ab Vertragsschluss auf sein Recht zur ordentlichen Kündigung. Das Recht der Vermieterin zur Kündigung nach den gesetzlichen Vorschriften bleibt unberührt.",
+            "reason": "Ein einseitiger Kündigungsverzicht des Mieters ist nach der Rechtsprechung des BGH nur wirksam, wenn er vier Jahre nicht überschreitet. Fünf Jahre sind daher wahrscheinlich unwirksam. Zudem ist der Verzicht einseitig: Die Vermieterin kann weiterhin kündigen, der Mieter aber nicht – das ist eine erhebliche Benachteiligung.",
+            "start": 757,
+            "end": 963
+          },
+          {
+            "ref": "§ 3 Abs. 1",
+            "category": "rent",
+            "level": "fine",
+            "quote": "Die monatliche Nettokaltmiete beträgt 920,00 Euro.",
+            "reason": "Eine einfache Nettokaltmiete ohne Staffel- oder Indexvereinbarung ist die gesetzliche Standardform. Keine Besonderheiten erkennbar; die Mietpreisbremse (§ 556d BGB) sollte der Mieter jedoch separat prüfen, da Köln als Gebiet mit angespanntem Wohnungsmarkt gilt.",
+            "start": 1023,
+            "end": 1073
+          },
+          {
+            "ref": "§ 4 Abs. 2",
+            "category": "operating_costs",
+            "level": "critical",
+            "quote": "Darüber hinaus trägt der Mieter anteilig die Kosten der Hausverwaltung sowie die Kontoführungsgebühren der Vermieterin.",
+            "reason": "Hausverwaltungskosten und Kontoführungsgebühren der Vermieterin sind keine umlagefähigen Betriebskosten im Sinne der BetrKV und dürfen nicht auf den Mieter umgelegt werden. Diese Klausel ist nach ständiger BGH-Rechtsprechung wahrscheinlich unwirksam.",
+            "start": 1348,
+            "end": 1467
+          },
+          {
+            "ref": "§ 5 Abs. 1",
+            "category": "deposit",
+            "level": "critical",
+            "quote": "Der Mieter leistet eine Kaution in Höhe von vier Nettokaltmieten, das sind 3.680,00 Euro.",
+            "reason": "Nach § 551 BGB darf die Kaution höchstens drei Nettokaltmieten (hier: 2.760 €) betragen. Eine Kaution von vier Nettokaltmieten ist gesetzwidrig und insoweit wahrscheinlich unwirksam.",
+            "start": 1654,
+            "end": 1743
+          },
+          {
+            "ref": "§ 5 Abs. 2",
+            "category": "deposit",
+            "level": "critical",
+            "quote": "Die Kaution ist vor Übergabe der Wohnung in einer Summe zu zahlen. Eine Zahlung in Teilbeträgen ist ausgeschlossen.",
+            "reason": "§ 551 Abs. 2 BGB gibt dem Mieter zwingend das Recht, die Kaution in drei gleichen monatlichen Raten zu zahlen. Der Ausschluss der Ratenzahlung ist gesetzwidrig und wahrscheinlich unwirksam.",
+            "start": 1749,
+            "end": 1864
+          },
+          {
+            "ref": "§ 6 Abs. 1",
+            "category": "cosmetic_repairs",
+            "level": "critical",
+            "quote": "Der Mieter übernimmt die Schönheitsreparaturen. Er hat sie in Küche und Bad spätestens alle drei Jahre, in Wohn- und Schlafräumen spätestens alle fünf Jahre und in sonstigen Räumen spätestens alle sieben Jahre fachgerecht auszuführen.",
+            "reason": "Starre Renovierungsfristen (\"spätestens alle X Jahre\") sind nach ständiger BGH-Rechtsprechung unwirksam, weil sie den Mieter unabhängig vom tatsächlichen Zustand der Wohnung zur Renovierung verpflichten. Die gesamte Schönheitsreparaturklausel ist damit wahrscheinlich unwirksam.",
+            "start": 1992,
+            "end": 2226
+          },
+          {
+            "ref": "§ 6 Abs. 2",
+            "category": "cosmetic_repairs",
+            "level": "critical",
+            "quote": "Bei Beendigung des Mietverhältnisses hat der Mieter die Wohnung unabhängig vom Zeitpunkt der letzten Schönheitsreparaturen vollständig renoviert zurückzugeben.",
+            "reason": "Eine Endrenovierungspflicht unabhängig vom Zustand der Wohnung ist nach BGH-Rechtsprechung unwirksam. Da bereits § 6 Abs. 1 unwirksam ist, kann diese Pflicht auch nicht als eigenständige Regelung aufrechterhalten werden.",
+            "start": 2232,
+            "end": 2391
+          },
+          {
+            "ref": "§ 7 Abs. 1",
+            "category": "use_subletting",
+            "level": "critical",
+            "quote": "Die Untervermietung ist ausnahmslos untersagt, auch die Überlassung einzelner Räume an Dritte.",
+            "reason": "Ein pauschales, ausnahmsloses Untervermietungsverbot ist nach § 553 BGB wahrscheinlich unwirksam. Der Mieter hat einen gesetzlichen Anspruch auf Erlaubnis zur Untervermietung, wenn er ein berechtigtes Interesse daran hat. Das Wort \"ausnahmslos\" schließt diesen Anspruch unzulässig aus.",
+            "start": 2418,
+            "end": 2512
+          },
+          {
+            "ref": "§ 8 Abs. 1",
+            "category": "pets",
+            "level": "critical",
+            "quote": "Jede Tierhaltung, auch die Haltung von Kleintieren wie Zierfischen oder Hamstern, ist in der Wohnung untersagt.",
+            "reason": "Ein generelles Verbot jeglicher Tierhaltung – einschließlich völlig ungefährlicher Kleintiere – ist nach BGH-Rechtsprechung (Az. VIII ZR 168/12) als Formularklausel unwirksam, weil es den Mieter unangemessen benachteiligt. Die Haltung von Kleintieren, die keine Beeinträchtigung verursachen, kann nicht pauschal verboten werden.",
+            "start": 2535,
+            "end": 2646
+          }
+        ],
+        "unverifiedQuotes": 0
+      },
+      "costMicroUsd": 38634,
+      "wallMs": 12577
+    },
+    {
+      "contractId": "rental-03",
+      "run": 1,
+      "result": {
+        "ok": true,
+        "modelId": "eu.anthropic.claude-sonnet-4-6",
+        "promptVersion": "v1",
+        "usage": {
+          "inputTokens": 3398,
+          "outputTokens": 2222
+        },
+        "latencyMs": 17528,
+        "clauses": [
+          {
+            "ref": "§ 2 Abs. 2",
+            "category": "term_termination",
+            "level": "check",
+            "quote": "Beide Vertragsparteien verzichten wechselseitig für die Dauer von vier Jahren ab Vertragsschluss auf ihr Recht zur ordentlichen Kündigung. Eine ordentliche Kündigung kann erstmals nach Ablauf dieses Zeitraums erklärt werden.",
+            "reason": "Ein wechselseitiger Kündigungsverzicht von genau vier Jahren ist nach der BGH-Rechtsprechung gerade noch zulässig (Grenze: 4 Jahre). Da der Vertrag am 20. März 2027 geschlossen wird, kann der Mieter frühestens Ende März 2031 kündigen – mit der gesetzlichen Frist von drei Monaten wäre ein Auszug also frühestens zum 30. Juni 2031 möglich. Das ist eine erhebliche Bindung; der Mieter sollte sich sicher sein, so lange bleiben zu wollen."
+          },
+          {
+            "ref": "§ 3 Abs. 1",
+            "category": "rent",
+            "level": "fine",
+            "quote": "Die monatliche Nettokaltmiete beträgt 690,00 Euro.",
+            "reason": "Eine einfache Festmiete ohne Staffel- oder Indexvereinbarung ist die gesetzliche Standardform und für den Mieter unproblematisch."
+          },
+          {
+            "ref": "§ 4 Abs. 1",
+            "category": "operating_costs",
+            "level": "fine",
+            "quote": "Der Mieter trägt die Betriebskosten nach § 2 der Betriebskostenverordnung. Hierauf leistet er monatliche Vorauszahlungen in Höhe von 210,00 Euro.",
+            "reason": "Die Umlage wird auf die gesetzlich zulässigen Betriebskosten nach BetrKV beschränkt, und es werden Vorauszahlungen (statt einer Pauschale) vereinbart, sodass der Mieter Nachzahlungen und Guthaben erhält. Die Vorauszahlung von 210 € entspricht bei 62 m² ca. 3,39 €/m² – das ist für eine Gesamtvorauszahlung (inkl. Heizung) nicht ungewöhnlich, sollte aber vor Vertragsschluss anhand tatsächlicher Vorjahresabrechnungen geprüft werden."
+          },
+          {
+            "ref": "§ 5 Abs. 1",
+            "category": "deposit",
+            "level": "critical",
+            "quote": "Der Mieter leistet eine Mietsicherheit in Höhe von drei Monatsmieten einschließlich der Betriebskostenvorauszahlungen, das sind 2.700,00 Euro.",
+            "reason": "Die Kaution darf gemäß § 551 Abs. 1 BGB höchstens drei Nettokaltmieten betragen (3 × 690 € = 2.070 €). Hier werden jedoch drei Monatsmieten inklusive Betriebskostenvorauszahlung (3 × 900 € = 2.700 €) verlangt, was die gesetzliche Höchstgrenze um 630 € überschreitet. Diese Klausel ist daher wahrscheinlich unwirksam, soweit sie den Betrag von 2.070 € übersteigt."
+          },
+          {
+            "ref": "§ 5 Abs. 2",
+            "category": "deposit",
+            "level": "fine",
+            "quote": "Der Mieter ist berechtigt, die Sicherheit in drei gleichen monatlichen Teilzahlungen zu leisten. Die erste Teilzahlung ist zu Beginn des Mietverhältnisses fällig.",
+            "reason": "Die Ratenzahlung in drei gleichen Teilen entspricht genau der gesetzlichen Regelung des § 551 Abs. 2 BGB und ist für den Mieter günstig."
+          },
+          {
+            "ref": "§ 6 Abs. 1",
+            "category": "cosmetic_repairs",
+            "level": "check",
+            "quote": "Der Mieter übernimmt auf eigene Kosten die Schönheitsreparaturen, die im Allgemeinen in Küchen, Bädern und Duschen alle fünf Jahre, in Wohn- und Schlafräumen, Fluren, Dielen und Toiletten alle acht Jahre und in anderen Nebenräumen alle zehn Jahre erforderlich werden.",
+            "reason": "Die genannten Fristen sind als Richtwerte (\"im Allgemeinen\") formuliert und werden durch § 6 Abs. 2 relativiert, der eine Renovierungspflicht nur bei tatsächlichem Bedarf vorsieht. Starre Fristenpläne ohne Bedarfsvorbehalt wären nach BGH-Rechtsprechung unwirksam; hier ist der Bedarfsvorbehalt vorhanden, sodass die Klausel grundsätzlich wirksam sein dürfte. Entscheidend ist jedoch, ob die Wohnung bei Einzug renoviert übergeben wurde – wurde sie unrenoviert übergeben, wäre die gesamte Renovierungspflicht wahrscheinlich unwirksam. Der Mieter sollte den Zustand der Wohnung bei Übergabe sorgfältig im Übergabeprotokoll dokumentieren."
+          },
+          {
+            "ref": "§ 7 Abs. 2",
+            "category": "minor_repairs",
+            "level": "check",
+            "quote": "Die Kostentragung ist auf 100 Euro je Einzelreparatur und auf höchstens 8 Prozent der Jahresnettokaltmiete, jedoch nicht mehr als 300 Euro im Kalenderjahr begrenzt.",
+            "reason": "Die Einzelfallgrenze von 100 € liegt im üblichen Rahmen (BGH akzeptiert bis ca. 100–120 €). Die Jahresobergrenze von 300 € ist jedoch ungewöhnlich niedrig – 8 % der Jahresnettokaltmiete wären hier 8 % × 8.280 € = 662,40 €, aber der Vertrag deckelt zusätzlich auf 300 €. Das ist für den Mieter zwar günstig, aber die Kombination aus niedrigem Einzelbetrag und sehr niedriger Jahresgrenze sollte beachtet werden. Insgesamt ist die Klausel für den Mieter eher vorteilhaft."
+          },
+          {
+            "ref": "§ 8 Abs. 1",
+            "category": "use_subletting",
+            "level": "fine",
+            "quote": "Der Mieter darf die Wohnung nur mit Erlaubnis der Vermieterin ganz oder teilweise einem Dritten zum Gebrauch überlassen. Entsteht für den Mieter nach Abschluss dieses Vertrags ein berechtigtes Interesse, einen Teil der Wohnung einem Dritten zum Gebrauch zu überlassen, kann er die Erlaubnis nach Maßgabe des § 553 BGB verlangen.",
+            "reason": "Die Klausel entspricht der gesetzlichen Regelung: Ein Erlaubnisvorbehalt ist zulässig, und der gesetzliche Anspruch auf Erlaubnis bei berechtigtem Interesse (§ 553 BGB) wird ausdrücklich gewahrt."
+          },
+          {
+            "ref": "§ 8 Abs. 2",
+            "category": "pets",
+            "level": "fine",
+            "quote": "Die Haltung von Kleintieren in üblicher Anzahl ist ohne Zustimmung gestattet. Über die Haltung von Hunden und Katzen entscheidet die Vermieterin nach Abwägung der beiderseitigen Interessen im Einzelfall.",
+            "reason": "Kleintiere sind generell erlaubt. Für Hunde und Katzen gilt ein Erlaubnisvorbehalt mit Einzelfallabwägung – das entspricht der aktuellen BGH-Rechtsprechung (BGH VIII ZR 168/12) und ist für den Mieter fair."
+          }
+        ],
+        "invalidClauses": 0
+      },
+      "verification": {
+        "clauses": [
+          {
+            "ref": "§ 2 Abs. 2",
+            "category": "term_termination",
+            "level": "check",
+            "quote": "Beide Vertragsparteien verzichten wechselseitig für die Dauer von vier Jahren ab Vertragsschluss auf ihr Recht zur ordentlichen Kündigung. Eine ordentliche Kündigung kann erstmals nach Ablauf dieses Zeitraums erklärt werden.",
+            "reason": "Ein wechselseitiger Kündigungsverzicht von genau vier Jahren ist nach der BGH-Rechtsprechung gerade noch zulässig (Grenze: 4 Jahre). Da der Vertrag am 20. März 2027 geschlossen wird, kann der Mieter frühestens Ende März 2031 kündigen – mit der gesetzlichen Frist von drei Monaten wäre ein Auszug also frühestens zum 30. Juni 2031 möglich. Das ist eine erhebliche Bindung; der Mieter sollte sich sicher sein, so lange bleiben zu wollen.",
+            "start": 727,
+            "end": 951
+          },
+          {
+            "ref": "§ 3 Abs. 1",
+            "category": "rent",
+            "level": "fine",
+            "quote": "Die monatliche Nettokaltmiete beträgt 690,00 Euro.",
+            "reason": "Eine einfache Festmiete ohne Staffel- oder Indexvereinbarung ist die gesetzliche Standardform und für den Mieter unproblematisch.",
+            "start": 1065,
+            "end": 1115
+          },
+          {
+            "ref": "§ 4 Abs. 1",
+            "category": "operating_costs",
+            "level": "fine",
+            "quote": "Der Mieter trägt die Betriebskosten nach § 2 der Betriebskostenverordnung. Hierauf leistet er monatliche Vorauszahlungen in Höhe von 210,00 Euro.",
+            "reason": "Die Umlage wird auf die gesetzlich zulässigen Betriebskosten nach BetrKV beschränkt, und es werden Vorauszahlungen (statt einer Pauschale) vereinbart, sodass der Mieter Nachzahlungen und Guthaben erhält. Die Vorauszahlung von 210 € entspricht bei 62 m² ca. 3,39 €/m² – das ist für eine Gesamtvorauszahlung (inkl. Heizung) nicht ungewöhnlich, sollte aber vor Vertragsschluss anhand tatsächlicher Vorjahresabrechnungen geprüft werden.",
+            "start": 1277,
+            "end": 1422
+          },
+          {
+            "ref": "§ 5 Abs. 1",
+            "category": "deposit",
+            "level": "critical",
+            "quote": "Der Mieter leistet eine Mietsicherheit in Höhe von drei Monatsmieten einschließlich der Betriebskostenvorauszahlungen, das sind 2.700,00 Euro.",
+            "reason": "Die Kaution darf gemäß § 551 Abs. 1 BGB höchstens drei Nettokaltmieten betragen (3 × 690 € = 2.070 €). Hier werden jedoch drei Monatsmieten inklusive Betriebskostenvorauszahlung (3 × 900 € = 2.700 €) verlangt, was die gesetzliche Höchstgrenze um 630 € überschreitet. Diese Klausel ist daher wahrscheinlich unwirksam, soweit sie den Betrag von 2.070 € übersteigt.",
+            "start": 1515,
+            "end": 1657
+          },
+          {
+            "ref": "§ 5 Abs. 2",
+            "category": "deposit",
+            "level": "fine",
+            "quote": "Der Mieter ist berechtigt, die Sicherheit in drei gleichen monatlichen Teilzahlungen zu leisten. Die erste Teilzahlung ist zu Beginn des Mietverhältnisses fällig.",
+            "reason": "Die Ratenzahlung in drei gleichen Teilen entspricht genau der gesetzlichen Regelung des § 551 Abs. 2 BGB und ist für den Mieter günstig.",
+            "start": 1663,
+            "end": 1825
+          },
+          {
+            "ref": "§ 6 Abs. 1",
+            "category": "cosmetic_repairs",
+            "level": "check",
+            "quote": "Der Mieter übernimmt auf eigene Kosten die Schönheitsreparaturen, die im Allgemeinen in Küchen, Bädern und Duschen alle fünf Jahre, in Wohn- und Schlafräumen, Fluren, Dielen und Toiletten alle acht Jahre und in anderen Nebenräumen alle zehn Jahre erforderlich werden.",
+            "reason": "Die genannten Fristen sind als Richtwerte (\"im Allgemeinen\") formuliert und werden durch § 6 Abs. 2 relativiert, der eine Renovierungspflicht nur bei tatsächlichem Bedarf vorsieht. Starre Fristenpläne ohne Bedarfsvorbehalt wären nach BGH-Rechtsprechung unwirksam; hier ist der Bedarfsvorbehalt vorhanden, sodass die Klausel grundsätzlich wirksam sein dürfte. Entscheidend ist jedoch, ob die Wohnung bei Einzug renoviert übergeben wurde – wurde sie unrenoviert übergeben, wäre die gesamte Renovierungspflicht wahrscheinlich unwirksam. Der Mieter sollte den Zustand der Wohnung bei Übergabe sorgfältig im Übergabeprotokoll dokumentieren.",
+            "start": 2032,
+            "end": 2299
+          },
+          {
+            "ref": "§ 7 Abs. 2",
+            "category": "minor_repairs",
+            "level": "check",
+            "quote": "Die Kostentragung ist auf 100 Euro je Einzelreparatur und auf höchstens 8 Prozent der Jahresnettokaltmiete, jedoch nicht mehr als 300 Euro im Kalenderjahr begrenzt.",
+            "reason": "Die Einzelfallgrenze von 100 € liegt im üblichen Rahmen (BGH akzeptiert bis ca. 100–120 €). Die Jahresobergrenze von 300 € ist jedoch ungewöhnlich niedrig – 8 % der Jahresnettokaltmiete wären hier 8 % × 8.280 € = 662,40 €, aber der Vertrag deckelt zusätzlich auf 300 €. Das ist für den Mieter zwar günstig, aber die Kombination aus niedrigem Einzelbetrag und sehr niedriger Jahresgrenze sollte beachtet werden. Insgesamt ist die Klausel für den Mieter eher vorteilhaft.",
+            "start": 2829,
+            "end": 2993
+          },
+          {
+            "ref": "§ 8 Abs. 1",
+            "category": "use_subletting",
+            "level": "fine",
+            "quote": "Der Mieter darf die Wohnung nur mit Erlaubnis der Vermieterin ganz oder teilweise einem Dritten zum Gebrauch überlassen. Entsteht für den Mieter nach Abschluss dieses Vertrags ein berechtigtes Interesse, einen Teil der Wohnung einem Dritten zum Gebrauch zu überlassen, kann er die Erlaubnis nach Maßgabe des § 553 BGB verlangen.",
+            "reason": "Die Klausel entspricht der gesetzlichen Regelung: Ein Erlaubnisvorbehalt ist zulässig, und der gesetzliche Anspruch auf Erlaubnis bei berechtigtem Interesse (§ 553 BGB) wird ausdrücklich gewahrt.",
+            "start": 3183,
+            "end": 3511
+          },
+          {
+            "ref": "§ 8 Abs. 2",
+            "category": "pets",
+            "level": "fine",
+            "quote": "Die Haltung von Kleintieren in üblicher Anzahl ist ohne Zustimmung gestattet. Über die Haltung von Hunden und Katzen entscheidet die Vermieterin nach Abwägung der beiderseitigen Interessen im Einzelfall.",
+            "reason": "Kleintiere sind generell erlaubt. Für Hunde und Katzen gilt ein Erlaubnisvorbehalt mit Einzelfallabwägung – das entspricht der aktuellen BGH-Rechtsprechung (BGH VIII ZR 168/12) und ist für den Mieter fair.",
+            "start": 3517,
+            "end": 3720
+          }
+        ],
+        "unverifiedQuotes": 0
+      },
+      "costMicroUsd": 47877,
+      "wallMs": 17644
+    },
+    {
+      "contractId": "rental-04",
+      "run": 1,
+      "result": {
+        "ok": true,
+        "modelId": "eu.anthropic.claude-sonnet-4-6",
+        "promptVersion": "v1",
+        "usage": {
+          "inputTokens": 4544,
+          "outputTokens": 3342
+        },
+        "latencyMs": 26216,
+        "clauses": [
+          {
+            "ref": "§ 4 Abs. 2",
+            "category": "rent",
+            "level": "check",
+            "quote": "Die Nettokaltmiete erhöht sich jeweils zum 1. Juni eines jeden Jahres um 3 Prozent der zuletzt geschuldeten Nettokaltmiete, erstmals zum 1. Juni 2028.",
+            "reason": "Es handelt sich um eine Staffelmiete (§ 557a BGB). Diese ist grundsätzlich zulässig, wenn die Erhöhungsbeträge in Euro angegeben sind – hier wird jedoch nur ein Prozentsatz genannt, was nach § 557a Abs. 1 BGB unwirksam sein kann. Außerdem ist zu prüfen, ob die Mietpreisbremse (§ 556d BGB) in Heidelberg gilt; wenn ja, könnte die Ausgangsmiete oder eine spätere Stufe die zulässige Höchstmiete überschreiten."
+          },
+          {
+            "ref": "§ 5 Abs. 1",
+            "category": "operating_costs",
+            "level": "fine",
+            "quote": "Neben der Nettokaltmiete trägt die Mieterin die Betriebskosten im Sinne des § 2 der Betriebskostenverordnung einschließlich der Kosten für Heizung und Warmwasser.",
+            "reason": "Die Umlage der Betriebskosten ist klar und gesetzeskonform vereinbart. Der Verweis auf § 2 BetrKV stellt sicher, dass nur umlagefähige Kosten weitergegeben werden dürfen."
+          },
+          {
+            "ref": "§ 5 Abs. 2",
+            "category": "operating_costs",
+            "level": "check",
+            "quote": "Auf die Betriebskosten leistet die Mieterin monatliche Vorauszahlungen in Höhe von 290,00 Euro.",
+            "reason": "290 € monatlich für eine 96-m²-Wohnung inklusive Heizung und Warmwasser ist nicht ungewöhnlich, aber eher knapp kalkuliert. Sollte die Abrechnung eine Nachzahlung ergeben, kann diese erheblich sein. Es empfiehlt sich, beim Vermieter nach Vorjahresabrechnungen zu fragen."
+          },
+          {
+            "ref": "§ 7 Abs. 1–2",
+            "category": "deposit",
+            "level": "fine",
+            "quote": "Die Mieterin leistet eine Mietsicherheit in Höhe von drei Nettokaltmieten, das sind 3.450,00 Euro. Die Mieterin ist berechtigt, die Sicherheit in drei gleichen monatlichen Teilzahlungen zu erbringen.",
+            "reason": "Die Kaution beträgt genau drei Nettokaltmieten (gesetzliches Maximum) und die Ratenzahlung in drei Monatsraten ist ausdrücklich erlaubt – beides entspricht § 551 BGB."
+          },
+          {
+            "ref": "§ 9 Abs. 1",
+            "category": "cosmetic_repairs",
+            "level": "critical",
+            "quote": "Diese werden im Allgemeinen in Küchen, Bädern und Duschen alle fünf Jahre, in Wohn- und Schlafräumen, Fluren, Dielen und Toiletten alle acht Jahre und in anderen Nebenräumen alle zehn Jahre erforderlich sein.",
+            "reason": "Starre Renovierungsfristen (sog. Fristenplan) sind nach ständiger BGH-Rechtsprechung (z. B. BGH VIII ZR 361/03) unwirksam, weil sie die Mieterin unabhängig vom tatsächlichen Renovierungsbedarf verpflichten. Die gesamte Schönheitsreparaturklausel ist damit wahrscheinlich unwirksam."
+          },
+          {
+            "ref": "§ 9 Abs. 2",
+            "category": "cosmetic_repairs",
+            "level": "critical",
+            "quote": "Endet das Mietverhältnis, bevor Schönheitsreparaturen fällig sind, hat die Mieterin die anteiligen Kosten nach folgenden Quoten zu tragen: Liegen die letzten Schönheitsreparaturen für Küche und Bad länger als ein Jahr zurück, zahlt sie 20 Prozent, länger als zwei Jahre 40 Prozent, länger als drei Jahre 60 Prozent und länger als vier Jahre 80 Prozent der Kosten nach dem Kostenvoranschlag eines von den Vermietern ausgewählten Malerfachbetriebs.",
+            "reason": "Quotenabgeltungsklauseln sind nach BGH-Rechtsprechung (BGH VIII ZR 185/14) unwirksam, weil sie die Mieterin starr an Fristen knüpfen, ohne den tatsächlichen Renovierungsbedarf zu berücksichtigen. Zusätzlich ist problematisch, dass der Kostenvoranschlag allein vom Vermieter eingeholt wird, was die Mieterin benachteiligt."
+          },
+          {
+            "ref": "§ 10 Abs. 2",
+            "category": "minor_repairs",
+            "level": "check",
+            "quote": "Die Kostentragung ist auf 90 Euro je Einzelreparatur und auf höchstens 6 Prozent der Jahresnettokaltmiete, jedoch nicht mehr als 300 Euro im Kalenderjahr begrenzt.",
+            "reason": "Die Einzelobergrenze von 90 € liegt am unteren Rand des von der Rechtsprechung noch als zulässig angesehenen Bereichs (ca. 75–120 €) und ist gerade noch vertretbar. Die Jahresobergrenze von 300 € ist absolut niedrig; die 6-%-Klausel ergibt bei dieser Miete ca. 828 €, aber der absolute Deckel von 300 € greift zuerst. Insgesamt ist die Klausel zugunsten der Mieterin ausgestaltet, sollte aber beachtet werden."
+          },
+          {
+            "ref": "§ 10 Abs. 2",
+            "category": "minor_repairs",
+            "level": "check",
+            "quote": "Die Reparaturen beauftragen die Vermieter.",
+            "reason": "Die Beauftragung durch den Vermieter ist für die Mieterin grundsätzlich vorteilhaft (kein Organisationsaufwand), bedeutet aber auch, dass die Mieterin keinen Einfluss auf die Handwerkerwahl hat. Dies ist zulässig, aber ungewöhnlich."
+          },
+          {
+            "ref": "§ 2 Abs. 1",
+            "category": "term_termination",
+            "level": "fine",
+            "quote": "Das Mietverhältnis beginnt am 1. Juni 2027 und läuft auf unbestimmte Zeit.",
+            "reason": "Ein unbefristetes Mietverhältnis ist der gesetzliche Regelfall und für die Mieterin am günstigsten."
+          },
+          {
+            "ref": "§ 3 Abs. 1",
+            "category": "term_termination",
+            "level": "fine",
+            "quote": "Die Kündigungsfrist für die Mieterin beträgt drei Monate; die Kündigung ist spätestens am dritten Werktag eines Kalendermonats zum Ablauf des übernächsten Monats zulässig.",
+            "reason": "Die dreimonatige Kündigungsfrist für die Mieterin entspricht genau § 573c Abs. 1 BGB und ist damit gesetzeskonform."
+          },
+          {
+            "ref": "§ 13 Abs. 1",
+            "category": "use_subletting",
+            "level": "fine",
+            "quote": "Die Mieterin darf die Wohnung nur mit Erlaubnis der Vermieter ganz oder teilweise einem Dritten zum Gebrauch überlassen. Ein Anspruch auf Erlaubnis der Überlassung eines Teils der Wohnung besteht nach Maßgabe des § 553 BGB.",
+            "reason": "Die Klausel schränkt die Untervermietung zwar ein, erkennt aber ausdrücklich den gesetzlichen Anspruch der Mieterin auf Erlaubnis zur Teiluntervermietung nach § 553 BGB an. Das ist rechtlich korrekt und nicht zu beanstanden."
+          },
+          {
+            "ref": "§ 14 Abs. 1",
+            "category": "pets",
+            "level": "check",
+            "quote": "Jede Tierhaltung mit Ausnahme von Zierfischen bedarf der vorherigen Zustimmung der Vermieter.",
+            "reason": "Ein generelles Zustimmungserfordernis für alle Tiere (außer Zierfischen) ist nach BGH-Rechtsprechung (BGH VIII ZR 168/12) grundsätzlich zulässig, solange der Vermieter die Erlaubnis nicht willkürlich verweigern darf. Die Mieterin hat jedoch keinen automatischen Anspruch auf Haltung von Hunden oder Katzen; sie ist auf das Wohlwollen des Vermieters angewiesen."
+          },
+          {
+            "ref": "§ 12 Abs. 1",
+            "category": "alterations",
+            "level": "fine",
+            "quote": "Bauliche Veränderungen durch die Mieterin, insbesondere Um- und Einbauten sowie Installationen, bedürfen der vorherigen Zustimmung der Vermieter. Die Rechte der Mieterin nach § 554 BGB bleiben unberührt.",
+            "reason": "Der Zustimmungsvorbehalt ist üblich und zulässig. Wichtig: Die Klausel stellt ausdrücklich klar, dass die gesetzlichen Rechte der Mieterin auf Modernisierungsmaßnahmen (§ 554 BGB, z. B. barrierefreier Umbau) nicht eingeschränkt werden."
+          },
+          {
+            "ref": "§ 12 Abs. 2",
+            "category": "alterations",
+            "level": "check",
+            "quote": "Bei Beendigung des Mietverhältnisses hat die Mieterin Einrichtungen, mit denen sie die Wohnung versehen hat, zu entfernen und den ursprünglichen Zustand wiederherzustellen, soweit die Parteien nichts anderes vereinbaren.",
+            "reason": "Eine generelle Rückbaupflicht für alle selbst vorgenommenen Einbauten ist zulässig, kann aber im Einzelfall teuer werden (z. B. bei einer selbst eingebauten Dusche oder Einbauschränken). Es empfiehlt sich, vor jedem Umbau eine schriftliche Vereinbarung mit dem Vermieter zu treffen, ob und in welchem Umfang ein Rückbau verlangt wird."
+          },
+          {
+            "ref": "§ 6 Abs. 2",
+            "category": "other",
+            "level": "critical",
+            "quote": "Die Mieterin kann gegen Mietforderungen weder aufrechnen noch ein Zurückbehaltungsrecht ausüben.",
+            "reason": "Ein vollständiger Ausschluss von Aufrechnung und Zurückbehaltungsrecht ist nach § 556b Abs. 2 BGB unwirksam, soweit er auch unbestrittene oder rechtskräftig festgestellte Gegenforderungen der Mieterin erfasst. Die Klausel ist in dieser Pauschalform wahrscheinlich unwirksam."
+          },
+          {
+            "ref": "§ 6 Abs. 3",
+            "category": "other",
+            "level": "critical",
+            "quote": "Eine Minderung der Miete wegen Mängeln der Wohnung ist ausgeschlossen, soweit die Vermieter den Mangel nicht zu vertreten haben.",
+            "reason": "Das Minderungsrecht nach § 536 BGB ist zwingend und kann in einem Formularmietvertrag nicht wirksam ausgeschlossen werden (BGH VIII ZR 100/15). Diese Klausel ist wahrscheinlich unwirksam – die Mieterin kann bei Mängeln die Miete mindern, unabhängig von dieser Vereinbarung."
+          }
+        ],
+        "invalidClauses": 0
+      },
+      "verification": {
+        "clauses": [
+          {
+            "ref": "§ 4 Abs. 2",
+            "category": "rent",
+            "level": "check",
+            "quote": "Die Nettokaltmiete erhöht sich jeweils zum 1. Juni eines jeden Jahres um 3 Prozent der zuletzt geschuldeten Nettokaltmiete, erstmals zum 1. Juni 2028.",
+            "reason": "Es handelt sich um eine Staffelmiete (§ 557a BGB). Diese ist grundsätzlich zulässig, wenn die Erhöhungsbeträge in Euro angegeben sind – hier wird jedoch nur ein Prozentsatz genannt, was nach § 557a Abs. 1 BGB unwirksam sein kann. Außerdem ist zu prüfen, ob die Mietpreisbremse (§ 556d BGB) in Heidelberg gilt; wenn ja, könnte die Ausgangsmiete oder eine spätere Stufe die zulässige Höchstmiete überschreiten.",
+            "start": 1532,
+            "end": 1682
+          },
+          {
+            "ref": "§ 5 Abs. 1",
+            "category": "operating_costs",
+            "level": "fine",
+            "quote": "Neben der Nettokaltmiete trägt die Mieterin die Betriebskosten im Sinne des § 2 der Betriebskostenverordnung einschließlich der Kosten für Heizung und Warmwasser.",
+            "reason": "Die Umlage der Betriebskosten ist klar und gesetzeskonform vereinbart. Der Verweis auf § 2 BetrKV stellt sicher, dass nur umlagefähige Kosten weitergegeben werden dürfen.",
+            "start": 1708,
+            "end": 1870
+          },
+          {
+            "ref": "§ 5 Abs. 2",
+            "category": "operating_costs",
+            "level": "check",
+            "quote": "Auf die Betriebskosten leistet die Mieterin monatliche Vorauszahlungen in Höhe von 290,00 Euro.",
+            "reason": "290 € monatlich für eine 96-m²-Wohnung inklusive Heizung und Warmwasser ist nicht ungewöhnlich, aber eher knapp kalkuliert. Sollte die Abrechnung eine Nachzahlung ergeben, kann diese erheblich sein. Es empfiehlt sich, beim Vermieter nach Vorjahresabrechnungen zu fragen.",
+            "start": 1876,
+            "end": 1971
+          },
+          {
+            "ref": "§ 9 Abs. 1",
+            "category": "cosmetic_repairs",
+            "level": "critical",
+            "quote": "Diese werden im Allgemeinen in Küchen, Bädern und Duschen alle fünf Jahre, in Wohn- und Schlafräumen, Fluren, Dielen und Toiletten alle acht Jahre und in anderen Nebenräumen alle zehn Jahre erforderlich sein.",
+            "reason": "Starre Renovierungsfristen (sog. Fristenplan) sind nach ständiger BGH-Rechtsprechung (z. B. BGH VIII ZR 361/03) unwirksam, weil sie die Mieterin unabhängig vom tatsächlichen Renovierungsbedarf verpflichten. Die gesamte Schönheitsreparaturklausel ist damit wahrscheinlich unwirksam.",
+            "start": 3502,
+            "end": 3710
+          },
+          {
+            "ref": "§ 9 Abs. 2",
+            "category": "cosmetic_repairs",
+            "level": "critical",
+            "quote": "Endet das Mietverhältnis, bevor Schönheitsreparaturen fällig sind, hat die Mieterin die anteiligen Kosten nach folgenden Quoten zu tragen: Liegen die letzten Schönheitsreparaturen für Küche und Bad länger als ein Jahr zurück, zahlt sie 20 Prozent, länger als zwei Jahre 40 Prozent, länger als drei Jahre 60 Prozent und länger als vier Jahre 80 Prozent der Kosten nach dem Kostenvoranschlag eines von den Vermietern ausgewählten Malerfachbetriebs.",
+            "reason": "Quotenabgeltungsklauseln sind nach BGH-Rechtsprechung (BGH VIII ZR 185/14) unwirksam, weil sie die Mieterin starr an Fristen knüpfen, ohne den tatsächlichen Renovierungsbedarf zu berücksichtigen. Zusätzlich ist problematisch, dass der Kostenvoranschlag allein vom Vermieter eingeholt wird, was die Mieterin benachteiligt.",
+            "start": 3716,
+            "end": 4162
+          },
+          {
+            "ref": "§ 10 Abs. 2",
+            "category": "minor_repairs",
+            "level": "check",
+            "quote": "Die Kostentragung ist auf 90 Euro je Einzelreparatur und auf höchstens 6 Prozent der Jahresnettokaltmiete, jedoch nicht mehr als 300 Euro im Kalenderjahr begrenzt.",
+            "reason": "Die Einzelobergrenze von 90 € liegt am unteren Rand des von der Rechtsprechung noch als zulässig angesehenen Bereichs (ca. 75–120 €) und ist gerade noch vertretbar. Die Jahresobergrenze von 300 € ist absolut niedrig; die 6-%-Klausel ergibt bei dieser Miete ca. 828 €, aber der absolute Deckel von 300 € greift zuerst. Insgesamt ist die Klausel zugunsten der Mieterin ausgestaltet, sollte aber beachtet werden.",
+            "start": 4618,
+            "end": 4781
+          },
+          {
+            "ref": "§ 10 Abs. 2",
+            "category": "minor_repairs",
+            "level": "check",
+            "quote": "Die Reparaturen beauftragen die Vermieter.",
+            "reason": "Die Beauftragung durch den Vermieter ist für die Mieterin grundsätzlich vorteilhaft (kein Organisationsaufwand), bedeutet aber auch, dass die Mieterin keinen Einfluss auf die Handwerkerwahl hat. Dies ist zulässig, aber ungewöhnlich.",
+            "start": 4878,
+            "end": 4920
+          },
+          {
+            "ref": "§ 2 Abs. 1",
+            "category": "term_termination",
+            "level": "fine",
+            "quote": "Das Mietverhältnis beginnt am 1. Juni 2027 und läuft auf unbestimmte Zeit.",
+            "reason": "Ein unbefristetes Mietverhältnis ist der gesetzliche Regelfall und für die Mieterin am günstigsten.",
+            "start": 894,
+            "end": 968
+          },
+          {
+            "ref": "§ 3 Abs. 1",
+            "category": "term_termination",
+            "level": "fine",
+            "quote": "Die Kündigungsfrist für die Mieterin beträgt drei Monate; die Kündigung ist spätestens am dritten Werktag eines Kalendermonats zum Ablauf des übernächsten Monats zulässig.",
+            "reason": "Die dreimonatige Kündigungsfrist für die Mieterin entspricht genau § 573c Abs. 1 BGB und ist damit gesetzeskonform.",
+            "start": 1086,
+            "end": 1257
+          },
+          {
+            "ref": "§ 13 Abs. 1",
+            "category": "use_subletting",
+            "level": "fine",
+            "quote": "Die Mieterin darf die Wohnung nur mit Erlaubnis der Vermieter ganz oder teilweise einem Dritten zum Gebrauch überlassen. Ein Anspruch auf Erlaubnis der Überlassung eines Teils der Wohnung besteht nach Maßgabe des § 553 BGB.",
+            "reason": "Die Klausel schränkt die Untervermietung zwar ein, erkennt aber ausdrücklich den gesetzlichen Anspruch der Mieterin auf Erlaubnis zur Teiluntervermietung nach § 553 BGB an. Das ist rechtlich korrekt und nicht zu beanstanden.",
+            "start": 5683,
+            "end": 5906
+          },
+          {
+            "ref": "§ 14 Abs. 1",
+            "category": "pets",
+            "level": "check",
+            "quote": "Jede Tierhaltung mit Ausnahme von Zierfischen bedarf der vorherigen Zustimmung der Vermieter.",
+            "reason": "Ein generelles Zustimmungserfordernis für alle Tiere (außer Zierfischen) ist nach BGH-Rechtsprechung (BGH VIII ZR 168/12) grundsätzlich zulässig, solange der Vermieter die Erlaubnis nicht willkürlich verweigern darf. Die Mieterin hat jedoch keinen automatischen Anspruch auf Haltung von Hunden oder Katzen; sie ist auf das Wohlwollen des Vermieters angewiesen.",
+            "start": 5930,
+            "end": 6023
+          },
+          {
+            "ref": "§ 12 Abs. 1",
+            "category": "alterations",
+            "level": "fine",
+            "quote": "Bauliche Veränderungen durch die Mieterin, insbesondere Um- und Einbauten sowie Installationen, bedürfen der vorherigen Zustimmung der Vermieter. Die Rechte der Mieterin nach § 554 BGB bleiben unberührt.",
+            "reason": "Der Zustimmungsvorbehalt ist üblich und zulässig. Wichtig: Die Klausel stellt ausdrücklich klar, dass die gesetzlichen Rechte der Mieterin auf Modernisierungsmaßnahmen (§ 554 BGB, z. B. barrierefreier Umbau) nicht eingeschränkt werden.",
+            "start": 5226,
+            "end": 5429
+          },
+          {
+            "ref": "§ 12 Abs. 2",
+            "category": "alterations",
+            "level": "check",
+            "quote": "Bei Beendigung des Mietverhältnisses hat die Mieterin Einrichtungen, mit denen sie die Wohnung versehen hat, zu entfernen und den ursprünglichen Zustand wiederherzustellen, soweit die Parteien nichts anderes vereinbaren.",
+            "reason": "Eine generelle Rückbaupflicht für alle selbst vorgenommenen Einbauten ist zulässig, kann aber im Einzelfall teuer werden (z. B. bei einer selbst eingebauten Dusche oder Einbauschränken). Es empfiehlt sich, vor jedem Umbau eine schriftliche Vereinbarung mit dem Vermieter zu treffen, ob und in welchem Umfang ein Rückbau verlangt wird.",
+            "start": 5435,
+            "end": 5655
+          },
+          {
+            "ref": "§ 6 Abs. 2",
+            "category": "other",
+            "level": "critical",
+            "quote": "Die Mieterin kann gegen Mietforderungen weder aufrechnen noch ein Zurückbehaltungsrecht ausüben.",
+            "reason": "Ein vollständiger Ausschluss von Aufrechnung und Zurückbehaltungsrecht ist nach § 556b Abs. 2 BGB unwirksam, soweit er auch unbestrittene oder rechtskräftig festgestellte Gegenforderungen der Mieterin erfasst. Die Klausel ist in dieser Pauschalform wahrscheinlich unwirksam.",
+            "start": 2376,
+            "end": 2472
+          },
+          {
+            "ref": "§ 6 Abs. 3",
+            "category": "other",
+            "level": "critical",
+            "quote": "Eine Minderung der Miete wegen Mängeln der Wohnung ist ausgeschlossen, soweit die Vermieter den Mangel nicht zu vertreten haben.",
+            "reason": "Das Minderungsrecht nach § 536 BGB ist zwingend und kann in einem Formularmietvertrag nicht wirksam ausgeschlossen werden (BGH VIII ZR 100/15). Diese Klausel ist wahrscheinlich unwirksam – die Mieterin kann bei Mängeln die Miete mindern, unabhängig von dieser Vereinbarung.",
+            "start": 2478,
+            "end": 2606
+          }
+        ],
+        "unverifiedQuotes": 1
+      },
+      "costMicroUsd": 70139,
+      "wallMs": 26323
+    }
+  ]
+}

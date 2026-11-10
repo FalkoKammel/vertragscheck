@@ -19,6 +19,8 @@ const CACHE_WRITE_FACTOR = 1.25;
 // Verified on aws.amazon.com/bedrock/pricing on 06.11.2026.
 export const MODEL_PRICES: Record<string, ModelPrice> = {
   'eu.anthropic.claude-haiku-4-5-20251001-v1:0': { inputPerM: 1.1, outputPerM: 5.5 },
+  // USD per million tokens, EU inference profile. Verified on aws.amazon.com/bedrock/pricing on 2026-11-10.
+  'eu.anthropic.claude-sonnet-4-6': { inputPerM: 3.3, outputPerM: 16.5 },
 };
 
 export function calculateCostMicroUsd(modelId: string, usage: Usage): number {

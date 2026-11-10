@@ -107,4 +107,27 @@ describe('BedrockAnalyser', () => {
     const { analyser: a } = analyser(toolResponse({ foo: 1 }));
     expect(await a.analyse(request)).toMatchObject({ ok: false });
   });
+
+  it('parses clauses that arrive as a JSON string', async () => {
+    const { analyser: a } = analyser(toolResponse({ clauses: JSON.stringify([goodClause]) }));
+    expect(await a.analyse(request)).toMatchObject({
+      ok: true,
+      clauses: [goodClause],
+      invalidClauses: 0,
+    });
+  });
+
+  it('repairs a JSON string with unescaped quotes inside a value', async () => {
+    const broken =
+      '[{"category":"deposit","level":"check","quote":"Die Kaution "kann" erhöht werden","reason":"Prüfen"}]';
+    const { analyser: a } = analyser(toolResponse({ clauses: broken }));
+    const result = await a.analyse(request);
+    expect(result).toMatchObject({ ok: true, invalidClauses: 0 });
+    expect(result.ok && result.clauses[0]?.quote).toBe('Die Kaution "kann" erhöht werden');
+  });
+
+  it('returns ok: false when the clauses string cannot be repaired', async () => {
+    const { analyser: a } = analyser(toolResponse({ clauses: 'not json at all {' }));
+    expect(await a.analyse(request)).toMatchObject({ ok: false, usage });
+  });
 });

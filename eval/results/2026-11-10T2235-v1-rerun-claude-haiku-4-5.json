@@ -1,0 +1,1020 @@
+{
+  "meta": {
+    "model": "eu.anthropic.claude-haiku-4-5-20251001-v1:0",
+    "promptVersion": "v1-rerun",
+    "runs": 1,
+    "date": "2026-11-10T22:35:49.138Z",
+    "commit": "e7ed14ffbde2ec6c3aa4939f7c6034f6d7578062",
+    "contractIds": [
+      "employment-01",
+      "employment-02",
+      "employment-03",
+      "employment-04",
+      "rental-01",
+      "rental-02",
+      "rental-03",
+      "rental-04"
+    ]
+  },
+  "calls": [
+    {
+      "contractId": "employment-01",
+      "run": 1,
+      "result": {
+        "ok": true,
+        "modelId": "eu.anthropic.claude-haiku-4-5-20251001-v1:0",
+        "promptVersion": "v1-rerun",
+        "usage": {
+          "inputTokens": 3330,
+          "outputTokens": 1220
+        },
+        "latencyMs": 5602,
+        "clauses": [
+          {
+            "ref": "§ 3 Abs. 2",
+            "category": "working_time",
+            "level": "fine",
+            "quote": "Mit dem Bruttogehalt sind bis zu zehn Überstunden im Kalendermonat abgegolten. Darüber hinausgehende Überstunden werden nach Wahl der Arbeitnehmerin durch Freizeit ausgeglichen oder mit dem anteiligen Stundenlohn vergütet.",
+            "reason": "Die Regelung ist angemessen: Es werden nur bis zu 10 Überstunden pauschal abgegolten, darüber hinaus erfolgt eine Vergütung oder Freizeitausgleich. Dies entspricht dem Standard und schützt die Arbeitnehmerin vor unbegrenzter Abgeltung."
+          },
+          {
+            "ref": "§ 5 Abs. 1",
+            "category": "vacation",
+            "level": "fine",
+            "quote": "Die Arbeitnehmerin hat Anspruch auf einen jährlichen Erholungsurlaub von 28 Arbeitstagen bei einer Fünftagewoche. Davon entfallen 20 Arbeitstage auf den gesetzlichen Mindesturlaub.",
+            "reason": "Mit 28 Tagen liegt der Urlaub über dem gesetzlichen Minimum von 20 Tagen. Die Regelung ist für die Arbeitnehmerin vorteilhaft und unproblematisch."
+          },
+          {
+            "ref": "§ 2 Abs. 1",
+            "category": "probation",
+            "level": "fine",
+            "quote": "Die ersten sechs Monate des Arbeitsverhältnisses gelten als Probezeit. Während der Probezeit kann das Arbeitsverhältnis von beiden Seiten mit einer Frist von zwei Wochen gekündigt werden.",
+            "reason": "Die Probezeit von 6 Monaten entspricht dem gesetzlichen Maximum, und die Kündigungsfrist von 2 Wochen ist für beide Seiten gleich. Dies ist standard und unproblematisch."
+          },
+          {
+            "ref": "§ 10 Abs. 1",
+            "category": "exclusion_periods",
+            "level": "critical",
+            "quote": "Alle beiderseitigen Ansprüche aus dem Arbeitsverhältnis verfallen, wenn sie nicht innerhalb von zwei Monaten nach ihrer Fälligkeit gegenüber der anderen Vertragspartei in Textform geltend gemacht werden.",
+            "reason": "Die Ausschlussfrist von 2 Monaten ist kürzer als die nach deutschem Arbeitsrecht zulässige Mindestfrist von 3 Monaten. Dies ist likely invalid nach § 307 BGB in Verbindung mit arbeitsrechtlichen Schutzbestimmungen."
+          },
+          {
+            "ref": "§ 9 Abs. 1",
+            "category": "termination",
+            "level": "critical",
+            "quote": "Nach Ablauf der Probezeit gilt für die Kündigung durch den Arbeitgeber die gesetzliche Kündigungsfrist nach § 622 BGB. Für die Kündigung durch die Arbeitnehmerin gilt eine Frist von drei Monaten zum Monatsende.",
+            "reason": "Die Kündigungsfrist für die Arbeitnehmerin (3 Monate zum Monatsende) ist deutlich länger als die des Arbeitgebers (4 Wochen zum 15. oder zum Ende eines Kalendermonats nach § 622 BGB). Dies verstößt gegen das Prinzip der Gleichbehandlung und ist likely invalid nach § 307 BGB."
+          },
+          {
+            "ref": "§ 7 Abs. 1",
+            "category": "side_jobs",
+            "level": "fine",
+            "quote": "Die Arbeitnehmerin hat jede entgeltliche Nebentätigkeit vor ihrer Aufnahme dem Arbeitgeber anzuzeigen. Der Arbeitgeber kann die Nebentätigkeit nur untersagen, wenn sie die Erfüllung der arbeitsvertraglichen Pflichten beeinträchtigt, gegen das Arbeitszeitgesetz verstößt oder eine Tätigkeit für einen Wettbewerber darstellt.",
+            "reason": "Die Regelung ist angemessen und schützt die Arbeitnehmerin: Das generelle Verbot von Nebentätigkeiten ist ausgeschlossen, und der Arbeitgeber kann nur bei berechtigtem Interesse untersagen. Dies entspricht deutschem Arbeitsrecht."
+          }
+        ],
+        "invalidClauses": 0
+      },
+      "verification": {
+        "clauses": [
+          {
+            "ref": "§ 3 Abs. 2",
+            "category": "working_time",
+            "level": "fine",
+            "quote": "Mit dem Bruttogehalt sind bis zu zehn Überstunden im Kalendermonat abgegolten. Darüber hinausgehende Überstunden werden nach Wahl der Arbeitnehmerin durch Freizeit ausgeglichen oder mit dem anteiligen Stundenlohn vergütet.",
+            "reason": "Die Regelung ist angemessen: Es werden nur bis zu 10 Überstunden pauschal abgegolten, darüber hinaus erfolgt eine Vergütung oder Freizeitausgleich. Dies entspricht dem Standard und schützt die Arbeitnehmerin vor unbegrenzter Abgeltung.",
+            "start": 1091,
+            "end": 1313
+          },
+          {
+            "ref": "§ 5 Abs. 1",
+            "category": "vacation",
+            "level": "fine",
+            "quote": "Die Arbeitnehmerin hat Anspruch auf einen jährlichen Erholungsurlaub von 28 Arbeitstagen bei einer Fünftagewoche. Davon entfallen 20 Arbeitstage auf den gesetzlichen Mindesturlaub.",
+            "reason": "Mit 28 Tagen liegt der Urlaub über dem gesetzlichen Minimum von 20 Tagen. Die Regelung ist für die Arbeitnehmerin vorteilhaft und unproblematisch.",
+            "start": 1569,
+            "end": 1749
+          },
+          {
+            "ref": "§ 2 Abs. 1",
+            "category": "probation",
+            "level": "fine",
+            "quote": "Die ersten sechs Monate des Arbeitsverhältnisses gelten als Probezeit. Während der Probezeit kann das Arbeitsverhältnis von beiden Seiten mit einer Frist von zwei Wochen gekündigt werden.",
+            "reason": "Die Probezeit von 6 Monaten entspricht dem gesetzlichen Maximum, und die Kündigungsfrist von 2 Wochen ist für beide Seiten gleich. Dies ist standard und unproblematisch.",
+            "start": 582,
+            "end": 769
+          },
+          {
+            "ref": "§ 10 Abs. 1",
+            "category": "exclusion_periods",
+            "level": "critical",
+            "quote": "Alle beiderseitigen Ansprüche aus dem Arbeitsverhältnis verfallen, wenn sie nicht innerhalb von zwei Monaten nach ihrer Fälligkeit gegenüber der anderen Vertragspartei in Textform geltend gemacht werden.",
+            "reason": "Die Ausschlussfrist von 2 Monaten ist kürzer als die nach deutschem Arbeitsrecht zulässige Mindestfrist von 3 Monaten. Dies ist likely invalid nach § 307 BGB in Verbindung mit arbeitsrechtlichen Schutzbestimmungen.",
+            "start": 3301,
+            "end": 3504
+          },
+          {
+            "ref": "§ 9 Abs. 1",
+            "category": "termination",
+            "level": "critical",
+            "quote": "Nach Ablauf der Probezeit gilt für die Kündigung durch den Arbeitgeber die gesetzliche Kündigungsfrist nach § 622 BGB. Für die Kündigung durch die Arbeitnehmerin gilt eine Frist von drei Monaten zum Monatsende.",
+            "reason": "Die Kündigungsfrist für die Arbeitnehmerin (3 Monate zum Monatsende) ist deutlich länger als die des Arbeitgebers (4 Wochen zum 15. oder zum Ende eines Kalendermonats nach § 622 BGB). Dies verstößt gegen das Prinzip der Gleichbehandlung und ist likely invalid nach § 307 BGB.",
+            "start": 2975,
+            "end": 3185
+          },
+          {
+            "ref": "§ 7 Abs. 1",
+            "category": "side_jobs",
+            "level": "fine",
+            "quote": "Die Arbeitnehmerin hat jede entgeltliche Nebentätigkeit vor ihrer Aufnahme dem Arbeitgeber anzuzeigen. Der Arbeitgeber kann die Nebentätigkeit nur untersagen, wenn sie die Erfüllung der arbeitsvertraglichen Pflichten beeinträchtigt, gegen das Arbeitszeitgesetz verstößt oder eine Tätigkeit für einen Wettbewerber darstellt.",
+            "reason": "Die Regelung ist angemessen und schützt die Arbeitnehmerin: Das generelle Verbot von Nebentätigkeiten ist ausgeschlossen, und der Arbeitgeber kann nur bei berechtigtem Interesse untersagen. Dies entspricht deutschem Arbeitsrecht.",
+            "start": 2394,
+            "end": 2717
+          }
+        ],
+        "unverifiedQuotes": 0
+      },
+      "costMicroUsd": 10373,
+      "wallMs": 6450
+    },
+    {
+      "contractId": "employment-02",
+      "run": 1,
+      "result": {
+        "ok": true,
+        "modelId": "eu.anthropic.claude-haiku-4-5-20251001-v1:0",
+        "promptVersion": "v1-rerun",
+        "usage": {
+          "inputTokens": 2965,
+          "outputTokens": 1588
+        },
+        "latencyMs": 6912,
+        "clauses": [
+          {
+            "ref": "§ 3 Abs. 2",
+            "category": "working_time",
+            "level": "critical",
+            "quote": "Der Arbeitnehmer ist verpflichtet, bei Bedarf Überstunden zu leisten. Sämtliche Überstunden sind mit dem Gehalt abgegolten.",
+            "reason": "Die pauschale Abgeltung aller Überstunden mit dem Gehalt ohne zeitliche oder mengenmäßige Grenze ist likely invalid. Nach deutschem Arbeitsrecht müssen Überstunden entweder einzeln vergütet oder durch Freizeit ausgeglichen werden. Eine unbegrenzte Pauschalabgeltung verstößt gegen das Arbeitszeitgesetz und die Grundsätze des BGB zu Allgemeinen Geschäftsbedingungen."
+          },
+          {
+            "ref": "§ 5 Abs. 1",
+            "category": "vacation",
+            "level": "critical",
+            "quote": "Der Arbeitnehmer erhält jährlich 18 Arbeitstage Erholungsurlaub bei einer Fünftagewoche.",
+            "reason": "Der Urlaub von 18 Tagen liegt unter dem gesetzlichen Minimum von 20 Arbeitstagen bei einer Fünftagewoche (§ 3 Bundesurlaubsgesetz). Diese Klausel ist likely invalid, da das Bundesurlaubsgesetz einen Mindesturlaub garantiert, der nicht unterschritten werden darf."
+          },
+          {
+            "ref": "§ 7 Abs. 1",
+            "category": "repayment",
+            "level": "critical",
+            "quote": "Übernimmt der Arbeitgeber die Kosten einer Fortbildung des Arbeitnehmers, ist der Arbeitnehmer verpflichtet, diese Kosten in voller Höhe zurückzuzahlen, wenn das Arbeitsverhältnis innerhalb von drei Jahren nach Abschluss der Fortbildung endet, gleich aus welchem Grund.",
+            "reason": "Die Rückzahlungsklausel ist likely invalid, weil sie keine Staffelung vorsieht und auch bei Kündigung durch den Arbeitgeber oder Beendigung aus Gründen, die der Arbeitnehmer nicht zu vertreten hat, die volle Rückzahlung verlangt. Nach Bundesarbeitsgericht-Rechtsprechung muss eine Staffelung vorgesehen sein, und die Bindungsfrist von drei Jahren ist zu lang."
+          },
+          {
+            "ref": "§ 8 Abs. 1",
+            "category": "side_jobs",
+            "level": "critical",
+            "quote": "Jede Nebentätigkeit, gleich ob entgeltlich oder unentgeltlich, ist dem Arbeitnehmer untersagt.",
+            "reason": "Das generelle Verbot jeder Nebentätigkeit ohne Ausnahmen und ohne berechtigtes Interesse des Arbeitgebers ist likely invalid. Nach deutschem Arbeitsrecht darf der Arbeitgeber Nebentätigkeiten nur verbieten, wenn ein berechtigtes Interesse besteht (z.B. Konkurrenz, Beeinträchtigung der Leistung). Ein pauschales Verbot ist zu weit gefasst."
+          },
+          {
+            "ref": "§ 10 Abs. 1",
+            "category": "penalty",
+            "level": "critical",
+            "quote": "Tritt der Arbeitnehmer die Arbeit nicht an oder beendet er das Arbeitsverhältnis ohne Einhaltung der maßgeblichen Kündigungsfrist, zahlt er eine Vertragsstrafe in Höhe von drei Bruttomonatsgehältern.",
+            "reason": "Die Vertragsstrafe von drei Bruttomonatsgehältern (10.800 Euro) ist likely invalid, da sie das übliche Maß erheblich übersteigt. Nach Bundesarbeitsgericht-Rechtsprechung sollte eine Vertragsstrafe in der Regel nicht höher als ein Bruttomonatsgehalt sein. Diese Klausel ist unangemessen benachteiligend."
+          },
+          {
+            "ref": "§ 11 Abs. 1 und 2",
+            "category": "non_compete",
+            "level": "critical",
+            "quote": "Der Arbeitnehmer verpflichtet sich, für die Dauer von zwei Jahren nach Beendigung des Arbeitsverhältnisses im Gebiet der Bundesrepublik Deutschland nicht für ein Unternehmen tätig zu werden, das mit dem Arbeitgeber in Wettbewerb steht. Eine Entschädigung wird für die Dauer des Wettbewerbsverbots nicht gezahlt.",
+            "reason": "Das Wettbewerbsverbot ist likely invalid, weil keine Entschädigung gezahlt wird. Nach deutschem Arbeitsrecht muss der Arbeitgeber für ein nachvertragliches Wettbewerbsverbot eine Entschädigung von mindestens 50 % des Durchschnittsverdienstes zahlen. Ohne Entschädigung ist das Verbot nicht durchsetzbar."
+          },
+          {
+            "ref": "§ 12 Abs. 1",
+            "category": "exclusion_periods",
+            "level": "critical",
+            "quote": "Alle Ansprüche aus dem Arbeitsverhältnis verfallen, wenn sie nicht innerhalb eines Monats nach Fälligkeit schriftlich geltend gemacht werden.",
+            "reason": "Die Ausschlussfrist von einem Monat ist likely invalid, da sie kürzer als die gesetzlich zulässige Mindestfrist von drei Monaten ist (§ 309 Nr. 12 BGB). Zudem darf eine Ausschlussfrist nicht für Ansprüche auf Mindestlohn gelten. Diese Klausel verstößt gegen zwingende Bestimmungen des BGB."
+          }
+        ],
+        "invalidClauses": 0
+      },
+      "verification": {
+        "clauses": [
+          {
+            "ref": "§ 3 Abs. 2",
+            "category": "working_time",
+            "level": "critical",
+            "quote": "Der Arbeitnehmer ist verpflichtet, bei Bedarf Überstunden zu leisten. Sämtliche Überstunden sind mit dem Gehalt abgegolten.",
+            "reason": "Die pauschale Abgeltung aller Überstunden mit dem Gehalt ohne zeitliche oder mengenmäßige Grenze ist likely invalid. Nach deutschem Arbeitsrecht müssen Überstunden entweder einzeln vergütet oder durch Freizeit ausgeglichen werden. Eine unbegrenzte Pauschalabgeltung verstößt gegen das Arbeitszeitgesetz und die Grundsätze des BGB zu Allgemeinen Geschäftsbedingungen.",
+            "start": 825,
+            "end": 948
+          },
+          {
+            "ref": "§ 5 Abs. 1",
+            "category": "vacation",
+            "level": "critical",
+            "quote": "Der Arbeitnehmer erhält jährlich 18 Arbeitstage Erholungsurlaub bei einer Fünftagewoche.",
+            "reason": "Der Urlaub von 18 Tagen liegt unter dem gesetzlichen Minimum von 20 Arbeitstagen bei einer Fünftagewoche (§ 3 Bundesurlaubsgesetz). Diese Klausel ist likely invalid, da das Bundesurlaubsgesetz einen Mindesturlaub garantiert, der nicht unterschritten werden darf.",
+            "start": 1188,
+            "end": 1276
+          },
+          {
+            "ref": "§ 7 Abs. 1",
+            "category": "repayment",
+            "level": "critical",
+            "quote": "Übernimmt der Arbeitgeber die Kosten einer Fortbildung des Arbeitnehmers, ist der Arbeitnehmer verpflichtet, diese Kosten in voller Höhe zurückzuzahlen, wenn das Arbeitsverhältnis innerhalb von drei Jahren nach Abschluss der Fortbildung endet, gleich aus welchem Grund.",
+            "reason": "Die Rückzahlungsklausel ist likely invalid, weil sie keine Staffelung vorsieht und auch bei Kündigung durch den Arbeitgeber oder Beendigung aus Gründen, die der Arbeitnehmer nicht zu vertreten hat, die volle Rückzahlung verlangt. Nach Bundesarbeitsgericht-Rechtsprechung muss eine Staffelung vorgesehen sein, und die Bindungsfrist von drei Jahren ist zu lang.",
+            "start": 1484,
+            "end": 1753
+          },
+          {
+            "ref": "§ 8 Abs. 1",
+            "category": "side_jobs",
+            "level": "critical",
+            "quote": "Jede Nebentätigkeit, gleich ob entgeltlich oder unentgeltlich, ist dem Arbeitnehmer untersagt.",
+            "reason": "Das generelle Verbot jeder Nebentätigkeit ohne Ausnahmen und ohne berechtigtes Interesse des Arbeitgebers ist likely invalid. Nach deutschem Arbeitsrecht darf der Arbeitgeber Nebentätigkeiten nur verbieten, wenn ein berechtigtes Interesse besteht (z.B. Konkurrenz, Beeinträchtigung der Leistung). Ein pauschales Verbot ist zu weit gefasst.",
+            "start": 1779,
+            "end": 1873
+          },
+          {
+            "ref": "§ 10 Abs. 1",
+            "category": "penalty",
+            "level": "critical",
+            "quote": "Tritt der Arbeitnehmer die Arbeit nicht an oder beendet er das Arbeitsverhältnis ohne Einhaltung der maßgeblichen Kündigungsfrist, zahlt er eine Vertragsstrafe in Höhe von drei Bruttomonatsgehältern.",
+            "reason": "Die Vertragsstrafe von drei Bruttomonatsgehältern (10.800 Euro) ist likely invalid, da sie das übliche Maß erheblich übersteigt. Nach Bundesarbeitsgericht-Rechtsprechung sollte eine Vertragsstrafe in der Regel nicht höher als ein Bruttomonatsgehalt sein. Diese Klausel ist unangemessen benachteiligend.",
+            "start": 2049,
+            "end": 2248
+          },
+          {
+            "ref": "§ 12 Abs. 1",
+            "category": "exclusion_periods",
+            "level": "critical",
+            "quote": "Alle Ansprüche aus dem Arbeitsverhältnis verfallen, wenn sie nicht innerhalb eines Monats nach Fälligkeit schriftlich geltend gemacht werden.",
+            "reason": "Die Ausschlussfrist von einem Monat ist likely invalid, da sie kürzer als die gesetzlich zulässige Mindestfrist von drei Monaten ist (§ 309 Nr. 12 BGB). Zudem darf eine Ausschlussfrist nicht für Ansprüche auf Mindestlohn gelten. Diese Klausel verstößt gegen zwingende Bestimmungen des BGB.",
+            "start": 2624,
+            "end": 2765
+          }
+        ],
+        "unverifiedQuotes": 1
+      },
+      "costMicroUsd": 11996,
+      "wallMs": 7013
+    },
+    {
+      "contractId": "employment-03",
+      "run": 1,
+      "result": {
+        "ok": true,
+        "modelId": "eu.anthropic.claude-haiku-4-5-20251001-v1:0",
+        "promptVersion": "v1-rerun",
+        "usage": {
+          "inputTokens": 3070,
+          "outputTokens": 772
+        },
+        "latencyMs": 3714,
+        "clauses": [
+          {
+            "ref": "§ 3 Abs. 1",
+            "category": "probation",
+            "level": "critical",
+            "quote": "Die ersten neun Monate des Arbeitsverhältnisses gelten als Probezeit.",
+            "reason": "Die Probezeit von neun Monaten überschreitet die gesetzlich zulässige Höchstdauer von sechs Monaten (§ 622 Abs. 1 BGB) und ist daher wahrscheinlich unwirksam."
+          },
+          {
+            "ref": "§ 4 Abs. 2",
+            "category": "working_time",
+            "level": "check",
+            "quote": "Mit dem Bruttogehalt sind bis zu 20 Überstunden im Kalendermonat abgegolten; darüber hinausgehende Überstunden werden mit dem anteiligen Stundenlohn vergütet.",
+            "reason": "Die pauschale Abgeltung von bis zu 20 Überstunden pro Monat (240 pro Jahr) ist eine erhebliche Menge. Ob dies zulässig ist, hängt davon ab, ob diese Überstunden tatsächlich regelmäßig anfallen und ob die Vergütung angemessen ist. Dies sollte überprüft werden."
+          },
+          {
+            "ref": "§ 5 Abs. 2",
+            "category": "compensation",
+            "level": "check",
+            "quote": "Die Zahlung erfolgt freiwillig und unter dem Vorbehalt des jederzeitigen Widerrufs; ein Rechtsanspruch wird auch durch wiederholte Zahlung nicht begründet.",
+            "reason": "Der Widerrufsvorbehalt für das Weihnachtsgeld ist zulässig, aber ungewöhnlich streng. Nach wiederholter Zahlung kann sich ein Anspruch durch Betriebsübung entwickeln, was dieser Klausel widersprechen könnte."
+          },
+          {
+            "ref": "§ 10 Abs. 1",
+            "category": "penalty",
+            "level": "critical",
+            "quote": "Tritt die Arbeitnehmerin die Arbeit nicht an oder löst sie das Arbeitsverhältnis unter Verstoß gegen die maßgebliche Kündigungsfrist, hat sie eine Vertragsstrafe in Höhe eines Bruttomonatsgehalts zu zahlen.",
+            "reason": "Eine Vertragsstrafe in Höhe eines vollen Bruttomonatsgehalts (5.600 Euro) ist wahrscheinlich unwirksam, da sie unangemessen hoch ist. Nach der Rechtsprechung des Bundesarbeitsgerichts sollte eine Vertragsstrafe deutlich niedriger ausfallen, typischerweise ein bis zwei Wochen Gehalt."
+          }
+        ],
+        "invalidClauses": 0
+      },
+      "verification": {
+        "clauses": [
+          {
+            "ref": "§ 3 Abs. 1",
+            "category": "probation",
+            "level": "critical",
+            "quote": "Die ersten neun Monate des Arbeitsverhältnisses gelten als Probezeit.",
+            "reason": "Die Probezeit von neun Monaten überschreitet die gesetzlich zulässige Höchstdauer von sechs Monaten (§ 622 Abs. 1 BGB) und ist daher wahrscheinlich unwirksam.",
+            "start": 919,
+            "end": 988
+          },
+          {
+            "ref": "§ 4 Abs. 2",
+            "category": "working_time",
+            "level": "check",
+            "quote": "Mit dem Bruttogehalt sind bis zu 20 Überstunden im Kalendermonat abgegolten; darüber hinausgehende Überstunden werden mit dem anteiligen Stundenlohn vergütet.",
+            "reason": "Die pauschale Abgeltung von bis zu 20 Überstunden pro Monat (240 pro Jahr) ist eine erhebliche Menge. Ob dies zulässig ist, hängt davon ab, ob diese Überstunden tatsächlich regelmäßig anfallen und ob die Vergütung angemessen ist. Dies sollte überprüft werden.",
+            "start": 1329,
+            "end": 1487
+          },
+          {
+            "ref": "§ 5 Abs. 2",
+            "category": "compensation",
+            "level": "check",
+            "quote": "Die Zahlung erfolgt freiwillig und unter dem Vorbehalt des jederzeitigen Widerrufs; ein Rechtsanspruch wird auch durch wiederholte Zahlung nicht begründet.",
+            "reason": "Der Widerrufsvorbehalt für das Weihnachtsgeld ist zulässig, aber ungewöhnlich streng. Nach wiederholter Zahlung kann sich ein Anspruch durch Betriebsübung entwickeln, was dieser Klausel widersprechen könnte.",
+            "start": 1773,
+            "end": 1928
+          },
+          {
+            "ref": "§ 10 Abs. 1",
+            "category": "penalty",
+            "level": "critical",
+            "quote": "Tritt die Arbeitnehmerin die Arbeit nicht an oder löst sie das Arbeitsverhältnis unter Verstoß gegen die maßgebliche Kündigungsfrist, hat sie eine Vertragsstrafe in Höhe eines Bruttomonatsgehalts zu zahlen.",
+            "reason": "Eine Vertragsstrafe in Höhe eines vollen Bruttomonatsgehalts (5.600 Euro) ist wahrscheinlich unwirksam, da sie unangemessen hoch ist. Nach der Rechtsprechung des Bundesarbeitsgerichts sollte eine Vertragsstrafe deutlich niedriger ausfallen, typischerweise ein bis zwei Wochen Gehalt.",
+            "start": 2724,
+            "end": 2930
+          }
+        ],
+        "unverifiedQuotes": 0
+      },
+      "costMicroUsd": 7623,
+      "wallMs": 3814
+    },
+    {
+      "contractId": "employment-04",
+      "run": 1,
+      "result": {
+        "ok": true,
+        "modelId": "eu.anthropic.claude-haiku-4-5-20251001-v1:0",
+        "promptVersion": "v1-rerun",
+        "usage": {
+          "inputTokens": 4150,
+          "outputTokens": 1788
+        },
+        "latencyMs": 9319,
+        "clauses": [
+          {
+            "ref": "§ 8 Abs. 2",
+            "category": "vacation",
+            "level": "critical",
+            "quote": "Der Urlaub ist im laufenden Kalenderjahr zu nehmen. Urlaub, der nicht bis zum 31. März des Folgejahres genommen wurde, verfällt ersatzlos; dies gilt auch dann, wenn der Arbeitnehmer den Urlaub wegen Arbeitsunfähigkeit nicht nehmen konnte, und unabhängig davon, ob der Arbeitgeber auf den drohenden Verfall hingewiesen hat.",
+            "reason": "Diese Verfallsklausel ist wahrscheinlich unwirksam. Nach der Rechtsprechung des Bundesarbeitsgerichts darf Urlaub nicht verfallen, wenn der Arbeitnehmer ihn wegen Krankheit nicht nehmen konnte. Die Klausel verstößt gegen § 7 Abs. 4 BUrlG und benachteiligt den Arbeitnehmer unangemessen."
+          },
+          {
+            "ref": "§ 13 Abs. 1 und 2",
+            "category": "non_compete",
+            "level": "check",
+            "quote": "Der Arbeitnehmer verpflichtet sich, für die Dauer von zwölf Monaten nach Beendigung des Arbeitsverhältnisses nicht für ein Unternehmen tätig zu werden, das im Bereich der Datenanalyse für Energieversorger mit dem Arbeitgeber in Wettbewerb steht.",
+            "reason": "Das Wettbewerbsverbot ist auf 12 Monate begrenzt und die Entschädigung beträgt 25 % des letzten Gehalts. Nach § 74 HGB ist eine Entschädigung von mindestens 50 % erforderlich. Die gezahlte Entschädigung von 25 % liegt unter dem gesetzlichen Minimum und macht das Verbot wahrscheinlich unwirksam."
+          },
+          {
+            "ref": "§ 10 Abs. 2",
+            "category": "repayment",
+            "level": "check",
+            "quote": "Scheidet der Arbeitnehmer innerhalb von zwölf Monaten nach Abschluss der Fortbildung aus dem Arbeitsverhältnis aus, ist er verpflichtet, die vom Arbeitgeber getragenen Lehrgangs- und Prüfungsgebühren anteilig zurückzuzahlen. Der Rückzahlungsbetrag mindert sich für jeden vollen Monat der Beschäftigung nach Abschluss der Fortbildung um ein Zwölftel. Dies gilt auch, wenn das Arbeitsverhältnis durch eine Kündigung des Arbeitgebers endet.",
+            "reason": "Die Rückzahlungsklausel bindet den Arbeitnehmer für 12 Monate nach der Fortbildung. Problematisch ist, dass die Rückzahlungspflicht auch bei Kündigung durch den Arbeitgeber gilt – dies kann eine unangemessene Benachteiligung darstellen. Die Staffelung ist zwar vorhanden, aber die Gesamtbindungsdauer sollte überprüft werden."
+          },
+          {
+            "ref": "§ 7 Abs. 1",
+            "category": "compensation",
+            "level": "check",
+            "quote": "Der Arbeitnehmer kann zusätzlich eine variable Vergütung von bis zu 10 Prozent seines Jahresbruttogehalts erhalten. Die Ziele und deren Gewichtung werden in einer Zielvereinbarung festgelegt, die die Parteien jeweils bis zum 31. Januar eines Jahres abschließen.",
+            "reason": "Die variable Vergütung enthält einen Freiwilligkeitsvorbehalt (\"kann\") und die Ziele werden erst bis 31. Januar festgelegt. Es ist unklar, ob der Arbeitgeber die Zielvereinbarung verweigern kann oder wie die Vergütung berechnet wird, wenn keine Einigung zustande kommt."
+          },
+          {
+            "ref": "§ 5 Abs. 2",
+            "category": "working_time",
+            "level": "fine",
+            "quote": "Angeordnete Überstunden werden nach Wahl des Arbeitnehmers durch Freizeit ausgeglichen oder mit dem anteiligen Stundenlohn vergütet.",
+            "reason": "Die Regelung zu Überstunden ist angemessen: Der Arbeitnehmer hat die Wahl zwischen Freizeitausgleich oder Bezahlung, und es gibt keine pauschale Abgeltung ohne Grenzen."
+          },
+          {
+            "ref": "§ 8 Abs. 1",
+            "category": "vacation",
+            "level": "fine",
+            "quote": "Der Arbeitnehmer hat Anspruch auf 30 Arbeitstage Erholungsurlaub im Kalenderjahr bei einer Fünftagewoche.",
+            "reason": "Der Urlaubsanspruch von 30 Tagen bei einer 5-Tage-Woche liegt über dem gesetzlichen Minimum von 20 Tagen und ist für den Arbeitnehmer vorteilhaft."
+          },
+          {
+            "ref": "§ 4 Abs. 1",
+            "category": "probation",
+            "level": "fine",
+            "quote": "Die ersten sechs Monate des Arbeitsverhältnisses gelten als Probezeit. In dieser Zeit kann das Arbeitsverhältnis von beiden Seiten mit einer Frist von zwei Wochen gekündigt werden.",
+            "reason": "Die Probezeit von 6 Monaten liegt an der gesetzlichen Obergrenze und die Kündigungsfrist von 2 Wochen ist gesetzlich zulässig. Die Regelung ist ausgewogen."
+          },
+          {
+            "ref": "§ 11 Abs. 1",
+            "category": "side_jobs",
+            "level": "fine",
+            "quote": "Der Arbeitnehmer zeigt jede entgeltliche Nebentätigkeit vor ihrer Aufnahme an. Der Arbeitgeber kann sie nur untersagen, wenn berechtigte betriebliche Interessen beeinträchtigt werden, insbesondere bei einer Tätigkeit für einen Wettbewerber oder bei Überschreitung der Höchstarbeitszeit.",
+            "reason": "Die Regelung zu Nebentätigkeiten ist angemessen: Es gibt kein generelles Verbot, sondern nur eine Anzeigepflicht und ein Untersagungsrecht bei berechtigten Interessen."
+          }
+        ],
+        "invalidClauses": 0
+      },
+      "verification": {
+        "clauses": [
+          {
+            "ref": "§ 8 Abs. 2",
+            "category": "vacation",
+            "level": "critical",
+            "quote": "Der Urlaub ist im laufenden Kalenderjahr zu nehmen. Urlaub, der nicht bis zum 31. März des Folgejahres genommen wurde, verfällt ersatzlos; dies gilt auch dann, wenn der Arbeitnehmer den Urlaub wegen Arbeitsunfähigkeit nicht nehmen konnte, und unabhängig davon, ob der Arbeitgeber auf den drohenden Verfall hingewiesen hat.",
+            "reason": "Diese Verfallsklausel ist wahrscheinlich unwirksam. Nach der Rechtsprechung des Bundesarbeitsgerichts darf Urlaub nicht verfallen, wenn der Arbeitnehmer ihn wegen Krankheit nicht nehmen konnte. Die Klausel verstößt gegen § 7 Abs. 4 BUrlG und benachteiligt den Arbeitnehmer unangemessen.",
+            "start": 2204,
+            "end": 2526
+          },
+          {
+            "ref": "§ 13 Abs. 1 und 2",
+            "category": "non_compete",
+            "level": "check",
+            "quote": "Der Arbeitnehmer verpflichtet sich, für die Dauer von zwölf Monaten nach Beendigung des Arbeitsverhältnisses nicht für ein Unternehmen tätig zu werden, das im Bereich der Datenanalyse für Energieversorger mit dem Arbeitgeber in Wettbewerb steht.",
+            "reason": "Das Wettbewerbsverbot ist auf 12 Monate begrenzt und die Entschädigung beträgt 25 % des letzten Gehalts. Nach § 74 HGB ist eine Entschädigung von mindestens 50 % erforderlich. Die gezahlte Entschädigung von 25 % liegt unter dem gesetzlichen Minimum und macht das Verbot wahrscheinlich unwirksam.",
+            "start": 4149,
+            "end": 4394
+          },
+          {
+            "ref": "§ 10 Abs. 2",
+            "category": "repayment",
+            "level": "check",
+            "quote": "Scheidet der Arbeitnehmer innerhalb von zwölf Monaten nach Abschluss der Fortbildung aus dem Arbeitsverhältnis aus, ist er verpflichtet, die vom Arbeitgeber getragenen Lehrgangs- und Prüfungsgebühren anteilig zurückzuzahlen. Der Rückzahlungsbetrag mindert sich für jeden vollen Monat der Beschäftigung nach Abschluss der Fortbildung um ein Zwölftel. Dies gilt auch, wenn das Arbeitsverhältnis durch eine Kündigung des Arbeitgebers endet.",
+            "reason": "Die Rückzahlungsklausel bindet den Arbeitnehmer für 12 Monate nach der Fortbildung. Problematisch ist, dass die Rückzahlungspflicht auch bei Kündigung durch den Arbeitgeber gilt – dies kann eine unangemessene Benachteiligung darstellen. Die Staffelung ist zwar vorhanden, aber die Gesamtbindungsdauer sollte überprüft werden.",
+            "start": 3143,
+            "end": 3580
+          },
+          {
+            "ref": "§ 7 Abs. 1",
+            "category": "compensation",
+            "level": "check",
+            "quote": "Der Arbeitnehmer kann zusätzlich eine variable Vergütung von bis zu 10 Prozent seines Jahresbruttogehalts erhalten. Die Ziele und deren Gewichtung werden in einer Zielvereinbarung festgelegt, die die Parteien jeweils bis zum 31. Januar eines Jahres abschließen.",
+            "reason": "Die variable Vergütung enthält einen Freiwilligkeitsvorbehalt (\"kann\") und die Ziele werden erst bis 31. Januar festgelegt. Es ist unklar, ob der Arbeitgeber die Zielvereinbarung verweigern kann oder wie die Vergütung berechnet wird, wenn keine Einigung zustande kommt.",
+            "start": 1814,
+            "end": 2075
+          },
+          {
+            "ref": "§ 5 Abs. 2",
+            "category": "working_time",
+            "level": "fine",
+            "quote": "Angeordnete Überstunden werden nach Wahl des Arbeitnehmers durch Freizeit ausgeglichen oder mit dem anteiligen Stundenlohn vergütet.",
+            "reason": "Die Regelung zu Überstunden ist angemessen: Der Arbeitnehmer hat die Wahl zwischen Freizeitausgleich oder Bezahlung, und es gibt keine pauschale Abgeltung ohne Grenzen.",
+            "start": 1438,
+            "end": 1570
+          },
+          {
+            "ref": "§ 8 Abs. 1",
+            "category": "vacation",
+            "level": "fine",
+            "quote": "Der Arbeitnehmer hat Anspruch auf 30 Arbeitstage Erholungsurlaub im Kalenderjahr bei einer Fünftagewoche.",
+            "reason": "Der Urlaubsanspruch von 30 Tagen bei einer 5-Tage-Woche liegt über dem gesetzlichen Minimum von 20 Tagen und ist für den Arbeitnehmer vorteilhaft.",
+            "start": 2093,
+            "end": 2198
+          },
+          {
+            "ref": "§ 4 Abs. 1",
+            "category": "probation",
+            "level": "fine",
+            "quote": "Die ersten sechs Monate des Arbeitsverhältnisses gelten als Probezeit. In dieser Zeit kann das Arbeitsverhältnis von beiden Seiten mit einer Frist von zwei Wochen gekündigt werden.",
+            "reason": "Die Probezeit von 6 Monaten liegt an der gesetzlichen Obergrenze und die Kündigungsfrist von 2 Wochen ist gesetzlich zulässig. Die Regelung ist ausgewogen.",
+            "start": 1125,
+            "end": 1305
+          },
+          {
+            "ref": "§ 11 Abs. 1",
+            "category": "side_jobs",
+            "level": "fine",
+            "quote": "Der Arbeitnehmer zeigt jede entgeltliche Nebentätigkeit vor ihrer Aufnahme an. Der Arbeitgeber kann sie nur untersagen, wenn berechtigte betriebliche Interessen beeinträchtigt werden, insbesondere bei einer Tätigkeit für einen Wettbewerber oder bei Überschreitung der Höchstarbeitszeit.",
+            "reason": "Die Regelung zu Nebentätigkeiten ist angemessen: Es gibt kein generelles Verbot, sondern nur eine Anzeigepflicht und ein Untersagungsrecht bei berechtigten Interessen.",
+            "start": 3607,
+            "end": 3893
+          }
+        ],
+        "unverifiedQuotes": 0
+      },
+      "costMicroUsd": 14399,
+      "wallMs": 9439
+    },
+    {
+      "contractId": "rental-01",
+      "run": 1,
+      "result": {
+        "ok": true,
+        "modelId": "eu.anthropic.claude-haiku-4-5-20251001-v1:0",
+        "promptVersion": "v1-rerun",
+        "usage": {
+          "inputTokens": 3809,
+          "outputTokens": 463
+        },
+        "latencyMs": 2664,
+        "clauses": [
+          {
+            "ref": "§ 7 Abs. 1",
+            "category": "minor_repairs",
+            "level": "critical",
+            "quote": "Die Mieterin trägt die Kosten für kleine Instandhaltungsmaßnahmen an Installationsgegenständen für Elektrizität, Wasser und Gas, an Heiz- und Kocheinrichtungen, an Fenster- und Türverschlüssen sowie an Verschlussvorrichtungen von Fensterläden, soweit die einzelne Reparatur einen Betrag von 120 Euro nicht übersteigt.",
+            "reason": "Die Klausel fehlt eine Obergrenze für die Gesamtkosten pro Jahr. Nach der Rechtsprechung des Bundesgerichtshofs ist eine solche Jahresobergrenze erforderlich, um die Mieterin vor unangemessenen Belastungen zu schützen. Ohne Jahresobergrenze ist die Klausel wahrscheinlich unwirksam."
+          },
+          {
+            "ref": "§ 9 Abs. 2",
+            "category": "other",
+            "level": "critical",
+            "quote": "Bei Verlust eines Schlüssels haftet die Mieterin unabhängig von einem Verschulden für die Kosten des Austauschs der Schließanlage.",
+            "reason": "Eine Haftung ohne Verschulden (Verschuldenshaftung) ist in Mietverträgen nicht zulässig. Die Mieterin darf nur für Schäden haften, die sie zu vertreten hat. Diese Klausel ist wahrscheinlich unwirksam."
+          }
+        ],
+        "invalidClauses": 0
+      },
+      "verification": {
+        "clauses": [
+          {
+            "ref": "§ 7 Abs. 1",
+            "category": "minor_repairs",
+            "level": "critical",
+            "quote": "Die Mieterin trägt die Kosten für kleine Instandhaltungsmaßnahmen an Installationsgegenständen für Elektrizität, Wasser und Gas, an Heiz- und Kocheinrichtungen, an Fenster- und Türverschlüssen sowie an Verschlussvorrichtungen von Fensterläden, soweit die einzelne Reparatur einen Betrag von 120 Euro nicht übersteigt.",
+            "reason": "Die Klausel fehlt eine Obergrenze für die Gesamtkosten pro Jahr. Nach der Rechtsprechung des Bundesgerichtshofs ist eine solche Jahresobergrenze erforderlich, um die Mieterin vor unangemessenen Belastungen zu schützen. Ohne Jahresobergrenze ist die Klausel wahrscheinlich unwirksam.",
+            "start": 3412,
+            "end": 3729
+          },
+          {
+            "ref": "§ 9 Abs. 2",
+            "category": "other",
+            "level": "critical",
+            "quote": "Bei Verlust eines Schlüssels haftet die Mieterin unabhängig von einem Verschulden für die Kosten des Austauschs der Schließanlage.",
+            "reason": "Eine Haftung ohne Verschulden (Verschuldenshaftung) ist in Mietverträgen nicht zulässig. Die Mieterin darf nur für Schäden haften, die sie zu vertreten hat. Diese Klausel ist wahrscheinlich unwirksam.",
+            "start": 4818,
+            "end": 4948
+          }
+        ],
+        "unverifiedQuotes": 0
+      },
+      "costMicroUsd": 6737,
+      "wallMs": 2757
+    },
+    {
+      "contractId": "rental-02",
+      "run": 1,
+      "result": {
+        "ok": true,
+        "modelId": "eu.anthropic.claude-haiku-4-5-20251001-v1:0",
+        "promptVersion": "v1-rerun",
+        "usage": {
+          "inputTokens": 2966,
+          "outputTokens": 1336
+        },
+        "latencyMs": 5601,
+        "clauses": [
+          {
+            "ref": "§ 2 Abs. 2",
+            "category": "term_termination",
+            "level": "critical",
+            "quote": "Der Mieter verzichtet für die Dauer von fünf Jahren ab Vertragsschluss auf sein Recht zur ordentlichen Kündigung.",
+            "reason": "Ein Kündigungsverzicht über vier Jahre hinaus ist nach deutschem Mietrecht (§ 540 Abs. 2 BGB) nicht zulässig. Diese Klausel mit fünf Jahren ist likely invalid und verstößt gegen zwingende Schutzvorschriften für Mieter."
+          },
+          {
+            "ref": "§ 5 Abs. 1",
+            "category": "deposit",
+            "level": "critical",
+            "quote": "Der Mieter leistet eine Kaution in Höhe von vier Nettokaltmieten, das sind 3.680,00 Euro.",
+            "reason": "Die Kaution darf maximal drei Nettokaltmieten betragen (§ 551 Abs. 1 BGB). Eine Kaution von vier Monatsmieten ist likely invalid und zu hoch."
+          },
+          {
+            "ref": "§ 5 Abs. 2",
+            "category": "deposit",
+            "level": "critical",
+            "quote": "Die Kaution ist vor Übergabe der Wohnung in einer Summe zu zahlen. Eine Zahlung in Teilbeträgen ist ausgeschlossen.",
+            "reason": "Nach § 551 Abs. 3 BGB muss der Mieter die Kaution in Raten zahlen dürfen, wenn die Zahlung in einer Summe eine Härte darstellt. Ein pauschales Verbot von Ratenzahlungen ist likely invalid."
+          },
+          {
+            "ref": "§ 6 Abs. 1",
+            "category": "cosmetic_repairs",
+            "level": "critical",
+            "quote": "Er hat sie in Küche und Bad spätestens alle drei Jahre, in Wohn- und Schlafräumen spätestens alle fünf Jahre und in sonstigen Räumen spätestens alle sieben Jahre fachgerecht auszuführen.",
+            "reason": "Starre Fristen für Schönheitsreparaturen sind nach der Rechtsprechung des Bundesgerichtshofs likely invalid. Der Mieter darf nicht zu regelmäßigen Renovierungen nach festem Zeitplan verpflichtet werden."
+          },
+          {
+            "ref": "§ 6 Abs. 2",
+            "category": "cosmetic_repairs",
+            "level": "critical",
+            "quote": "Bei Beendigung des Mietverhältnisses hat der Mieter die Wohnung unabhängig vom Zeitpunkt der letzten Schönheitsreparaturen vollständig renoviert zurückzugeben.",
+            "reason": "Eine Endrenovierungspflicht unabhängig vom tatsächlichen Zustand der Wohnung ist likely invalid. Der Mieter muss die Wohnung nur in dem Zustand zurückgeben, in dem er sie übernommen hat."
+          },
+          {
+            "ref": "§ 7 Abs. 1",
+            "category": "use_subletting",
+            "level": "critical",
+            "quote": "Die Untervermietung ist ausnahmslos untersagt, auch die Überlassung einzelner Räume an Dritte.",
+            "reason": "Ein pauschales Verbot von Untervermietung ohne Zustimmungsvorbehalt ist likely invalid. Nach § 553 BGB kann der Mieter Untervermietung verlangen, wenn der Vermieter die Zustimmung ohne wichtigen Grund verweigert."
+          },
+          {
+            "ref": "§ 8 Abs. 1",
+            "category": "pets",
+            "level": "critical",
+            "quote": "Jede Tierhaltung, auch die Haltung von Kleintieren wie Zierfischen oder Hamstern, ist in der Wohnung untersagt.",
+            "reason": "Ein generelles Verbot jeder Tierhaltung ist likely invalid. Nach der Rechtsprechung muss der Vermieter zumindest die Haltung von Kleintieren dulden, wenn sie keine Beeinträchtigung darstellt."
+          },
+          {
+            "ref": "§ 4 Abs. 2",
+            "category": "operating_costs",
+            "level": "check",
+            "quote": "Darüber hinaus trägt der Mieter anteilig die Kosten der Hausverwaltung sowie die Kontoführungsgebühren der Vermieterin.",
+            "reason": "Hausverwaltungskosten und Kontoführungsgebühren sind nach der Betriebskostenverordnung nicht umlagefähig. Diese Klausel ist likely invalid, da sie versucht, nicht umlagefähige Kosten auf den Mieter abzuwälzen."
+          }
+        ],
+        "invalidClauses": 0
+      },
+      "verification": {
+        "clauses": [
+          {
+            "ref": "§ 2 Abs. 2",
+            "category": "term_termination",
+            "level": "critical",
+            "quote": "Der Mieter verzichtet für die Dauer von fünf Jahren ab Vertragsschluss auf sein Recht zur ordentlichen Kündigung.",
+            "reason": "Ein Kündigungsverzicht über vier Jahre hinaus ist nach deutschem Mietrecht (§ 540 Abs. 2 BGB) nicht zulässig. Diese Klausel mit fünf Jahren ist likely invalid und verstößt gegen zwingende Schutzvorschriften für Mieter.",
+            "start": 757,
+            "end": 870
+          },
+          {
+            "ref": "§ 5 Abs. 1",
+            "category": "deposit",
+            "level": "critical",
+            "quote": "Der Mieter leistet eine Kaution in Höhe von vier Nettokaltmieten, das sind 3.680,00 Euro.",
+            "reason": "Die Kaution darf maximal drei Nettokaltmieten betragen (§ 551 Abs. 1 BGB). Eine Kaution von vier Monatsmieten ist likely invalid und zu hoch.",
+            "start": 1654,
+            "end": 1743
+          },
+          {
+            "ref": "§ 5 Abs. 2",
+            "category": "deposit",
+            "level": "critical",
+            "quote": "Die Kaution ist vor Übergabe der Wohnung in einer Summe zu zahlen. Eine Zahlung in Teilbeträgen ist ausgeschlossen.",
+            "reason": "Nach § 551 Abs. 3 BGB muss der Mieter die Kaution in Raten zahlen dürfen, wenn die Zahlung in einer Summe eine Härte darstellt. Ein pauschales Verbot von Ratenzahlungen ist likely invalid.",
+            "start": 1749,
+            "end": 1864
+          },
+          {
+            "ref": "§ 6 Abs. 1",
+            "category": "cosmetic_repairs",
+            "level": "critical",
+            "quote": "Er hat sie in Küche und Bad spätestens alle drei Jahre, in Wohn- und Schlafräumen spätestens alle fünf Jahre und in sonstigen Räumen spätestens alle sieben Jahre fachgerecht auszuführen.",
+            "reason": "Starre Fristen für Schönheitsreparaturen sind nach der Rechtsprechung des Bundesgerichtshofs likely invalid. Der Mieter darf nicht zu regelmäßigen Renovierungen nach festem Zeitplan verpflichtet werden.",
+            "start": 2040,
+            "end": 2226
+          },
+          {
+            "ref": "§ 6 Abs. 2",
+            "category": "cosmetic_repairs",
+            "level": "critical",
+            "quote": "Bei Beendigung des Mietverhältnisses hat der Mieter die Wohnung unabhängig vom Zeitpunkt der letzten Schönheitsreparaturen vollständig renoviert zurückzugeben.",
+            "reason": "Eine Endrenovierungspflicht unabhängig vom tatsächlichen Zustand der Wohnung ist likely invalid. Der Mieter muss die Wohnung nur in dem Zustand zurückgeben, in dem er sie übernommen hat.",
+            "start": 2232,
+            "end": 2391
+          },
+          {
+            "ref": "§ 7 Abs. 1",
+            "category": "use_subletting",
+            "level": "critical",
+            "quote": "Die Untervermietung ist ausnahmslos untersagt, auch die Überlassung einzelner Räume an Dritte.",
+            "reason": "Ein pauschales Verbot von Untervermietung ohne Zustimmungsvorbehalt ist likely invalid. Nach § 553 BGB kann der Mieter Untervermietung verlangen, wenn der Vermieter die Zustimmung ohne wichtigen Grund verweigert.",
+            "start": 2418,
+            "end": 2512
+          },
+          {
+            "ref": "§ 8 Abs. 1",
+            "category": "pets",
+            "level": "critical",
+            "quote": "Jede Tierhaltung, auch die Haltung von Kleintieren wie Zierfischen oder Hamstern, ist in der Wohnung untersagt.",
+            "reason": "Ein generelles Verbot jeder Tierhaltung ist likely invalid. Nach der Rechtsprechung muss der Vermieter zumindest die Haltung von Kleintieren dulden, wenn sie keine Beeinträchtigung darstellt.",
+            "start": 2535,
+            "end": 2646
+          },
+          {
+            "ref": "§ 4 Abs. 2",
+            "category": "operating_costs",
+            "level": "check",
+            "quote": "Darüber hinaus trägt der Mieter anteilig die Kosten der Hausverwaltung sowie die Kontoführungsgebühren der Vermieterin.",
+            "reason": "Hausverwaltungskosten und Kontoführungsgebühren sind nach der Betriebskostenverordnung nicht umlagefähig. Diese Klausel ist likely invalid, da sie versucht, nicht umlagefähige Kosten auf den Mieter abzuwälzen.",
+            "start": 1348,
+            "end": 1467
+          }
+        ],
+        "unverifiedQuotes": 0
+      },
+      "costMicroUsd": 10611,
+      "wallMs": 5717
+    },
+    {
+      "contractId": "rental-03",
+      "run": 1,
+      "result": {
+        "ok": true,
+        "modelId": "eu.anthropic.claude-haiku-4-5-20251001-v1:0",
+        "promptVersion": "v1-rerun",
+        "usage": {
+          "inputTokens": 3397,
+          "outputTokens": 492
+        },
+        "latencyMs": 3049,
+        "clauses": [
+          {
+            "ref": "§ 2 Abs. 2",
+            "category": "term_termination",
+            "level": "critical",
+            "quote": "Beide Vertragsparteien verzichten wechselseitig für die Dauer von vier Jahren ab Vertragsschluss auf ihr Recht zur ordentlichen Kündigung.",
+            "reason": "Ein gegenseitiger Kündigungsverzicht über vier Jahre ist nach deutschem Mietrecht nicht zulässig. § 540 Abs. 2 BGB erlaubt einen Kündigungsverzicht nur für maximal vier Jahre, aber nur einseitig zugunsten des Vermieters. Ein gegenseitiger Verzicht benachteiligt den Mieter erheblich und ist likely invalid."
+          },
+          {
+            "ref": "§ 6 Abs. 1",
+            "category": "cosmetic_repairs",
+            "level": "critical",
+            "quote": "Der Mieter übernimmt auf eigene Kosten die Schönheitsreparaturen, die im Allgemeinen in Küchen, Bädern und Duschen alle fünf Jahre, in Wohn- und Schlafräumen, Fluren, Dielen und Toiletten alle acht Jahre und in anderen Nebenräumen alle zehn Jahre erforderlich werden.",
+            "reason": "Starre Fristen für Schönheitsreparaturen sind nach der Rechtsprechung des Bundesgerichtshofs likely invalid. Der Mieter darf nur für Schönheitsreparaturen haftbar gemacht werden, wenn die Wohnung in einem unrenovierten Zustand übergeben wurde und der Verschleiß tatsächlich eine Renovierung erforderlich macht – nicht nach starren Zeitplänen."
+          }
+        ],
+        "invalidClauses": 0
+      },
+      "verification": {
+        "clauses": [
+          {
+            "ref": "§ 2 Abs. 2",
+            "category": "term_termination",
+            "level": "critical",
+            "quote": "Beide Vertragsparteien verzichten wechselseitig für die Dauer von vier Jahren ab Vertragsschluss auf ihr Recht zur ordentlichen Kündigung.",
+            "reason": "Ein gegenseitiger Kündigungsverzicht über vier Jahre ist nach deutschem Mietrecht nicht zulässig. § 540 Abs. 2 BGB erlaubt einen Kündigungsverzicht nur für maximal vier Jahre, aber nur einseitig zugunsten des Vermieters. Ein gegenseitiger Verzicht benachteiligt den Mieter erheblich und ist likely invalid.",
+            "start": 727,
+            "end": 865
+          },
+          {
+            "ref": "§ 6 Abs. 1",
+            "category": "cosmetic_repairs",
+            "level": "critical",
+            "quote": "Der Mieter übernimmt auf eigene Kosten die Schönheitsreparaturen, die im Allgemeinen in Küchen, Bädern und Duschen alle fünf Jahre, in Wohn- und Schlafräumen, Fluren, Dielen und Toiletten alle acht Jahre und in anderen Nebenräumen alle zehn Jahre erforderlich werden.",
+            "reason": "Starre Fristen für Schönheitsreparaturen sind nach der Rechtsprechung des Bundesgerichtshofs likely invalid. Der Mieter darf nur für Schönheitsreparaturen haftbar gemacht werden, wenn die Wohnung in einem unrenovierten Zustand übergeben wurde und der Verschleiß tatsächlich eine Renovierung erforderlich macht – nicht nach starren Zeitplänen.",
+            "start": 2032,
+            "end": 2299
+          }
+        ],
+        "unverifiedQuotes": 0
+      },
+      "costMicroUsd": 6443,
+      "wallMs": 3135
+    },
+    {
+      "contractId": "rental-04",
+      "run": 1,
+      "result": {
+        "ok": true,
+        "modelId": "eu.anthropic.claude-haiku-4-5-20251001-v1:0",
+        "promptVersion": "v1-rerun",
+        "usage": {
+          "inputTokens": 4543,
+          "outputTokens": 2496
+        },
+        "latencyMs": 11898,
+        "clauses": [
+          {
+            "ref": "§ 4 Abs. 1",
+            "category": "rent",
+            "level": "check",
+            "quote": "Die monatliche Nettokaltmiete beträgt bei Mietbeginn 1.150,00 Euro.",
+            "reason": "Die Anfangsmiete sollte überprüft werden, ob sie die Mietpreisbremse nach § 556d BGB einhält. Dies hängt davon ab, ob die Wohnung in einem Gebiet mit Mietpreisbremse liegt und ob die Miete die zulässige Obergrenze überschreitet."
+          },
+          {
+            "ref": "§ 4 Abs. 2",
+            "category": "rent",
+            "level": "critical",
+            "quote": "Die Nettokaltmiete erhöht sich jeweils zum 1. Juni eines jeden Jahres um 3 Prozent der zuletzt geschuldeten Nettokaltmiete, erstmals zum 1. Juni 2028.",
+            "reason": "Dies ist eine Staffelmiete mit festen Erhöhungssätzen. Nach der Rechtsprechung des Bundesgerichtshofs sind starre Staffelmieten in Wohnraummietverträgen nicht zulässig, da sie nicht an die Marktentwicklung gebunden sind und den Mieter unangemessen benachteiligen können."
+          },
+          {
+            "ref": "§ 9 Abs. 1",
+            "category": "cosmetic_repairs",
+            "level": "critical",
+            "quote": "Diese werden im Allgemeinen in Küchen, Bädern und Duschen alle fünf Jahre, in Wohn- und Schlafräumen, Fluren, Dielen und Toiletten alle acht Jahre und in anderen Nebenräumen alle zehn Jahre erforderlich sein.",
+            "reason": "Starre Fristen für Schönheitsreparaturen sind nach der Rechtsprechung des Bundesgerichtshofs nicht zulässig. Die Verpflichtung muss sich nach dem tatsächlichen Zustand richten, nicht nach starren zeitlichen Vorgaben."
+          },
+          {
+            "ref": "§ 9 Abs. 2",
+            "category": "cosmetic_repairs",
+            "level": "critical",
+            "quote": "Endet das Mietverhältnis, bevor Schönheitsreparaturen fällig sind, hat die Mieterin die anteiligen Kosten nach folgenden Quoten zu tragen: Liegen die letzten Schönheitsreparaturen für Küche und Bad länger als ein Jahr zurück, zahlt sie 20 Prozent, länger als zwei Jahre 40 Prozent, länger als drei Jahre 60 Prozent und länger als vier Jahre 80 Prozent der Kosten nach dem Kostenvoranschlag eines von den Vermietern ausgewählten Malerfachbetriebs.",
+            "reason": "Diese Regelung verpflichtet die Mieterin zur Zahlung von Renovierungskosten auch dann, wenn die Wohnung noch nicht renovierungsbedürftig ist. Dies ist nach der Rechtsprechung des Bundesgerichtshofs nicht zulässig, da es eine Endrenovierungspflicht unabhängig vom tatsächlichen Zustand darstellt."
+          },
+          {
+            "ref": "§ 10 Abs. 2",
+            "category": "minor_repairs",
+            "level": "fine",
+            "quote": "Die Kostentragung ist auf 90 Euro je Einzelreparatur und auf höchstens 6 Prozent der Jahresnettokaltmiete, jedoch nicht mehr als 300 Euro im Kalenderjahr begrenzt.",
+            "reason": "Die Regelung mit einer Obergrenze pro Einzelfall (90 Euro) und pro Jahr (300 Euro) entspricht den gesetzlichen Anforderungen und ist angemessen."
+          },
+          {
+            "ref": "§ 7 Abs. 1",
+            "category": "deposit",
+            "level": "fine",
+            "quote": "Die Mieterin leistet eine Mietsicherheit in Höhe von drei Nettokaltmieten, das sind 3.450,00 Euro.",
+            "reason": "Die Kaution in Höhe von drei Nettokaltmieten entspricht der gesetzlichen Obergrenze nach § 551 Abs. 1 BGB."
+          },
+          {
+            "ref": "§ 7 Abs. 2",
+            "category": "deposit",
+            "level": "fine",
+            "quote": "Die Mieterin ist berechtigt, die Sicherheit in drei gleichen monatlichen Teilzahlungen zu erbringen.",
+            "reason": "Die Möglichkeit, die Kaution in Raten zu zahlen, ist zulässig und entspricht den Anforderungen des § 551 Abs. 2 BGB."
+          },
+          {
+            "ref": "§ 2 Abs. 1",
+            "category": "term_termination",
+            "level": "check",
+            "quote": "Das Mietverhältnis beginnt am 1. Juni 2027 und läuft auf unbestimmte Zeit.",
+            "reason": "Das Mietverhältnis ist unbefristet, was grundsätzlich zulässig ist. Allerdings sollte überprüft werden, ob die Kündigungsfristen in § 3 angemessen sind und ob es versteckte Befristungen gibt."
+          },
+          {
+            "ref": "§ 3 Abs. 1",
+            "category": "term_termination",
+            "level": "fine",
+            "quote": "Die Kündigungsfrist für die Mieterin beträgt drei Monate; die Kündigung ist spätestens am dritten Werktag eines Kalendermonats zum Ablauf des übernächsten Monats zulässig.",
+            "reason": "Die Kündigungsfrist von drei Monaten zum Ende eines Kalendermonats entspricht der gesetzlichen Regelung nach § 573 Abs. 1 BGB und ist angemessen."
+          },
+          {
+            "ref": "§ 13 Abs. 1",
+            "category": "use_subletting",
+            "level": "fine",
+            "quote": "Die Mieterin darf die Wohnung nur mit Erlaubnis der Vermieter ganz oder teilweise einem Dritten zum Gebrauch überlassen. Ein Anspruch auf Erlaubnis der Überlassung eines Teils der Wohnung besteht nach Maßgabe des § 553 BGB.",
+            "reason": "Die Regelung verbietet Untervermietung nicht pauschal, sondern macht sie von der Zustimmung der Vermieter abhängig und verweist auf den gesetzlichen Anspruch nach § 553 BGB. Dies ist zulässig."
+          },
+          {
+            "ref": "§ 14 Abs. 1",
+            "category": "pets",
+            "level": "check",
+            "quote": "Jede Tierhaltung mit Ausnahme von Zierfischen bedarf der vorherigen Zustimmung der Vermieter.",
+            "reason": "Die Regelung verbietet Tierhaltung nicht pauschal, sondern macht sie von der Zustimmung abhängig. Dies ist zulässig, allerdings sollte überprüft werden, ob die Vermieter die Zustimmung unangemessen verweigern können."
+          },
+          {
+            "ref": "§ 12 Abs. 1",
+            "category": "alterations",
+            "level": "fine",
+            "quote": "Bauliche Veränderungen durch die Mieterin, insbesondere Um- und Einbauten sowie Installationen, bedürfen der vorherigen Zustimmung der Vermieter. Die Rechte der Mieterin nach § 554 BGB bleiben unberührt.",
+            "reason": "Die Regelung verweist auf die Rechte der Mieterin nach § 554 BGB und schränkt diese nicht ein. Dies ist angemessen."
+          },
+          {
+            "ref": "§ 6 Abs. 2",
+            "category": "other",
+            "level": "critical",
+            "quote": "Die Mieterin kann gegen Mietforderungen weder aufrechnen noch ein Zurückbehaltungsrecht ausüben.",
+            "reason": "Diese Klausel ist nach § 555 BGB nicht zulässig. Der Mieter hat das Recht, gegen Mietforderungen aufzurechnen und ein Zurückbehaltungsrecht auszuüben, wenn die Wohnung Mängel aufweist, die der Vermieter zu vertreten hat."
+          },
+          {
+            "ref": "§ 6 Abs. 3",
+            "category": "other",
+            "level": "critical",
+            "quote": "Eine Minderung der Miete wegen Mängeln der Wohnung ist ausgeschlossen, soweit die Vermieter den Mangel nicht zu vertreten haben.",
+            "reason": "Diese Klausel ist problematisch, da sie die Mietminderung nach § 536 BGB einschränkt. Selbst wenn der Vermieter den Mangel nicht zu vertreten hat, kann der Mieter unter Umständen Mietminderung verlangen, wenn die Wohnung nicht vertragsgemäß ist."
+          }
+        ],
+        "invalidClauses": 0
+      },
+      "verification": {
+        "clauses": [
+          {
+            "ref": "§ 4 Abs. 1",
+            "category": "rent",
+            "level": "check",
+            "quote": "Die monatliche Nettokaltmiete beträgt bei Mietbeginn 1.150,00 Euro.",
+            "reason": "Die Anfangsmiete sollte überprüft werden, ob sie die Mietpreisbremse nach § 556d BGB einhält. Dies hängt davon ab, ob die Wohnung in einem Gebiet mit Mietpreisbremse liegt und ob die Miete die zulässige Obergrenze überschreitet.",
+            "start": 1459,
+            "end": 1526
+          },
+          {
+            "ref": "§ 4 Abs. 2",
+            "category": "rent",
+            "level": "critical",
+            "quote": "Die Nettokaltmiete erhöht sich jeweils zum 1. Juni eines jeden Jahres um 3 Prozent der zuletzt geschuldeten Nettokaltmiete, erstmals zum 1. Juni 2028.",
+            "reason": "Dies ist eine Staffelmiete mit festen Erhöhungssätzen. Nach der Rechtsprechung des Bundesgerichtshofs sind starre Staffelmieten in Wohnraummietverträgen nicht zulässig, da sie nicht an die Marktentwicklung gebunden sind und den Mieter unangemessen benachteiligen können.",
+            "start": 1532,
+            "end": 1682
+          },
+          {
+            "ref": "§ 9 Abs. 1",
+            "category": "cosmetic_repairs",
+            "level": "critical",
+            "quote": "Diese werden im Allgemeinen in Küchen, Bädern und Duschen alle fünf Jahre, in Wohn- und Schlafräumen, Fluren, Dielen und Toiletten alle acht Jahre und in anderen Nebenräumen alle zehn Jahre erforderlich sein.",
+            "reason": "Starre Fristen für Schönheitsreparaturen sind nach der Rechtsprechung des Bundesgerichtshofs nicht zulässig. Die Verpflichtung muss sich nach dem tatsächlichen Zustand richten, nicht nach starren zeitlichen Vorgaben.",
+            "start": 3502,
+            "end": 3710
+          },
+          {
+            "ref": "§ 9 Abs. 2",
+            "category": "cosmetic_repairs",
+            "level": "critical",
+            "quote": "Endet das Mietverhältnis, bevor Schönheitsreparaturen fällig sind, hat die Mieterin die anteiligen Kosten nach folgenden Quoten zu tragen: Liegen die letzten Schönheitsreparaturen für Küche und Bad länger als ein Jahr zurück, zahlt sie 20 Prozent, länger als zwei Jahre 40 Prozent, länger als drei Jahre 60 Prozent und länger als vier Jahre 80 Prozent der Kosten nach dem Kostenvoranschlag eines von den Vermietern ausgewählten Malerfachbetriebs.",
+            "reason": "Diese Regelung verpflichtet die Mieterin zur Zahlung von Renovierungskosten auch dann, wenn die Wohnung noch nicht renovierungsbedürftig ist. Dies ist nach der Rechtsprechung des Bundesgerichtshofs nicht zulässig, da es eine Endrenovierungspflicht unabhängig vom tatsächlichen Zustand darstellt.",
+            "start": 3716,
+            "end": 4162
+          },
+          {
+            "ref": "§ 10 Abs. 2",
+            "category": "minor_repairs",
+            "level": "fine",
+            "quote": "Die Kostentragung ist auf 90 Euro je Einzelreparatur und auf höchstens 6 Prozent der Jahresnettokaltmiete, jedoch nicht mehr als 300 Euro im Kalenderjahr begrenzt.",
+            "reason": "Die Regelung mit einer Obergrenze pro Einzelfall (90 Euro) und pro Jahr (300 Euro) entspricht den gesetzlichen Anforderungen und ist angemessen.",
+            "start": 4618,
+            "end": 4781
+          },
+          {
+            "ref": "§ 7 Abs. 1",
+            "category": "deposit",
+            "level": "fine",
+            "quote": "Die Mieterin leistet eine Mietsicherheit in Höhe von drei Nettokaltmieten, das sind 3.450,00 Euro.",
+            "reason": "Die Kaution in Höhe von drei Nettokaltmieten entspricht der gesetzlichen Obergrenze nach § 551 Abs. 1 BGB.",
+            "start": 2632,
+            "end": 2730
+          },
+          {
+            "ref": "§ 7 Abs. 2",
+            "category": "deposit",
+            "level": "fine",
+            "quote": "Die Mieterin ist berechtigt, die Sicherheit in drei gleichen monatlichen Teilzahlungen zu erbringen.",
+            "reason": "Die Möglichkeit, die Kaution in Raten zu zahlen, ist zulässig und entspricht den Anforderungen des § 551 Abs. 2 BGB.",
+            "start": 2736,
+            "end": 2836
+          },
+          {
+            "ref": "§ 2 Abs. 1",
+            "category": "term_termination",
+            "level": "check",
+            "quote": "Das Mietverhältnis beginnt am 1. Juni 2027 und läuft auf unbestimmte Zeit.",
+            "reason": "Das Mietverhältnis ist unbefristet, was grundsätzlich zulässig ist. Allerdings sollte überprüft werden, ob die Kündigungsfristen in § 3 angemessen sind und ob es versteckte Befristungen gibt.",
+            "start": 894,
+            "end": 968
+          },
+          {
+            "ref": "§ 3 Abs. 1",
+            "category": "term_termination",
+            "level": "fine",
+            "quote": "Die Kündigungsfrist für die Mieterin beträgt drei Monate; die Kündigung ist spätestens am dritten Werktag eines Kalendermonats zum Ablauf des übernächsten Monats zulässig.",
+            "reason": "Die Kündigungsfrist von drei Monaten zum Ende eines Kalendermonats entspricht der gesetzlichen Regelung nach § 573 Abs. 1 BGB und ist angemessen.",
+            "start": 1086,
+            "end": 1257
+          },
+          {
+            "ref": "§ 13 Abs. 1",
+            "category": "use_subletting",
+            "level": "fine",
+            "quote": "Die Mieterin darf die Wohnung nur mit Erlaubnis der Vermieter ganz oder teilweise einem Dritten zum Gebrauch überlassen. Ein Anspruch auf Erlaubnis der Überlassung eines Teils der Wohnung besteht nach Maßgabe des § 553 BGB.",
+            "reason": "Die Regelung verbietet Untervermietung nicht pauschal, sondern macht sie von der Zustimmung der Vermieter abhängig und verweist auf den gesetzlichen Anspruch nach § 553 BGB. Dies ist zulässig.",
+            "start": 5683,
+            "end": 5906
+          },
+          {
+            "ref": "§ 14 Abs. 1",
+            "category": "pets",
+            "level": "check",
+            "quote": "Jede Tierhaltung mit Ausnahme von Zierfischen bedarf der vorherigen Zustimmung der Vermieter.",
+            "reason": "Die Regelung verbietet Tierhaltung nicht pauschal, sondern macht sie von der Zustimmung abhängig. Dies ist zulässig, allerdings sollte überprüft werden, ob die Vermieter die Zustimmung unangemessen verweigern können.",
+            "start": 5930,
+            "end": 6023
+          },
+          {
+            "ref": "§ 12 Abs. 1",
+            "category": "alterations",
+            "level": "fine",
+            "quote": "Bauliche Veränderungen durch die Mieterin, insbesondere Um- und Einbauten sowie Installationen, bedürfen der vorherigen Zustimmung der Vermieter. Die Rechte der Mieterin nach § 554 BGB bleiben unberührt.",
+            "reason": "Die Regelung verweist auf die Rechte der Mieterin nach § 554 BGB und schränkt diese nicht ein. Dies ist angemessen.",
+            "start": 5226,
+            "end": 5429
+          },
+          {
+            "ref": "§ 6 Abs. 2",
+            "category": "other",
+            "level": "critical",
+            "quote": "Die Mieterin kann gegen Mietforderungen weder aufrechnen noch ein Zurückbehaltungsrecht ausüben.",
+            "reason": "Diese Klausel ist nach § 555 BGB nicht zulässig. Der Mieter hat das Recht, gegen Mietforderungen aufzurechnen und ein Zurückbehaltungsrecht auszuüben, wenn die Wohnung Mängel aufweist, die der Vermieter zu vertreten hat.",
+            "start": 2376,
+            "end": 2472
+          },
+          {
+            "ref": "§ 6 Abs. 3",
+            "category": "other",
+            "level": "critical",
+            "quote": "Eine Minderung der Miete wegen Mängeln der Wohnung ist ausgeschlossen, soweit die Vermieter den Mangel nicht zu vertreten haben.",
+            "reason": "Diese Klausel ist problematisch, da sie die Mietminderung nach § 536 BGB einschränkt. Selbst wenn der Vermieter den Mangel nicht zu vertreten hat, kann der Mieter unter Umständen Mietminderung verlangen, wenn die Wohnung nicht vertragsgemäß ist.",
+            "start": 2478,
+            "end": 2606
+          }
+        ],
+        "unverifiedQuotes": 0
+      },
+      "costMicroUsd": 18726,
+      "wallMs": 12022
+    }
+  ]
+}

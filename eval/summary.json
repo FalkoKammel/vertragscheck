@@ -1,74 +1,147 @@
 {
   "eu.anthropic.claude-haiku-4-5-20251001-v1:0": {
     "model": "eu.anthropic.claude-haiku-4-5-20251001-v1:0",
-    "promptVersion": "v1",
-    "date": "2026-11-09T18:05:30.165Z",
-    "runs": 3,
+    "promptVersion": "v1-rerun",
+    "date": "2026-11-10T22:35:49.138Z",
+    "runs": 1,
     "contracts": 8,
     "labels": 72,
     "summary": {
       "recall": {
-        "num": 87,
-        "den": 111,
+        "num": 29,
+        "den": 37,
         "mean": 0.7837837837837838,
         "min": 0.7837837837837838,
         "max": 0.7837837837837838
       },
       "recallCritical": {
-        "num": 81,
-        "den": 105,
+        "num": 27,
+        "den": 35,
         "mean": 0.7714285714285715,
         "min": 0.7714285714285715,
         "max": 0.7714285714285715
       },
       "recallCheck": {
-        "num": 6,
-        "den": 6,
+        "num": 2,
+        "den": 2,
         "mean": 1,
         "min": 1,
         "max": 1
       },
-      "missedSeenAsFine": 3,
-      "missedNotHit": 21,
+      "missedSeenAsFine": 0,
+      "missedNotHit": 8,
       "consistency": {
         "num": 29,
         "den": 37
       },
       "levelAccuracy": {
-        "num": 81,
-        "den": 87
+        "num": 27,
+        "den": 29
       },
       "categoryAccuracy": {
-        "num": 81,
-        "den": 87
+        "num": 27,
+        "den": 29
       },
       "falseAlarmRate": {
-        "num": 3,
-        "den": 105
+        "num": 1,
+        "den": 35
       },
       "overcautiousRate": {
-        "num": 3,
-        "den": 105
+        "num": 1,
+        "den": 35
       },
       "unverifiedQuotes": {
-        "num": 3,
-        "den": 152
+        "num": 1,
+        "den": 51
       },
       "invalidClauses": {
         "num": 0,
-        "den": 152
+        "den": 51
       },
       "failedRuns": {
         "num": 0,
-        "den": 24
+        "den": 8
       },
       "costMicroUsd": {
-        "mean": 10944.833333333334,
-        "total": 262676
+        "mean": 10863.5,
+        "total": 86908
       },
       "latencyMs": {
-        "mean": 6434.583333333333,
-        "p95": 11971
+        "mean": 6094.875,
+        "p95": 11898
+      }
+    }
+  },
+  "eu.anthropic.claude-sonnet-4-6": {
+    "model": "eu.anthropic.claude-sonnet-4-6",
+    "promptVersion": "v1",
+    "date": "2026-11-10T23:09:46.610Z",
+    "runs": 1,
+    "contracts": 8,
+    "labels": 72,
+    "summary": {
+      "recall": {
+        "num": 34,
+        "den": 37,
+        "mean": 0.918918918918919,
+        "min": 0.918918918918919,
+        "max": 0.918918918918919
+      },
+      "recallCritical": {
+        "num": 32,
+        "den": 35,
+        "mean": 0.9142857142857143,
+        "min": 0.9142857142857143,
+        "max": 0.9142857142857143
+      },
+      "recallCheck": {
+        "num": 2,
+        "den": 2,
+        "mean": 1,
+        "min": 1,
+        "max": 1
+      },
+      "missedSeenAsFine": 0,
+      "missedNotHit": 3,
+      "consistency": {
+        "num": 34,
+        "den": 37
+      },
+      "levelAccuracy": {
+        "num": 33,
+        "den": 34
+      },
+      "categoryAccuracy": {
+        "num": 32,
+        "den": 34
+      },
+      "falseAlarmRate": {
+        "num": 3,
+        "den": 35
+      },
+      "overcautiousRate": {
+        "num": 4,
+        "den": 35
+      },
+      "unverifiedQuotes": {
+        "num": 3,
+        "den": 79
+      },
+      "invalidClauses": {
+        "num": 0,
+        "den": 79
+      },
+      "failedRuns": {
+        "num": 0,
+        "den": 8
+      },
+      "costMicroUsd": {
+        "mean": 47057.75,
+        "total": 376462
+      },
+      "latencyMs": {
+        "mean": 15969.625,
+        "p95": 26216
       }
     }
   }
