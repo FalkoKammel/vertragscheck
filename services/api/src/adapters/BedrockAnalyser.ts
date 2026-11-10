@@ -17,6 +17,7 @@ import {
   rentalLlmClauseSchema,
   type LlmClause,
 } from '../domain/schemas';
+import { jsonrepair } from 'jsonrepair';
 
 const TOOL_NAME = 'report_clauses';
 const MAX_OUTPUT_TOKENS = 8192;
@@ -26,9 +27,32 @@ const clauseSchemas = {
   employment: employmentLlmClauseSchema,
 } satisfies Record<ContractType, z.ZodType>;
 
+// Some models occasionally return the clauses array serialized as a JSON string
+// inside the tool input, sometimes with unescaped quotes. Parse it, or repair and parse it.
+// Repaired clauses still go through Zod and quote verification, so a bad repair is dropped there.
+function parseIfJsonString(value: unknown): unknown {
+  if (typeof value !== 'string') return value;
+  try {
+    const parsed: unknown = JSON.parse(value);
+    console.warn('analysis clauses returned as JSON string, parsed');
+    return parsed;
+  } catch {
+    try {
+      const repaired: unknown = JSON.parse(jsonrepair(value));
+      console.warn('analysis clauses returned as invalid JSON string, repaired');
+      return repaired;
+    } catch {
+      console.warn('analysis clauses returned as invalid JSON string, repair failed', { length: value.length });
+      return value;
+    }
+  }
+}
+
 // Only checks the outer shape. Clauses are validated one by one, so a single
 // bad clause does not throw away the whole analysis.
-const envelopeSchema = z.object({ clauses: z.array(z.unknown()) });
+const envelopeSchema = z.object({
+  clauses: z.preprocess(parseIfJsonString, z.array(z.unknown())),
+});
 
 function toolConfig(contractType: ContractType): ToolConfiguration {
   const outputSchema = z.object({ clauses: z.array(clauseSchemas[contractType]) });
@@ -49,6 +73,16 @@ function toolConfig(contractType: ContractType): ToolConfiguration {
       },
     ],
     toolChoice: { tool: { name: TOOL_NAME } },
+  };
+}
+
+// Shape of the tool input for logging only: key names and types, never content.
+function describeInput(input: unknown) {
+  const clauses: unknown =
+    input && typeof input === 'object' ? (input as Record<string, unknown>).clauses : undefined;
+  return {
+    inputKeys: input && typeof input === 'object' ? Object.keys(input) : typeof input,
+    clausesType: Array.isArray(clauses) ? 'array' : typeof clauses,
   };
 }
 
@@ -96,6 +130,7 @@ export class BedrockAnalyser implements RunsAnalysis {
       console.warn('analysis output invalid', {
         stopReason: res.stopReason,
         hasToolUse: !!toolUse,
+        ...describeInput(toolUse?.input),
       });
       return { ok: false, ...base };
     }
