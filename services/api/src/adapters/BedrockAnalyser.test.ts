@@ -108,7 +108,7 @@ describe('BedrockAnalyser', () => {
     expect(await a.analyse(request)).toMatchObject({ ok: false });
   });
 
-    it('parses clauses that arrive as a JSON string', async () => {
+  it('parses clauses that arrive as a JSON string', async () => {
     const { analyser: a } = analyser(toolResponse({ clauses: JSON.stringify([goodClause]) }));
     expect(await a.analyse(request)).toMatchObject({
       ok: true,

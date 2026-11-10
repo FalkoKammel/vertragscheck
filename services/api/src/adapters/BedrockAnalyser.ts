@@ -42,7 +42,9 @@ function parseIfJsonString(value: unknown): unknown {
       console.warn('analysis clauses returned as invalid JSON string, repaired');
       return repaired;
     } catch {
-      console.warn('analysis clauses returned as invalid JSON string, repair failed', { length: value.length });
+      console.warn('analysis clauses returned as invalid JSON string, repair failed', {
+        length: value.length,
+      });
       return value;
     }
   }
