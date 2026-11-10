@@ -1,74 +1,74 @@
 {
   "eu.anthropic.claude-haiku-4-5-20251001-v1:0": {
     "model": "eu.anthropic.claude-haiku-4-5-20251001-v1:0",
-    "promptVersion": "v1",
-    "date": "2026-11-09T18:05:30.165Z",
-    "runs": 3,
+    "promptVersion": "v2",
+    "date": "2026-11-10T22:08:38.367Z",
+    "runs": 1,
     "contracts": 8,
     "labels": 72,
     "summary": {
       "recall": {
-        "num": 87,
-        "den": 111,
-        "mean": 0.7837837837837838,
-        "min": 0.7837837837837838,
-        "max": 0.7837837837837838
+        "num": 28,
+        "den": 37,
+        "mean": 0.7567567567567568,
+        "min": 0.7567567567567568,
+        "max": 0.7567567567567568
       },
       "recallCritical": {
-        "num": 81,
-        "den": 105,
-        "mean": 0.7714285714285715,
-        "min": 0.7714285714285715,
-        "max": 0.7714285714285715
+        "num": 26,
+        "den": 35,
+        "mean": 0.7428571428571429,
+        "min": 0.7428571428571429,
+        "max": 0.7428571428571429
       },
       "recallCheck": {
-        "num": 6,
-        "den": 6,
+        "num": 2,
+        "den": 2,
         "mean": 1,
         "min": 1,
         "max": 1
       },
       "missedSeenAsFine": 3,
-      "missedNotHit": 21,
+      "missedNotHit": 6,
       "consistency": {
-        "num": 29,
+        "num": 28,
         "den": 37
       },
       "levelAccuracy": {
-        "num": 81,
-        "den": 87
+        "num": 23,
+        "den": 28
       },
       "categoryAccuracy": {
-        "num": 81,
-        "den": 87
+        "num": 26,
+        "den": 28
       },
       "falseAlarmRate": {
-        "num": 3,
-        "den": 105
+        "num": 1,
+        "den": 35
       },
       "overcautiousRate": {
-        "num": 3,
-        "den": 105
+        "num": 1,
+        "den": 35
       },
       "unverifiedQuotes": {
-        "num": 3,
-        "den": 152
+        "num": 1,
+        "den": 63
       },
       "invalidClauses": {
         "num": 0,
-        "den": 152
+        "den": 63
       },
       "failedRuns": {
         "num": 0,
-        "den": 24
+        "den": 8
       },
       "costMicroUsd": {
-        "mean": 10944.833333333334,
-        "total": 262676
+        "mean": 12447.5,
+        "total": 99580
       },
       "latencyMs": {
-        "mean": 6434.583333333333,
-        "p95": 11971
+        "mean": 7286.375,
+        "p95": 12165
       }
     }
   }
