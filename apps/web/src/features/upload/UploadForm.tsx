@@ -59,9 +59,6 @@ export function UploadForm() {
     reset();
   }
 
-  // The progress card replaces the form only once the API has accepted the request and issued
-  // the upload link; before that, a refused request (captcha, daily limit, budget) must not make
-  // the card flash up.
   if (state.status === 'uploading' || state.status === 'done') {
     const errorKey = state.status === 'done' ? analysisErrorKey(analysis, error) : null;
     if (errorKey) {

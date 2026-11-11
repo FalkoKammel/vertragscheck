@@ -5,7 +5,6 @@ import styles from './AnalysisError.module.css';
 
 interface AnalysisErrorProps {
   errorKey: AnalysisErrorKey;
-  /** A button or link that leads the user on, for example back to the form. */
   action: ReactNode;
 }
 
