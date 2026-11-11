@@ -38,6 +38,10 @@ export function useUpload({ onError, deps = defaultDeps }: UseUploadOptions = {}
   const [state, setState] = useState<UploadState>({ status: 'idle' });
   const busy = useRef(false);
 
+  function reset() {
+    setState({ status: 'idle' });
+  }
+
   async function start({ file, captchaToken, contractType, language }: UploadParams) {
     if (busy.current) return;
     busy.current = true;
@@ -71,5 +75,5 @@ export function useUpload({ onError, deps = defaultDeps }: UseUploadOptions = {}
     }
   }
 
-  return { state, start };
+  return { state, start, reset };
 }

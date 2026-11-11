@@ -33,3 +33,12 @@
   font-size: 14px;
   color: var(--vc-body);
 }
+
+.fallback {
+  max-width: 720px;
+  min-height: 320px;
+  margin: 0 auto;
+  background: var(--vc-card);
+  border: 1px solid var(--vc-border);
+  border-radius: 12px;
+}

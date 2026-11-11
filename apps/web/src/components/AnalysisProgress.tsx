@@ -3,11 +3,10 @@ import { useTranslations } from 'next-intl';
 import { cx } from '@/lib/cx';
 import styles from './AnalysisProgress.module.css';
 
-export type AnalysisPhase = 'uploading' | 'analyzing';
+export type AnalysisPhase = 'uploading' | 'extracting' | 'analysing';
 
 interface AnalysisProgressProps {
   phase: AnalysisPhase;
-  /** Upload progress from 0 to 1, only used in the `uploading` phase. */
   uploadProgress?: number;
   fileName?: string;
 }
@@ -20,17 +19,13 @@ const MARKER_BY_STATE: Record<StepState, string> = {
   pending: styles.markerPending ?? '',
 };
 
-/**
- * One card for everything that happens after "Analyse starten": uploading the PDF, then the
- * analysis. The user sees it as a single process. The backend does not report finer steps
- * yet, so the analysis is one indeterminate step (see "Upload and progress card" in PLAN.md).
- */
 export function AnalysisProgress({ phase, uploadProgress = 0, fileName }: AnalysisProgressProps) {
   const t = useTranslations('Progress');
   const percent = Math.round(uploadProgress * 100);
 
   const uploadState: StepState = phase === 'uploading' ? 'active' : 'done';
-  const analysisState: StepState = phase === 'analyzing' ? 'active' : 'pending';
+  const extractingState: StepState = phase === 'extracting' ? 'active' : 'pending';
+  const analysisState: StepState = phase === 'analysing' ? 'active' : 'pending';
 
   const steps = [
     {
@@ -38,7 +33,8 @@ export function AnalysisProgress({ phase, uploadProgress = 0, fileName }: Analys
       state: uploadState,
       label: uploadState === 'done' ? t('stepUploaded') : t('stepUploading', { percent }),
     },
-    { key: 'analysis', state: analysisState, label: t('stepAnalyzing') },
+    { key: 'extracting', state: extractingState, label: t('stepExtracting') },
+    { key: 'analysis', state: analysisState, label: t('stepAnalysing') },
   ];
 
   return (
@@ -66,7 +62,7 @@ export function AnalysisProgress({ phase, uploadProgress = 0, fileName }: Analys
       {phase === 'uploading' ? (
         <Progress value={percent} aria-label={t('stepUploading', { percent })} />
       ) : (
-        <Progress value={100} striped animated aria-label={t('stepAnalyzing')} />
+        <Progress value={100} striped animated aria-label={t('stepAnalysing')} />
       )}
       <p className={styles.hint}>{t('hint')}</p>
     </section>

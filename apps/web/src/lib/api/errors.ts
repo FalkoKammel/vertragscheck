@@ -1,6 +1,9 @@
 /** The API answered with an error body `{ code }` (or with something we cannot read). */
 export class ApiError extends Error {
-  constructor(readonly code: string) {
+  constructor(
+    readonly code: string,
+    readonly status?: number,
+  ) {
     super(`API error ${code}`);
     this.name = 'ApiError';
   }

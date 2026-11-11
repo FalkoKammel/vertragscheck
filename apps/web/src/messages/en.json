@@ -82,8 +82,9 @@
     "title": "Analysis in progress …",
     "stepUploading": "Uploading document … {percent} %",
     "stepUploaded": "Document uploaded",
-    "stepAnalyzing": "Analysing clauses",
-    "hint": "Usually takes under a minute. You can keep this page open."
+    "stepExtracting": "Extracting text",
+    "stepAnalysing": "Analysing clauses",
+    "hint": "Usually takes 10–30 seconds. You can keep this page open."
   },
   "Result": {
     "metaPlaceholder": "Contract type · Pages",
@@ -141,5 +142,23 @@
     "readmeBefore": "Architecture, decisions and test set in the",
     "readmeLink": "README on GitHub",
     "readmeAfter": "."
+  },
+  "AnalysisError": {
+    "title": "The analysis did not work",
+    "tryAgain": "Try another file",
+    "notFoundTitle": "Analysis not found",
+    "notFoundText": "This analysis does not exist (any more). It was deleted, expired after 30 days, or the link is wrong.",
+    "toUpload": "Start a new analysis",
+    "reasons": {
+      "budgetExhausted": "The monthly analysis budget is used up. You can still look at the sample analyses.",
+      "invalidPdf": "The file could not be read as a PDF. Please choose another file.",
+      "tooManyPages": "The document has too many pages. Please choose a shorter contract.",
+      "noTextLayer": "No text was found in this PDF. Scanned documents are not supported yet.",
+      "llmInvalidOutput": "The automatic evaluation did not return a usable result. Please try again.",
+      "internal": "Something went wrong. Please try again later.",
+      "timeout": "The analysis took too long. Please try again.",
+      "uploadMissing": "The file did not arrive. Please upload it again.",
+      "network": "No connection to the server. Please check your internet connection and try again."
+    }
   }
 }
