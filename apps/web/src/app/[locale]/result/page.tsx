@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
 import { Suspense } from 'react';
+import { ResultFallback } from '@/features/result/ResultFallback';
 import { ResultView } from '@/features/result/ResultView';
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -10,7 +11,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default function ResultPage() {
   return (
-    <Suspense>
+    <Suspense fallback={<ResultFallback />}>
       <ResultView />
     </Suspense>
   );

@@ -82,8 +82,9 @@
     "title": "Analyse läuft …",
     "stepUploading": "Dokument wird hochgeladen … {percent} %",
     "stepUploaded": "Dokument hochgeladen",
-    "stepAnalyzing": "Klauseln werden analysiert",
-    "hint": "Dauert meist unter einer Minute. Du kannst die Seite offen lassen."
+    "stepExtracting": "Text wird extrahiert",
+    "stepAnalysing": "Klauseln werden analysiert",
+    "hint": "Dauert meist 10–30 Sekunden. Du kannst die Seite offen lassen."
   },
   "Result": {
     "metaPlaceholder": "Vertragsart · Seiten",
@@ -141,5 +142,23 @@
     "readmeBefore": "Architektur, Entscheidungen und Testset im",
     "readmeLink": "README auf GitHub",
     "readmeAfter": "."
+  },
+  "AnalysisError": {
+    "title": "Die Analyse hat nicht geklappt",
+    "tryAgain": "Andere Datei versuchen",
+    "notFoundTitle": "Analyse nicht gefunden",
+    "notFoundText": "Diese Analyse gibt es nicht (mehr). Sie wurde gelöscht, ist nach 30 Tagen abgelaufen oder der Link ist falsch.",
+    "toUpload": "Neue Analyse starten",
+    "reasons": {
+      "budgetExhausted": "Das Monatsbudget für Analysen ist aufgebraucht. Beispielanalysen kannst du weiterhin ansehen.",
+      "invalidPdf": "Die Datei konnte nicht als PDF gelesen werden. Bitte wähle eine andere Datei.",
+      "tooManyPages": "Das Dokument hat zu viele Seiten. Bitte wähle einen kürzeren Vertrag.",
+      "noTextLayer": "In dieser PDF wurde kein Text gefunden. Gescannte Dokumente werden noch nicht unterstützt.",
+      "llmInvalidOutput": "Die automatische Auswertung hat kein brauchbares Ergebnis geliefert. Bitte versuche es noch einmal.",
+      "internal": "Etwas ist schiefgelaufen. Bitte versuche es später noch einmal.",
+      "timeout": "Die Analyse hat zu lange gedauert. Bitte versuche es noch einmal.",
+      "uploadMissing": "Die Datei ist nicht angekommen. Bitte lade sie noch einmal hoch.",
+      "network": "Keine Verbindung zum Server. Bitte prüfe deine Internetverbindung und versuche es noch einmal."
+    }
   }
 }

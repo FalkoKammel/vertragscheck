@@ -3,9 +3,13 @@
 import type { TurnstileInstance } from '@marsidev/react-turnstile';
 import { Alert, Button, Checkbox, NativeSelect } from '@mantine/core';
 import { useLocale, useTranslations } from 'next-intl';
-import { useRef, useState, type SubmitEvent } from 'react';
+import { useEffect, useRef, useState, type SubmitEvent } from 'react';
+import { AnalysisError } from '@/components/AnalysisError';
 import { AnalysisProgress } from '@/components/AnalysisProgress';
+import { useRouter } from '@/i18n/navigation';
 import type { ContractType } from '../../lib/api/uploads';
+import { analysisErrorKey, toPhase } from '../result/analysisView';
+import { useAnalysis } from '../result/useAnalysis';
 import { FileDropzone } from './FileDropzone';
 import { TurnstileField } from './TurnstileField';
 import { useUpload } from './useUpload';
@@ -13,6 +17,7 @@ import styles from './UploadForm.module.css';
 
 export function UploadForm() {
   const t = useTranslations('Upload');
+  const tError = useTranslations('AnalysisError');
   const locale = useLocale();
 
   const [contractType, setContractType] = useState<ContractType>('rental');
@@ -27,7 +32,16 @@ export function UploadForm() {
     turnstile.current?.reset();
   }
 
-  const { state, start } = useUpload({ onError: handleError });
+  const { state, start, reset } = useUpload({ onError: handleError });
+  const router = useRouter();
+  const analysisId = state.status === 'done' ? state.analysisId : null;
+  const { data: analysis, error } = useAnalysis(analysisId);
+
+  useEffect(() => {
+    if (analysis?.status === 'done') {
+      router.replace({ pathname: '/result', query: { id: analysis.id } });
+    }
+  }, [analysis, router]);
 
   const busy =
     state.status === 'requesting' || state.status === 'uploading' || state.status === 'done';
@@ -39,15 +53,32 @@ export function UploadForm() {
     void start({ file, captchaToken, contractType, language: locale });
   }
 
-  // The progress card replaces the form only once the API has accepted the request and issued
-  // the upload link; before that, a refused request (captcha, daily limit, budget) must not make
-  // the card flash up. Later the card will poll the analysis and go to /result?id=<id> once it is
-  // done (see "Upload and progress card" in PLAN.md).
+  function handleTryAnotherFile() {
+    // The captcha token is already used up, so the form comes back with a fresh widget.
+    setCaptchaToken(null);
+    reset();
+  }
+
   if (state.status === 'uploading' || state.status === 'done') {
+    const errorKey = state.status === 'done' ? analysisErrorKey(analysis, error) : null;
+    if (errorKey) {
+      return (
+        <div className={styles.layout}>
+          <AnalysisError
+            errorKey={errorKey}
+            action={
+              <Button size="md" onClick={handleTryAnotherFile}>
+                {tError('tryAgain')}
+              </Button>
+            }
+          />
+        </div>
+      );
+    }
     return (
       <div className={styles.layout}>
         <AnalysisProgress
-          phase={state.status === 'done' ? 'analyzing' : 'uploading'}
+          phase={state.status === 'uploading' ? 'uploading' : toPhase(analysis)}
           uploadProgress={state.status === 'uploading' ? state.progress : 0}
           fileName={file?.name}
         />

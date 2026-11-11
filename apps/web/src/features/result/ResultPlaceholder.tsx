@@ -3,7 +3,6 @@ import { Link } from '@/i18n/navigation';
 import { cx } from '@/lib/cx';
 import styles from './ResultPlaceholder.module.css';
 
-/** Static layout of the result page with empty figures, until real analyses are loaded. */
 export function ResultPlaceholder() {
   const t = useTranslations('Result');
   const empty = t('empty');

@@ -2,28 +2,27 @@
 
 import { useTranslations } from 'next-intl';
 import { useSearchParams } from 'next/navigation';
+import { AnalysisError } from '@/components/AnalysisError';
 import { AnalysisProgress } from '@/components/AnalysisProgress';
 import { LinkButton } from '@/components/LinkButton';
+import { analysisErrorKey, isAnalysisId, toPhase } from './analysisView';
 import { ResultPlaceholder } from './ResultPlaceholder';
+import { useAnalysis } from './useAnalysis';
 import styles from './ResultView.module.css';
 
-/**
- * Temporary until the status endpoint exists. Sample analyses (`sample-*`) show the static
- * result layout; every other ID shows the progress card, and no ID shows a hint.
- */
 export function ResultView() {
   const t = useTranslations('Result');
+  const tError = useTranslations('AnalysisError');
   const id = useSearchParams().get('id');
+  const isSample = id?.startsWith('sample-') ?? false;
+  const validId = id !== null && !isSample && isAnalysisId(id) ? id : null;
+  const { data: analysis, error } = useAnalysis(validId);
 
-  if (id?.startsWith('sample-')) return <ResultPlaceholder />;
+  if (isSample) return <ResultPlaceholder />;
 
-  return (
-    <main className={styles.page}>
-      {id ? (
-        <div className={styles.progress}>
-          <AnalysisProgress phase="analyzing" />
-        </div>
-      ) : (
+  if (id === null) {
+    return (
+      <main className={styles.page}>
         <section className={styles.card}>
           <h1 className={styles.title}>{t('missingIdTitle')}</h1>
           <p className={styles.text}>{t('missingIdText')}</p>
@@ -31,7 +30,35 @@ export function ResultView() {
             {t('newAnalysis')}
           </LinkButton>
         </section>
-      )}
+      </main>
+    );
+  }
+
+  const errorKey = validId === null ? 'notFound' : analysisErrorKey(analysis, error);
+  if (errorKey) {
+    return (
+      <main className={styles.page}>
+        <div className={styles.progress}>
+          <AnalysisError
+            errorKey={errorKey}
+            action={
+              <LinkButton href="/upload" size="md">
+                {errorKey === 'notFound' ? tError('toUpload') : tError('tryAgain')}
+              </LinkButton>
+            }
+          />
+        </div>
+      </main>
+    );
+  }
+
+  if (analysis?.status === 'done') return <ResultPlaceholder />;
+
+  return (
+    <main className={styles.page}>
+      <div className={styles.progress}>
+        <AnalysisProgress phase={toPhase(analysis)} />
+      </div>
     </main>
   );
 }
