@@ -172,4 +172,15 @@ describe('useUpload', () => {
       await first;
     });
   });
+
+  it('goes back to idle on reset', async () => {
+    const { result } = setup();
+    await act(() => result.current.start(params));
+    expect(result.current.state.status).toBe('done');
+
+    act(() => {
+      result.current.reset();
+    });
+    expect(result.current.state).toEqual({ status: 'idle' });
+  });
 });
