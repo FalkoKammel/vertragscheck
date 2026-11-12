@@ -14,18 +14,6 @@ import { Construct } from 'constructs';
 export const DEFAULT_MODEL_ID = 'eu.anthropic.claude-haiku-4-5-20251001-v1:0';
 export const DEFAULT_PROMPT_VERSION = 'v1';
 
-/**
- * Regions the EU inference profile routes to. The profile may only invoke the foundation
- * model in these regions, so IAM must allow the model ARN in each of them.
- * Verify against `aws bedrock get-inference-profile` when changing the model.
- */
-export const DEFAULT_MODEL_ROUTING_REGIONS: readonly string[] = [
-  'eu-central-1',
-  'eu-west-1',
-  'eu-west-3',
-  'eu-north-1',
-];
-
 export const MAX_CONCURRENCY = 2;
 export const ANALYSIS_TIMEOUT = Duration.minutes(2);
 
@@ -35,7 +23,6 @@ export interface AnalysisProps {
   readonly budgetLimitMicroUsd: number;
   readonly modelId?: string;
   readonly promptVersion?: string;
-  readonly modelRoutingRegions?: readonly string[];
 }
 
 export class Analysis extends Construct {
@@ -123,22 +110,30 @@ export class Analysis extends Construct {
       }),
     );
 
-    // Converse on an inference profile needs the profile (in our region) and the
-    // foundation model in every region the profile can route to.
+    // Converse on an inference profile needs two statements: the profile itself (in our
+    // region) and the foundation model in whichever EU region the profile routes to. The
+    // second is allowed in all eu-* regions but only when the call comes through our profile,
+    // so the region list never has to be maintained. The id is used as given, with or without
+    // a date/version suffix (e.g. eu.anthropic.claude-sonnet-4-6).
     const baseModelId = modelId.replace(/^[a-z]+\./, '');
     const profileArn = stack.formatArn({
       service: 'bedrock',
       resource: 'inference-profile',
       resourceName: modelId,
     });
-    const foundationModelArns = (props.modelRoutingRegions ?? DEFAULT_MODEL_ROUTING_REGIONS).map(
-      (region) => `arn:${stack.partition}:bedrock:${region}::foundation-model/${baseModelId}`,
+    this.function.addToRolePolicy(
+      new PolicyStatement({
+        effect: Effect.ALLOW,
+        actions: ['bedrock:InvokeModel'],
+        resources: [profileArn],
+      }),
     );
     this.function.addToRolePolicy(
       new PolicyStatement({
         effect: Effect.ALLOW,
         actions: ['bedrock:InvokeModel'],
-        resources: [profileArn, ...foundationModelArns],
+        resources: [`arn:${stack.partition}:bedrock:eu-*::foundation-model/${baseModelId}`],
+        conditions: { StringEquals: { 'bedrock:InferenceProfileArn': profileArn } },
       }),
     );
   }

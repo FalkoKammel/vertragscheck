@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { Analysis } from '../domain/analysis';
 import type { ModelRun, Usage } from '../domain/analysis';
 import { InvalidPdfError } from '../domain/DomainError';
@@ -306,6 +306,29 @@ describe('AnalyseContract', () => {
     expect(analysis.failureReason).toBe('INTERNAL');
     expect(calls.saved).toHaveLength(1);
     expect(calls.deleted).toEqual(['uploads/a1.pdf']);
+  });
+
+  it('logs the message of AWS SDK errors only', async () => {
+    const spy = vi.spyOn(console, 'error').mockImplementation(() => undefined);
+    try {
+      const denied = Object.assign(new Error('not authorized to perform bedrock:InvokeModel'), {
+        name: 'AccessDeniedException',
+        $metadata: { httpStatusCode: 403 },
+      });
+      await setup({ result: denied }).run();
+      await setup({ result: new Error('contract text leak') }).run();
+      expect(spy).toHaveBeenNthCalledWith(1, 'analysis failed', {
+        analysisId: 'a1',
+        name: 'AccessDeniedException',
+        message: 'not authorized to perform bedrock:InvokeModel',
+      });
+      expect(spy).toHaveBeenNthCalledWith(2, 'analysis failed', {
+        analysisId: 'a1',
+        name: 'Error',
+      });
+    } finally {
+      spy.mockRestore();
+    }
   });
 
   it('deletes the PDF when storing the text fails', async () => {

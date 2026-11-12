@@ -27,6 +27,7 @@ beforeAll(() => {
 interface Statement {
   Action: string | string[];
   Resource: unknown;
+  Condition?: unknown;
 }
 
 /** Statements of the analysis Lambda's role policy only. */
@@ -143,15 +144,26 @@ describe('least privilege', () => {
     for (const s of ddb) expect(JSON.stringify(s.Resource)).not.toContain('"*"');
   });
 
-  it('allows InvokeModel only on the EU profile and its foundation models', () => {
+  it('allows InvokeModel on the inference profile itself', () => {
     const bedrock = withAction('bedrock:');
-    expect(bedrock).toHaveLength(1);
-    expect(bedrock[0]?.Action).toBe('bedrock:InvokeModel');
-    const resources = JSON.stringify(bedrock[0]?.Resource);
-    expect(resources).toContain('inference-profile/eu.anthropic.claude-haiku-4-5-20251001-v1:0');
-    expect(resources).toContain('foundation-model/anthropic.claude-haiku-4-5-20251001-v1:0');
-    expect(resources).not.toContain('"*"');
-    expect(resources).not.toContain('us-east');
-    expect(resources).not.toContain('foundation-model/eu.');
+    expect(bedrock).toHaveLength(2);
+    const profile = bedrock.find((s) => s.Condition === undefined);
+    expect(profile?.Action).toBe('bedrock:InvokeModel');
+    expect(JSON.stringify(profile?.Resource)).toContain(
+      'inference-profile/eu.anthropic.claude-haiku-4-5-20251001-v1:0',
+    );
+    expect(JSON.stringify(profile?.Resource)).not.toContain('foundation-model');
+  });
+
+  it('allows the foundation model in eu-* regions only via our inference profile', () => {
+    const model = withAction('bedrock:').find((s) => s.Condition !== undefined);
+    expect(model?.Action).toBe('bedrock:InvokeModel');
+    expect(JSON.stringify(model?.Resource)).toContain(
+      ':bedrock:eu-*::foundation-model/anthropic.claude-haiku-4-5-20251001-v1:0',
+    );
+    const condition = JSON.stringify(model?.Condition);
+    expect(condition).toContain('bedrock:InferenceProfileArn');
+    expect(condition).toContain('inference-profile/eu.anthropic.claude-haiku-4-5-20251001-v1:0');
+    expect(JSON.stringify(model)).not.toContain('us-east');
   });
 });
