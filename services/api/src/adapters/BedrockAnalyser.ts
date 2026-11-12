@@ -71,7 +71,10 @@ function parseIfJsonString(value: unknown): unknown {
     // jsonrepair throws when it cannot repair; handled below
   }
 
-  console.warn({ msg: 'analysis clauses returned as invalid JSON string, repair failed', length: value.length });
+  console.warn({
+    msg: 'analysis clauses returned as invalid JSON string, repair failed',
+    length: value.length,
+  });
   return value;
 }
 

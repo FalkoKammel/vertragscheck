@@ -137,12 +137,14 @@ describe('BedrockAnalyser', () => {
     expect(await a.analyse(request)).toMatchObject({ ok: false, usage });
   });
 
-    it('fixes a German quotation closed with a straight quote', async () => {
+  it('fixes a German quotation closed with a straight quote', async () => {
     const broken =
       '[{"category":"deposit","level":"check","quote":"Kaution","reason":"Die Klausel nennt „besenreinen Zustand", das ist üblich."}]';
     const { analyser: a } = analyser(toolResponse({ clauses: broken }));
     const result = await a.analyse(request);
     expect(result).toMatchObject({ ok: true, invalidClauses: 0 });
-    expect(result.ok && result.clauses[0]?.reason).toBe('Die Klausel nennt „besenreinen Zustand“, das ist üblich.');
+    expect(result.ok && result.clauses[0]?.reason).toBe(
+      'Die Klausel nennt „besenreinen Zustand“, das ist üblich.',
+    );
   });
 });
