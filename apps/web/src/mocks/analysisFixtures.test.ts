@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { analysisResponseSchema } from '../lib/api/analyses';
-import { analysisFixture, FIXTURE_STATES } from './analysisFixtures';
+import { analysisFixture, FIXTURE_PAGE_STARTS, FIXTURE_STATES } from './analysisFixtures';
 
 describe('analysis fixtures', () => {
   it.each(FIXTURE_STATES)('the %s fixture matches the response schema', (state) => {
@@ -45,5 +45,26 @@ describe('analysis fixtures', () => {
       expect(c.start).toBeGreaterThanOrEqual(clauses[i]?.end ?? 0);
     });
     expect(new Set(clauses.map((c) => c.level))).toEqual(new Set(['fine', 'check', 'critical']));
+  });
+
+  it('the done fixture has three pages whose starts point at their first paragraph', () => {
+    const fixture = analysisFixture('done', 'a1');
+    const starts = fixture.result?.pageStarts ?? [];
+    const [, second = 0, third = 0] = starts;
+    expect(fixture.pageCount).toBe(3);
+    expect(starts).toEqual(FIXTURE_PAGE_STARTS);
+    expect(starts).toHaveLength(3);
+    expect(starts[0]).toBe(0);
+    expect(starts).toEqual([...starts].sort((a, b) => a - b));
+    const text = fixture.result?.text ?? '';
+    expect(text.slice(second).startsWith('§ 3 Miete.')).toBe(true);
+    expect(text.slice(third).startsWith('§ 6 Tierhaltung.')).toBe(true);
+    expect(text.slice(second - 2, second)).toBe('\n\n');
+  });
+
+  it('only the done fixture has page data', () => {
+    for (const state of ['pending_upload', 'running', 'analysing', 'failed'] as const) {
+      expect(analysisFixture(state, 'a1').pageCount).toBeUndefined();
+    }
   });
 });
