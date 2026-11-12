@@ -92,12 +92,18 @@ export class AnalyseContract implements UseCase<AnalyseContractInput, void> {
         console.error('analysis failed', {
           analysisId,
           name: err instanceof Error ? err.name : typeof err,
+          // AWS SDK errors only: the message names the denied action and ARN, never contract content.
+          ...(isAwsSdkError(err) ? { message: err.message } : {}),
         });
     } finally {
       await this.a.documentStore.deletePdf(key);
     }
     await this.a.analysisStore.saveResult(analysis);
   }
+}
+
+function isAwsSdkError(err: unknown): err is Error {
+  return err instanceof Error && '$metadata' in err;
 }
 
 export function toFailureReason(err: unknown): FailureReason {
