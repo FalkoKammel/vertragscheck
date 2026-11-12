@@ -142,6 +142,14 @@ describe('AnalyseContract', () => {
     expect(calls.deleted).toEqual(['uploads/a1.pdf']);
   });
 
+  it('stores the page starts and page count of the extracted text', async () => {
+    const { run, analysis } = setup({ pages: [PAGE, PAGE] });
+    await run();
+    expect(analysis.status).toBe('done');
+    expect(analysis.pageCount).toBe(2);
+    expect(analysis.pageStarts).toEqual([0, PAGE.trim().length + 2]);
+  });
+
   it('fails with BUDGET_EXHAUSTED without touching the PDF content or the model', async () => {
     const { run, calls, analysis } = setup({ budgetOk: false });
     await run();

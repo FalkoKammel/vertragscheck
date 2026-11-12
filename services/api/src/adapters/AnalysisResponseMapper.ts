@@ -17,8 +17,10 @@ export interface AnalysisResponse {
   expiresAt: string;
   stage?: AnalysisStage;
   failureReason?: FailureReason;
+  pageCount?: number;
   result?: {
     text: string;
+    pageStarts?: number[];
     clauses: StoredClause[];
     unverifiedQuotes: number;
     invalidClauses: number;
@@ -47,8 +49,10 @@ export function toAnalysisResponse(output: GetAnalysisOutput): AnalysisResponse 
   if (status === 'failed' && failureReason) response.failureReason = failureReason;
   if (status === 'done' && text !== undefined && analysis.run) {
     const { usage, modelId, promptVersion, costMicroUsd, latencyMs } = analysis.run;
+    if (analysis.pageCount !== undefined) response.pageCount = analysis.pageCount;
     response.result = {
       text,
+      ...(analysis.pageStarts ? { pageStarts: [...analysis.pageStarts] } : {}),
       clauses: analysis.clauses.map((c) => ({ ...c })),
       unverifiedQuotes: analysis.unverifiedQuotes,
       invalidClauses: analysis.invalidClauses,

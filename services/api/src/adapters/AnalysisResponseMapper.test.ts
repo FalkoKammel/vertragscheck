@@ -65,6 +65,33 @@ describe('toAnalysisResponse', () => {
     });
   });
 
+  it('includes pageCount and result.pageStarts for a done analysis with page data', () => {
+    const a = analysis({ run: RUN, pageStarts: [0, 10, 10], pageCount: 3 });
+    const response = toAnalysisResponse({ analysis: a, status: 'done', text: 'Text' });
+    expect(response.pageCount).toBe(3);
+    expect(response.result?.pageStarts).toEqual([0, 10, 10]);
+  });
+
+  it('omits the page data for an old done analysis without it', () => {
+    const response = toAnalysisResponse({
+      analysis: analysis({ run: RUN }),
+      status: 'done',
+      text: 'T',
+    });
+    expect(response).not.toHaveProperty('pageCount');
+    expect(response.result).not.toHaveProperty('pageStarts');
+  });
+
+  it('omits the page data when the status is not done', () => {
+    const a = analysis({ pageStarts: [0], pageCount: 1 });
+    const response = toAnalysisResponse({
+      analysis: a,
+      status: 'failed',
+      failureReason: 'INTERNAL',
+    });
+    expect(response).not.toHaveProperty('pageCount');
+  });
+
   it('maps a failed analysis with its reason and no result', () => {
     const a = analysis({ status: 'failed', failureReason: 'TIMEOUT' });
     const response = toAnalysisResponse({

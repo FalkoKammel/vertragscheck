@@ -3,17 +3,29 @@ import type { AnalysisResponse, Clause } from '../lib/api/analyses';
 export const FIXTURE_STATES = ['pending_upload', 'running', 'analysing', 'done', 'failed'] as const;
 export type FixtureState = (typeof FIXTURE_STATES)[number];
 
-const PARAGRAPHS = [
-  'Wohnraummietvertrag zwischen Herrn Thomas Beispiel, Musterweg 1, 10115 Berlin (Vermieter) und Frau Anna Muster (Mieterin).',
-  '§ 1 Mietsache. Vermietet wird die Wohnung im 2. Obergeschoss links des Hauses Musterweg 1 in 10115 Berlin mit drei Zimmern, Küche und Bad sowie einem Kellerraum.',
-  '§ 2 Mietzeit. Das Mietverhältnis beginnt am 1. Januar 2027 und läuft auf unbestimmte Zeit.',
-  '§ 3 Miete. Die monatliche Nettokaltmiete beträgt 850,00 Euro. Zusätzlich zahlt die Mieterin eine Vorauszahlung auf die Betriebskosten von 180,00 Euro.',
-  '§ 4 Sicherheitsleistung. Die Mieterin leistet eine Kaution in Höhe von vier Nettokaltmieten, das sind 3.400,00 Euro, in einer Summe bei Übergabe der Wohnung.',
-  '§ 5 Schönheitsreparaturen. Die Mieterin ist verpflichtet, die Wohnung bei Auszug renoviert und frisch gestrichen zurückzugeben, unabhängig vom Zustand bei Einzug.',
-  '§ 6 Tierhaltung. Die Haltung von Hunden und Katzen bedarf der vorherigen schriftlichen Zustimmung des Vermieters.',
-  '§ 7 Schlussbestimmungen. Änderungen und Ergänzungen dieses Vertrages bedürfen der Schriftform.',
+const PAGES = [
+  [
+    'Wohnraummietvertrag zwischen Herrn Thomas Beispiel, Musterweg 1, 10115 Berlin (Vermieter) und Frau Anna Muster (Mieterin).',
+    '§ 1 Mietsache. Vermietet wird die Wohnung im 2. Obergeschoss links des Hauses Musterweg 1 in 10115 Berlin mit drei Zimmern, Küche und Bad sowie einem Kellerraum.',
+    '§ 2 Mietzeit. Das Mietverhältnis beginnt am 1. Januar 2027 und läuft auf unbestimmte Zeit.',
+  ],
+  [
+    '§ 3 Miete. Die monatliche Nettokaltmiete beträgt 850,00 Euro. Zusätzlich zahlt die Mieterin eine Vorauszahlung auf die Betriebskosten von 180,00 Euro.',
+    '§ 4 Sicherheitsleistung. Die Mieterin leistet eine Kaution in Höhe von vier Nettokaltmieten, das sind 3.400,00 Euro, in einer Summe bei Übergabe der Wohnung.',
+    '§ 5 Schönheitsreparaturen. Die Mieterin ist verpflichtet, die Wohnung bei Auszug renoviert und frisch gestrichen zurückzugeben, unabhängig vom Zustand bei Einzug.',
+  ],
+  [
+    '§ 6 Tierhaltung. Die Haltung von Hunden und Katzen bedarf der vorherigen schriftlichen Zustimmung des Vermieters.',
+    '§ 7 Schlussbestimmungen. Änderungen und Ergänzungen dieses Vertrages bedürfen der Schriftform.',
+  ],
 ];
-const TEXT = PARAGRAPHS.join('\n\n');
+const TEXT = PAGES.map((page) => page.join('\n\n')).join('\n\n');
+export const FIXTURE_PAGE_STARTS: number[] = [];
+let offset = 0;
+for (const page of PAGES) {
+  FIXTURE_PAGE_STARTS.push(offset);
+  offset += page.join('\n\n').length + 2;
+}
 
 function clause(quote: string, rest: Omit<Clause, 'quote' | 'start' | 'end'>): Clause {
   const start = TEXT.indexOf(quote);
@@ -77,8 +89,10 @@ export function analysisFixture(state: FixtureState, id: string): AnalysisRespon
         ...BASE,
         id,
         status: 'done',
+        pageCount: PAGES.length,
         result: {
           text: TEXT,
+          pageStarts: FIXTURE_PAGE_STARTS,
           clauses: CLAUSES,
           unverifiedQuotes: 1,
           invalidClauses: 0,

@@ -50,6 +50,8 @@ export interface AnalysisProps {
   clauses?: StoredClause[];
   unverifiedQuotes?: number;
   invalidClauses?: number;
+  pageStarts?: number[];
+  pageCount?: number;
   run?: ModelRun;
   failureReason?: FailureReason;
 }
@@ -73,6 +75,8 @@ export class Analysis {
   private _clauses: StoredClause[];
   private _unverifiedQuotes: number;
   private _invalidClauses: number;
+  private _pageStarts?: number[];
+  private _pageCount?: number;
   private _run?: ModelRun;
   private _failureReason?: FailureReason;
 
@@ -89,6 +93,8 @@ export class Analysis {
     this._clauses = props.clauses ?? [];
     this._unverifiedQuotes = props.unverifiedQuotes ?? 0;
     this._invalidClauses = props.invalidClauses ?? 0;
+    this._pageStarts = props.pageStarts;
+    this._pageCount = props.pageCount;
     this._run = props.run;
     this._failureReason = props.failureReason;
   }
@@ -110,6 +116,12 @@ export class Analysis {
   }
   get invalidClauses() {
     return this._invalidClauses;
+  }
+  get pageStarts(): readonly number[] | undefined {
+    return this._pageStarts;
+  }
+  get pageCount() {
+    return this._pageCount;
   }
   get run() {
     return this._run;
@@ -134,12 +146,15 @@ export class Analysis {
   complete(result: {
     verification: QuoteVerificationResult;
     invalidClauses: number;
+    pages: { starts: number[]; count: number };
     run: ModelRun;
   }): void {
     if (this._status !== 'running') throw new InvalidStatusTransitionError(this._status, 'done');
     this._clauses = result.verification.clauses;
     this._unverifiedQuotes = result.verification.unverifiedQuotes;
     this._invalidClauses = result.invalidClauses;
+    this._pageStarts = result.pages.starts;
+    this._pageCount = result.pages.count;
     this._run = result.run;
     this._stage = undefined;
     this._status = 'done';
@@ -185,6 +200,8 @@ export class Analysis {
       clauses: [...this._clauses],
       unverifiedQuotes: this._unverifiedQuotes,
       invalidClauses: this._invalidClauses,
+      pageStarts: this._pageStarts ? [...this._pageStarts] : undefined,
+      pageCount: this._pageCount,
       run: this._run,
       failureReason: this._failureReason,
     };
