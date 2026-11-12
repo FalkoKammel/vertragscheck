@@ -83,6 +83,7 @@ The PDF is only needed for extraction, so it is not kept. The extracted text liv
   "startedAt": "2026-11-03T10:16:02Z", // set when the analysis Lambda moves it to running; absent before
   "stage": "analysing",               // only while running: extracting | analysing; removed when the result is saved
   "pageCount": 12,
+  "pageStarts": [0, 2210, 4875],      // offset in the extracted text where each PDF page starts (index 0 = page 1); an empty page repeats the next start; absent on older items
   "textKey": "texts/3f9c….json",
   "deleteTokenHash": "sha256:…",      // see "Retention and deletion"
   "run": {                            // everything about the model call; absent if the analysis failed before Bedrock
