@@ -88,6 +88,7 @@ describe('BedrockAnalyser', () => {
     });
     expect(await a.analyse(request)).toEqual({
       ok: false,
+      reason: 'truncated',
       modelId: MODEL,
       promptVersion: PROMPT_VERSION,
       usage,
@@ -100,12 +101,17 @@ describe('BedrockAnalyser', () => {
       usage,
       output: { message: { role: 'assistant', content: [{ text: 'Sorry' }] } },
     });
-    expect(await a.analyse(request)).toMatchObject({ ok: false, modelId: MODEL, usage });
+    expect(await a.analyse(request)).toMatchObject({
+      ok: false,
+      reason: 'invalid_output',
+      modelId: MODEL,
+      usage,
+    });
   });
 
   it('returns ok: false when the tool input has no clauses array', async () => {
     const { analyser: a } = analyser(toolResponse({ foo: 1 }));
-    expect(await a.analyse(request)).toMatchObject({ ok: false });
+    expect(await a.analyse(request)).toMatchObject({ ok: false, reason: 'invalid_output' });
   });
 
   it('parses clauses that arrive as a JSON string', async () => {

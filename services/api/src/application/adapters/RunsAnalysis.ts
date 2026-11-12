@@ -12,7 +12,15 @@ export type AnalysisResult = {
   promptVersion: string;
   usage: Usage;
   latencyMs: number;
-} & ({ ok: true; clauses: LlmClause[]; invalidClauses: number } | { ok: false });
+} & (
+  | { ok: true; clauses: LlmClause[]; invalidClauses: number }
+  | {
+      ok: false;
+      // 'truncated': hit max_tokens, a retry would fail the same way.
+      // 'invalid_output': the tool output had the wrong shape, a retry may succeed.
+      reason: 'truncated' | 'invalid_output';
+    }
+);
 
 export interface RunsAnalysis {
   analyse(request: AnalysisRequest): Promise<AnalysisResult>;

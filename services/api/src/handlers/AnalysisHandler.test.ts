@@ -1,13 +1,15 @@
 import type { SQSEvent } from 'aws-lambda';
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import type { AnalyseContractInput } from '../application/AnalyseContract';
+import type { AnalyseContractInput, AnalyseContractOutput } from '../application/AnalyseContract';
 
 const sqsEvent = (body: unknown): SQSEvent =>
   ({ Records: [{ body: JSON.stringify(body) }] }) as SQSEvent;
 
 const s3Event = (key: string) => ({ Records: [{ s3: { object: { key, size: 10 } } }] });
 
-const execute = vi.hoisted(() => vi.fn<(input: AnalyseContractInput) => Promise<void>>());
+const execute = vi.hoisted(() =>
+  vi.fn<(input: AnalyseContractInput) => Promise<AnalyseContractOutput | undefined>>(),
+);
 
 vi.mock('../application/AnalyseContract', () => ({
   AnalyseContract: class {
@@ -41,6 +43,19 @@ describe('analysisHandler', () => {
     expect(execute.mock.calls).toEqual([[{ analysisId: 'abc-123', key: 'uploads/abc-123.pdf' }]]);
   });
 
+  it('logs status and failure reason when the analysis finished', async () => {
+    const log = vi.spyOn(console, 'log').mockImplementation(() => undefined);
+    const { execute, handler } = await setup();
+    execute.mockResolvedValue({ status: 'failed', failureReason: 'LLM_INVALID_OUTPUT' });
+    await handler(sqsEvent(s3Event('uploads/abc-123.pdf')));
+    expect(log.mock.calls[0]?.[0]).toMatchObject({
+      msg: 'analysis finished',
+      analysisId: 'abc-123',
+      status: 'failed',
+      failureReason: 'LLM_INVALID_OUTPUT',
+    });
+  });
+
   it('decodes URL-encoded keys', async () => {
     vi.spyOn(console, 'log').mockImplementation(() => undefined);
     const { execute, handler } = await setup();
@@ -57,7 +72,7 @@ describe('analysisHandler', () => {
       ),
     ).resolves.toBeUndefined();
     expect(execute).not.toHaveBeenCalled();
-    expect(String(log.mock.calls[0]?.[0])).toContain('message ignored');
+    expect(log.mock.calls[0]).toEqual([{ msg: 'message ignored, not an S3 object event' }]);
   });
 
   it('ignores keys that do not match the upload key format', async () => {

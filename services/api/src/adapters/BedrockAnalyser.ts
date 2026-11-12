@@ -34,15 +34,16 @@ function parseIfJsonString(value: unknown): unknown {
   if (typeof value !== 'string') return value;
   try {
     const parsed: unknown = JSON.parse(value);
-    console.warn('analysis clauses returned as JSON string, parsed');
+    console.warn({ msg: 'analysis clauses returned as JSON string, parsed' });
     return parsed;
   } catch {
     try {
       const repaired: unknown = JSON.parse(jsonrepair(value));
-      console.warn('analysis clauses returned as invalid JSON string, repaired');
+      console.warn({ msg: 'analysis clauses returned as invalid JSON string, repaired' });
       return repaired;
     } catch {
-      console.warn('analysis clauses returned as invalid JSON string, repair failed', {
+      console.warn({
+        msg: 'analysis clauses returned as invalid JSON string, repair failed',
         length: value.length,
       });
       return value;
@@ -69,7 +70,8 @@ function toolConfig(contractType: ContractType): ToolConfiguration {
       {
         toolSpec: {
           name: TOOL_NAME,
-          description: 'Report all notable clauses found in the contract.',
+          description:
+            'Report all notable clauses found in the contract. "clauses" must be a JSON array of objects, not a string containing JSON.',
           inputSchema: { json: inputSchema },
         },
       },
@@ -120,8 +122,8 @@ export class BedrockAnalyser implements RunsAnalysis {
 
     // Never log contract text or model output, only metadata.
     if (res.stopReason === 'max_tokens') {
-      console.warn('analysis output truncated', { outputTokens: usage.outputTokens });
-      return { ok: false, ...base };
+      console.warn({ msg: 'analysis output truncated', outputTokens: usage.outputTokens });
+      return { ok: false, reason: 'truncated', ...base };
     }
 
     const toolUse = res.output?.message?.content?.find(
@@ -129,12 +131,13 @@ export class BedrockAnalyser implements RunsAnalysis {
     )?.toolUse;
     const envelope = envelopeSchema.safeParse(toolUse?.input);
     if (!envelope.success) {
-      console.warn('analysis output invalid', {
+      console.warn({
+        msg: 'analysis output invalid',
         stopReason: res.stopReason,
         hasToolUse: !!toolUse,
         ...describeInput(toolUse?.input),
       });
-      return { ok: false, ...base };
+      return { ok: false, reason: 'invalid_output', ...base };
     }
 
     const clauseSchema = clauseSchemas[contractType];

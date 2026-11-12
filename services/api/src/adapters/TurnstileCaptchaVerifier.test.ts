@@ -30,7 +30,8 @@ describe('TurnstileCaptchaVerifier', () => {
   it('logs Cloudflare error codes when the token is rejected', async () => {
     respond({ success: false, 'error-codes': ['invalid-input-secret'] });
     expect(await verifier.verify('token', '203.0.113.7')).toBe(false);
-    expect(warn).toHaveBeenCalledWith('Captcha rejected', {
+    expect(warn).toHaveBeenCalledWith({
+      msg: 'captcha rejected',
       reason: 'rejected_by_cloudflare',
       errorCodes: ['invalid-input-secret'],
     });
@@ -39,7 +40,8 @@ describe('TurnstileCaptchaVerifier', () => {
   it('logs both hostnames on a mismatch', async () => {
     respond({ success: true, hostname: 'example.com' });
     expect(await verifier.verify('token', '203.0.113.7')).toBe(false);
-    expect(warn).toHaveBeenCalledWith('Captcha rejected', {
+    expect(warn).toHaveBeenCalledWith({
+      msg: 'captcha rejected',
       reason: 'hostname_mismatch',
       received: 'example.com',
       expected: 'site.example',
@@ -51,8 +53,12 @@ describe('TurnstileCaptchaVerifier', () => {
     expect(await verifier.verify('token', '203.0.113.7')).toBe(false);
     post.mockRejectedValue(new Error('timeout'));
     expect(await verifier.verify('token', '203.0.113.7')).toBe(false);
-    expect(warn).toHaveBeenNthCalledWith(1, 'Captcha rejected', { reason: 'unexpected_response' });
-    expect(warn).toHaveBeenNthCalledWith(2, 'Captcha rejected', {
+    expect(warn).toHaveBeenNthCalledWith(1, {
+      msg: 'captcha rejected',
+      reason: 'unexpected_response',
+    });
+    expect(warn).toHaveBeenNthCalledWith(2, {
+      msg: 'captcha rejected',
       reason: 'request_failed',
       error: 'Error',
     });

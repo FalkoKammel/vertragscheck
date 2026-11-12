@@ -93,8 +93,7 @@ describe('GET /api/analyses/{id}', () => {
     const done = analysis();
     await setup(() => ({ analysis: done, status: 'done', text: 'GEHEIMER VERTRAGSTEXT' })).get(ID);
     expect(log).toHaveBeenCalledTimes(1);
-    const line = String(log.mock.calls[0]?.[0]);
-    expect(JSON.parse(line)).toEqual({ msg: 'analysis read', id: ID, status: 'done' });
-    expect(line).not.toContain('GEHEIMER');
+    expect(log.mock.calls[0]).toEqual([{ msg: 'analysis read', id: ID, status: 'done' }]);
+    expect(JSON.stringify(log.mock.calls)).not.toContain('GEHEIMER');
   });
 });

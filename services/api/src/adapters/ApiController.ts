@@ -82,7 +82,7 @@ export class ApiController {
           if (!id.success) throw new AnalysisNotFoundError();
 
           const output = await this._useCases.getsAnalysis.execute({ analysisId: id.data });
-          console.log(JSON.stringify({ msg: 'analysis read', id: id.data, status: output.status }));
+          console.log({ msg: 'analysis read', id: id.data, status: output.status });
           return json(200, toAnalysisResponse(output));
         }
         default:
@@ -97,7 +97,7 @@ export class ApiController {
     if (err instanceof DomainError) {
       return json(STATUS_BY_CODE[err.code] ?? 400, { code: err.code });
     }
-    console.error('Unhandled error', err instanceof Error ? err.name : typeof err);
+    console.error({ msg: 'unhandled error', name: err instanceof Error ? err.name : typeof err });
     return json(500, { code: 'INTERNAL' });
   }
 }

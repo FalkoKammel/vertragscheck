@@ -167,3 +167,16 @@ describe('least privilege', () => {
     expect(JSON.stringify(model)).not.toContain('us-east');
   });
 });
+
+describe('logging', () => {
+  it('writes JSON logs at INFO level in both Lambdas', () => {
+    const fns = Object.values(template.findResources('AWS::Lambda::Function')).filter((r) =>
+      JSON.stringify(r.Properties).includes('TABLE_NAME'),
+    );
+    expect(fns.length).toBeGreaterThanOrEqual(2);
+    for (const fn of fns)
+      expect(fn.Properties).toMatchObject({
+        LoggingConfig: { LogFormat: 'JSON', ApplicationLogLevel: 'INFO' },
+      });
+  });
+});

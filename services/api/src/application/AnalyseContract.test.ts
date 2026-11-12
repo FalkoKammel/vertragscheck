@@ -47,7 +47,7 @@ function setup(
     pages?: string[];
     extractError?: Error;
     budgetOk?: boolean;
-    result?: AnalysisResult | Error;
+    result?: AnalysisResult | Error | (AnalysisResult | Error)[];
     putTextError?: Error;
   } = {},
 ) {
@@ -69,12 +69,9 @@ function setup(
     startedAt: [] as Date[],
     stages: [] as string[],
   };
-  const result: AnalysisResult | Error = opts.result ?? {
-    ok: true,
-    ...base,
-    clauses: [clause(SENTENCE)],
-    invalidClauses: 0,
-  };
+  const results = [
+    opts.result ?? { ok: true, ...base, clauses: [clause(SENTENCE)], invalidClauses: 0 },
+  ].flat();
   const adapters: AnalyseContractAdapters = {
     analysisStore: {
       get: () => Promise.resolve(opts.missing ? undefined : analysis),
@@ -117,6 +114,9 @@ function setup(
     },
     analyser: {
       analyse: () => {
+        // The last result repeats if the use case asks more often than results were given.
+        const result = results[Math.min(calls.analysed, results.length - 1)];
+        if (!result) throw new Error('no fake result configured');
         calls.analysed++;
         return result instanceof Error ? Promise.reject(result) : Promise.resolve(result);
       },
@@ -187,13 +187,62 @@ describe('AnalyseContract', () => {
     expect(calls.analysed).toBe(0);
   });
 
-  it('stores the run and books the cost when the model output is invalid', async () => {
-    const { run, analysis, calls } = setup({ result: { ok: false, ...base } });
+  const invalid: AnalysisResult = { ok: false, reason: 'invalid_output', ...base };
+  const valid: AnalysisResult = {
+    ok: true,
+    ...base,
+    clauses: [clause(SENTENCE)],
+    invalidClauses: 0,
+  };
+  const SUMMED: ModelRun = {
+    ...RUN,
+    usage: { inputTokens: 2000, outputTokens: 1000 },
+    costMicroUsd: 2 * COST,
+    latencyMs: 2 * LATENCY,
+  };
+
+  it('retries once when the output is invalid and sums both calls', async () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+    try {
+      const { run, analysis, calls } = setup({ result: [invalid, valid] });
+      await run();
+      expect(analysis.status).toBe('done');
+      expect(calls.analysed).toBe(2);
+      expect(calls.added).toEqual([COST, COST]);
+      expect(analysis.run).toEqual(SUMMED);
+      expect(warn).toHaveBeenCalledWith({
+        msg: 'analysis output invalid, retrying once',
+        analysisId: 'a1',
+      });
+    } finally {
+      warn.mockRestore();
+    }
+  });
+
+  it('fails with LLM_INVALID_OUTPUT after two invalid outputs and sums both calls', async () => {
+    vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+    const { run, analysis, calls } = setup({ result: [invalid, invalid] });
     await run();
     expect(analysis.failureReason).toBe('LLM_INVALID_OUTPUT');
+    expect(calls.analysed).toBe(2);
+    expect(calls.added).toEqual([COST, COST]);
+    expect(analysis.run).toEqual(SUMMED);
+    expect(calls.saved).toHaveLength(1);
+  });
+
+  it('does not retry a truncated output', async () => {
+    const { run, analysis, calls } = setup({ result: { ok: false, reason: 'truncated', ...base } });
+    await run();
+    expect(analysis.failureReason).toBe('LLM_INVALID_OUTPUT');
+    expect(calls.analysed).toBe(1);
     expect(calls.added).toEqual([COST]);
     expect(analysis.run).toEqual(RUN);
-    expect(calls.saved).toHaveLength(1);
+  });
+
+  it('returns status and failure reason', async () => {
+    expect(await setup().run()).toEqual({ status: 'done', failureReason: undefined });
+    expect(await setup({ pages: [] }).run()).toMatchObject({ status: 'failed' });
+    expect(await setup({ missing: true }).run()).toBeUndefined();
   });
 
   it('fails when every quote is dropped', async () => {
@@ -317,12 +366,14 @@ describe('AnalyseContract', () => {
       });
       await setup({ result: denied }).run();
       await setup({ result: new Error('contract text leak') }).run();
-      expect(spy).toHaveBeenNthCalledWith(1, 'analysis failed', {
+      expect(spy).toHaveBeenNthCalledWith(1, {
+        msg: 'analysis failed',
         analysisId: 'a1',
         name: 'AccessDeniedException',
         message: 'not authorized to perform bedrock:InvokeModel',
       });
-      expect(spy).toHaveBeenNthCalledWith(2, 'analysis failed', {
+      expect(spy).toHaveBeenNthCalledWith(2, {
+        msg: 'analysis failed',
         analysisId: 'a1',
         name: 'Error',
       });

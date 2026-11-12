@@ -46,7 +46,7 @@ export class TurnstileCaptchaVerifier implements VerifiesCaptcha {
 
   // Fail closed. Logs only a reason and Cloudflare's error codes: never the token, the secret or the IP.
   private reject(reason: string, details: Record<string, unknown> = {}): false {
-    console.warn('Captcha rejected', { reason, ...details });
+    console.warn({ msg: 'captcha rejected', reason, ...details });
     return false;
   }
 }
