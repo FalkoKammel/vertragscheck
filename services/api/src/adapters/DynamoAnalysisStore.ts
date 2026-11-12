@@ -45,6 +45,8 @@ const analysisItemSchema = z.object({
   clauses: z.array(storedClauseSchema).optional(),
   unverifiedQuotes: z.number().int().default(0),
   invalidClauses: z.number().int().default(0),
+  pageStarts: z.array(z.number().int().nonnegative()).optional(),
+  pageCount: z.number().int().positive().optional(),
   run: runSchema.optional(),
   failureReason: z.enum(FAILURE_REASONS).optional(),
 });
@@ -82,6 +84,8 @@ export class DynamoAnalysisStore
           clauses,
           unverifiedQuotes: props.unverifiedQuotes ?? 0,
           invalidClauses: props.invalidClauses ?? 0,
+          ...(props.pageStarts ? { pageStarts: props.pageStarts } : {}),
+          ...(props.pageCount !== undefined ? { pageCount: props.pageCount } : {}),
           ...(props.run ? { run: props.run } : {}),
           ...(props.failureReason ? { failureReason: props.failureReason } : {}),
           GSI1PK: `MONTH#${monthKey(props.createdAt)}`,
@@ -103,6 +107,8 @@ export class DynamoAnalysisStore
         Key: { PK: `ANALYSIS#${props.id}`, SK: 'META' },
         UpdateExpression:
           'SET #status = :status, clauses = :clauses, unverifiedQuotes = :unverifiedQuotes, invalidClauses = :invalidClauses' +
+          (props.pageStarts ? ', pageStarts = :pageStarts' : '') +
+          (props.pageCount !== undefined ? ', pageCount = :pageCount' : '') +
           (props.run ? ', #run = :run' : '') +
           (props.failureReason ? ', failureReason = :failureReason' : '') +
           ' REMOVE stage',
@@ -117,6 +123,8 @@ export class DynamoAnalysisStore
           ':clauses': clauses,
           ':unverifiedQuotes': props.unverifiedQuotes ?? 0,
           ':invalidClauses': props.invalidClauses ?? 0,
+          ...(props.pageStarts ? { ':pageStarts': props.pageStarts } : {}),
+          ...(props.pageCount !== undefined ? { ':pageCount': props.pageCount } : {}),
           ...(props.run ? { ':run': props.run } : {}),
           ...(props.failureReason ? { ':failureReason': props.failureReason } : {}),
         },
@@ -190,6 +198,8 @@ export class DynamoAnalysisStore
       clauses: item.clauses,
       unverifiedQuotes: item.unverifiedQuotes,
       invalidClauses: item.invalidClauses,
+      pageStarts: item.pageStarts,
+      pageCount: item.pageCount,
       run: item.run,
       failureReason: item.failureReason,
     });

@@ -33,11 +33,31 @@ describe('Analysis', () => {
 
   it('complete stores clauses, both drop counters and the run', () => {
     const a = running();
-    a.complete({ verification: { clauses: [], unverifiedQuotes: 2 }, invalidClauses: 3, run: RUN });
+    a.complete({
+      verification: { clauses: [], unverifiedQuotes: 2 },
+      invalidClauses: 3,
+      pages: { starts: [0], count: 1 },
+      run: RUN,
+    });
     expect(a.status).toBe('done');
     expect(a.unverifiedQuotes).toBe(2);
     expect(a.invalidClauses).toBe(3);
     expect(a.run).toEqual(RUN);
+  });
+
+  it('has no page data by default, complete stores it and toProps returns it', () => {
+    const a = running();
+    expect(a.pageStarts).toBeUndefined();
+    expect(a.pageCount).toBeUndefined();
+    a.complete({
+      verification: { clauses: [], unverifiedQuotes: 0 },
+      invalidClauses: 0,
+      pages: { starts: [0, 20, 20], count: 3 },
+      run: RUN,
+    });
+    expect(a.pageStarts).toEqual([0, 20, 20]);
+    expect(a.pageCount).toBe(3);
+    expect(a.toProps()).toMatchObject({ pageStarts: [0, 20, 20], pageCount: 3 });
   });
 
   it('fail stores the reason and the run', () => {
@@ -61,6 +81,7 @@ describe('Analysis', () => {
       a.complete({
         verification: { clauses: [], unverifiedQuotes: 0 },
         invalidClauses: 0,
+        pages: { starts: [0], count: 1 },
         run: RUN,
       });
     }).toThrow(InvalidStatusTransitionError);
@@ -71,7 +92,12 @@ describe('Analysis', () => {
 
   it('round-trips through toProps', () => {
     const a = running();
-    a.complete({ verification: { clauses: [], unverifiedQuotes: 1 }, invalidClauses: 2, run: RUN });
+    a.complete({
+      verification: { clauses: [], unverifiedQuotes: 1 },
+      invalidClauses: 2,
+      pages: { starts: [0], count: 1 },
+      run: RUN,
+    });
     expect(new Analysis(a.toProps())).toEqual(a);
   });
 
@@ -96,6 +122,7 @@ describe('Analysis', () => {
     done.complete({
       verification: { clauses: [], unverifiedQuotes: 0 },
       invalidClauses: 0,
+      pages: { starts: [0], count: 1 },
       run: RUN,
     });
     expect(done.stage).toBeUndefined();

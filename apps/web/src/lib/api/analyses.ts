@@ -32,9 +32,11 @@ export const analysisResponseSchema = z.object({
   expiresAt: z.iso.datetime(),
   stage: z.enum(ANALYSIS_STAGES).optional(),
   failureReason: z.enum(FAILURE_REASONS).optional(),
+  pageCount: z.number().int().positive().optional(),
   result: z
     .object({
       text: z.string(),
+      pageStarts: z.array(z.number().int().nonnegative()).optional(),
       clauses: z.array(clauseSchema),
       unverifiedQuotes: z.number().int().nonnegative(),
       invalidClauses: z.number().int().nonnegative(),

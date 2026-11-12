@@ -96,6 +96,26 @@ describe('DynamoAnalysisStore', () => {
     expect(loaded?.toProps()).toEqual(analysis.toProps());
   });
 
+  it('round-trips the page data and loads old items without it', async () => {
+    const analysis = new Analysis({
+      ...pending().toProps(),
+      status: 'done',
+      run: RUN,
+      pageStarts: [0, 120, 120],
+      pageCount: 3,
+    });
+    const writer = fakeDb();
+    await writer.store.save(analysis);
+    const item = writer.sent[0]?.input.Item;
+    expect(item).toMatchObject({ pageStarts: [0, 120, 120], pageCount: 3 });
+    expect((await fakeDb(item).store.get('a1'))?.toProps()).toEqual(analysis.toProps());
+
+    const old = { ...item, pageStarts: undefined, pageCount: undefined };
+    const loaded = await fakeDb(old).store.get('a1');
+    expect(loaded?.pageStarts).toBeUndefined();
+    expect(loaded?.pageCount).toBeUndefined();
+  });
+
   it('round-trips startedAt', async () => {
     const analysis = new Analysis({ ...pending().toProps(), status: 'running', startedAt });
     const writer = fakeDb();
@@ -231,6 +251,36 @@ describe('DynamoAnalysisStore', () => {
           ':failureReason': 'INVALID_PDF',
         },
       });
+    });
+  });
+
+  describe('saveResult with page data', () => {
+    it('sets pageStarts and pageCount only when present', async () => {
+      const sent: { input: Record<string, unknown> }[] = [];
+      const db = {
+        send: (command: { input: Record<string, unknown> }) => {
+          sent.push(command);
+          return Promise.resolve({});
+        },
+      } as unknown as DynamoDBDocumentClient;
+      const store = new DynamoAnalysisStore(db, 'table');
+      const done = new Analysis({ ...pending().toProps(), status: 'running' });
+      done.complete({
+        verification: { clauses: [], unverifiedQuotes: 0 },
+        invalidClauses: 0,
+        pages: { starts: [0, 50], count: 2 },
+        run: RUN,
+      });
+      await store.saveResult(done);
+      expect(sent[0]?.input).toMatchObject({
+        UpdateExpression: expect.stringContaining('pageStarts = :pageStarts') as string,
+        ExpressionAttributeValues: { ':pageStarts': [0, 50], ':pageCount': 2 },
+      });
+
+      const failed = new Analysis({ ...pending().toProps(), status: 'running' });
+      failed.fail('INVALID_PDF');
+      await store.saveResult(failed);
+      expect(sent[1]?.input.UpdateExpression).not.toContain('pageStarts');
     });
   });
 

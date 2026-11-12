@@ -80,7 +80,12 @@ export class AnalyseContract implements UseCase<AnalyseContractInput, void> {
       const returned = result.clauses.length + result.invalidClauses;
       if (returned > 0 && verification.clauses.length === 0) throw new LlmInvalidOutputError();
 
-      analysis.complete({ verification, invalidClauses: result.invalidClauses, run });
+      analysis.complete({
+        verification,
+        invalidClauses: result.invalidClauses,
+        pages: { starts: [...text.pageStarts], count: text.pageCount },
+        run,
+      });
     } catch (err) {
       analysis.fail(toFailureReason(err), run);
       if (!(err instanceof DomainError))
