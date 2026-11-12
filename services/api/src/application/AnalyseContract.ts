@@ -7,7 +7,7 @@ import {
   NoTextLayerError,
   TooManyPagesError,
 } from '../domain/DomainError';
-import type { FailureReason, ModelRun } from '../domain/analysis';
+import type { Analysis, FailureReason, ModelRun, Usage } from '../domain/analysis';
 import { calculateCostMicroUsd } from '../domain/pricing';
 import { MAX_PDF_PAGES } from '../domain/policy';
 import type { AddsBudget } from './adapters/AddsBudget';
@@ -20,13 +20,18 @@ import type { MarksAnalysisRunning } from './adapters/MarksAnalysisRunning';
 import type { MarksAnalysisStage } from './adapters/MarksAnalysisStage';
 import type { ProvidesTime } from './adapters/ProvidesTime';
 import type { PutsText } from './adapters/PutsText';
-import type { RunsAnalysis } from './adapters/RunsAnalysis';
+import type { AnalysisResult, RunsAnalysis } from './adapters/RunsAnalysis';
 import type { StoresAnalysisResult } from './adapters/StoresAnalysisResult';
 import type { UseCase } from './UseCase';
 
 export interface AnalyseContractInput {
   analysisId: string;
   key: string;
+}
+
+export interface AnalyseContractOutput {
+  status: Analysis['status'];
+  failureReason?: FailureReason;
 }
 
 export interface AnalyseContractAdapters {
@@ -38,10 +43,16 @@ export interface AnalyseContractAdapters {
   clock: ProvidesTime;
 }
 
-export class AnalyseContract implements UseCase<AnalyseContractInput, void> {
+export class AnalyseContract implements UseCase<
+  AnalyseContractInput,
+  AnalyseContractOutput | undefined
+> {
   constructor(private readonly a: AnalyseContractAdapters) {}
 
-  async execute({ analysisId, key }: AnalyseContractInput): Promise<void> {
+  async execute({
+    analysisId,
+    key,
+  }: AnalyseContractInput): Promise<AnalyseContractOutput | undefined> {
     const analysis = await this.a.analysisStore.get(analysisId);
     const now = this.a.clock.now();
     if (!analysis || analysis.isExpired(now)) return;
@@ -60,20 +71,20 @@ export class AnalyseContract implements UseCase<AnalyseContractInput, void> {
 
       await this.a.analysisStore.markStage(analysisId, 'analysing');
       analysis.setStage('analysing');
-      const result = await this.a.analyser.analyse({
+      const request = {
         contractType: analysis.contractType,
         language: analysis.language,
         text: text.value,
-      });
-      const costMicroUsd = calculateCostMicroUsd(result.modelId, result.usage);
-      run = {
-        modelId: result.modelId,
-        promptVersion: result.promptVersion,
-        usage: result.usage,
-        costMicroUsd,
-        latencyMs: result.latencyMs,
       };
-      await this.a.budget.add(costMicroUsd);
+      let result = await this.a.analyser.analyse(request);
+      run = await this.bookRun(result, run);
+      if (!result.ok && result.reason === 'invalid_output') {
+        // The model sometimes returns a malformed tool output; at temperature 0 a second try
+        // usually still differs enough to succeed. Truncation is not retried (same result).
+        console.warn({ msg: 'analysis output invalid, retrying once', analysisId });
+        result = await this.a.analyser.analyse(request);
+        run = await this.bookRun(result, run);
+      }
       if (!result.ok) throw new LlmInvalidOutputError();
 
       const verification = text.verifyQuotes(result.clauses);
@@ -89,7 +100,8 @@ export class AnalyseContract implements UseCase<AnalyseContractInput, void> {
     } catch (err) {
       analysis.fail(toFailureReason(err), run);
       if (!(err instanceof DomainError))
-        console.error('analysis failed', {
+        console.error({
+          msg: 'analysis failed',
           analysisId,
           name: err instanceof Error ? err.name : typeof err,
           // AWS SDK errors only: the message names the denied action and ARN, never contract content.
@@ -99,6 +111,24 @@ export class AnalyseContract implements UseCase<AnalyseContractInput, void> {
       await this.a.documentStore.deletePdf(key);
     }
     await this.a.analysisStore.saveResult(analysis);
+    return { status: analysis.status, failureReason: analysis.failureReason };
+  }
+
+  /** Books the cost of one model call and returns the run summed over all calls so far. */
+  private async bookRun(result: AnalysisResult, previous: ModelRun | undefined): Promise<ModelRun> {
+    const costMicroUsd = calculateCostMicroUsd(result.modelId, result.usage);
+    await this.a.budget.add(costMicroUsd);
+    const usage: Usage = {
+      inputTokens: (previous?.usage.inputTokens ?? 0) + result.usage.inputTokens,
+      outputTokens: (previous?.usage.outputTokens ?? 0) + result.usage.outputTokens,
+    };
+    return {
+      modelId: result.modelId,
+      promptVersion: result.promptVersion,
+      usage,
+      costMicroUsd: (previous?.costMicroUsd ?? 0) + costMicroUsd,
+      latencyMs: (previous?.latencyMs ?? 0) + result.latencyMs,
+    };
   }
 }
 

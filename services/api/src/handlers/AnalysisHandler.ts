@@ -45,7 +45,7 @@ export async function analysisHandler(event: SQSEvent): Promise<void> {
     const parsed = s3EventSchema.safeParse(JSON.parse(message.body));
     if (!parsed.success) {
       // E.g. the s3:TestEvent S3 sends when the notification is configured: acknowledge it.
-      console.log(JSON.stringify({ msg: 'message ignored, not an S3 object event' }));
+      console.log({ msg: 'message ignored, not an S3 object event' });
       continue;
     }
     for (const record of parsed.data.Records) {
@@ -53,15 +53,20 @@ export async function analysisHandler(event: SQSEvent): Promise<void> {
       const key = decodeURIComponent(record.s3.object.key.replaceAll('+', ' '));
       const analysisId = analysisIdFromKey(key);
       if (!analysisId) {
-        console.log(JSON.stringify({ msg: 'object ignored, unexpected key', key }));
+        console.log({ msg: 'object ignored, unexpected key', key });
         continue;
       }
       const startedAt = Date.now();
       // Errors propagate so SQS retries the message and finally moves it to the DLQ.
-      await analyseContract.execute({ analysisId, key });
-      console.log(
-        JSON.stringify({ msg: 'analysis finished', analysisId, ms: Date.now() - startedAt }),
-      );
+      const outcome = await analyseContract.execute({ analysisId, key });
+      console.log({
+        msg: 'analysis finished',
+        analysisId,
+        // Undefined when the event was a duplicate or the analysis is unknown or expired.
+        status: outcome?.status ?? 'skipped',
+        failureReason: outcome?.failureReason,
+        ms: Date.now() - startedAt,
+      });
     }
   }
 }

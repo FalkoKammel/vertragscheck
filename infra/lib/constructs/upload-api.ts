@@ -4,7 +4,7 @@ import { HttpApi, HttpMethod, HttpStage } from 'aws-cdk-lib/aws-apigatewayv2';
 import { HttpLambdaIntegration } from 'aws-cdk-lib/aws-apigatewayv2-integrations';
 import type { ITable } from 'aws-cdk-lib/aws-dynamodb';
 import { Effect, PolicyStatement } from 'aws-cdk-lib/aws-iam';
-import { Architecture, Runtime } from 'aws-cdk-lib/aws-lambda';
+import { ApplicationLogLevel, Architecture, LoggingFormat, Runtime } from 'aws-cdk-lib/aws-lambda';
 import { NodejsFunction, OutputFormat } from 'aws-cdk-lib/aws-lambda-nodejs';
 import { LogGroup, RetentionDays } from 'aws-cdk-lib/aws-logs';
 import type { IBucket } from 'aws-cdk-lib/aws-s3';
@@ -45,6 +45,8 @@ export class UploadApi extends Construct {
       architecture: Architecture.ARM_64,
       memorySize: 256,
       timeout: Duration.seconds(10),
+      loggingFormat: LoggingFormat.JSON,
+      applicationLogLevelV2: ApplicationLogLevel.INFO,
       logGroup,
       environment: {
         TABLE_NAME: props.table.tableName,

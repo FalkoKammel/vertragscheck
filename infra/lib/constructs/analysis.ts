@@ -2,7 +2,7 @@ import { join } from 'node:path';
 import { Duration, Stack } from 'aws-cdk-lib';
 import type { ITable } from 'aws-cdk-lib/aws-dynamodb';
 import { Effect, PolicyStatement } from 'aws-cdk-lib/aws-iam';
-import { Architecture, Runtime } from 'aws-cdk-lib/aws-lambda';
+import { ApplicationLogLevel, Architecture, LoggingFormat, Runtime } from 'aws-cdk-lib/aws-lambda';
 import { SqsEventSource } from 'aws-cdk-lib/aws-lambda-event-sources';
 import { NodejsFunction, OutputFormat } from 'aws-cdk-lib/aws-lambda-nodejs';
 import { LogGroup, RetentionDays } from 'aws-cdk-lib/aws-logs';
@@ -67,6 +67,8 @@ export class Analysis extends Construct {
       architecture: Architecture.ARM_64,
       memorySize: 1024,
       timeout: ANALYSIS_TIMEOUT,
+      loggingFormat: LoggingFormat.JSON,
+      applicationLogLevelV2: ApplicationLogLevel.INFO,
       logGroup: new LogGroup(this, 'LogGroup', { retention: RetentionDays.TWO_WEEKS }),
       environment: {
         TABLE_NAME: props.table.tableName,
