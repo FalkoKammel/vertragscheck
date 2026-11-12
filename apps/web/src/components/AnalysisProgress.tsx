@@ -3,7 +3,8 @@ import { useTranslations } from 'next-intl';
 import { cx } from '@/lib/cx';
 import styles from './AnalysisProgress.module.css';
 
-export type AnalysisPhase = 'uploading' | 'extracting' | 'analysing';
+const PHASES = ['uploading', 'extracting', 'analysing'] as const;
+export type AnalysisPhase = (typeof PHASES)[number];
 
 interface AnalysisProgressProps {
   phase: AnalysisPhase;
@@ -23,9 +24,12 @@ export function AnalysisProgress({ phase, uploadProgress = 0, fileName }: Analys
   const t = useTranslations('Progress');
   const percent = Math.round(uploadProgress * 100);
 
-  const uploadState: StepState = phase === 'uploading' ? 'active' : 'done';
-  const extractingState: StepState = phase === 'extracting' ? 'active' : 'pending';
-  const analysisState: StepState = phase === 'analysing' ? 'active' : 'pending';
+  // Steps before the current phase are done, the current one is active, later ones wait.
+  const stateOf = (step: AnalysisPhase): StepState => {
+    const diff = PHASES.indexOf(step) - PHASES.indexOf(phase);
+    return diff < 0 ? 'done' : diff === 0 ? 'active' : 'pending';
+  };
+  const uploadState = stateOf('uploading');
 
   const steps = [
     {
@@ -33,8 +37,8 @@ export function AnalysisProgress({ phase, uploadProgress = 0, fileName }: Analys
       state: uploadState,
       label: uploadState === 'done' ? t('stepUploaded') : t('stepUploading', { percent }),
     },
-    { key: 'extracting', state: extractingState, label: t('stepExtracting') },
-    { key: 'analysis', state: analysisState, label: t('stepAnalysing') },
+    { key: 'extracting', state: stateOf('extracting'), label: t('stepExtracting') },
+    { key: 'analysis', state: stateOf('analysing'), label: t('stepAnalysing') },
   ];
 
   return (
