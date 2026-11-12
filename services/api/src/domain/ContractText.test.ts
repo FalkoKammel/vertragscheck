@@ -232,3 +232,30 @@ describe('pages', () => {
     expect(text.pageCount).toBe(2);
   });
 });
+
+describe('page markers', () => {
+  it('removes a marker at the start and at the end of a page', () => {
+    expect(ContractText.fromExtracted(['3\nDie Miete beträgt 900 €.\nSeite 3 von 9']).value).toBe(
+      'Die Miete beträgt 900 €.',
+    );
+  });
+  it.each(['7', 'Seite 3', 'SEITE 3 von 9', '3/9', '- 3 -', '– 3 –'])('removes "%s"', (marker) => {
+    expect(ContractText.fromExtracted([`Text davor.\n${marker}`]).value).toBe('Text davor.');
+    expect(ContractText.fromExtracted([`${marker}\nText danach.`]).value).toBe('Text danach.');
+  });
+  it('keeps a number inside the text', () => {
+    expect(ContractText.fromExtracted(['Erste Zeile\n5\nLetzte Zeile']).value).toBe(
+      'Erste Zeile 5 Letzte Zeile',
+    );
+  });
+  it('keeps a first line that merely starts with a number', () => {
+    expect(ContractText.fromExtracted(['3 Monate Frist\nweiter']).value).toBe(
+      '3 Monate Frist weiter',
+    );
+  });
+  it('joins a sentence across a page break once the marker is gone', () => {
+    expect(
+      ContractText.fromExtracted(['Gründe liegen vor, wenn', '7\ndie Wohnung genutzt wird.']).value,
+    ).toBe('Gründe liegen vor, wenn die Wohnung genutzt wird.');
+  });
+});

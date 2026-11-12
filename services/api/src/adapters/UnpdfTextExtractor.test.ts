@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { InvalidPdfError } from '../domain/DomainError';
-import { UnpdfTextExtractor } from './UnpdfTextExtractor';
+import { assemblePage, UnpdfTextExtractor, type PdfTextItem } from './UnpdfTextExtractor';
 
 // Smallest valid one-page PDF with a text layer; xref offsets are computed
 function pdfWithText(text: string): Uint8Array {
@@ -36,5 +36,36 @@ describe('UnpdfTextExtractor', () => {
     await expect(
       new UnpdfTextExtractor().extract(new TextEncoder().encode('not a pdf')),
     ).rejects.toBeInstanceOf(InvalidPdfError);
+  });
+});
+
+function item(str: string, y: number, hasEOL = true): PdfTextItem {
+  return { str, transform: [12, 0, 0, 12, 50, y], hasEOL };
+}
+
+describe('assemblePage', () => {
+  it('joins items of one line and breaks at hasEOL', () => {
+    const text = assemblePage([
+      item('Die Miete ', 700, false),
+      item('beträgt 900 €.', 700),
+      item('Sie ist fällig.', 686),
+    ]);
+    expect(text).toBe('Die Miete beträgt 900 €.\nSie ist fällig.');
+  });
+  it('emits a blank line for a gap clearly larger than the line spacing', () => {
+    const text = assemblePage([
+      item('§ 1 Miete', 700),
+      item('Die Miete beträgt', 686),
+      item('900 €.', 672),
+      item('§ 2 Kaution', 640),
+      item('Drei Monatsmieten.', 626),
+    ]);
+    expect(text).toBe('§ 1 Miete\nDie Miete beträgt\n900 €.\n\n§ 2 Kaution\nDrei Monatsmieten.');
+  });
+  it('does not insert blank lines for evenly spaced lines', () => {
+    expect(assemblePage([item('a', 700), item('b', 686), item('c', 672)])).toBe('a\nb\nc');
+  });
+  it('returns an empty string for an empty page', () => {
+    expect(assemblePage([])).toBe('');
   });
 });

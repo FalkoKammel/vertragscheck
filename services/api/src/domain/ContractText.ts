@@ -13,6 +13,9 @@ const HYPHEN_KEEP = new RegExp(`-\\n(?=${KEEP_HYPHEN_BEFORE}(?![\\p{L}]))`, 'gu'
 const HYPHEN_REMOVE = /-\n(?=\p{Ll})/gu;
 const STARTS_LOWERCASE = /^\p{Ll}/u;
 const STARTS_WITH_KEEP_WORD = new RegExp(`^${KEEP_HYPHEN_BEFORE}(?![\\p{L}])`, 'u');
+// A line that is only a page marker: "3", "Seite 3", "Seite 3 von 9", "3/9", "- 3 -"
+const PAGE_MARKER =
+  /^(?:[-–]\s*\d{1,4}\s*[-–]|\d{1,4}(?:\s*\/\s*\d{1,4})?|seite\s+\d{1,4}(?:\s+von\s+\d{1,4})?)$/iu;
 const ENDS_SENTENCE = /[.:;?!]$/;
 
 function normalizeMarks(s: string): string {
@@ -28,13 +31,23 @@ function cleanParagraph(paragraph: string): string {
     .trim();
 }
 
+function stripPageMarkers(lines: string[]): string[] {
+  const result = [...lines];
+  const first = result.findIndex((l) => l.length > 0);
+  if (first !== -1 && PAGE_MARKER.test(result[first] ?? '')) result.splice(first, 1);
+  let last = result.length - 1;
+  while (last >= 0 && result[last] === '') last--;
+  if (last >= 0 && PAGE_MARKER.test(result[last] ?? '')) result.splice(last, 1);
+  return result;
+}
+
 function clean(raw: string): string {
   const lines = raw
     .normalize('NFKC')
     .replace(/\r\n?/g, '\n')
     .split('\n')
     .map((line) => line.replace(/[ \t]+/g, ' ').trim());
-  return lines
+  return stripPageMarkers(lines)
     .join('\n')
     .split(/\n{2,}/)
     .map(cleanParagraph)
