@@ -4,6 +4,7 @@ import {
   type ToolConfiguration,
   type ToolInputSchema,
 } from '@aws-sdk/client-bedrock-runtime';
+import { jsonrepair } from 'jsonrepair';
 import { z } from 'zod';
 import type {
   AnalysisRequest,
@@ -17,7 +18,6 @@ import {
   rentalLlmClauseSchema,
   type LlmClause,
 } from '../domain/schemas';
-import { jsonrepair } from 'jsonrepair';
 
 const TOOL_NAME = 'report_clauses';
 const MAX_OUTPUT_TOKENS = 8192;
@@ -27,28 +27,55 @@ const clauseSchemas = {
   employment: employmentLlmClauseSchema,
 } satisfies Record<ContractType, z.ZodType>;
 
-// Some models occasionally return the clauses array serialized as a JSON string
-// inside the tool input, sometimes with unescaped quotes. Parse it, or repair and parse it.
-// Repaired clauses still go through Zod and quote verification, so a bad repair is dropped there.
+// Models sometimes open a German quotation with „ but close it with a straight ",
+// which ends the JSON string early. Turn that closing " into “. „ never occurs in JSON syntax,
+// so this only touches text inside string values.
+function fixGermanQuotes(s: string): string {
+  return s.replace(/„([^"“”„\n]{1,200})"/g, '„$1“');
+}
+
+function tryParse(s: string): { ok: true; value: unknown } | { ok: false } {
+  try {
+    return { ok: true, value: JSON.parse(s) as unknown };
+  } catch {
+    return { ok: false };
+  }
+}
+
+// Some models occasionally return the clauses array serialized as a JSON string inside the
+// tool input, sometimes with broken quotes. Parse it, or fix and parse it. Repaired clauses
+// still go through Zod and quote verification, so a bad repair is dropped there.
 function parseIfJsonString(value: unknown): unknown {
   if (typeof value !== 'string') return value;
-  try {
-    const parsed: unknown = JSON.parse(value);
+
+  const plain = tryParse(value);
+  if (plain.ok) {
     console.warn({ msg: 'analysis clauses returned as JSON string, parsed' });
-    return parsed;
-  } catch {
-    try {
-      const repaired: unknown = JSON.parse(jsonrepair(value));
-      console.warn({ msg: 'analysis clauses returned as invalid JSON string, repaired' });
-      return repaired;
-    } catch {
-      console.warn({
-        msg: 'analysis clauses returned as invalid JSON string, repair failed',
-        length: value.length,
-      });
-      return value;
-    }
+    return plain.value;
   }
+
+  const fixed = fixGermanQuotes(value);
+  const quotesFixed = tryParse(fixed);
+  if (quotesFixed.ok) {
+    console.warn({ msg: 'analysis clauses returned as JSON string, German quotes fixed' });
+    return quotesFixed.value;
+  }
+
+  try {
+    const repaired = tryParse(jsonrepair(fixed));
+    if (repaired.ok) {
+      console.warn({ msg: 'analysis clauses returned as invalid JSON string, repaired' });
+      return repaired.value;
+    }
+  } catch {
+    // jsonrepair throws when it cannot repair; handled below
+  }
+
+  console.warn({
+    msg: 'analysis clauses returned as invalid JSON string, repair failed',
+    length: value.length,
+  });
+  return value;
 }
 
 // Only checks the outer shape. Clauses are validated one by one, so a single
