@@ -167,3 +167,68 @@ describe('fromStored', () => {
     expect(ContractText.fromStored(raw).value).toBe(raw);
   });
 });
+
+describe('pages', () => {
+  it('joins two pages with a paragraph break and records their starts', () => {
+    const text = ContractText.fromExtracted(['Seite eins.', 'Seite zwei.']);
+    expect(text.value).toBe('Seite eins.\n\nSeite zwei.');
+    expect(text.pageStarts).toEqual([0, 13]);
+    expect(text.pageCount).toBe(2);
+  });
+  it('joins a sentence that continues on the next page with a space', () => {
+    const text = ContractText.fromExtracted(['Die Miete beträgt', 'monatlich 900 €.']);
+    expect(text.value).toBe('Die Miete beträgt monatlich 900 €.');
+    expect(text.pageStarts).toEqual([0, 18]);
+  });
+  it('keeps a paragraph break after sentence-ending punctuation', () => {
+    for (const end of ['.', ':', ';', '?', '!']) {
+      expect(ContractText.fromExtracted([`Ende${end}`, 'klein weiter']).value).toBe(
+        `Ende${end}\n\nklein weiter`,
+      );
+    }
+  });
+  it('keeps a paragraph break before an uppercase start', () => {
+    expect(ContractText.fromExtracted(['Ende ohne Punkt', 'Neuer Absatz']).value).toBe(
+      'Ende ohne Punkt\n\nNeuer Absatz',
+    );
+  });
+  it('removes the hyphen of a word split across pages', () => {
+    const text = ContractText.fromExtracted(['Die Kau-', 'tion beträgt drei Monatsmieten.']);
+    expect(text.value).toBe('Die Kaution beträgt drei Monatsmieten.');
+    expect(text.pageStarts).toEqual([0, 7]);
+  });
+  it('keeps the hyphen before und, oder, bis, sowie and bzw. across pages', () => {
+    for (const word of ['und', 'oder', 'bis', 'sowie', 'bzw']) {
+      expect(ContractText.fromExtracted(['Wohn-', `${word} Nutzfläche`]).value).toBe(
+        `Wohn- ${word} Nutzfläche`,
+      );
+    }
+  });
+  it('removes the hyphen before words that only start with und across pages', () => {
+    expect(ContractText.fromExtracted(['Ver-', 'undichtung']).value).toBe('Verundichtung');
+  });
+  it('gives an empty middle page the start of the next page', () => {
+    const text = ContractText.fromExtracted(['Seite eins.', '  \n ', 'Seite drei.']);
+    expect(text.value).toBe('Seite eins.\n\nSeite drei.');
+    expect(text.pageStarts).toEqual([0, 13, 13]);
+    expect(text.pageCount).toBe(3);
+  });
+  it('joins around an empty middle page by the same rules', () => {
+    const text = ContractText.fromExtracted(['Die Kau-', '', 'tion']);
+    expect(text.value).toBe('Die Kaution');
+    expect(text.pageStarts).toEqual([0, 7, 7]);
+  });
+  it('handles empty first and last pages', () => {
+    const text = ContractText.fromExtracted(['', 'Text.', '']);
+    expect(text.value).toBe('Text.');
+    expect(text.pageStarts).toEqual([0, 0, 5]);
+  });
+  it('has a single start at 0 for one page', () => {
+    expect(ContractText.fromExtracted(['Text']).pageStarts).toEqual([0]);
+  });
+  it('fromStored restores the page starts', () => {
+    const text = ContractText.fromStored('A\n\nB', [0, 3]);
+    expect(text.pageStarts).toEqual([0, 3]);
+    expect(text.pageCount).toBe(2);
+  });
+});

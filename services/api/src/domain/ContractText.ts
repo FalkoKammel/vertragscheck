@@ -11,6 +11,9 @@ const KEEP_HYPHEN_BEFORE = '(?:und|oder|bis|sowie|bzw)';
 
 const HYPHEN_KEEP = new RegExp(`-\\n(?=${KEEP_HYPHEN_BEFORE}(?![\\p{L}]))`, 'gu');
 const HYPHEN_REMOVE = /-\n(?=\p{Ll})/gu;
+const STARTS_LOWERCASE = /^\p{Ll}/u;
+const STARTS_WITH_KEEP_WORD = new RegExp(`^${KEEP_HYPHEN_BEFORE}(?![\\p{L}])`, 'u');
+const ENDS_SENTENCE = /[.:;?!]$/;
 
 function normalizeMarks(s: string): string {
   return s.replace(/[„“”«»]/g, '"').replace(/[‚‘’]/g, "'");
@@ -40,15 +43,53 @@ function clean(raw: string): string {
     .trim();
 }
 
-export class ContractText {
-  private constructor(readonly value: string) {}
+function joinPages(pages: string[]): { value: string; pageStarts: number[] } {
+  let value = '';
+  let hasText = false;
+  const pageStarts: number[] = [];
+  let waitingEmpty = 0;
 
-  static fromExtracted(pages: string[]): ContractText {
-    return new ContractText(clean(pages.join('\n\n')));
+  for (const page of pages) {
+    if (page.length === 0) {
+      waitingEmpty++;
+      continue;
+    }
+    if (hasText) {
+      const continues = STARTS_LOWERCASE.test(page);
+      if (continues && value.endsWith('-') && !STARTS_WITH_KEEP_WORD.test(page)) {
+        value = value.slice(0, -1);
+      } else if (continues && !ENDS_SENTENCE.test(value)) {
+        value += ' ';
+      } else {
+        value += '\n\n';
+      }
+    }
+    for (; waitingEmpty > 0; waitingEmpty--) pageStarts.push(value.length);
+    pageStarts.push(value.length);
+    value += page;
+    hasText = true;
+  }
+  for (; waitingEmpty > 0; waitingEmpty--) pageStarts.push(value.length);
+  return { value, pageStarts };
+}
+
+export class ContractText {
+  private constructor(
+    readonly value: string,
+    readonly pageStarts: readonly number[],
+  ) {}
+
+  get pageCount(): number {
+    return this.pageStarts.length;
   }
 
-  static fromStored(value: string): ContractText {
-    return new ContractText(value);
+  static fromExtracted(pages: string[]): ContractText {
+    const { value, pageStarts } = joinPages(pages.map(clean));
+    return new ContractText(value, pageStarts);
+  }
+
+  static fromStored(value: string, pageStarts: readonly number[] = [0]): ContractText {
+    return new ContractText(value, pageStarts);
   }
 
   assertHasTextLayer(pageCount: number): void {
