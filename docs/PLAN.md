@@ -63,7 +63,7 @@ The frontend is a static Next.js export: pages are rendered once at build time, 
 | Key | Content | Lifetime |
 | --- | --- | --- |
 | `uploads/<analysisId>.pdf` | the uploaded PDF | deleted by the analysis Lambda right after text extraction; lifecycle rule after 1 day as a fallback |
-| `texts/<analysisId>.json` | extracted text (pages, character offsets) | lifecycle rule: 30 days |
+| `texts/<analysisId>.txt` | cleaned contract text as plain UTF-8, pages joined into one string, no page markers (page offsets are in the DynamoDB item as `pageStarts`) | lifecycle rule: 30 days |
 | `samples/<sampleId>.json` | extracted text of the sample contracts | permanent |
 
 The PDF is only needed for extraction, so it is not kept. The extracted text lives in S3 rather than DynamoDB because a long contract can approach DynamoDB's 400 KB item limit.
@@ -84,7 +84,6 @@ The PDF is only needed for extraction, so it is not kept. The extracted text liv
   "stage": "analysing",               // only while running: extracting | analysing; removed when the result is saved
   "pageCount": 12,
   "pageStarts": [0, 2210, 4875],      // offset in the extracted text where each PDF page starts (index 0 = page 1); an empty page repeats the next start; absent on older items
-  "textKey": "texts/3f9c….json",
   "deleteTokenHash": "sha256:…",      // see "Retention and deletion"
   "run": {                            // everything about the model call; absent if the analysis failed before Bedrock
     "modelId": "eu.anthropic.claude-haiku-4-5-20251001-v1:0",
@@ -139,7 +138,7 @@ Updated with an atomic `ADD` after every analysis.
 | Check and increase daily limit | conditional `UpdateItem RATE#… / COUNT` |
 | Check budget before an analysis, add cost after | `GetItem` / `UpdateItem BUDGET#<month> / TOTAL` |
 | Transparency page (p95 duration, per-model figures) | `Query GSI1 MONTH#<month>`, result cached for a few minutes |
-| Delete early | `DeleteItem ANALYSIS#<id> / META` + delete `texts/<id>.json` |
+| Delete early | `DeleteItem ANALYSIS#<id> / META` + delete `texts/<id>.txt` |
 
 ## Retention and deletion
 
