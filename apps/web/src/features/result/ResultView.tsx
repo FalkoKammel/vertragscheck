@@ -6,6 +6,7 @@ import { AnalysisError } from '@/components/AnalysisError';
 import { AnalysisProgress } from '@/components/AnalysisProgress';
 import { LinkButton } from '@/components/LinkButton';
 import { analysisErrorKey, isAnalysisId, toPhase } from './analysisView';
+import { AnalysisResult } from './AnalysisResult';
 import { ResultPlaceholder } from './ResultPlaceholder';
 import { useAnalysis } from './useAnalysis';
 import styles from './ResultView.module.css';
@@ -52,7 +53,25 @@ export function ResultView() {
     );
   }
 
-  if (analysis?.status === 'done') return <ResultPlaceholder />;
+  if (analysis?.status === 'done') {
+    if (!analysis.result) {
+      return (
+        <main className={styles.page}>
+          <div className={styles.progress}>
+            <AnalysisError
+              errorKey="internal"
+              action={
+                <LinkButton href="/upload" size="md">
+                  {tError('tryAgain')}
+                </LinkButton>
+              }
+            />
+          </div>
+        </main>
+      );
+    }
+    return <AnalysisResult analysis={{ ...analysis, result: analysis.result }} />;
+  }
 
   return (
     <main className={styles.page}>

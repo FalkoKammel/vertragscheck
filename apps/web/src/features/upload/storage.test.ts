@@ -1,5 +1,10 @@
 import { describe, expect, it } from 'vitest';
-import { ANALYSES_STORAGE_KEY, saveAnalysis, type StoredAnalysis } from './storage';
+import {
+  ANALYSES_STORAGE_KEY,
+  findStoredAnalysis,
+  saveAnalysis,
+  type StoredAnalysis,
+} from './storage';
 
 function fakeStorage(initial: Record<string, string> = {}): Storage {
   const data = new Map(Object.entries(initial));
@@ -48,5 +53,21 @@ describe('saveAnalysis', () => {
     expect(() => {
       saveAnalysis(entry('a'), broken);
     }).not.toThrow();
+  });
+});
+
+describe('findStoredAnalysis', () => {
+  it('finds a saved entry by ID', () => {
+    const storage = fakeStorage();
+    saveAnalysis(entry('a'), storage);
+    saveAnalysis(entry('b'), storage);
+    expect(findStoredAnalysis('a', storage)?.analysisId).toBe('a');
+  });
+
+  it('returns undefined for unknown IDs and corrupt storage', () => {
+    expect(findStoredAnalysis('x', fakeStorage())).toBeUndefined();
+    expect(
+      findStoredAnalysis('x', fakeStorage({ [ANALYSES_STORAGE_KEY]: '{not json' })),
+    ).toBeUndefined();
   });
 });

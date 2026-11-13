@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import de from './de.json';
 import en from './en.json';
+import { CATEGORY_IDS } from '../features/result/clauses';
 
 function flatten(value: unknown, prefix = ''): Record<string, unknown> {
   if (typeof value !== 'object' || value === null) return { [prefix]: value };
@@ -21,6 +22,16 @@ describe('message files', () => {
   it('contain no empty strings', () => {
     for (const [key, value] of [...Object.entries(flatDe), ...Object.entries(flatEn)]) {
       expect(typeof value === 'string' && value.trim() !== '', key).toBe(true);
+    }
+  });
+
+  it('name every category of both contract types', () => {
+    for (const messages of [de, en]) {
+      for (const type of ['rental', 'employment'] as const) {
+        for (const id of CATEGORY_IDS[type]) {
+          expect(Object.keys(messages.Categories[type]), `${type}.${id}`).toContain(id);
+        }
+      }
     }
   });
 });

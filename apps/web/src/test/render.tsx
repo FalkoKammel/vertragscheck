@@ -36,7 +36,7 @@ export function makeQueryClient() {
 export function Wrapper({ client, children }: { client: QueryClient; children: ReactNode }) {
   return (
     <MantineProvider theme={theme} cssVariablesResolver={cssVariablesResolver}>
-      <NextIntlClientProvider locale="de" messages={messages}>
+      <NextIntlClientProvider locale="de" messages={messages} timeZone="Europe/Berlin">
         <QueryClientProvider client={client}>{children}</QueryClientProvider>
       </NextIntlClientProvider>
     </MantineProvider>
