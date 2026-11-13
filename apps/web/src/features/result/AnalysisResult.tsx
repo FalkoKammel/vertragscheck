@@ -17,6 +17,7 @@ import {
   notableOrder,
   rentalCategory,
 } from './clauses';
+import { BackToTop } from './BackToTop';
 import { ContractText } from './ContractText';
 import styles from './AnalysisResult.module.css';
 
@@ -155,6 +156,8 @@ export function AnalysisResult({ analysis }: Props) {
         />
 
         <aside aria-label={t('clausesAria')} className={styles.aside}>
+          <AnalysisStats result={result} expiresAt={analysis.expiresAt} />
+
           <h2 className={styles.asideTitle}>{t('clausesTitle')}</h2>
 
           {notable.length === 0 ? (
@@ -183,10 +186,9 @@ export function AnalysisResult({ analysis }: Props) {
               )}
             </section>
           )}
-
-          <AnalysisStats result={result} expiresAt={analysis.expiresAt} />
         </aside>
       </main>
+      <BackToTop />
     </div>
   );
 }

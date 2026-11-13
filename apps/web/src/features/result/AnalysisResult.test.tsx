@@ -1,5 +1,5 @@
 // @vitest-environment jsdom
-import { fireEvent, screen, within } from '@testing-library/react';
+import { fireEvent, screen, waitFor, within } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { analysisFixture } from '../../mocks/analysisFixtures';
 import { fakeAnalysisApi } from '../../test/fakeApi';
@@ -184,5 +184,34 @@ describe('result page for a done analysis', () => {
     expect(screen.getByText('≈ 1,4 ct')).toBeDefined();
     expect(screen.getByText('6,2 s')).toBeDefined();
     expect(screen.getByText('Wird am 3. Dezember 2026 gelöscht')).toBeDefined();
+  });
+
+  it('shows the stats card before the clause cards', async () => {
+    await renderDone();
+    const aside = screen.getByRole('complementary');
+    const stats = within(aside).getByRole('region', { name: 'Transparenz dieser Analyse' });
+    const firstCard = aside.querySelector('[id^="clause-card-"]');
+    expect(firstCard).not.toBeNull();
+    expect(
+      stats.compareDocumentPosition(firstCard as Node) & Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBeTruthy();
+  });
+
+  it('shows a back-to-top button only after scrolling and scrolls up smoothly', async () => {
+    const scrollTo = vi.fn();
+    vi.stubGlobal('scrollTo', scrollTo);
+    await renderDone();
+    expect(screen.queryByRole('button', { name: 'Nach oben' })).toBeNull();
+
+    vi.stubGlobal('scrollY', 900);
+    fireEvent.scroll(window);
+    fireEvent.click(await screen.findByRole('button', { name: 'Nach oben' }));
+    expect(scrollTo).toHaveBeenCalledWith({ top: 0, behavior: 'smooth' });
+
+    vi.stubGlobal('scrollY', 0);
+    fireEvent.scroll(window);
+    await waitFor(() => {
+      expect(screen.queryByRole('button', { name: 'Nach oben' })).toBeNull();
+    });
   });
 });
