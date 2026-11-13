@@ -138,13 +138,14 @@ Updated with an atomic `ADD` after every analysis.
 | Check and increase daily limit | conditional `UpdateItem RATE#… / COUNT` |
 | Check budget before an analysis, add cost after | `GetItem` / `UpdateItem BUDGET#<month> / TOTAL` |
 | Transparency page (p95 duration, per-model figures) | `Query GSI1 MONTH#<month>`, result cached for a few minutes |
-| Delete early | `DeleteItem ANALYSIS#<id> / META` + delete `texts/<id>.txt` |
+| Delete early | delete `texts/<id>.txt` and `uploads/<id>.pdf` (if present), then `DeleteItem ANALYSIS#<id> / META` |
 
 ## Retention and deletion
 
 - **Who can see an analysis:** anyone who has its link, nobody else. The link contains a random UUID (122 random bits), which cannot be guessed. Analyses are never listed publicly. This is the same model as "anyone with the link" sharing.
-- **Finding your analyses again:** the browser keeps a list in `localStorage` (`id`, file name, date, delete token). The upload page shows it as "Meine Analysen". The file name stays in the browser and is never sent to the server.
-- **Deleting early:** when an analysis is created, the API returns a random delete token once and stores only its hash. `DELETE /analyses/<id>` with the token removes the DynamoDB item and the extracted text. Without the token (other browser, cleared storage) the analysis is deleted automatically after 30 days.
+- **Finding your analyses again:** the browser keeps a list in `localStorage` (`id`, file name, date, delete token). The page `/analyses` ("Meine Analysen") lists it, newest first, with the deletion date (created + 30 days); entries older than 30 days are shown as expired and can be removed from the list without an API call. The navbar links to it only while the list has at least one entry. The file name stays in the browser and is never sent to the server.
+- **Deleting early:** when an analysis is created, the API returns a random delete token once and stores only its hash. `DELETE /api/analyses/<id>` with the header `Authorization: Bearer <token>` removes the extracted text, a PDF that may still exist and then the DynamoDB item (204; 403 for a wrong or missing token; 404 for an unknown, expired or already deleted analysis). It works in every status, also while the analysis is running (see decision 032). The result page and `/analyses` offer the button only in the browser that holds the token, behind a confirmation dialog. Without the token (other browser, cleared storage) the analysis is deleted automatically after 30 days.
+- **Note for the privacy policy:** deletion is bound to the device that created the analysis; otherwise the data is deleted automatically after 30 days. There is no way to delete from another device, because there are no accounts.
 - **Automatic deletion:** DynamoDB TTL and S3 lifecycle rules. Both run asynchronously; DynamoDB removes expired items typically within a few days. The API therefore treats an item with `ttl < now` as gone.
 - **Static export:** Next.js `output: 'export'` cannot pre-render one page per analysis ID, so the result page is `/result?id=<id>` and loads the data on the client.
 
