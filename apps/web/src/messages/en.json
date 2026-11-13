@@ -4,7 +4,8 @@
     "upload": "Vertragscheck – Upload",
     "result": "Vertragscheck – Result",
     "transparency": "Vertragscheck – Transparency",
-    "description": "AI-assisted analysis of German rental and employment contracts with highlighted clauses, quotes and open metrics."
+    "description": "AI-assisted analysis of German rental and employment contracts with highlighted clauses, quotes and open metrics.",
+    "analyses": "Vertragscheck – My analyses"
   },
   "Header": {
     "brand": "Vertragscheck",
@@ -15,7 +16,8 @@
     "transparency": "Transparency",
     "github": "GitHub",
     "switchLanguage": "DE",
-    "switchLanguageLabel": "Switch to German"
+    "switchLanguageLabel": "Switch to German",
+    "myAnalyses": "My analyses"
   },
   "Footer": {
     "disclaimer": "Automatic assessment, may contain errors and is not legal advice. Portfolio project by Falko Kammel.",
@@ -208,5 +210,26 @@
       "place_of_work": "Place of work and transfers",
       "other": "Other"
     }
+  },
+  "Analyses": {
+    "title": "My analyses",
+    "intro": "This list only exists in this browser. You won't see it on other devices.",
+    "empty": "There are no analyses in this browser yet.",
+    "emptyAction": "Check a contract",
+    "listAria": "Saved analyses",
+    "created": "Created on {date}",
+    "deletesOn": "Deleted on {date}",
+    "expired": "Expired, already deleted on the server",
+    "open": "Open result",
+    "removeFromList": "Remove from list",
+    "delete": "Delete analysis",
+    "deleteHint": "Deleting only works in this browser. Otherwise the analysis is deleted automatically after 30 days.",
+    "modalTitle": "Delete this analysis?",
+    "modalText": "The contract text and the result will be deleted permanently. This cannot be undone.",
+    "confirm": "Delete permanently",
+    "cancel": "Cancel",
+    "deleting": "Deleting …",
+    "invalidToken": "Invalid delete key",
+    "failed": "Deleting failed. Please try again later."
   }
 }

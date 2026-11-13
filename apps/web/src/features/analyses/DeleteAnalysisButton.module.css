@@ -1,0 +1,22 @@
+.text {
+  margin: 0;
+  font-size: 14px;
+  color: var(--vc-body);
+}
+
+.error {
+  margin: 12px 0 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--vc-critical-text);
+}
+
+.trigger {
+  --button-color: var(--vc-critical-text);
+  --button-bd: 1px solid var(--vc-critical-line);
+}
+
+.danger {
+  --button-bg: var(--vc-critical-line);
+  --button-hover: var(--vc-critical-text);
+}

@@ -51,6 +51,17 @@ async function startWorker(): Promise<void> {
         headers: { 'cache-control': 'no-store' },
       });
     }),
+    // ?mock=delete403 or delete404 for the error answers; everything else deletes.
+    http.delete('/api/analyses/:id', () => {
+      const mock = new URLSearchParams(window.location.search).get('mock');
+      if (mock === 'delete403') {
+        return HttpResponse.json({ code: 'INVALID_DELETE_TOKEN' }, { status: 403 });
+      }
+      if (mock === 'delete404') {
+        return HttpResponse.json({ code: 'ANALYSIS_NOT_FOUND' }, { status: 404 });
+      }
+      return new HttpResponse(null, { status: 204 });
+    }),
     // Fake S3, with a short delay so the progress card is visible.
     http.post(MOCK_S3_URL, async () => {
       await new Promise((resolve) => setTimeout(resolve, 800));

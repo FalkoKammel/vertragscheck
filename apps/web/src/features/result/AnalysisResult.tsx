@@ -5,7 +5,10 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import type { AnalysisResponse } from '@/lib/api/analyses';
 import { cx } from '@/lib/cx';
 import { pageAt, segmentText } from '@/lib/segmentText';
-import { findStoredAnalysis } from '../upload/storage';
+import { useRouter } from '@/i18n/navigation';
+import { DeleteAnalysisButton } from '../analyses/DeleteAnalysisButton';
+import { useStoredAnalyses } from '../analyses/useStoredAnalyses';
+import { findStoredAnalysis, readStoredAnalyses } from '../upload/storage';
 import { AnalysisStats } from './AnalysisStats';
 import { ClauseCard } from './ClauseCard';
 import {
@@ -37,12 +40,16 @@ function scrollBehavior(): ScrollBehavior {
 
 export function AnalysisResult({ analysis }: Props) {
   const t = useTranslations('Result');
+  const tAnalyses = useTranslations('Analyses');
   const rentalNames = useTranslations('Categories.rental');
   const employmentNames = useTranslations('Categories.employment');
   const { result } = analysis;
   const { clauses, pageStarts } = result;
 
+  const router = useRouter();
   const [storedName] = useState(() => findStoredAnalysis(analysis.id)?.fileName);
+  // Read after mount (static export): only a browser that holds the token may offer deletion.
+  const deleteToken = useStoredAnalyses()?.find((e) => e.analysisId === analysis.id)?.deleteToken;
   const [selected, setSelected] = useState<number | null>(() => initialSelection(clauses));
   const [hovered, setHovered] = useState<number | null>(null);
   const [fineOpen, setFineOpen] = useState(false);
@@ -184,6 +191,19 @@ export function AnalysisResult({ analysis }: Props) {
                 </div>
               )}
             </section>
+          )}
+
+          {deleteToken !== undefined && (
+            <div className={styles.deleteBox}>
+              <DeleteAnalysisButton
+                analysisId={analysis.id}
+                deleteToken={deleteToken}
+                onDeleted={() => {
+                  router.replace(readStoredAnalyses().length > 0 ? '/analyses' : '/');
+                }}
+              />
+              <p className={styles.deleteHint}>{tAnalyses('deleteHint')}</p>
+            </div>
           )}
         </aside>
       </main>
