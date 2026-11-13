@@ -30,7 +30,7 @@ const analysisIdSchema = z.uuid();
 const bearerTokenPattern = /^Bearer ([A-Za-z0-9_-]{43})$/;
 
 function deleteTokenOf(event: APIGatewayProxyEventV2): string {
-  const match = bearerTokenPattern.exec(event.headers['authorization'] ?? '');
+  const match = bearerTokenPattern.exec(event.headers.authorization ?? '');
   if (!match?.[1]) throw new InvalidDeleteTokenError();
   return match[1];
 }
