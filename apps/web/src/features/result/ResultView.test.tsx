@@ -10,6 +10,7 @@ const ID = '0b9f1c1e-4d7a-4a52-9d57-0c6a1f7e2b11';
 let search = `id=${ID}`;
 vi.mock('next/navigation', () => ({ useSearchParams: () => new URLSearchParams(search) }));
 vi.mock('@/i18n/navigation', () => ({
+  useRouter: () => ({ replace: vi.fn() }),
   Link: ({ href, children, ...rest }: { href: string; children: React.ReactNode }) => (
     <a href={href} {...rest}>
       {children}

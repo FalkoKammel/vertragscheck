@@ -5,12 +5,13 @@ import {
   PutObjectCommand,
   type S3Client,
 } from '@aws-sdk/client-s3';
+import type { DeletesText } from '../application/adapters/DeletesText';
 import type { DeletesPdf } from '../application/adapters/DeletesPdf';
 import type { GetsText } from '../application/adapters/GetsText';
 import type { GetsPdfFile } from '../application/adapters/GetsPdfFile';
 import type { PutsText } from '../application/adapters/PutsText';
 
-export class S3DocumentStore implements GetsPdfFile, PutsText, GetsText, DeletesPdf {
+export class S3DocumentStore implements GetsPdfFile, PutsText, GetsText, DeletesPdf, DeletesText {
   constructor(
     private readonly s3: S3Client,
     private readonly bucket: string,
@@ -46,6 +47,20 @@ export class S3DocumentStore implements GetsPdfFile, PutsText, GetsText, Deletes
   }
 
   async deletePdf(key: string): Promise<void> {
-    await this.s3.send(new DeleteObjectCommand({ Bucket: this.bucket, Key: key }));
+    await this.deleteObject(key);
+  }
+
+  async deleteText(analysisId: string): Promise<void> {
+    await this.deleteObject(`texts/${analysisId}.txt`);
+  }
+
+  private async deleteObject(key: string): Promise<void> {
+    try {
+      await this.s3.send(new DeleteObjectCommand({ Bucket: this.bucket, Key: key }));
+    } catch (err) {
+      // S3 answers 204 for a missing key, but fakes and some setups throw: still idempotent.
+      if (err instanceof NoSuchKey) return;
+      throw err;
+    }
   }
 }

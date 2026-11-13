@@ -1,7 +1,11 @@
-import { describe, expect, it } from 'vitest';
+// @vitest-environment jsdom
+import { describe, expect, it, vi } from 'vitest';
 import {
+  ANALYSES_CHANGED_EVENT,
   ANALYSES_STORAGE_KEY,
   findStoredAnalysis,
+  readStoredAnalyses,
+  removeStoredAnalysis,
   saveAnalysis,
   type StoredAnalysis,
 } from './storage';
@@ -69,5 +73,48 @@ describe('findStoredAnalysis', () => {
     expect(
       findStoredAnalysis('x', fakeStorage({ [ANALYSES_STORAGE_KEY]: '{not json' })),
     ).toBeUndefined();
+  });
+});
+
+describe('readStoredAnalyses and removeStoredAnalysis', () => {
+  it('returns the entries newest first', () => {
+    const storage = fakeStorage();
+    saveAnalysis({ ...entry('old'), createdAt: '2026-10-01T10:00:00.000Z' }, storage);
+    saveAnalysis({ ...entry('new'), createdAt: '2026-11-01T10:00:00.000Z' }, storage);
+    saveAnalysis({ ...entry('mid'), createdAt: '2026-10-15T10:00:00.000Z' }, storage);
+    expect(readStoredAnalyses(storage).map((e) => e.analysisId)).toEqual(['new', 'mid', 'old']);
+  });
+
+  it('removes one entry and keeps the others', () => {
+    const storage = fakeStorage();
+    saveAnalysis(entry('a1'), storage);
+    saveAnalysis(entry('a2'), storage);
+    removeStoredAnalysis('a1', storage);
+    expect(readStoredAnalyses(storage).map((e) => e.analysisId)).toEqual(['a2']);
+  });
+
+  it('survives storage that throws', () => {
+    const broken = {
+      getItem: () => {
+        throw new Error('blocked');
+      },
+      setItem: () => {
+        throw new Error('blocked');
+      },
+    } as unknown as Storage;
+    expect(readStoredAnalyses(broken)).toEqual([]);
+    expect(() => {
+      removeStoredAnalysis('a1', broken);
+    }).not.toThrow();
+  });
+
+  it('announces saves and removals', () => {
+    const listener = vi.fn();
+    globalThis.addEventListener(ANALYSES_CHANGED_EVENT, listener);
+    const storage = fakeStorage();
+    saveAnalysis(entry('a1'), storage);
+    removeStoredAnalysis('a1', storage);
+    expect(listener).toHaveBeenCalledTimes(2);
+    globalThis.removeEventListener(ANALYSES_CHANGED_EVENT, listener);
   });
 });

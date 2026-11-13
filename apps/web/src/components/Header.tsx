@@ -3,6 +3,7 @@
 import { useTranslations } from 'next-intl';
 import { Link, usePathname } from '@/i18n/navigation';
 import { LocaleSwitch } from './LocaleSwitch';
+import { useStoredAnalyses } from '@/features/analyses/useStoredAnalyses';
 import { cx } from '@/lib/cx';
 import styles from './Header.module.css';
 
@@ -13,6 +14,8 @@ export function Header() {
   const pathname = usePathname();
   const isResult = pathname === '/result';
   const isTransparency = pathname === '/transparency';
+  const isAnalyses = pathname === '/analyses';
+  const hasAnalyses = (useStoredAnalyses()?.length ?? 0) > 0;
 
   return (
     <header className={styles.header}>
@@ -43,6 +46,15 @@ export function Header() {
           ) : (
             <Link href="/" className={styles.link}>
               {t('howItWorks')}
+            </Link>
+          )}
+          {hasAnalyses && (
+            <Link
+              href="/analyses"
+              className={cx(styles.link, isAnalyses && styles.active)}
+              aria-current={isAnalyses ? 'page' : undefined}
+            >
+              {t('myAnalyses')}
             </Link>
           )}
           <Link

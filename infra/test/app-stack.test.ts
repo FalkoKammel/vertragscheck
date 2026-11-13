@@ -62,9 +62,14 @@ describe('router Lambda', () => {
 });
 
 describe('least privilege', () => {
-  it('limits S3 access to PutObject on uploads/* and GetObject on texts/*', () => {
+  it('limits S3 access to PutObject on uploads/*, GetObject on texts/*, DeleteObject on both', () => {
     const s3 = statements().filter((s) => JSON.stringify(s.Action).includes('s3:'));
-    expect(s3).toHaveLength(2);
+    expect(s3).toHaveLength(3);
+    const del = s3.find((s) => s.Action === 's3:DeleteObject');
+    const delResources = JSON.stringify(del?.Resource);
+    expect(delResources).toContain('/texts/*');
+    expect(delResources).toContain('/uploads/*');
+    expect((del?.Resource as unknown[]).length).toBe(2);
     const put = s3.find((s) => s.Action === 's3:PutObject');
     const get = s3.find((s) => s.Action === 's3:GetObject');
     expect(JSON.stringify(put?.Resource)).toContain('/uploads/*');
@@ -75,6 +80,7 @@ describe('least privilege', () => {
   it('grants DynamoDB read/write on the table, without wildcard resources', () => {
     const ddb = statements().filter((s) => JSON.stringify(s.Action).includes('dynamodb:'));
     expect(JSON.stringify(ddb.map((s) => s.Action))).toContain('dynamodb:PutItem');
+    expect(JSON.stringify(ddb.map((s) => s.Action))).toContain('dynamodb:DeleteItem');
     for (const s of ddb) {
       const resources = JSON.stringify(s.Resource);
       expect(resources).not.toContain('"*"');
@@ -116,7 +122,13 @@ describe('HTTP API', () => {
     template.hasResourceProperties('AWS::ApiGatewayV2::Route', {
       RouteKey: 'GET /api/analyses/{id}',
     });
-    template.resourceCountIs('AWS::ApiGatewayV2::Route', 2);
+  });
+
+  it('routes DELETE /api/analyses/{id} to the same Lambda', () => {
+    template.hasResourceProperties('AWS::ApiGatewayV2::Route', {
+      RouteKey: 'DELETE /api/analyses/{id}',
+    });
+    template.resourceCountIs('AWS::ApiGatewayV2::Route', 3);
   });
 
   it('throttles the stage', () => {
@@ -142,6 +154,12 @@ describe('CloudFront /api/*', () => {
       ViewerProtocolPolicy: 'https-only',
       AllowedMethods: ['GET', 'HEAD', 'OPTIONS', 'PUT', 'PATCH', 'POST', 'DELETE'],
     });
+  });
+
+  // CloudFront never strips Authorization on DELETE (only on GET/HEAD), and CDK rejects it in an
+  // origin request policy allow list, so the delete token reaches the API without a policy entry.
+  it('forwards DELETE (with its Authorization header) to the API', () => {
+    expect(behavior().AllowedMethods).toContain('DELETE');
   });
 
   it('uses the managed CachingDisabled policy', () => {

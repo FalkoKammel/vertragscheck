@@ -76,3 +76,10 @@ export class LlmInvalidOutputError extends DomainError {
     super('The model returned no usable clauses');
   }
 }
+
+export class InvalidDeleteTokenError extends DomainError {
+  readonly code = 'INVALID_DELETE_TOKEN';
+  constructor() {
+    super('The delete token is missing or does not match');
+  }
+}

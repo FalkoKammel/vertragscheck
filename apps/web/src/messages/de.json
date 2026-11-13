@@ -4,7 +4,8 @@
     "upload": "Vertragscheck – Upload",
     "result": "Vertragscheck – Ergebnis",
     "transparency": "Vertragscheck – Transparenz",
-    "description": "KI-gestützte Analyse von Miet- und Arbeitsverträgen mit markierten Klauseln, Zitaten und offenen Kennzahlen."
+    "description": "KI-gestützte Analyse von Miet- und Arbeitsverträgen mit markierten Klauseln, Zitaten und offenen Kennzahlen.",
+    "analyses": "Vertragscheck – Meine Analysen"
   },
   "Header": {
     "brand": "Vertragscheck",
@@ -15,7 +16,8 @@
     "transparency": "Transparenz",
     "github": "GitHub",
     "switchLanguage": "EN",
-    "switchLanguageLabel": "Auf Englisch wechseln"
+    "switchLanguageLabel": "Auf Englisch wechseln",
+    "myAnalyses": "Meine Analysen"
   },
   "Footer": {
     "disclaimer": "Automatische Einordnung, kann Fehler enthalten und ersetzt keine Rechtsberatung. Portfolio-Projekt von Falko Kammel.",
@@ -208,5 +210,26 @@
       "place_of_work": "Arbeitsort und Versetzung",
       "other": "Sonstiges"
     }
+  },
+  "Analyses": {
+    "title": "Meine Analysen",
+    "intro": "Diese Liste liegt nur in diesem Browser. Auf anderen Geräten siehst du sie nicht.",
+    "empty": "In diesem Browser gibt es noch keine Analyse.",
+    "emptyAction": "Vertrag prüfen",
+    "listAria": "Gespeicherte Analysen",
+    "created": "Erstellt am {date}",
+    "deletesOn": "Wird gelöscht am {date}",
+    "expired": "Abgelaufen, serverseitig bereits gelöscht",
+    "open": "Ergebnis öffnen",
+    "removeFromList": "Aus Liste entfernen",
+    "delete": "Analyse löschen",
+    "deleteHint": "Löschen funktioniert nur in diesem Browser. Sonst wird die Analyse nach 30 Tagen automatisch gelöscht.",
+    "modalTitle": "Analyse löschen?",
+    "modalText": "Vertragstext und Ergebnis werden endgültig gelöscht. Das lässt sich nicht rückgängig machen.",
+    "confirm": "Endgültig löschen",
+    "cancel": "Abbrechen",
+    "deleting": "Wird gelöscht …",
+    "invalidToken": "Löschschlüssel ungültig",
+    "failed": "Löschen fehlgeschlagen. Bitte versuche es später noch einmal."
   }
 }

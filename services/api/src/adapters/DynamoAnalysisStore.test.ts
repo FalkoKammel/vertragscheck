@@ -236,7 +236,7 @@ describe('DynamoAnalysisStore', () => {
       } as unknown as DynamoDBDocumentClient;
       const analysis = new Analysis({ ...pending().toProps(), status: 'running' });
       analysis.fail('INVALID_PDF', RUN);
-      await new DynamoAnalysisStore(db, 'table').saveResult(analysis);
+      expect(await new DynamoAnalysisStore(db, 'table').saveResult(analysis)).toBe(true);
 
       expect(sent[0]?.input).toMatchObject({
         Key: { PK: 'ANALYSIS#a1', SK: 'META' },
@@ -284,6 +284,44 @@ describe('DynamoAnalysisStore', () => {
     });
   });
 
+  describe('saveResult when the item is gone', () => {
+    const analysis = new Analysis({ ...pending().toProps(), status: 'running' });
+    const reject = (error: Error) =>
+      new DynamoAnalysisStore(
+        { send: () => Promise.reject(error) } as unknown as DynamoDBDocumentClient,
+        'table',
+      );
+
+    it('returns false on a failed condition (deleted during the run)', async () => {
+      const error = new ConditionalCheckFailedException({ message: 'no', $metadata: {} });
+      expect(await reject(error).saveResult(analysis)).toBe(false);
+    });
+
+    it('rethrows other errors', async () => {
+      await expect(reject(new Error('throttled')).saveResult(analysis)).rejects.toThrow(
+        'throttled',
+      );
+    });
+  });
+
+  describe('delete', () => {
+    it('deletes the item by key', async () => {
+      const sent: { constructor: { name: string }; input: Record<string, unknown> }[] = [];
+      const db = {
+        send: (command: (typeof sent)[number]) => {
+          sent.push(command);
+          return Promise.resolve({});
+        },
+      } as unknown as DynamoDBDocumentClient;
+      await new DynamoAnalysisStore(db, 'table').delete('a1');
+      expect(sent[0]?.constructor.name).toBe('DeleteCommand');
+      expect(sent[0]?.input).toEqual({
+        TableName: 'table',
+        Key: { PK: 'ANALYSIS#a1', SK: 'META' },
+      });
+    });
+  });
+
   describe('markStage', () => {
     function stageDb(error?: Error) {
       const sent: { input: Record<string, unknown> }[] = [];
@@ -298,7 +336,7 @@ describe('DynamoAnalysisStore', () => {
 
     it('sets the stage, conditional on status = running', async () => {
       const { sent, store } = stageDb();
-      await store.markStage('a1', 'analysing');
+      expect(await store.markStage('a1', 'analysing')).toBe(true);
       expect(sent[0]?.input).toMatchObject({
         Key: { PK: 'ANALYSIS#a1', SK: 'META' },
         UpdateExpression: 'SET stage = :stage',
@@ -307,9 +345,9 @@ describe('DynamoAnalysisStore', () => {
       });
     });
 
-    it('ignores a failed condition (the analysis is no longer running)', async () => {
+    it('returns false on a failed condition (the analysis is no longer running)', async () => {
       const error = new ConditionalCheckFailedException({ message: 'no', $metadata: {} });
-      await expect(stageDb(error).store.markStage('a1', 'analysing')).resolves.toBeUndefined();
+      await expect(stageDb(error).store.markStage('a1', 'analysing')).resolves.toBe(false);
     });
 
     it('rethrows other errors', async () => {

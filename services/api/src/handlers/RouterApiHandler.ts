@@ -14,6 +14,7 @@ import { SystemClock } from '../adapters/SystemClock';
 import { TurnstileCaptchaVerifier } from '../adapters/TurnstileCaptchaVerifier';
 import { UuidGenerator } from '../adapters/UuidGenerator';
 import { S3DocumentStore } from '../adapters/S3DocumentStore';
+import { DeleteAnalysis } from '../application/DeleteAnalysis';
 import { GetAnalysis } from '../application/GetAnalysis';
 import { RequestUpload } from '../application/RequestUpload';
 
@@ -34,6 +35,9 @@ const [ipHashSecret, turnstileSecret, siteHostname] = await Promise.all([
 const clock = new SystemClock();
 const s3 = new S3Client({});
 
+const analysisStore = new DynamoAnalysisStore(db, tableName);
+const documentStore = new S3DocumentStore(s3, env('UPLOAD_BUCKET'));
+
 const controller = new ApiController({
   requestsUpload: new RequestUpload({
     captchaVerifier: new TurnstileCaptchaVerifier(turnstileSecret, siteHostname),
@@ -45,11 +49,8 @@ const controller = new ApiController({
     idGenerator: new UuidGenerator(),
     clock,
   }),
-  getsAnalysis: new GetAnalysis({
-    analysisStore: new DynamoAnalysisStore(db, tableName),
-    textStore: new S3DocumentStore(s3, env('UPLOAD_BUCKET')),
-    clock,
-  }),
+  getsAnalysis: new GetAnalysis({ analysisStore, textStore: documentStore, clock }),
+  deletesAnalysis: new DeleteAnalysis({ analysisStore, documentStore, clock }),
 });
 
 export function routerApiHandler(event: APIGatewayProxyEventV2) {

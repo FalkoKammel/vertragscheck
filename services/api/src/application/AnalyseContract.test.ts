@@ -49,6 +49,7 @@ function setup(
     budgetOk?: boolean;
     result?: AnalysisResult | Error | (AnalysisResult | Error)[];
     putTextError?: Error;
+    deletedDuringRun?: 'stage' | 'result';
   } = {},
 ) {
   const analysis = new Analysis({
@@ -81,11 +82,11 @@ function setup(
       },
       markStage: (_id, stage) => {
         calls.stages.push(stage);
-        return Promise.resolve();
+        return Promise.resolve(opts.deletedDuringRun !== 'stage');
       },
       saveResult: (a) => {
         calls.saved.push(a);
-        return Promise.resolve();
+        return Promise.resolve(opts.deletedDuringRun !== 'result');
       },
     },
     documentStore: {
@@ -343,10 +344,25 @@ describe('AnalyseContract', () => {
     expect(calls.deleted).toEqual([]);
   });
 
-  it('does nothing for an unknown analysis', async () => {
+  it('deletes the uploaded pdf of an unknown analysis (deleted before the upload)', async () => {
     const { run, calls } = setup({ missing: true });
-    await run();
+    expect(await run()).toBeUndefined();
     expect(calls.saved).toEqual([]);
+    expect(calls.deleted).toEqual(['uploads/a1.pdf']);
+  });
+
+  it('stops before the model call when the analysis was deleted during extraction', async () => {
+    const { run, calls } = setup({ deletedDuringRun: 'stage' });
+    expect(await run()).toBeUndefined();
+    expect(calls.analysed).toBe(0);
+    expect(calls.saved).toEqual([]);
+    expect(calls.deleted).toEqual(['uploads/a1.pdf']);
+  });
+
+  it('ends without error when the analysis was deleted while the model ran', async () => {
+    const { run, calls } = setup({ deletedDuringRun: 'result' });
+    expect(await run()).toBeUndefined();
+    expect(calls.deleted).toEqual(['uploads/a1.pdf']);
   });
 
   it('maps an unexpected error to INTERNAL and does not leak it', async () => {
