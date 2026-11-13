@@ -1,8 +1,18 @@
-.button {
-  position: fixed;
-  right: 24px;
-  bottom: 24px;
+/* Zero-height sticky row: stays at the top of the viewport while the text card is in view,
+   centred over the card. The negative margin cancels the flex gap above the next child. */
+.anchor {
+  position: sticky;
+  top: 16px;
   z-index: 10;
+  height: 0;
+  margin-bottom: -18px;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.button {
+  pointer-events: auto;
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -24,10 +34,5 @@
   &:focus-visible {
     outline: 2px solid var(--mantine-color-accent-6);
     outline-offset: 2px;
-  }
-
-  @media (max-width: 48em) {
-    right: 16px;
-    bottom: 16px;
   }
 }

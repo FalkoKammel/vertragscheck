@@ -17,7 +17,6 @@ import {
   notableOrder,
   rentalCategory,
 } from './clauses';
-import { BackToTop } from './BackToTop';
 import { ContractText } from './ContractText';
 import styles from './AnalysisResult.module.css';
 
@@ -188,7 +187,6 @@ export function AnalysisResult({ analysis }: Props) {
           )}
         </aside>
       </main>
-      <BackToTop />
     </div>
   );
 }
