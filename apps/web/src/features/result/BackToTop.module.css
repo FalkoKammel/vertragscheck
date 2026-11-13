@@ -1,0 +1,33 @@
+.button {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 10;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--vc-card);
+  background: var(--mantine-color-accent-6);
+  border: none;
+  border-radius: 999px;
+  padding: 10px 16px;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgb(20 24 31 / 25%);
+
+  &:hover {
+    background: var(--mantine-color-accent-7);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--mantine-color-accent-6);
+    outline-offset: 2px;
+  }
+
+  @media (max-width: 48em) {
+    right: 16px;
+    bottom: 16px;
+  }
+}

@@ -128,7 +128,8 @@
     "costValue": "≈ {cents} ct",
     "durationValue": "{seconds} s",
     "droppedValue": "{dropped} von {total}",
-    "expires": "Wird am {date} gelöscht"
+    "expires": "Wird am {date} gelöscht",
+    "backToTop": "Nach oben"
   },
   "Transparency": {
     "title": "Transparenz",
