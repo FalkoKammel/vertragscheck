@@ -2,6 +2,7 @@ import { useTranslations } from 'next-intl';
 import { Fragment } from 'react';
 import { cx } from '@/lib/cx';
 import type { Segment } from '@/lib/segmentText';
+import { BackToTop } from './BackToTop';
 import styles from './AnalysisResult.module.css';
 
 interface Props {
@@ -25,6 +26,7 @@ export function ContractText({
 
   return (
     <article aria-label={t('textAria')} className={styles.text}>
+      <BackToTop />
       <div className={styles.textLabel}>{t('textLabel')}</div>
       <div className={styles.contract}>
         {segments.map((segment, i) => {
