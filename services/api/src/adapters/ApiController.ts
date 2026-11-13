@@ -2,14 +2,16 @@ import { isIP } from 'node:net';
 import type { APIGatewayProxyEventV2, APIGatewayProxyStructuredResultV2 } from 'aws-lambda';
 import { z } from 'zod';
 import type { UseCase } from '../application/UseCase';
+import type { DeleteAnalysisInput } from '../application/DeleteAnalysis';
 import type { GetAnalysisInput, GetAnalysisOutput } from '../application/GetAnalysis';
 import type { RequestUploadInput, RequestUploadOutput } from '../application/RequestUpload';
-import { AnalysisNotFoundError, DomainError } from '../domain/DomainError';
+import { AnalysisNotFoundError, DomainError, InvalidDeleteTokenError } from '../domain/DomainError';
 import { toAnalysisResponse } from './AnalysisResponseMapper';
 
 export interface ApiUseCases {
   requestsUpload: UseCase<RequestUploadInput, RequestUploadOutput>;
   getsAnalysis: UseCase<GetAnalysisInput, GetAnalysisOutput>;
+  deletesAnalysis: UseCase<DeleteAnalysisInput, void>;
 }
 
 export const STATUS_BY_CODE: Record<string, number> = {
@@ -17,11 +19,21 @@ export const STATUS_BY_CODE: Record<string, number> = {
   DAILY_LIMIT_REACHED: 429,
   BUDGET_EXHAUSTED: 503,
   ANALYSIS_NOT_FOUND: 404,
+  INVALID_DELETE_TOKEN: 403,
 };
 
 const HEADERS = { 'content-type': 'application/json', 'cache-control': 'no-store' };
 
 const analysisIdSchema = z.uuid();
+
+// 32 random bytes as base64url (see RandomTokenGenerator)
+const bearerTokenPattern = /^Bearer ([A-Za-z0-9_-]{43})$/;
+
+function deleteTokenOf(event: APIGatewayProxyEventV2): string {
+  const match = bearerTokenPattern.exec(event.headers['authorization'] ?? '');
+  if (!match?.[1]) throw new InvalidDeleteTokenError();
+  return match[1];
+}
 
 const requestUploadBody = z.strictObject({
   captchaToken: z.string().min(1).max(4096),
@@ -84,6 +96,15 @@ export class ApiController {
           const output = await this._useCases.getsAnalysis.execute({ analysisId: id.data });
           console.log({ msg: 'analysis read', id: id.data, status: output.status });
           return json(200, toAnalysisResponse(output));
+        }
+        case 'DELETE /api/analyses/{id}': {
+          const id = analysisIdSchema.safeParse(event.pathParameters?.id);
+          if (!id.success) throw new AnalysisNotFoundError();
+          const deleteToken = deleteTokenOf(event);
+
+          await this._useCases.deletesAnalysis.execute({ analysisId: id.data, deleteToken });
+          console.log({ msg: 'analysis deleted', id: id.data });
+          return { statusCode: 204, headers: HEADERS, body: '' };
         }
         default:
           return json(404, { code: 'NOT_FOUND' });

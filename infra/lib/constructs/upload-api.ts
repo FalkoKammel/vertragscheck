@@ -84,6 +84,13 @@ export class UploadApi extends Construct {
         resources: [props.bucket.arnForObjects('texts/*')],
       }),
     );
+    this.function.addToRolePolicy(
+      new PolicyStatement({
+        effect: Effect.ALLOW,
+        actions: ['s3:DeleteObject'],
+        resources: [props.bucket.arnForObjects('texts/*'), props.bucket.arnForObjects('uploads/*')],
+      }),
+    );
 
     const parameterArn = (name: string) =>
       stack.formatArn({
@@ -136,7 +143,7 @@ export class UploadApi extends Construct {
     });
     this.api.addRoutes({
       path: '/api/analyses/{id}',
-      methods: [HttpMethod.GET],
+      methods: [HttpMethod.GET, HttpMethod.DELETE],
       integration: new HttpLambdaIntegration('RouterAnalyses', this.function),
     });
 

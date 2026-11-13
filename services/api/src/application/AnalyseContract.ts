@@ -55,7 +55,11 @@ export class AnalyseContract implements UseCase<
   }: AnalyseContractInput): Promise<AnalyseContractOutput | undefined> {
     const analysis = await this.a.analysisStore.get(analysisId);
     const now = this.a.clock.now();
-    if (!analysis || analysis.isExpired(now)) return;
+    if (!analysis) {
+      await this.a.documentStore.deletePdf(key);
+      return;
+    }
+    if (analysis.isExpired(now)) return;
     if (!(await this.a.analysisStore.markRunning(analysisId, now))) return;
     analysis.start(now);
 
@@ -69,7 +73,10 @@ export class AnalyseContract implements UseCase<
       text.assertHasTextLayer(pages.length);
       await this.a.documentStore.putText(analysisId, text.value);
 
-      await this.a.analysisStore.markStage(analysisId, 'analysing');
+      if (!(await this.a.analysisStore.markStage(analysisId, 'analysing'))) {
+        console.log({ msg: 'analysis deleted during run', analysisId });
+        return;
+      }
       analysis.setStage('analysing');
       const request = {
         contractType: analysis.contractType,
@@ -110,7 +117,10 @@ export class AnalyseContract implements UseCase<
     } finally {
       await this.a.documentStore.deletePdf(key);
     }
-    await this.a.analysisStore.saveResult(analysis);
+    if (!(await this.a.analysisStore.saveResult(analysis))) {
+      console.log({ msg: 'analysis deleted during run', analysisId });
+      return;
+    }
     return { status: analysis.status, failureReason: analysis.failureReason };
   }
 

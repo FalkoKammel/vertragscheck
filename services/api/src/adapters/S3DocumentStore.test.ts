@@ -28,6 +28,24 @@ describe('S3DocumentStore', () => {
     expect(sent[0]?.input).toEqual({ Bucket: 'bucket', Key: 'uploads/a1.pdf' });
   });
 
+  it('deletes texts/<id>.txt', async () => {
+    const { sent, store } = fakeS3();
+    await store.deleteText('a1');
+    expect(sent[0]?.constructor.name).toBe('DeleteObjectCommand');
+    expect(sent[0]?.input).toEqual({ Bucket: 'bucket', Key: 'texts/a1.txt' });
+  });
+
+  it('ignores NoSuchKey when deleting, but not other errors', async () => {
+    const missing = new NoSuchKey({ message: 'no', $metadata: {} });
+    await expect(fakeS3(undefined, missing).store.deleteText('a1')).resolves.toBeUndefined();
+    await expect(
+      fakeS3(undefined, missing).store.deletePdf('uploads/a1.pdf'),
+    ).resolves.toBeUndefined();
+    await expect(fakeS3(undefined, new Error('denied')).store.deleteText('a1')).rejects.toThrow(
+      'denied',
+    );
+  });
+
   it('throws when the object has no body', async () => {
     await expect(fakeS3().store.getPdf('uploads/a1.pdf')).rejects.toThrow();
   });

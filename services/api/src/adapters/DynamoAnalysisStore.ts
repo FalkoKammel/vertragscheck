@@ -1,11 +1,13 @@
 import { ConditionalCheckFailedException } from '@aws-sdk/client-dynamodb';
 import {
+  DeleteCommand,
   DynamoDBDocumentClient,
   GetCommand,
   PutCommand,
   UpdateCommand,
 } from '@aws-sdk/lib-dynamodb';
 import { z } from 'zod';
+import type { DeletesAnalysis } from '../application/adapters/DeletesAnalysis';
 import type { StoresAnalysis } from '../application/adapters/StoresAnalysis';
 import type { GetsAnalysis } from '../application/adapters/GetsAnalysis';
 import type { StoresAnalysisResult } from '../application/adapters/StoresAnalysisResult';
@@ -57,7 +59,8 @@ export class DynamoAnalysisStore
     GetsAnalysis,
     MarksAnalysisRunning,
     MarksAnalysisStage,
-    StoresAnalysisResult
+    StoresAnalysisResult,
+    DeletesAnalysis
 {
   constructor(
     private readonly db: DynamoDBDocumentClient,
@@ -97,37 +100,51 @@ export class DynamoAnalysisStore
     );
   }
 
-  /** Writes the outcome of a running analysis; fails if it is not `running`. */
-  async saveResult(analysis: Analysis): Promise<void> {
+  async saveResult(analysis: Analysis): Promise<boolean> {
     const props = analysis.toProps();
     const clauses = props.clauses ?? [];
+    try {
+      await this.db.send(
+        new UpdateCommand({
+          TableName: this.tableName,
+          Key: { PK: `ANALYSIS#${props.id}`, SK: 'META' },
+          UpdateExpression:
+            'SET #status = :status, clauses = :clauses, unverifiedQuotes = :unverifiedQuotes, invalidClauses = :invalidClauses' +
+            (props.pageStarts ? ', pageStarts = :pageStarts' : '') +
+            (props.pageCount !== undefined ? ', pageCount = :pageCount' : '') +
+            (props.run ? ', #run = :run' : '') +
+            (props.failureReason ? ', failureReason = :failureReason' : '') +
+            ' REMOVE stage',
+          ConditionExpression: '#status = :running',
+          ExpressionAttributeNames: {
+            '#status': 'status',
+            ...(props.run ? { '#run': 'run' } : {}),
+          },
+          ExpressionAttributeValues: {
+            ':running': 'running',
+            ':status': props.status,
+            ':clauses': clauses,
+            ':unverifiedQuotes': props.unverifiedQuotes ?? 0,
+            ':invalidClauses': props.invalidClauses ?? 0,
+            ...(props.pageStarts ? { ':pageStarts': props.pageStarts } : {}),
+            ...(props.pageCount !== undefined ? { ':pageCount': props.pageCount } : {}),
+            ...(props.run ? { ':run': props.run } : {}),
+            ...(props.failureReason ? { ':failureReason': props.failureReason } : {}),
+          },
+        }),
+      );
+      return true;
+    } catch (err) {
+      if (err instanceof ConditionalCheckFailedException) return false;
+      throw err;
+    }
+  }
+
+  async delete(analysisId: string): Promise<void> {
     await this.db.send(
-      new UpdateCommand({
+      new DeleteCommand({
         TableName: this.tableName,
-        Key: { PK: `ANALYSIS#${props.id}`, SK: 'META' },
-        UpdateExpression:
-          'SET #status = :status, clauses = :clauses, unverifiedQuotes = :unverifiedQuotes, invalidClauses = :invalidClauses' +
-          (props.pageStarts ? ', pageStarts = :pageStarts' : '') +
-          (props.pageCount !== undefined ? ', pageCount = :pageCount' : '') +
-          (props.run ? ', #run = :run' : '') +
-          (props.failureReason ? ', failureReason = :failureReason' : '') +
-          ' REMOVE stage',
-        ConditionExpression: '#status = :running',
-        ExpressionAttributeNames: {
-          '#status': 'status',
-          ...(props.run ? { '#run': 'run' } : {}),
-        },
-        ExpressionAttributeValues: {
-          ':running': 'running',
-          ':status': props.status,
-          ':clauses': clauses,
-          ':unverifiedQuotes': props.unverifiedQuotes ?? 0,
-          ':invalidClauses': props.invalidClauses ?? 0,
-          ...(props.pageStarts ? { ':pageStarts': props.pageStarts } : {}),
-          ...(props.pageCount !== undefined ? { ':pageCount': props.pageCount } : {}),
-          ...(props.run ? { ':run': props.run } : {}),
-          ...(props.failureReason ? { ':failureReason': props.failureReason } : {}),
-        },
+        Key: { PK: `ANALYSIS#${analysisId}`, SK: 'META' },
       }),
     );
   }
@@ -157,7 +174,7 @@ export class DynamoAnalysisStore
     }
   }
 
-  async markStage(analysisId: string, stage: AnalysisStage): Promise<void> {
+  async markStage(analysisId: string, stage: AnalysisStage): Promise<boolean> {
     try {
       await this.db.send(
         new UpdateCommand({
@@ -169,8 +186,9 @@ export class DynamoAnalysisStore
           ExpressionAttributeValues: { ':stage': stage, ':running': 'running' },
         }),
       );
+      return true;
     } catch (err) {
-      if (err instanceof ConditionalCheckFailedException) return;
+      if (err instanceof ConditionalCheckFailedException) return false;
       throw err;
     }
   }
