@@ -109,7 +109,26 @@
     "allMetrics": "Alle Kennzahlen ansehen →",
     "missingIdTitle": "Keine Analyse ausgewählt",
     "missingIdText": "Diese Seite braucht eine Analyse-ID im Link. Starte eine neue Analyse.",
-    "newAnalysis": "Neue Analyse starten"
+    "newAnalysis": "Neue Analyse starten",
+    "pages": "{count, plural, one {# Seite} other {# Seiten}}",
+    "disclaimer": "Automatische Einordnung, kann Fehler enthalten und ersetzt keine Rechtsberatung.",
+    "verifiedNote": "Alle Zitate wurden gegen den Originaltext geprüft.",
+    "unverifiedNote": "{count, plural, one {# Zitat wurde im Text nicht gefunden und wird ausgeblendet.} other {# Zitate wurden im Text nicht gefunden und werden ausgeblendet.}}",
+    "contractTypeRental": "Mietvertrag (Wohnraum)",
+    "contractTypeEmployment": "Arbeitsvertrag",
+    "page": "Seite {page}",
+    "quoteFound": "✓ Zitat im Originaltext gefunden",
+    "levelCritical": "Kritisch",
+    "levelCheck": "Prüfen",
+    "levelFine": "Unauffällig",
+    "noNotable": "Keine auffälligen Klauseln gefunden.",
+    "fineToggle": "{count, plural, one {# unauffällige Klausel geprüft} other {# unauffällige Klauseln geprüft}}",
+    "modelHaiku45Eu": "Claude Haiku 4.5 (EU)",
+    "modelHaiku45": "Claude Haiku 4.5",
+    "costValue": "≈ {cents} ct",
+    "durationValue": "{seconds} s",
+    "droppedValue": "{dropped} von {total}",
+    "expires": "Wird am {date} gelöscht"
   },
   "Transparency": {
     "title": "Transparenz",
@@ -159,6 +178,34 @@
       "timeout": "Die Analyse hat zu lange gedauert. Bitte versuche es noch einmal.",
       "uploadMissing": "Die Datei ist nicht angekommen. Bitte lade sie noch einmal hoch.",
       "network": "Keine Verbindung zum Server. Bitte prüfe deine Internetverbindung und versuche es noch einmal."
+    }
+  },
+  "Categories": {
+    "rental": {
+      "rent": "Miete und Mieterhöhung",
+      "operating_costs": "Nebenkosten",
+      "deposit": "Kaution",
+      "cosmetic_repairs": "Schönheitsreparaturen",
+      "minor_repairs": "Kleinreparaturen",
+      "term_termination": "Laufzeit und Kündigung",
+      "use_subletting": "Nutzung und Untervermietung",
+      "pets": "Tierhaltung",
+      "alterations": "Umbauten und Rückbau",
+      "other": "Sonstiges"
+    },
+    "employment": {
+      "probation": "Probezeit",
+      "working_time": "Arbeitszeit und Überstunden",
+      "compensation": "Vergütung und Bonus",
+      "vacation": "Urlaub",
+      "termination": "Kündigungsfristen",
+      "non_compete": "Wettbewerbsverbot",
+      "exclusion_periods": "Ausschlussfristen",
+      "repayment": "Rückzahlungsklauseln",
+      "penalty": "Vertragsstrafe",
+      "side_jobs": "Nebentätigkeit",
+      "place_of_work": "Arbeitsort und Versetzung",
+      "other": "Sonstiges"
     }
   }
 }

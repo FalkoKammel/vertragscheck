@@ -109,7 +109,26 @@
     "allMetrics": "View all metrics →",
     "missingIdTitle": "No analysis selected",
     "missingIdText": "This page needs an analysis ID in the link. Start a new analysis.",
-    "newAnalysis": "Start a new analysis"
+    "newAnalysis": "Start a new analysis",
+    "pages": "{count, plural, one {# page} other {# pages}}",
+    "disclaimer": "Automatic assessment, may contain errors and is not legal advice.",
+    "verifiedNote": "All quotes have been checked against the original text.",
+    "unverifiedNote": "{count, plural, one {# quote could not be found in the text and is hidden.} other {# quotes could not be found in the text and are hidden.}}",
+    "contractTypeRental": "Rental contract (residential)",
+    "contractTypeEmployment": "Employment contract",
+    "page": "Page {page}",
+    "quoteFound": "✓ Quote found in the original text",
+    "levelCritical": "Critical",
+    "levelCheck": "Check",
+    "levelFine": "Unremarkable",
+    "noNotable": "No notable clauses found.",
+    "fineToggle": "{count, plural, one {# unremarkable clause checked} other {# unremarkable clauses checked}}",
+    "modelHaiku45Eu": "Claude Haiku 4.5 (EU)",
+    "modelHaiku45": "Claude Haiku 4.5",
+    "costValue": "≈ {cents} ct",
+    "durationValue": "{seconds} s",
+    "droppedValue": "{dropped} of {total}",
+    "expires": "Deleted on {date}"
   },
   "Transparency": {
     "title": "Transparency",
@@ -159,6 +178,34 @@
       "timeout": "The analysis took too long. Please try again.",
       "uploadMissing": "The file did not arrive. Please upload it again.",
       "network": "No connection to the server. Please check your internet connection and try again."
+    }
+  },
+  "Categories": {
+    "rental": {
+      "rent": "Rent and rent increases",
+      "operating_costs": "Service charges",
+      "deposit": "Security deposit",
+      "cosmetic_repairs": "Cosmetic repairs",
+      "minor_repairs": "Minor repairs",
+      "term_termination": "Term and termination",
+      "use_subletting": "Use and subletting",
+      "pets": "Keeping pets",
+      "alterations": "Alterations and restoration",
+      "other": "Other"
+    },
+    "employment": {
+      "probation": "Probation period",
+      "working_time": "Working hours and overtime",
+      "compensation": "Pay and bonus",
+      "vacation": "Vacation",
+      "termination": "Notice periods",
+      "non_compete": "Non-compete",
+      "exclusion_periods": "Exclusion periods",
+      "repayment": "Repayment clauses",
+      "penalty": "Contractual penalty",
+      "side_jobs": "Side jobs",
+      "place_of_work": "Place of work and transfers",
+      "other": "Other"
     }
   }
 }
