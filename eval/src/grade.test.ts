@@ -64,7 +64,7 @@ function call(run: number, clauses: StoredClause[], extra: Partial<CallRecord> =
       clauses: [],
       invalidClauses: 0,
     },
-    verification: { clauses, unverifiedQuotes: 0 },
+    verification: { clauses, exactQuotes: clauses.length, alignedQuotes: 0, unverifiedQuotes: 0 },
     costMicroUsd: 1000,
     ...extra,
   };

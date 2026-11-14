@@ -36,6 +36,8 @@ export function summaryRows(s: Summary): [string, string][] {
     ['Category accuracy (found labels)', pct(s.categoryAccuracy)],
     ['False alarms (clean labels)', pct(s.falseAlarmRate)],
     ['Overcautious (clean labels)', pct(s.overcautiousRate)],
+    ['Exact quotes (of returned clauses)', pct(s.exactQuotes)],
+    ['Aligned quotes (of returned clauses)', pct(s.alignedQuotes)],
     ['Unverified quotes (of returned clauses)', pct(s.unverifiedQuotes)],
     ['Invalid clauses (of returned clauses)', pct(s.invalidClauses)],
     ['Failed runs', pct(s.failedRuns)],
@@ -86,15 +88,21 @@ export function docSection(
   g: GradeResult,
   contracts: Contract[],
   regraded: boolean,
+  reverified = false,
 ): string {
   const expected = contracts.reduce((n, c) => n + c.expected.length, 0);
   const clean = contracts.reduce((n, c) => n + c.clean.length, 0);
   const lines = [
-    `## ${meta.date.slice(0, 10)} · ${meta.model} · prompt ${meta.promptVersion}${regraded ? ' (regraded)' : ''}`,
+    `## ${meta.date.slice(0, 10)} · ${meta.model} · prompt ${meta.promptVersion}${reverified ? ' (reverified)' : regraded ? ' (regraded)' : ''}`,
     '',
     `- Runs per contract: ${String(meta.runs)}`,
     `- Contracts: ${String(contracts.length)}, labels: ${String(expected)} expected + ${String(clean)} clean`,
     `- Commit: ${meta.commit}`,
+    ...(reverified
+      ? [
+          '- Identical model outputs as the run above, re-verified with the current quote alignment (`eval:grade --reverify`).',
+        ]
+      : []),
     '',
     markdownTable(summaryRows(g.summary)),
     '',
@@ -119,14 +127,20 @@ const summaryEntrySchema = z.object({
 });
 const summaryFileSchema = z.record(z.string(), summaryEntrySchema);
 
-export function writeSummaryJson(meta: Meta, g: GradeResult, contractCount: number): void {
+export function writeSummaryJson(
+  meta: Meta,
+  g: GradeResult,
+  contractCount: number,
+  keySuffix = '',
+): void {
   let current: z.infer<typeof summaryFileSchema> = {};
   if (existsSync(SUMMARY_FILE)) {
     const parsed = summaryFileSchema.safeParse(JSON.parse(readFileSync(SUMMARY_FILE, 'utf8')));
     if (!parsed.success) throw new Error('eval/summary.json does not match the expected format');
     current = parsed.data;
   }
-  current[meta.model] = {
+  // a reverified run gets its own key so it never replaces the committed baseline entry
+  current[`${meta.model}${keySuffix}`] = {
     model: meta.model,
     promptVersion: meta.promptVersion,
     date: meta.date,
@@ -166,7 +180,7 @@ export function gradeAndReport(
   meta: Meta,
   contracts: Contract[],
   g: GradeResult,
-  options: { baseName: string; regraded: boolean },
+  options: { baseName: string; regraded: boolean; reverified?: boolean },
 ): void {
   const gate = reportGate(g.summary);
   if (gate.warning) console.warn(`\nWARNING: ${gate.warning}`);
@@ -179,8 +193,11 @@ export function gradeAndReport(
       '# Evaluation\n\nResults of `pnpm --filter eval eval`, newest last.\n\n',
     );
   }
-  appendFileSync(EVAL_DOC, `${docSection(meta, g, contracts, options.regraded)}\n`);
-  writeSummaryJson(meta, g, contracts.length);
+  appendFileSync(
+    EVAL_DOC,
+    `${docSection(meta, g, contracts, options.regraded, options.reverified)}\n`,
+  );
+  writeSummaryJson(meta, g, contracts.length, options.reverified ? '-reverified' : '');
   const unmatchedFile = join(RESULTS_DIR, `${options.baseName}.unmatched.md`);
   writeFileSync(unmatchedFile, unmatchedMarkdown(g));
   console.log(`\nWrote docs/eval.md, eval/summary.json, ${unmatchedFile}`);

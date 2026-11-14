@@ -33,7 +33,13 @@ export const callRecordSchema = z.object({
   run: z.number().int(),
   result: resultSchema.optional(),
   verification: z
-    .object({ clauses: z.array(storedClauseSchema), unverifiedQuotes: z.number().int() })
+    .object({
+      clauses: z.array(storedClauseSchema),
+      // absent in results recorded before token alignment existed (all verified quotes were exact)
+      exactQuotes: z.number().int().optional(),
+      alignedQuotes: z.number().int().optional(),
+      unverifiedQuotes: z.number().int(),
+    })
     .optional(),
   costMicroUsd: z.number().optional(),
   wallMs: z.number().optional(),

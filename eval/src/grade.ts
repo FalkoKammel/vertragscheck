@@ -65,6 +65,8 @@ export interface Summary {
   categoryAccuracy: Ratio;
   falseAlarmRate: Ratio;
   overcautiousRate: Ratio;
+  exactQuotes: Ratio;
+  alignedQuotes: Ratio;
   unverifiedQuotes: Ratio;
   invalidClauses: Ratio;
   failedRuns: Ratio;
@@ -183,6 +185,8 @@ export function grade(contracts: Contract[], calls: CallRecord[]): GradeResult {
   const unmatched: UnmatchedClause[] = [];
   const okCalls: CallRecord[] = [];
   let unverified = 0;
+  let aligned = 0;
+  let exact = 0;
   let invalid = 0;
   let returned = 0;
 
@@ -197,6 +201,9 @@ export function grade(contracts: Contract[], calls: CallRecord[]): GradeResult {
     cleanOutcomes.push(...g.clean);
     unmatched.push(...g.unmatched);
     unverified += call.verification.unverifiedQuotes;
+    const callAligned = call.verification.alignedQuotes ?? 0;
+    aligned += callAligned;
+    exact += call.verification.clauses.length - callAligned;
     invalid += call.result.invalidClauses;
     returned +=
       call.verification.clauses.length +
@@ -274,6 +281,8 @@ export function grade(contracts: Contract[], calls: CallRecord[]): GradeResult {
       num: cleanOutcomes.filter((o) => o.overcautious).length,
       den: cleanOutcomes.length,
     },
+    exactQuotes: { num: exact, den: returned },
+    alignedQuotes: { num: aligned, den: returned },
     unverifiedQuotes: { num: unverified, den: returned },
     invalidClauses: { num: invalid, den: returned },
     failedRuns: { num: relevant.length - okCalls.length, den: relevant.length },
