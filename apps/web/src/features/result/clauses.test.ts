@@ -57,6 +57,8 @@ describe('clause helpers', () => {
   it('maps known model IDs to a message key', () => {
     expect(modelLabelKey('eu.anthropic.claude-haiku-4-5-20251001-v1:0')).toBe('haiku45Eu');
     expect(modelLabelKey('anthropic.claude-haiku-4-5-20251001-v1:0')).toBe('haiku45');
+    expect(modelLabelKey('eu.anthropic.claude-sonnet-4-6')).toBe('sonnet46Eu');
+    expect(modelLabelKey('anthropic.claude-sonnet-4-6')).toBeNull();
     expect(modelLabelKey('something-else')).toBeNull();
   });
 

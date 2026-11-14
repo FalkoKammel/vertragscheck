@@ -127,6 +127,7 @@
     "fineToggle": "{count, plural, one {# unremarkable clause checked} other {# unremarkable clauses checked}}",
     "modelHaiku45Eu": "Claude Haiku 4.5 (EU)",
     "modelHaiku45": "Claude Haiku 4.5",
+    "modelSonnet46Eu": "Claude Sonnet 4.6 (EU)",
     "costValue": "≈ {cents} ct",
     "durationValue": "{seconds} s",
     "droppedValue": "{dropped} of {total}",
