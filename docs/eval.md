@@ -230,3 +230,91 @@ Results of `pnpm --filter eval eval`, newest last.
 
 **Findings Sonnet 4.6 (prompt v1):** Same prompt as production, model swapped. Recall 34/37 vs 29/37 for Haiku 4.5, level accuracy 97 % vs 93 %, and no English phrases in German reasons. It found most of the problems Haiku missed with every prompt variant (rental-03 waiver and deposit, employment-04 non-compete and repayment), which points to model capability rather than prompt wording. Trade-offs: 3/35 false alarms vs 1/35 (two on the same notice-period clause), 4/35 overcautious vs 1/35, about 4.3x the cost ($0.047 vs $0.011) and about 2.6x the latency (p95 26 s vs 12 s). Sonnet occasionally returns the clauses as a JSON string with unescaped quotes (1 of 8 here); the adapter now repairs this, and repaired clauses still pass schema and quote verification. Decision on the production model pending.
 **Decision:** Sonnet 4.6 is the production model, see decision 033 in `docs/decisions.md`.
+## 2026-11-14 · eu.anthropic.claude-sonnet-4-6 · prompt v1
+
+- Runs per contract: 3
+- Contracts: 8, labels: 37 expected + 35 clean
+- Commit: fa55655924e7d521aca441197bed6ebe976ac0fa
+
+| Metric | Value |
+| --- | --- |
+| Recall (all labels) | 86 % (min 84, max 92; 96/111) |
+| Recall critical | 86 % (min 83, max 91; 90/105) |
+| Recall check | 100 % (min 100, max 100; 6/6) |
+| Missed: seen but rated fine | 0 |
+| Missed: not hit at all | 15 |
+| Consistency (found in every run) | 84 % (31/37) |
+| Level accuracy (found labels) | 95 % (91/96) |
+| Category accuracy (found labels) | 94 % (90/96) |
+| False alarms (clean labels) | 8 % (8/105) |
+| Overcautious (clean labels) | 15 % (16/105) |
+| Unverified quotes (of returned clauses) | 5 % (12/244) |
+| Invalid clauses (of returned clauses) | 0 % (0/244) |
+| Failed runs | 0 % (0/24) |
+| Cost per analysis (mean / total) | $0.0480 / $1.1525 |
+| Latency (mean / p95) | 16700 ms / 26081 ms |
+
+### Misses and false alarms per contract
+
+- employment-01: recall 100 % (6/6), false alarms 0 % (0/15), overcautious 20 % (3/15)
+- employment-02: recall 86 % (18/21), false alarms 0 % (0/9), overcautious 0 % (0/9)
+  - missed employment-02-non-compete-no-compensation in 3/3 runs (not hit)
+- employment-03: recall 100 % (12/12), false alarms 25 % (3/12), overcautious 50 % (6/12)
+  - false alarm in 3 run(s): gilt die verlängerte Frist auch für eine Kündigung durch die Arbeitneh
+- employment-04: recall 80 % (12/15), false alarms 20 % (3/15), overcautious 0 % (0/15)
+  - missed employment-04-double-written-form in 3/3 runs (not hit)
+  - false alarm in 3 run(s): gilt die verlängerte Frist auch für eine Kündigung durch den Arbeitneh
+- rental-01: recall 100 % (6/6), false alarms 0 % (0/18), overcautious 0 % (0/18)
+- rental-02: recall 83 % (20/24), false alarms 0 % (0/9), overcautious 0 % (0/9)
+  - missed rental-02-deposit in 2/3 runs (not hit)
+  - missed rental-02-deposit-lump-sum in 2/3 runs (not hit)
+- rental-03: recall 58 % (7/12), false alarms 0 % (0/12), overcautious 25 % (3/12)
+  - missed rental-03-termination-waiver-over-four-years in 3/3 runs (not hit)
+  - missed rental-03-inspection-without-cause in 2/3 runs (not hit)
+- rental-04: recall 100 % (15/15), false alarms 13 % (2/15), overcautious 27 % (4/15)
+  - false alarm in 2 run(s): Die Mieterin übernimmt die Schönheitsreparaturen. Diese werden im Allg
+
+## 2026-11-14 · eu.anthropic.claude-sonnet-4-6 · prompt v1 (reverified)
+
+- Runs per contract: 3
+- Contracts: 8, labels: 37 expected + 35 clean
+- Commit: fa55655924e7d521aca441197bed6ebe976ac0fa
+- Identical model outputs as the run above, re-verified with the current quote alignment (`eval:grade --reverify`).
+
+| Metric | Value |
+| --- | --- |
+| Recall (all labels) | 93 % (min 92, max 95; 103/111) |
+| Recall critical | 92 % (min 91, max 94; 97/105) |
+| Recall check | 100 % (min 100, max 100; 6/6) |
+| Missed: seen but rated fine | 0 |
+| Missed: not hit at all | 8 |
+| Consistency (found in every run) | 92 % (34/37) |
+| Level accuracy (found labels) | 95 % (98/103) |
+| Category accuracy (found labels) | 94 % (97/103) |
+| False alarms (clean labels) | 8 % (8/105) |
+| Overcautious (clean labels) | 15 % (16/105) |
+| Exact quotes (of returned clauses) | 95 % (232/244) |
+| Aligned quotes (of returned clauses) | 5 % (12/244) |
+| Unverified quotes (of returned clauses) | 0 % (0/244) |
+| Invalid clauses (of returned clauses) | 0 % (0/244) |
+| Failed runs | 0 % (0/24) |
+| Cost per analysis (mean / total) | $0.0480 / $1.1525 |
+| Latency (mean / p95) | 16700 ms / 26081 ms |
+
+### Misses and false alarms per contract
+
+- employment-01: recall 100 % (6/6), false alarms 0 % (0/15), overcautious 20 % (3/15)
+- employment-02: recall 100 % (21/21), false alarms 0 % (0/9), overcautious 0 % (0/9)
+- employment-03: recall 100 % (12/12), false alarms 25 % (3/12), overcautious 50 % (6/12)
+  - false alarm in 3 run(s): gilt die verlängerte Frist auch für eine Kündigung durch die Arbeitneh
+- employment-04: recall 80 % (12/15), false alarms 20 % (3/15), overcautious 0 % (0/15)
+  - missed employment-04-double-written-form in 3/3 runs (not hit)
+  - false alarm in 3 run(s): gilt die verlängerte Frist auch für eine Kündigung durch den Arbeitneh
+- rental-01: recall 100 % (6/6), false alarms 0 % (0/18), overcautious 0 % (0/18)
+- rental-02: recall 100 % (24/24), false alarms 0 % (0/9), overcautious 0 % (0/9)
+- rental-03: recall 58 % (7/12), false alarms 0 % (0/12), overcautious 25 % (3/12)
+  - missed rental-03-termination-waiver-over-four-years in 3/3 runs (not hit)
+  - missed rental-03-inspection-without-cause in 2/3 runs (not hit)
+- rental-04: recall 100 % (15/15), false alarms 13 % (2/15), overcautious 27 % (4/15)
+  - false alarm in 2 run(s): Die Mieterin übernimmt die Schönheitsreparaturen. Diese werden im Allg
+
