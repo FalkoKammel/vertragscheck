@@ -8,7 +8,8 @@ type Result = NonNullable<AnalysisResponse['result']>;
 
 interface Props {
   result: Result;
-  expiresAt: string;
+  /** Left out for sample analyses, which are never deleted. */
+  expiresAt?: string;
 }
 
 const MODEL_MESSAGE = {
@@ -62,9 +63,11 @@ export function AnalysisStats({ result, expiresAt }: Props) {
           </div>
         ))}
       </dl>
-      <p className={styles.expires}>
-        {t('expires', { date: format.dateTime(new Date(expiresAt), { dateStyle: 'long' }) })}
-      </p>
+      {expiresAt !== undefined && (
+        <p className={styles.expires}>
+          {t('expires', { date: format.dateTime(new Date(expiresAt), { dateStyle: 'long' }) })}
+        </p>
+      )}
       <Link href="/transparency" className={styles.allMetrics}>
         {t('allMetrics')}
       </Link>

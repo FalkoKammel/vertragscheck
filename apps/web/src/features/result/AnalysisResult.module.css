@@ -62,6 +62,25 @@
   background: var(--vc-neutral-bg);
 }
 
+.sampleNote {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+  font-size: 14px;
+  color: var(--vc-body);
+  margin-bottom: 8px;
+}
+
+.sampleBadge {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--vc-neutral-text);
+  background: var(--vc-neutral-bg);
+  border-radius: 999px;
+  padding: 4px 12px;
+}
+
 .note {
   font-size: 14px;
   color: var(--vc-body);
