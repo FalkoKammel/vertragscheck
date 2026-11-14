@@ -86,7 +86,7 @@ The PDF is only needed for extraction, so it is not kept. The extracted text liv
   "pageStarts": [0, 2210, 4875],      // offset in the extracted text where each PDF page starts (index 0 = page 1); an empty page repeats the next start; absent on older items
   "deleteTokenHash": "sha256:…",      // see "Retention and deletion"
   "run": {                            // everything about the model call; absent if the analysis failed before Bedrock
-    "modelId": "eu.anthropic.claude-haiku-4-5-20251001-v1:0",
+    "modelId": "eu.anthropic.claude-sonnet-4-6",
     "promptVersion": "v3",
     "usage": { "inputTokens": 7412, "outputTokens": 1388 },
     "costMicroUsd": 14300,            // integer, no float rounding

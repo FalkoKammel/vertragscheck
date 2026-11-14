@@ -10,7 +10,7 @@ Full plan: `docs/PLAN.md`. UI designs (source of truth for layout, colours, copy
 - `apps/web`: Next.js (App Router, `output: 'export'`, static site on S3 + CloudFront), Mantine for UI components, `next-intl` for German and English (`/de`, `/en`, German is the default). No server actions, route handlers, middleware or request-time SSR: all data comes from the API under `/api/*`. Result page is `/result?id=<id>`, not a dynamic route.
 - `services/api`: AWS Lambda handlers in TypeScript, AWS SDK v3, Zod for every boundary (API input, LLM output, DynamoDB items)
 - `infra`: AWS CDK v2 in TypeScript, region `eu-central-1`
-- LLM: Amazon Bedrock, Converse API. Model ID comes from config (`MODEL_ID`), never hardcoded. Default: `eu.anthropic.claude-haiku-4-5-20251001-v1:0`
+- LLM: Amazon Bedrock, Converse API. Model ID comes from config (`MODEL_ID`), never hardcoded. Default: `eu.anthropic.claude-sonnet-4-6`
 - Tests: Vitest
 
 ## Structure
