@@ -1,0 +1,117 @@
+{
+  "id": "sample-rental",
+  "status": "done",
+  "contractType": "rental",
+  "language": "de",
+  "createdAt": "2026-11-14T00:00:00.000Z",
+  "expiresAt": "9999-12-31T23:59:59.000Z",
+  "pageCount": 1,
+  "result": {
+    "text": "Wohnraummietvertrag\n\nZwischen der Rheinauen Wohnbau Sommer GmbH, vertreten durch den Geschäftsführer Henrik Sommer, Uferpromenade 12, 50668 Köln, nachfolgend Vermieterin genannt, und Herrn Jonas Wieland, derzeit wohnhaft Bachstraße 9, 53111 Bonn, nachfolgend Mieter genannt, wird folgender Mietvertrag geschlossen.\n\n§ 1 Mietgegenstand\n\n(1) Die Vermieterin vermietet dem Mieter zu Wohnzwecken die Wohnung im dritten Obergeschoss rechts des Hauses Marienstraße 40, 50825 Köln, bestehend aus drei Zimmern, einer Küche, einem Bad und einem Flur. Die Wohnfläche beträgt etwa 81 Quadratmeter.\n\n(2) Mitvermietet ist der Kellerraum Nr. 9.\n\n§ 2 Mietbeginn, Laufzeit und Kündigung\n\n(1) Das Mietverhältnis beginnt am 1. April 2027 und läuft auf unbestimmte Zeit.\n\n(2) Der Mieter verzichtet für die Dauer von fünf Jahren ab Vertragsschluss auf sein Recht zur ordentlichen Kündigung. Das Recht der Vermieterin zur Kündigung nach den gesetzlichen Vorschriften bleibt unberührt.\n\n(3) Die Kündigung bedarf der Schriftform.\n\n§ 3 Miete\n\n(1) Die monatliche Nettokaltmiete beträgt 920,00 Euro.\n\n(2) Die Miete ist monatlich im Voraus, spätestens bis zum dritten Werktag eines jeden Monats, auf das Konto der Vermieterin zu zahlen.\n\n§ 4 Betriebskosten\n\n(1) Neben der Nettokaltmiete trägt der Mieter die Betriebskosten im Sinne des § 2 der Betriebskostenverordnung.\n\n(2) Darüber hinaus trägt der Mieter anteilig die Kosten der Hausverwaltung sowie die Kontoführungsgebühren der Vermieterin.\n\n(3) Auf die Betriebskosten leistet der Mieter monatliche Vorauszahlungen in Höhe von 260,00 Euro. Die Vermieterin rechnet jährlich über die Vorauszahlungen ab.\n\n§ 5 Mietsicherheit\n\n(1) Der Mieter leistet eine Kaution in Höhe von vier Nettokaltmieten, das sind 3.680,00 Euro.\n\n(2) Die Kaution ist vor Übergabe der Wohnung in einer Summe zu zahlen. Eine Zahlung in Teilbeträgen ist ausgeschlossen.\n\n(3) Die Vermieterin legt die Kaution getrennt von ihrem Vermögen bei einem Kreditinstitut an.\n\n§ 6 Schönheitsreparaturen\n\n(1) Der Mieter übernimmt die Schönheitsreparaturen. Er hat sie in Küche und Bad spätestens alle drei Jahre, in Wohn- und Schlafräumen spätestens alle fünf Jahre und in sonstigen Räumen spätestens alle sieben Jahre fachgerecht auszuführen.\n\n(2) Bei Beendigung des Mietverhältnisses hat der Mieter die Wohnung unabhängig vom Zeitpunkt der letzten Schönheitsreparaturen vollständig renoviert zurückzugeben.\n\n§ 7 Untervermietung\n\n(1) Die Untervermietung ist ausnahmslos untersagt, auch die Überlassung einzelner Räume an Dritte.\n\n§ 8 Tierhaltung\n\n(1) Jede Tierhaltung, auch die Haltung von Kleintieren wie Zierfischen oder Hamstern, ist in der Wohnung untersagt.\n\n§ 9 Schlüssel\n\n(1) Der Mieter erhält bei Einzug zwei Wohnungsschlüssel und zwei Hausschlüssel.\n\n(2) Der Verlust eines Schlüssels ist der Vermieterin unverzüglich anzuzeigen.\n\n§ 10 Schlussbestimmungen\n\n(1) Die Hausordnung ist Bestandteil dieses Vertrags.\n\n(2) Sollte eine Bestimmung dieses Vertrags unwirksam sein, bleibt die Wirksamkeit der übrigen Bestimmungen unberührt.\n\nKöln, den 2. Februar 2027\n\nRheinauen Wohnbau Sommer GmbH, Henrik Sommer, Vermieterin\n\nJonas Wieland, Mieter",
+    "pageStarts": [
+      0
+    ],
+    "clauses": [
+      {
+        "ref": "§ 2 Abs. 2",
+        "category": "term_termination",
+        "level": "critical",
+        "quote": "Der Mieter verzichtet für die Dauer von fünf Jahren ab Vertragsschluss auf sein Recht zur ordentlichen Kündigung. Das Recht der Vermieterin zur Kündigung nach den gesetzlichen Vorschriften bleibt unberührt.",
+        "reason": "Ein einseitiger Kündigungsverzicht des Mieters ist nach der Rechtsprechung des BGH nur wirksam, wenn er maximal vier Jahre beträgt und beide Seiten gleichermaßen bindet. Hier verzichtet nur der Mieter, und die Frist beträgt fünf Jahre – beides macht die Klausel voraussichtlich unwirksam.",
+        "start": 757,
+        "end": 963
+      },
+      {
+        "ref": "§ 3 Abs. 1",
+        "category": "rent",
+        "level": "fine",
+        "quote": "Die monatliche Nettokaltmiete beträgt 920,00 Euro.",
+        "reason": "Die Miete ist als einfache Nettokaltmiete ohne Staffel- oder Indexvereinbarung festgelegt. Das ist die gesetzliche Standardform und unauffällig. Ob die Mietpreisbremse greift, hängt von der Lage in Köln ab und sollte separat geprüft werden.",
+        "start": 1023,
+        "end": 1073
+      },
+      {
+        "ref": "§ 4 Abs. 2",
+        "category": "operating_costs",
+        "level": "critical",
+        "quote": "Darüber hinaus trägt der Mieter anteilig die Kosten der Hausverwaltung sowie die Kontoführungsgebühren der Vermieterin.",
+        "reason": "Hausverwaltungskosten und Kontoführungsgebühren des Vermieters sind keine umlagefähigen Betriebskosten im Sinne der BetrKV und dürfen nicht auf den Mieter umgelegt werden. Diese Klausel ist voraussichtlich unwirksam.",
+        "start": 1348,
+        "end": 1467
+      },
+      {
+        "ref": "§ 4 Abs. 1",
+        "category": "operating_costs",
+        "level": "fine",
+        "quote": "Neben der Nettokaltmiete trägt der Mieter die Betriebskosten im Sinne des § 2 der Betriebskostenverordnung.",
+        "reason": "Die Umlage der Betriebskosten wird klar und korrekt auf die BetrKV gestützt. Das ist die übliche und rechtlich einwandfreie Formulierung.",
+        "start": 1235,
+        "end": 1342
+      },
+      {
+        "ref": "§ 5 Abs. 1",
+        "category": "deposit",
+        "level": "critical",
+        "quote": "Der Mieter leistet eine Kaution in Höhe von vier Nettokaltmieten, das sind 3.680,00 Euro.",
+        "reason": "Nach § 551 BGB darf die Kaution höchstens drei Nettokaltmieten (hier: 2.760 €) betragen. Eine Kaution von vier Monatsmieten ist voraussichtlich unwirksam, soweit sie den gesetzlichen Höchstbetrag übersteigt.",
+        "start": 1654,
+        "end": 1743
+      },
+      {
+        "ref": "§ 5 Abs. 2",
+        "category": "deposit",
+        "level": "critical",
+        "quote": "Die Kaution ist vor Übergabe der Wohnung in einer Summe zu zahlen. Eine Zahlung in Teilbeträgen ist ausgeschlossen.",
+        "reason": "§ 551 Abs. 2 BGB gibt dem Mieter zwingend das Recht, die Kaution in drei gleichen monatlichen Raten zu zahlen. Der Ausschluss der Ratenzahlung ist voraussichtlich unwirksam.",
+        "start": 1749,
+        "end": 1864
+      },
+      {
+        "ref": "§ 6 Abs. 1",
+        "category": "cosmetic_repairs",
+        "level": "critical",
+        "quote": "Der Mieter übernimmt die Schönheitsreparaturen. Er hat sie in Küche und Bad spätestens alle drei Jahre, in Wohn- und Schlafräumen spätestens alle fünf Jahre und in sonstigen Räumen spätestens alle sieben Jahre fachgerecht auszuführen.",
+        "reason": "Starre Renovierungsfristen (\"spätestens alle X Jahre\") ohne Rücksicht auf den tatsächlichen Zustand der Wohnung sind nach ständiger BGH-Rechtsprechung voraussichtlich unwirksam. Der Mieter müsste renovieren, auch wenn die Wohnung noch tadellos aussieht.",
+        "start": 1992,
+        "end": 2226
+      },
+      {
+        "ref": "§ 6 Abs. 2",
+        "category": "cosmetic_repairs",
+        "level": "critical",
+        "quote": "Bei Beendigung des Mietverhältnisses hat der Mieter die Wohnung unabhängig vom Zeitpunkt der letzten Schönheitsreparaturen vollständig renoviert zurückzugeben.",
+        "reason": "Eine Endrenovierungspflicht unabhängig vom tatsächlichen Renovierungsbedarf ist nach BGH-Rechtsprechung voraussichtlich unwirksam. Sie verpflichtet den Mieter zur Renovierung selbst dann, wenn die Wohnung noch frisch renoviert ist.",
+        "start": 2232,
+        "end": 2391
+      },
+      {
+        "ref": "§ 7 Abs. 1",
+        "category": "use_subletting",
+        "level": "critical",
+        "quote": "Die Untervermietung ist ausnahmslos untersagt, auch die Überlassung einzelner Räume an Dritte.",
+        "reason": "Ein pauschales, ausnahmsloses Untervermietungsverbot ist voraussichtlich unwirksam. Nach § 553 BGB hat der Mieter unter bestimmten Voraussetzungen einen Anspruch auf Erlaubnis zur Untervermietung; dieses Recht kann nicht vollständig ausgeschlossen werden.",
+        "start": 2418,
+        "end": 2512
+      },
+      {
+        "ref": "§ 8 Abs. 1",
+        "category": "pets",
+        "level": "critical",
+        "quote": "Jede Tierhaltung, auch die Haltung von Kleintieren wie Zierfischen oder Hamstern, ist in der Wohnung untersagt.",
+        "reason": "Ein generelles Verbot jeder Tierhaltung einschließlich Kleintieren ist nach der BGH-Rechtsprechung (Az. VIII ZR 168/12) voraussichtlich unwirksam. Die Haltung von Kleintieren, die keine Beeinträchtigung der Mietsache verursachen, darf dem Mieter nicht pauschal untersagt werden.",
+        "start": 2535,
+        "end": 2646
+      }
+    ],
+    "unverifiedQuotes": 0,
+    "invalidClauses": 0,
+    "run": {
+      "modelId": "eu.anthropic.claude-sonnet-4-6",
+      "promptVersion": "v4",
+      "costMicroUsd": 39934,
+      "latencyMs": 13173,
+      "inputTokens": 3011,
+      "outputTokens": 1818
+    }
+  }
+}
