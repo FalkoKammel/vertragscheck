@@ -318,3 +318,46 @@ Results of `pnpm --filter eval eval`, newest last.
 - rental-04: recall 100 % (15/15), false alarms 13 % (2/15), overcautious 27 % (4/15)
   - false alarm in 2 run(s): Die Mieterin übernimmt die Schönheitsreparaturen. Diese werden im Allg
 
+## 2026-11-14 · eu.anthropic.claude-sonnet-4-6 · prompt v4
+
+- Runs per contract: 3
+- Contracts: 8, labels: 37 expected + 35 clean
+- Commit: ca14c8203f45e90b7143883855ad8e1aab392b00
+
+| Metric | Value |
+| --- | --- |
+| Recall (all labels) | 92 % (min 92, max 92; 102/111) |
+| Recall critical | 91 % (min 91, max 91; 96/105) |
+| Recall check | 100 % (min 100, max 100; 6/6) |
+| Missed: seen but rated fine | 0 |
+| Missed: not hit at all | 9 |
+| Consistency (found in every run) | 92 % (34/37) |
+| Level accuracy (found labels) | 96 % (98/102) |
+| Category accuracy (found labels) | 94 % (96/102) |
+| False alarms (clean labels) | 6 % (6/105) |
+| Overcautious (clean labels) | 15 % (16/105) |
+| Exact quotes (of returned clauses) | 97 % (237/245) |
+| Aligned quotes (of returned clauses) | 3 % (7/245) |
+| Unverified quotes (of returned clauses) | 0 % (1/245) |
+| Invalid clauses (of returned clauses) | 0 % (0/245) |
+| Failed runs | 0 % (0/24) |
+| Cost per analysis (mean / total) | $0.0487 / $1.1695 |
+| Latency (mean / p95) | 16828 ms / 26285 ms |
+
+### Misses and false alarms per contract
+
+- employment-01: recall 100 % (6/6), false alarms 0 % (0/15), overcautious 20 % (3/15)
+- employment-02: recall 100 % (21/21), false alarms 0 % (0/9), overcautious 0 % (0/9)
+- employment-03: recall 100 % (12/12), false alarms 17 % (2/12), overcautious 58 % (7/12)
+  - false alarm in 2 run(s): gilt die verlängerte Frist auch für eine Kündigung durch die Arbeitneh
+- employment-04: recall 80 % (12/15), false alarms 20 % (3/15), overcautious 0 % (0/15)
+  - missed employment-04-double-written-form in 3/3 runs (not hit)
+  - false alarm in 3 run(s): gilt die verlängerte Frist auch für eine Kündigung durch den Arbeitneh
+- rental-01: recall 100 % (6/6), false alarms 0 % (0/18), overcautious 0 % (0/18)
+- rental-02: recall 100 % (24/24), false alarms 0 % (0/9), overcautious 0 % (0/9)
+- rental-03: recall 50 % (6/12), false alarms 0 % (0/12), overcautious 25 % (3/12)
+  - missed rental-03-termination-waiver-over-four-years in 3/3 runs (not hit)
+  - missed rental-03-inspection-without-cause in 3/3 runs (not hit)
+- rental-04: recall 100 % (15/15), false alarms 7 % (1/15), overcautious 20 % (3/15)
+  - false alarm in 1 run(s): Die Mieterin übernimmt die Schönheitsreparaturen. Diese werden im Allg
+
