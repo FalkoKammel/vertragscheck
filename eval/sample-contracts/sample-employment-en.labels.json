@@ -1,0 +1,75 @@
+{
+  "contractType": "employment",
+  "description": "English employment contract under German law (fictional parties) used as a sample analysis. Six planted defects: unlimited overtime flat rate, uncompensated two-year non-compete, one-month exclusion period without minimum-wage carve-out, penalty of three monthly salaries, bonus with combined voluntary and revocation reservation, unstaggered training-cost repayment. Six clean standard clauses.",
+  "expected": [
+    {
+      "id": "sample-employment-en-overtime-all-included",
+      "anchor": "Any overtime is fully covered by the salary under Section 4 and shall not be compensated separately or compensated by time off.",
+      "category": "working_time",
+      "level": "critical",
+      "note": "Blanket overtime clause without a cap is non-transparent and unreasonably disadvantaging, § 307(1) sentence 2 BGB (BAG, 01.09.2010 – 5 AZR 517/09). A stated maximum would be permissible (BAG, 16.05.2012 – 5 AZR 331/11)."
+    },
+    {
+      "id": "sample-employment-en-non-compete-unpaid",
+      "anchor": "For a period of two years after the termination of the employment relationship, the Employee shall not work, whether as an employee, freelancer or in any other capacity, for a company that competes with the Employer in Germany or in any other European country.\n\n(2) The Employee shall not receive any compensation for this restriction.",
+      "category": "non_compete",
+      "level": "critical",
+      "note": "A post-contractual non-compete without compensation of at least half of the last contractual remuneration is void, § 74(2) HGB in conjunction with § 110 GewO; neither party can enforce it."
+    },
+    {
+      "id": "sample-employment-en-exclusion-one-month",
+      "anchor": "All claims arising from the employment relationship and those connected with it must be asserted in writing against the other party within one month of falling due.",
+      "category": "exclusion_periods",
+      "level": "critical",
+      "note": "One month is too short (at least three months, BAG, 28.09.2005 – 5 AZR 52/05), and without a carve-out for the statutory minimum wage (§ 3 MiLoG) and intentional liability (§ 202(1) BGB) the clause is invalid as a whole (BAG, 18.09.2018 – 9 AZR 162/18)."
+    },
+    {
+      "id": "sample-employment-en-penalty-three-salaries",
+      "anchor": "the Employee shall pay a contractual penalty of three gross monthly salaries",
+      "category": "penalty",
+      "level": "critical",
+      "note": "A contractual penalty may not exceed the remuneration for the notice period that applied (two weeks in probation, about one month afterwards); three monthly salaries is disproportionate, § 307(1) BGB (BAG, 18.12.2008 – 8 AZR 81/08). It is also tied to the void non-compete."
+    },
+    {
+      "id": "sample-employment-en-bonus-voluntary-and-revocable",
+      "anchor": "Any such payment is made on a voluntary basis and subject to revocation at any time.",
+      "category": "compensation",
+      "level": "critical",
+      "acceptLevels": ["check"],
+      "note": "Combining a voluntary reservation with a revocation reservation is contradictory and non-transparent, § 307(1) sentence 2 BGB (BAG, 14.09.2011 – 10 AZR 526/10; 21.02.2024 – 10 AZR 345/22)."
+    },
+    {
+      "id": "sample-employment-en-repayment-unstaggered",
+      "anchor": "the Employee undertakes to repay these costs in full if the employment relationship ends at the Employee's request within 24 months after completion of the training course.\n\n(2) The repayment obligation applies regardless of when within this period the employment relationship ends.",
+      "category": "repayment",
+      "level": "critical",
+      "note": "Full repayment for the whole binding period, with no reduction by length of service after the training, is an unreasonable disadvantage and void without partial upholding, § 307(1) BGB (BAG, 01.03.2022 – 9 AZR 260/21; BAG, 14.01.2009 – 3 AZR 900/07)."
+    }
+  ],
+  "clean": [
+    {
+      "anchor": "The first six months of the employment relationship are a probationary period. During the probationary period, either party may terminate the employment relationship with two weeks' notice.",
+      "note": "§ 622(3) BGB allows two weeks' notice during an agreed probation of up to six months."
+    },
+    {
+      "anchor": "After the probationary period, the statutory notice periods under Section 622 of the German Civil Code (BGB) apply to both parties.",
+      "note": "Plain reference to the statute, symmetrical."
+    },
+    {
+      "anchor": "The Employee is entitled to 28 working days of paid vacation per calendar year, based on a five-day week.",
+      "note": "Above the statutory minimum of 20 working days on a five-day week (§§ 3, 13 BUrlG)."
+    },
+    {
+      "anchor": "The place of work is the Employer's office in Berlin.",
+      "note": "Normal; the transfer option is limited to Berlin and to reasonable cases (§ 106 GewO)."
+    },
+    {
+      "anchor": "Continued payment of remuneration in the event of illness is governed by the statutory provisions.",
+      "note": "Reference to the Entgeltfortzahlungsgesetz, no deviation."
+    },
+    {
+      "anchor": "The Employee receives a gross monthly salary of EUR 5,200.00, payable at the end of each calendar month by bank transfer.",
+      "note": "Clear amount and due date."
+    }
+  ]
+}

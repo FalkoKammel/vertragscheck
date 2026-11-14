@@ -27,6 +27,8 @@ type Result = NonNullable<AnalysisResponse['result']>;
 
 interface Props {
   analysis: AnalysisResponse & { result: Result };
+  /** A precomputed sample: shows the sample note, no deletion, no expiry. */
+  isSample?: boolean;
 }
 
 interface ScrollRequest {
@@ -38,7 +40,7 @@ function scrollBehavior(): ScrollBehavior {
   return window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
 }
 
-export function AnalysisResult({ analysis }: Props) {
+export function AnalysisResult({ analysis, isSample = false }: Props) {
   const t = useTranslations('Result');
   const tAnalyses = useTranslations('Analyses');
   const rentalNames = useTranslations('Categories.rental');
@@ -47,9 +49,14 @@ export function AnalysisResult({ analysis }: Props) {
   const { clauses, pageStarts } = result;
 
   const router = useRouter();
-  const [storedName] = useState(() => findStoredAnalysis(analysis.id)?.fileName);
+  const [storedName] = useState(() =>
+    isSample ? undefined : findStoredAnalysis(analysis.id)?.fileName,
+  );
   // Read after mount (static export): only a browser that holds the token may offer deletion.
-  const deleteToken = useStoredAnalyses()?.find((e) => e.analysisId === analysis.id)?.deleteToken;
+  const storedAnalyses = useStoredAnalyses();
+  const deleteToken = isSample
+    ? undefined
+    : storedAnalyses?.find((e) => e.analysisId === analysis.id)?.deleteToken;
   const [selected, setSelected] = useState<number | null>(() => initialSelection(clauses));
   const [hovered, setHovered] = useState<number | null>(null);
   const [fineOpen, setFineOpen] = useState(false);
@@ -141,6 +148,12 @@ export function AnalysisResult({ analysis }: Props) {
             </span>
           </div>
         </div>
+        {isSample && (
+          <div className={styles.sampleNote}>
+            <span className={styles.sampleBadge}>{t('sampleBadge')}</span>
+            <span>{t('sampleNote', { version: result.run.promptVersion })}</span>
+          </div>
+        )}
         <div role="note" className={styles.note}>
           <p>
             {t('disclaimer')} {t('verifiedNote')}
@@ -162,7 +175,7 @@ export function AnalysisResult({ analysis }: Props) {
         />
 
         <aside aria-label={t('clausesAria')} className={styles.aside}>
-          <AnalysisStats result={result} expiresAt={analysis.expiresAt} />
+          <AnalysisStats result={result} expiresAt={isSample ? undefined : analysis.expiresAt} />
 
           <h2 className={styles.asideTitle}>{t('clausesTitle')}</h2>
 

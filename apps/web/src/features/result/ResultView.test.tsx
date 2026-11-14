@@ -60,11 +60,69 @@ describe('ResultView', () => {
     expect((await screen.findByRole('alert')).textContent).toContain('kein Text gefunden');
   });
 
-  it('keeps showing the static layout for sample analyses without a request', () => {
-    const api = fakeAnalysisApi([]);
-    search = 'id=sample-rental';
-    renderWithProviders(<ResultView />);
-    expect(screen.getByText('Auffällige Klauseln')).toBeDefined();
-    expect(api).not.toHaveBeenCalled();
+  describe('sample analyses', () => {
+    function stubSample(sample = analysisFixture('done', 'sample-rental')) {
+      const mock = vi.fn<(url: string) => Promise<Response>>(() =>
+        Promise.resolve(Response.json(sample)),
+      );
+      vi.stubGlobal('fetch', mock);
+      return mock;
+    }
+
+    it('loads the static file for the locale instead of calling the API', async () => {
+      const fetchMock = stubSample();
+      search = 'id=sample-rental';
+      renderWithProviders(<ResultView />);
+
+      expect(await screen.findByText('Beispielanalyse')).toBeDefined();
+      expect(fetchMock).toHaveBeenCalledTimes(1);
+      expect(fetchMock.mock.calls[0]?.[0]).toBe('/samples/sample-rental.de.json');
+    });
+
+    it('names the prompt version and hides deletion and expiry', async () => {
+      const sample = analysisFixture('done', 'sample-employment');
+      localStorage.setItem(
+        'vertragscheck.analyses',
+        JSON.stringify([
+          {
+            analysisId: 'sample-employment',
+            deleteToken: 'token',
+            fileName: 'x.pdf',
+            contractType: 'employment',
+            createdAt: new Date().toISOString(),
+          },
+        ]),
+      );
+      stubSample(sample);
+      search = 'id=sample-employment';
+      renderWithProviders(<ResultView />);
+
+      const version = sample.result?.run.promptVersion ?? '';
+      expect(
+        await screen.findByText(`Unbearbeitete Ausgabe eines einzelnen Laufs, Prompt ${version}`),
+      ).toBeDefined();
+      expect(screen.queryByRole('button', { name: 'Analyse löschen' })).toBeNull();
+      expect(screen.queryByText(/gelöscht/)).toBeNull();
+    });
+
+    it('shows not found for an unknown sample without a request', () => {
+      const fetchMock = stubSample();
+      search = 'id=sample-unknown';
+      renderWithProviders(<ResultView />);
+
+      expect(screen.getByText('Analyse nicht gefunden')).toBeDefined();
+      expect(fetchMock).not.toHaveBeenCalled();
+    });
+
+    it('shows not found when the sample file is missing', async () => {
+      vi.stubGlobal(
+        'fetch',
+        vi.fn(() => Promise.resolve(new Response('<html></html>', { status: 200 }))),
+      );
+      search = 'id=sample-rental';
+      renderWithProviders(<ResultView />);
+
+      expect(await screen.findByText('Analyse nicht gefunden')).toBeDefined();
+    });
   });
 });

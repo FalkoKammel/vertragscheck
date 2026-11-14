@@ -3,7 +3,7 @@ import { z } from 'zod';
 const levelSchema = z.enum(['check', 'critical']);
 
 export const expectedLabelSchema = z.object({
-  id: z.string().regex(/^[a-z]+-\d{2}-[a-z0-9-]+$/),
+  id: z.string().regex(/^[a-z][a-z0-9]*(-[a-z0-9]+)+$/),
   anchor: z.string().min(15),
   category: z.string(),
   level: levelSchema,

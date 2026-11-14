@@ -1,25 +1,28 @@
 'use client';
 
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import { useSearchParams } from 'next/navigation';
 import { AnalysisError } from '@/components/AnalysisError';
 import { AnalysisProgress } from '@/components/AnalysisProgress';
+import { isSampleId } from '@/lib/api/getSample';
 import { LinkButton } from '@/components/LinkButton';
 import { analysisErrorKey, isAnalysisId, toPhase } from './analysisView';
 import { AnalysisResult } from './AnalysisResult';
-import { ResultPlaceholder } from './ResultPlaceholder';
 import { useAnalysis } from './useAnalysis';
+import { useSampleAnalysis } from './useSampleAnalysis';
 import styles from './ResultView.module.css';
 
 export function ResultView() {
   const t = useTranslations('Result');
   const tError = useTranslations('AnalysisError');
   const id = useSearchParams().get('id');
+  const locale = useLocale();
   const isSample = id?.startsWith('sample-') ?? false;
+  const sampleId = id !== null && isSampleId(id) ? id : null;
   const validId = id !== null && !isSample && isAnalysisId(id) ? id : null;
-  const { data: analysis, error } = useAnalysis(validId);
-
-  if (isSample) return <ResultPlaceholder />;
+  const live = useAnalysis(validId);
+  const sample = useSampleAnalysis(sampleId, locale);
+  const { data: analysis, error } = isSample ? sample : live;
 
   if (id === null) {
     return (
@@ -35,7 +38,8 @@ export function ResultView() {
     );
   }
 
-  const errorKey = validId === null ? 'notFound' : analysisErrorKey(analysis, error);
+  const errorKey =
+    validId === null && sampleId === null ? 'notFound' : analysisErrorKey(analysis, error);
   if (errorKey) {
     return (
       <main className={styles.page}>
@@ -70,7 +74,9 @@ export function ResultView() {
         </main>
       );
     }
-    return <AnalysisResult analysis={{ ...analysis, result: analysis.result }} />;
+    return (
+      <AnalysisResult analysis={{ ...analysis, result: analysis.result }} isSample={isSample} />
+    );
   }
 
   return (

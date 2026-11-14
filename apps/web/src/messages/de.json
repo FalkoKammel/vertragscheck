@@ -46,8 +46,8 @@
     "step3Title": "Verstehen",
     "step3Text": "Auffällige Stellen sind im Text markiert, mit Begründung, Kosten und Modell der Analyse.",
     "samplesTitle": "Beispielverträge",
-    "sampleRental": "Muster-Mietvertrag",
-    "sampleEmployment": "Muster-Arbeitsvertrag",
+    "sampleRental": "Beispiel: Mietvertrag",
+    "sampleEmployment": "Beispiel: Arbeitsvertrag (englisch)",
     "viewAnalysis": "Analyse ansehen →"
   },
   "Upload": {
@@ -89,15 +89,9 @@
     "hint": "Dauert meist 10–30 Sekunden. Du kannst die Seite offen lassen."
   },
   "Result": {
-    "metaPlaceholder": "Vertragsart · Seiten",
-    "fileName": "Analyse",
     "critical": "{count} kritisch",
     "check": "{count} prüfen",
     "fine": "{count} unauffällig",
-    "empty": "–",
-    "note": "Automatische Einordnung, kann Fehler enthalten und ersetzt keine Rechtsberatung. Alle Zitate wurden gegen den Originaltext geprüft.",
-    "textAria": "Vertragstext",
-    "textLabel": "Extrahierter Text",
     "clausesAria": "Auffällige Klauseln",
     "clausesTitle": "Auffällige Klauseln",
     "statsAria": "Transparenz dieser Analyse",
@@ -112,6 +106,8 @@
     "missingIdTitle": "Keine Analyse ausgewählt",
     "missingIdText": "Diese Seite braucht eine Analyse-ID im Link. Starte eine neue Analyse.",
     "newAnalysis": "Neue Analyse starten",
+    "textAria": "Vertragstext",
+    "textLabel": "Extrahierter Text",
     "pages": "{count, plural, one {# Seite} other {# Seiten}}",
     "disclaimer": "Automatische Einordnung, kann Fehler enthalten und ersetzt keine Rechtsberatung.",
     "verifiedNote": "Alle Zitate wurden gegen den Originaltext geprüft.",
@@ -132,6 +128,8 @@
     "durationValue": "{seconds} s",
     "droppedValue": "{dropped} von {total}",
     "expires": "Wird am {date} gelöscht",
+    "sampleBadge": "Beispielanalyse",
+    "sampleNote": "Unbearbeitete Ausgabe eines einzelnen Laufs, Prompt {version}",
     "backToTop": "Nach oben"
   },
   "Transparency": {

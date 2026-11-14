@@ -46,8 +46,8 @@
     "step3Title": "Understand",
     "step3Text": "Notable passages are highlighted in the text, with an explanation, the cost and the model used for the analysis.",
     "samplesTitle": "Sample contracts",
-    "sampleRental": "Sample rental contract",
-    "sampleEmployment": "Sample employment contract",
+    "sampleRental": "Example: rental contract",
+    "sampleEmployment": "Example: employment contract (English)",
     "viewAnalysis": "View analysis →"
   },
   "Upload": {
@@ -89,15 +89,9 @@
     "hint": "Usually takes 10–30 seconds. You can keep this page open."
   },
   "Result": {
-    "metaPlaceholder": "Contract type · Pages",
-    "fileName": "Analysis",
     "critical": "{count} critical",
     "check": "{count} to check",
     "fine": "{count} unremarkable",
-    "empty": "–",
-    "note": "Automatic assessment, may contain errors and is not legal advice. All quotes have been checked against the original text.",
-    "textAria": "Contract text",
-    "textLabel": "Extracted text",
     "clausesAria": "Notable clauses",
     "clausesTitle": "Notable clauses",
     "statsAria": "Transparency of this analysis",
@@ -112,6 +106,8 @@
     "missingIdTitle": "No analysis selected",
     "missingIdText": "This page needs an analysis ID in the link. Start a new analysis.",
     "newAnalysis": "Start a new analysis",
+    "textAria": "Contract text",
+    "textLabel": "Extracted text",
     "pages": "{count, plural, one {# page} other {# pages}}",
     "disclaimer": "Automatic assessment, may contain errors and is not legal advice.",
     "verifiedNote": "All quotes have been checked against the original text.",
@@ -132,6 +128,8 @@
     "durationValue": "{seconds} s",
     "droppedValue": "{dropped} of {total}",
     "expires": "Deleted on {date}",
+    "sampleBadge": "Sample analysis",
+    "sampleNote": "Unedited output of a single run, prompt {version}",
     "backToTop": "Back to top"
   },
   "Transparency": {

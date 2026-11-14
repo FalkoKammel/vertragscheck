@@ -5,3 +5,5 @@ export const CONTRACTS_DIR = join(EVAL_DIR, 'contracts');
 export const RESULTS_DIR = join(EVAL_DIR, 'results');
 export const SUMMARY_FILE = join(EVAL_DIR, 'summary.json');
 export const EVAL_DOC = join(EVAL_DIR, '..', 'docs', 'eval.md');
+export const SAMPLE_CONTRACTS_DIR = join(EVAL_DIR, 'sample-contracts');
+export const SAMPLES_OUT_DIR = join(EVAL_DIR, '..', 'apps', 'web', 'public', 'samples');

@@ -6,6 +6,7 @@
     "eval": "tsx src/run.ts",
     "eval:grade": "tsx src/regrade.ts",
     "eval:check": "tsx src/check.ts",
+    "samples": "tsx src/samples.ts",
     "typecheck": "tsc --noEmit",
     "test": "vitest run --passWithNoTests"
   },
