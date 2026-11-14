@@ -34,7 +34,7 @@ describe('Analysis', () => {
   it('complete stores clauses, both drop counters and the run', () => {
     const a = running();
     a.complete({
-      verification: { clauses: [], unverifiedQuotes: 2 },
+      verification: { clauses: [], exactQuotes: 0, alignedQuotes: 0, unverifiedQuotes: 2 },
       invalidClauses: 3,
       pages: { starts: [0], count: 1 },
       run: RUN,
@@ -50,7 +50,7 @@ describe('Analysis', () => {
     expect(a.pageStarts).toBeUndefined();
     expect(a.pageCount).toBeUndefined();
     a.complete({
-      verification: { clauses: [], unverifiedQuotes: 0 },
+      verification: { clauses: [], exactQuotes: 0, alignedQuotes: 0, unverifiedQuotes: 0 },
       invalidClauses: 0,
       pages: { starts: [0, 20, 20], count: 3 },
       run: RUN,
@@ -79,7 +79,7 @@ describe('Analysis', () => {
     a.fail('INTERNAL');
     expect(() => {
       a.complete({
-        verification: { clauses: [], unverifiedQuotes: 0 },
+        verification: { clauses: [], exactQuotes: 0, alignedQuotes: 0, unverifiedQuotes: 0 },
         invalidClauses: 0,
         pages: { starts: [0], count: 1 },
         run: RUN,
@@ -93,7 +93,7 @@ describe('Analysis', () => {
   it('round-trips through toProps', () => {
     const a = running();
     a.complete({
-      verification: { clauses: [], unverifiedQuotes: 1 },
+      verification: { clauses: [], exactQuotes: 0, alignedQuotes: 0, unverifiedQuotes: 1 },
       invalidClauses: 2,
       pages: { starts: [0], count: 1 },
       run: RUN,
@@ -120,7 +120,7 @@ describe('Analysis', () => {
   it('complete and fail clear the stage', () => {
     const done = new Analysis({ ...running().toProps(), stage: 'analysing' });
     done.complete({
-      verification: { clauses: [], unverifiedQuotes: 0 },
+      verification: { clauses: [], exactQuotes: 0, alignedQuotes: 0, unverifiedQuotes: 0 },
       invalidClauses: 0,
       pages: { starts: [0], count: 1 },
       run: RUN,

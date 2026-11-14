@@ -88,13 +88,19 @@ describe('verify quotes', () => {
     expect(clause?.start).toBe(0);
   });
 
-  it('matches case-sensitively', () => {
+  it('matches exactly case-sensitively; a case difference only passes as aligned', () => {
     const result = contractText.verifyQuotes([{ ...llmClause, quote: 'haustiere sind verboten.' }]);
-    expect(result).toEqual({ clauses: [], unverifiedQuotes: 1 });
+    expect(result).toMatchObject({ exactQuotes: 0, alignedQuotes: 1, unverifiedQuotes: 0 });
+    expect(result.clauses[0]?.quote).toBe('Haustiere sind verboten.');
   });
 
   it('returns an empty result for empty input', () => {
-    expect(contractText.verifyQuotes([])).toEqual({ clauses: [], unverifiedQuotes: 0 });
+    expect(contractText.verifyQuotes([])).toEqual({
+      clauses: [],
+      exactQuotes: 0,
+      alignedQuotes: 0,
+      unverifiedQuotes: 0,
+    });
   });
 
   it('produces clauses that pass storedClauseSchema and keeps ref', () => {
@@ -108,6 +114,140 @@ describe('verify quotes', () => {
     const result = contractText.verifyQuotes([missing, llmClause]);
     expect(result.unverifiedQuotes).toBe(1);
     expect(result.clauses).toHaveLength(1);
+  });
+});
+
+describe('verify quotes by token alignment', () => {
+  const rental = ContractText.fromExtracted([
+    '(1) Der Mieter leistet eine Kaution in Höhe von vier Nettokaltmieten, das sind 3.680,00 Euro.\n\n' +
+      '(2) Die Kaution ist vor Übergabe der Wohnung in einer Summe zu zahlen. Eine Zahlung in Teilbeträgen ist ausgeschlossen.\n\n' +
+      '(3) Die Kaution wird verzinst angelegt.',
+  ]);
+  const clause = (quote: string): LlmClause => ({
+    category: 'deposit',
+    level: 'critical',
+    quote,
+    reason: 'x',
+  });
+  const joined =
+    'Der Mieter leistet eine Kaution in Höhe von vier Nettokaltmieten, das sind 3.680,00 Euro. Die Kaution ist vor Übergabe der Wohnung in einer Summe zu zahlen. Eine Zahlung in Teilbeträgen ist ausgeschlossen.';
+
+  it('aligns a quote whose "(2)" was dropped and sentences were joined', () => {
+    const result = rental.verifyQuotes([clause(joined)]);
+
+    expect(result).toMatchObject({ exactQuotes: 0, alignedQuotes: 1, unverifiedQuotes: 0 });
+    const [found] = result.clauses;
+    expect(found?.quote).toBe(rental.value.slice(found?.start, found?.end));
+    expect(found?.quote.startsWith('Der Mieter')).toBe(true);
+    expect(found?.quote.endsWith('ausgeschlossen.')).toBe(true);
+    expect(found?.quote).toContain('(2)');
+  });
+
+  it('extends an aligned span over trailing punctuation but not across whitespace', () => {
+    const text = ContractText.fromExtracted([
+      'Es gilt: (a) die Frist, („Probezeit“) endet. Danach folgt Neues.',
+    ]);
+    const result = text.verifyQuotes([clause('die Frist Probezeit endet')]);
+
+    expect(result.alignedQuotes).toBe(1);
+    expect(result.clauses[0]?.quote).toBe('die Frist, („Probezeit“) endet.');
+  });
+
+  it('aligns the variant with a single newline and "(2) "', () => {
+    const quote = joined.replace('Euro. Die', 'Euro.\n(2) Die');
+    const result = rental.verifyQuotes([clause(quote)]);
+
+    expect(result).toMatchObject({ exactQuotes: 0, alignedQuotes: 1, unverifiedQuotes: 0 });
+  });
+
+  it('aligns across straight vs German quote marks', () => {
+    const text = ContractText.fromExtracted([
+      'Der Mieter darf „Haustiere“ halten.\n\n(2) Die Zustimmung ist „jederzeit“ widerruflich, wenn Störungen auftreten.',
+    ]);
+    const result = text.verifyQuotes([
+      clause(
+        'Der Mieter darf "Haustiere" halten. Die Zustimmung ist "jederzeit" widerruflich, wenn Störungen auftreten.',
+      ),
+    ]);
+
+    expect(result).toMatchObject({ alignedQuotes: 1, unverifiedQuotes: 0 });
+  });
+
+  it('keeps a paraphrased quote with changed words unverified', () => {
+    const paraphrase =
+      'Der Mieter zahlt als Sicherheit drei Monatsmieten, das sind 2.760,00 Euro. Die Sicherheit ist bei Einzug in einer Summe fällig. Teilzahlungen sind nicht erlaubt.';
+    const result = rental.verifyQuotes([clause(paraphrase)]);
+
+    expect(result).toMatchObject({ exactQuotes: 0, alignedQuotes: 0, unverifiedQuotes: 1 });
+    expect(result.clauses).toHaveLength(0);
+  });
+
+  it('keeps an invented sentence unverified', () => {
+    const result = rental.verifyQuotes([
+      clause(
+        'Der Vermieter darf die Miete jederzeit ohne Begründung um bis zu zehn Prozent erhöhen.',
+      ),
+    ]);
+
+    expect(result).toMatchObject({ alignedQuotes: 0, unverifiedQuotes: 1 });
+    expect(result.clauses).toHaveLength(0);
+  });
+
+  it('keeps a quote with a swapped word unverified', () => {
+    const result = rental.verifyQuotes([clause(joined.replace('ausgeschlossen', 'gestattet'))]);
+
+    expect(result).toMatchObject({ alignedQuotes: 0, unverifiedQuotes: 1 });
+    expect(result.clauses).toHaveLength(0);
+  });
+
+  it('keeps a quote with a dropped negation unverified', () => {
+    const text = ContractText.fromExtracted([
+      'Eine Zahlung in Teilbeträgen ist nicht ausgeschlossen.',
+    ]);
+    const result = text.verifyQuotes([clause('Eine Zahlung in Teilbeträgen ist ausgeschlossen.')]);
+
+    expect(result).toMatchObject({ exactQuotes: 0, alignedQuotes: 0, unverifiedQuotes: 1 });
+    expect(result.clauses).toHaveLength(0);
+  });
+
+  it('keeps a quote that omits an amount unverified', () => {
+    const result = rental.verifyQuotes([clause(joined.replace('3.680,00 ', ''))]);
+
+    expect(result).toMatchObject({ alignedQuotes: 0, unverifiedQuotes: 1 });
+    expect(result.clauses).toHaveLength(0);
+  });
+
+  it('skips a "2." marker at the start of a line', () => {
+    const text = ContractText.fromExtracted([
+      'Die Kaution beträgt drei Monatsmieten.\n\n2. Sie ist in einer Summe zu zahlen.',
+    ]);
+    const result = text.verifyQuotes([
+      clause('Die Kaution beträgt drei Monatsmieten. Sie ist in einer Summe zu zahlen.'),
+    ]);
+
+    expect(result).toMatchObject({ alignedQuotes: 1, unverifiedQuotes: 0 });
+    expect(result.clauses[0]?.quote).toBe(
+      'Die Kaution beträgt drei Monatsmieten.\n\n2. Sie ist in einer Summe zu zahlen.',
+    );
+  });
+
+  it('does not skip a "(2)" in the middle of a line', () => {
+    const text = ContractText.fromExtracted([
+      'Die Kaution beträgt drei Monatsmieten. (2) Sie ist in einer Summe zu zahlen.',
+    ]);
+    const result = text.verifyQuotes([
+      clause('Die Kaution beträgt drei Monatsmieten. Sie ist in einer Summe zu zahlen.'),
+    ]);
+
+    expect(result).toMatchObject({ alignedQuotes: 0, unverifiedQuotes: 1 });
+    expect(result.clauses).toHaveLength(0);
+  });
+
+  it('counts an unchanged quote as exact', () => {
+    const result = rental.verifyQuotes([clause('Die Kaution wird verzinst angelegt.')]);
+
+    expect(result).toMatchObject({ exactQuotes: 1, alignedQuotes: 0, unverifiedQuotes: 0 });
+    expect(result.clauses[0]?.quote).toBe('Die Kaution wird verzinst angelegt.');
   });
 });
 

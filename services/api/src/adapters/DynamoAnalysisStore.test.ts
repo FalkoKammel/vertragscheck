@@ -266,7 +266,7 @@ describe('DynamoAnalysisStore', () => {
       const store = new DynamoAnalysisStore(db, 'table');
       const done = new Analysis({ ...pending().toProps(), status: 'running' });
       done.complete({
-        verification: { clauses: [], unverifiedQuotes: 0 },
+        verification: { clauses: [], exactQuotes: 0, alignedQuotes: 0, unverifiedQuotes: 0 },
         invalidClauses: 0,
         pages: { starts: [0, 50], count: 2 },
         run: RUN,

@@ -1,0 +1,433 @@
+# Unmatched clauses
+
+Clauses the model returned that overlap no label. Review by hand: each is either a missing label or a false positive.
+
+## employment-01 · run 1 · compensation · fine
+
+> Die Arbeitnehmerin erhält ein monatliches Bruttogehalt von 4.800,00 Euro.
+
+Das Gehalt ist klar und fest vereinbart, ohne Freiwilligkeits- oder Widerrufsvorbehalt. Es gibt keine problematischen Bonusregelungen. Diese Klausel ist unauffällig.
+
+## employment-01 · run 1 · place_of_work · check
+
+> Arbeitsort ist der Sitz der Gesellschaft in Hamburg.
+
+Der Arbeitsort ist auf den Firmensitz in Hamburg festgelegt, ohne eine Versetzungsklausel oder Regelung zu Homeoffice. Das ist für die Arbeitnehmerin grundsätzlich günstig, da der Arbeitgeber sie nicht ohne Weiteres an einen anderen Ort versetzen kann. Wer Homeoffice-Möglichkeiten erwartet, sollte dies jedoch ausdrücklich vereinbaren, da der Vertrag dazu schweigt.
+
+## employment-02 · run 1 · probation · fine
+
+> Die ersten sechs Monate gelten als Probezeit. Während der Probezeit kann das Arbeitsverhältnis beiderseits mit einer Frist von zwei Wochen gekündigt werden.
+
+Die Probezeit beträgt sechs Monate und die Kündigungsfrist zwei Wochen – beides entspricht dem gesetzlichen Rahmen (§ 622 Abs. 3 BGB). Diese Regelung ist unauffällig.
+
+## employment-03 · run 1 · vacation · fine
+
+> Die Arbeitnehmerin hat Anspruch auf 30 Arbeitstage Erholungsurlaub im Kalenderjahr bei einer Fünftagewoche.
+
+30 Arbeitstage Urlaub bei einer Fünftagewoche sind überdurchschnittlich gut und liegen deutlich über dem gesetzlichen Minimum von 20 Tagen. Diese Regelung ist für die Arbeitnehmerin vorteilhaft.
+
+## employment-04 · run 1 · working_time · fine
+
+> Angeordnete Überstunden werden nach Wahl des Arbeitnehmers durch Freizeit ausgeglichen oder mit dem anteiligen Stundenlohn vergütet.
+
+Überstunden werden entweder durch Freizeit ausgeglichen oder vergütet – eine pauschale Abgeltung ohne Begrenzung fehlt. Diese Regelung ist für den Arbeitnehmer günstig.
+
+## employment-04 · run 1 · compensation · check
+
+> Der Arbeitnehmer kann zusätzlich eine variable Vergütung von bis zu 10 Prozent seines Jahresbruttogehalts erhalten. Die Ziele und deren Gewichtung werden in einer Zielvereinbarung festgelegt, die die Parteien jeweils bis zum 31. Januar eines Jahres abschließen.
+
+Das Wort „kann“ macht den Bonus zu einer unverbindlichen Kann-Leistung. Wenn der Arbeitgeber keine Zielvereinbarung abschließt oder dies verzögert, könnte der Anspruch ins Leere laufen. Nach BAG-Rechtsprechung kann bei schuldhaft nicht abgeschlossener Zielvereinbarung ein Schadensersatzanspruch entstehen – die Klausel ist aber so formuliert, dass dies im Streitfall gerichtlich geklärt werden müsste.
+
+## employment-04 · run 1 · vacation · fine
+
+> Der Arbeitnehmer hat Anspruch auf 30 Arbeitstage Erholungsurlaub im Kalenderjahr bei einer Fünftagewoche.
+
+30 Arbeitstage Urlaub bei einer Fünftagewoche liegen deutlich über dem gesetzlichen Mindesturlaub von 20 Tagen. Das ist für den Arbeitnehmer vorteilhaft.
+
+## employment-04 · run 1 · place_of_work · fine
+
+> Arbeitsort ist der Sitz der Gesellschaft in Dresden.
+>
+> (2) Der Arbeitnehmer kann nach Absprache mit seiner Führungskraft an bis zu zwei Tagen pro Woche mobil arbeiten.
+
+Der Arbeitsort ist klar auf Dresden festgelegt, eine weitreichende Versetzungsklausel fehlt. Die Homeoffice-Regelung ist als Kann-Bestimmung formuliert und begründet keinen einklagbaren Anspruch, ist aber für einen Arbeitsvertrag üblich.
+
+## rental-01 · run 1 · rent · fine
+
+> Die monatliche Nettokaltmiete beträgt 780,00 Euro.
+
+Eine einfache Nettokaltmiete ohne Staffel- oder Indexvereinbarung ist standard. Mietpreisbremse-Aspekte können hier nicht abschließend geprüft werden, da keine Vormiete bekannt ist – bei Bedarf sollte die Vormiete erfragt werden.
+
+## rental-01 · run 1 · operating_costs · fine
+
+> Neben der Nettokaltmiete trägt die Mieterin die Betriebskosten im Sinne des § 2 der Betriebskostenverordnung einschließlich der Kosten für Heizung und Warmwasser.
+
+Die Umlage wird auf die gesetzlich zulässigen Betriebskosten nach § 2 BetrKV beschränkt. Das ist eine klare und rechtlich einwandfreie Regelung.
+
+## rental-01 · run 1 · use_subletting · fine
+
+> Entsteht für die Mieterin nach Abschluss dieses Vertrags ein berechtigtes Interesse, einen Teil der Wohnung einem Dritten zum Gebrauch zu überlassen, kann sie die Erlaubnis nach Maßgabe des § 553 BGB verlangen.
+
+Das Erlaubniserfordernis für Untervermietung ist grundsätzlich zulässig; der Vertrag stellt aber ausdrücklich klar, dass die Mieterin bei berechtigtem Interesse einen Anspruch auf Erlaubnis nach § 553 BGB hat. Das entspricht der gesetzlichen Rechtslage.
+
+## rental-02 · run 1 · rent · check
+
+> Die monatliche Nettokaltmiete beträgt 920,00 Euro.
+
+Köln ist ein Gebiet mit angespanntem Wohnungsmarkt, auf das die Mietpreisbremse (§§ 556d ff. BGB) anwendbar ist. Die vereinbarte Miete sollte geprüft werden, ob sie die ortsübliche Vergleichsmiete um mehr als 10 % übersteigt. Ist das der Fall, kann der Mieter die Absenkung verlangen.
+
+## rental-02 · run 1 · minor_repairs · check
+
+> Die monatliche Nettokaltmiete beträgt 920,00 Euro.
+
+Der Vertrag enthält keine Kleinreparaturklausel. Das ist für den Mieter grundsätzlich günstig, da ohne wirksame Vereinbarung alle Reparaturkosten vollständig beim Vermieter verbleiben (gesetzlicher Standard nach § 535 BGB).
+
+## rental-03 · run 1 · term_termination · check
+
+> Beide Vertragsparteien verzichten wechselseitig für die Dauer von vier Jahren ab Vertragsschluss auf ihr Recht zur ordentlichen Kündigung.
+
+Ein beidseitiger Kündigungsverzicht von genau vier Jahren ist nach der BGH-Rechtsprechung gerade noch zulässig (Grenze: 4 Jahre). Da der Vertrag am 20. März 2027 geschlossen wird, ist eine ordentliche Kündigung frühestens ab April 2031 möglich. Das ist für den Mieter eine erhebliche Bindung – er sollte sich bewusst sein, dass er in dieser Zeit nicht ordentlich kündigen kann, auch wenn sich seine Lebensumstände ändern.
+
+## rental-03 · run 1 · rent · check
+
+> Die monatliche Nettokaltmiete beträgt 690,00 Euro.
+
+Neustadt an der Weinstraße liegt in Rheinland-Pfalz. Es sollte geprüft werden, ob für diese Gemeinde eine Mietpreisbremse (§ 556d BGB) gilt. Falls ja, darf die Miete höchstens 10 % über der ortsüblichen Vergleichsmiete liegen. Der Vertrag enthält keine Auskunft nach § 556g BGB über Vormiete oder Modernisierungen, was bei Geltung der Mietpreisbremse problematisch sein könnte.
+
+## rental-03 · run 1 · cosmetic_repairs · fine
+
+> Die Schönheitsreparaturen sind fachgerecht auszuführen, wenn das Aussehen der Wohnräume mehr als nur unerheblich durch den Gebrauch beeinträchtigt ist.
+
+Diese Einschränkung auf tatsächlichen Bedarf (Bedarfsklausel) ist mieterfreundlich und entspricht der BGH-Rechtsprechung. Sie rettet allerdings nicht die starre Fristenklausel in Abs. 1.
+
+## rental-03 · run 1 · operating_costs · fine
+
+> Der Mieter trägt die Betriebskosten nach § 2 der Betriebskostenverordnung. Hierauf leistet er monatliche Vorauszahlungen in Höhe von 210,00 Euro.
+
+Die Umlage wird auf die gesetzlich zulässigen Betriebskosten nach § 2 BetrKV beschränkt, und es werden Vorauszahlungen mit jährlicher Abrechnung vereinbart – das ist die Standardregelung und nicht zu beanstanden.
+
+## rental-03 · run 1 · pets · fine
+
+> Die Haltung von Kleintieren in üblicher Anzahl ist ohne Zustimmung gestattet. Über die Haltung von Hunden und Katzen entscheidet die Vermieterin nach Abwägung der beiderseitigen Interessen im Einzelfall.
+
+Kleintiere sind erlaubt, und bei Hunden/Katzen ist eine Einzelfallabwägung vorgesehen – das entspricht der BGH-Rechtsprechung und ist nicht zu beanstanden.
+
+## rental-04 · run 1 · operating_costs · fine
+
+> Neben der Nettokaltmiete trägt die Mieterin die Betriebskosten im Sinne des § 2 der Betriebskostenverordnung einschließlich der Kosten für Heizung und Warmwasser.
+
+Die Umlage der Betriebskosten ist klar und korrekt auf die Betriebskostenverordnung gestützt. Das ist eine standardmäßige und wirksame Vereinbarung.
+
+## rental-04 · run 1 · operating_costs · check
+
+> Auf die Betriebskosten leistet die Mieterin monatliche Vorauszahlungen in Höhe von 290,00 Euro.
+
+290 € monatliche Vorauszahlung für eine 96 m²-Wohnung mit Heizung und Warmwasser liegt im plausiblen Bereich, kann aber je nach Heizungsart und tatsächlichen Kosten zu niedrig sein. Eine zu niedrige Vorauszahlung führt zu Nachzahlungen bei der Jahresabrechnung. Die Mieterin sollte die Höhe anhand von Vergleichswerten (z. B. Betriebskostenspiegel) prüfen.
+
+## rental-04 · run 1 · minor_repairs · check
+
+> Die Kostentragung ist auf 90 Euro je Einzelreparatur und auf höchstens 6 Prozent der Jahresnettokaltmiete, jedoch nicht mehr als 300 Euro im Kalenderjahr begrenzt.
+
+Die Einzelobergrenze von 90 € und die Jahresobergrenze von 300 € sind vorhanden, was grundsätzlich den BGH-Anforderungen entspricht. Allerdings ist die Jahresobergrenze von 300 € sehr niedrig (bei einer Jahresmiete von 13.800 € wären 6 % = 828 €, aber der Vertrag deckelt auf 300 €). Das ist für die Mieterin günstig. Die Einzelobergrenze von 90 € liegt im unteren Bereich des von der Rechtsprechung noch als zulässig angesehenen Rahmens (bis ca. 100–120 €) – die Klausel ist damit voraussichtlich wirksam, aber grenzwertig.
+
+## rental-04 · run 1 · term_termination · fine
+
+> Das Mietverhältnis beginnt am 1. Juni 2027 und läuft auf unbestimmte Zeit.
+
+Das Mietverhältnis ist unbefristet. Eine Befristung ohne gesetzlichen Grund (§ 575 BGB) liegt nicht vor. Das ist für die Mieterin günstig.
+
+## rental-04 · run 1 · use_subletting · fine
+
+> Die Mieterin darf die Wohnung nur mit Erlaubnis der Vermieter ganz oder teilweise einem Dritten zum Gebrauch überlassen. Ein Anspruch auf Erlaubnis der Überlassung eines Teils der Wohnung besteht nach Maßgabe des § 553 BGB.
+
+Die Klausel schließt Untervermietung nicht pauschal aus, sondern verweist ausdrücklich auf den gesetzlichen Anspruch der Mieterin nach § 553 BGB. Das ist eine faire und gesetzeskonforme Regelung.
+
+## rental-04 · run 1 · alterations · fine
+
+> Bauliche Veränderungen durch die Mieterin, insbesondere Um- und Einbauten sowie Installationen, bedürfen der vorherigen Zustimmung der Vermieter. Die Rechte der Mieterin nach § 554 BGB bleiben unberührt.
+
+Der Zustimmungsvorbehalt für bauliche Veränderungen ist üblich und zulässig. Der ausdrückliche Hinweis auf § 554 BGB (Recht auf Einbauten für barrierefreies Wohnen, Einbruchschutz etc.) stellt sicher, dass die gesetzlichen Rechte der Mieterin gewahrt bleiben.
+
+## employment-01 · run 2 · compensation · fine
+
+> Die Arbeitnehmerin erhält ein monatliches Bruttogehalt von 4.800,00 Euro.
+
+Das Gehalt ist klar und fest vereinbart, ohne Freiwilligkeits- oder Widerrufsvorbehalt. Diese Regelung ist unauffällig.
+
+## employment-01 · run 2 · place_of_work · fine
+
+> Arbeitsort ist der Sitz der Gesellschaft in Hamburg.
+
+Der Arbeitsort ist konkret auf den Unternehmenssitz in Hamburg festgelegt. Es gibt keine weite Versetzungsklausel. Diese Regelung ist unauffällig.
+
+## employment-02 · run 2 · probation · fine
+
+> Die ersten sechs Monate gelten als Probezeit. Während der Probezeit kann das Arbeitsverhältnis beiderseits mit einer Frist von zwei Wochen gekündigt werden.
+
+Die Probezeit beträgt sechs Monate und die Kündigungsfrist zwei Wochen – beides entspricht genau dem gesetzlichen Rahmen (§ 622 Abs. 3 BGB). Diese Regelung ist unauffällig.
+
+## employment-03 · run 2 · vacation · fine
+
+> Die Arbeitnehmerin hat Anspruch auf 30 Arbeitstage Erholungsurlaub im Kalenderjahr bei einer Fünftagewoche.
+
+30 Arbeitstage Urlaub bei einer Fünftagewoche sind großzügig und liegen deutlich über dem gesetzlichen Mindesturlaub von 20 Tagen. Diese Regelung ist für die Arbeitnehmerin vorteilhaft.
+
+## employment-04 · run 2 · working_time · fine
+
+> Angeordnete Überstunden werden nach Wahl des Arbeitnehmers durch Freizeit ausgeglichen oder mit dem anteiligen Stundenlohn vergütet.
+
+Überstunden werden entweder durch Freizeit ausgeglichen oder vergütet – eine pauschale Abgeltung ohne Begrenzung ist nicht vereinbart. Diese Regelung ist für den Arbeitnehmer günstig.
+
+## employment-04 · run 2 · compensation · check
+
+> Der Arbeitnehmer kann zusätzlich eine variable Vergütung von bis zu 10 Prozent seines Jahresbruttogehalts erhalten. Die Ziele und deren Gewichtung werden in einer Zielvereinbarung festgelegt, die die Parteien jeweils bis zum 31. Januar eines Jahres abschließen.
+
+Das Wort „kann“ macht den Bonus zu einer unverbindlichen Kann-Leistung. Außerdem ist unklar, was passiert, wenn bis zum 31. Januar keine Zielvereinbarung zustande kommt – in diesem Fall könnte der Arbeitgeber den Bonus faktisch verhindern. Das BAG erkennt in solchen Fällen unter Umständen einen Schadensersatzanspruch an, aber das ist unsicher.
+
+## employment-04 · run 2 · vacation · fine
+
+> Der Arbeitnehmer hat Anspruch auf 30 Arbeitstage Erholungsurlaub im Kalenderjahr bei einer Fünftagewoche.
+
+30 Arbeitstage Urlaub bei einer Fünftagewoche liegen deutlich über dem gesetzlichen Mindesturlaub von 20 Tagen. Diese Regelung ist für den Arbeitnehmer vorteilhaft.
+
+## employment-04 · run 2 · place_of_work · fine
+
+> Arbeitsort ist der Sitz der Gesellschaft in Dresden.
+>
+> (2) Der Arbeitnehmer kann nach Absprache mit seiner Führungskraft an bis zu zwei Tagen pro Woche mobil arbeiten.
+
+Der Arbeitsort ist klar auf Dresden festgelegt, eine weitreichende Versetzungsklausel fehlt. Die Homeoffice-Regelung ist als Kann-Bestimmung formuliert und begründet keinen einklagbaren Anspruch, was aber üblich ist.
+
+## rental-01 · run 2 · rent · fine
+
+> Die monatliche Nettokaltmiete beträgt 780,00 Euro.
+
+Eine einfache Festmiete ohne Staffel- oder Indexvereinbarung ist die Standardform. Mieterhöhungen sind nur nach den gesetzlichen Regeln (§§ 558 ff. BGB) möglich. Kein Befund.
+
+## rental-01 · run 2 · operating_costs · fine
+
+> Neben der Nettokaltmiete trägt die Mieterin die Betriebskosten im Sinne des § 2 der Betriebskostenverordnung einschließlich der Kosten für Heizung und Warmwasser.
+
+Die Umlage wird auf die gesetzlich abschließend geregelten Betriebskosten der BetrKV beschränkt. Das ist die korrekte und übliche Formulierung.
+
+## rental-01 · run 2 · term_termination · fine
+
+> Das Mietverhältnis beginnt am 1. März 2027 und läuft auf unbestimmte Zeit.
+
+Ein unbefristetes Mietverhältnis ist die Regelform. Kein Kündigungsverzicht, keine problematische Befristung.
+
+## rental-01 · run 2 · use_subletting · fine
+
+> Entsteht für die Mieterin nach Abschluss dieses Vertrags ein berechtigtes Interesse, einen Teil der Wohnung einem Dritten zum Gebrauch zu überlassen, kann sie die Erlaubnis nach Maßgabe des § 553 BGB verlangen.
+
+Der gesetzliche Anspruch auf Erlaubnis zur Teiluntervermietung bei berechtigtem Interesse (§ 553 BGB) wird ausdrücklich bestätigt. Das ist korrekt und für die Mieterin günstig.
+
+## rental-01 · run 2 · pets · fine
+
+> Die Haltung von Hunden und Katzen bedarf der Zustimmung des Vermieters, über die er nach Abwägung der beiderseitigen Interessen im Einzelfall entscheidet.
+
+Ein generelles Verbot von Hunden und Katzen liegt nicht vor. Der Vermieter muss im Einzelfall abwägen – das entspricht der BGH-Rechtsprechung (BGH VIII ZR 168/12). Kein Befund.
+
+## rental-02 · run 2 · rent · check
+
+> Die monatliche Nettokaltmiete beträgt 920,00 Euro.
+
+Köln ist ein Gebiet mit angespanntem Wohnungsmarkt, auf das die Mietpreisbremse (§§ 556d ff. BGB) anwendbar ist. Die vereinbarte Miete sollte geprüft werden, ob sie die ortsübliche Vergleichsmiete um mehr als 10 % übersteigt. Ist das der Fall, kann der Mieter die Absenkung verlangen.
+
+## rental-03 · run 2 · term_termination · check
+
+> Beide Vertragsparteien verzichten wechselseitig für die Dauer von vier Jahren ab Vertragsschluss auf ihr Recht zur ordentlichen Kündigung.
+
+Ein wechselseitiger Kündigungsverzicht von genau vier Jahren ist nach der BGH-Rechtsprechung gerade noch zulässig (Grenze: 4 Jahre). Da der Vertrag am 20. März 2027 geschlossen wird, kann der Mieter frühestens ab Ende März 2031 ordentlich kündigen. Das ist eine erhebliche Bindung – prüfen Sie, ob Sie sich das leisten können und wollen.
+
+## rental-03 · run 2 · cosmetic_repairs · fine
+
+> Die Schönheitsreparaturen sind fachgerecht auszuführen, wenn das Aussehen der Wohnräume mehr als nur unerheblich durch den Gebrauch beeinträchtigt ist.
+
+Absatz 2 knüpft die Renovierungspflicht an den tatsächlichen Zustand der Wohnung – das ist für sich genommen eine zulässige Formulierung. Allerdings rettet sie Absatz 1 nicht, da beide Absätze zusammen gelesen werden und Absatz 1 starre Fristen enthält.
+
+## rental-03 · run 2 · operating_costs · fine
+
+> Der Mieter trägt die Betriebskosten nach § 2 der Betriebskostenverordnung. Hierauf leistet er monatliche Vorauszahlungen in Höhe von 210,00 Euro.
+
+Die Umlage der Betriebskosten ist durch den Verweis auf § 2 BetrKV klar und abschließend definiert. Die Vorauszahlung von 210 € bei 62 m² erscheint etwas hoch (ca. 3,39 €/m²), ist aber nicht ungewöhnlich und für sich allein kein Mangel.
+
+## rental-03 · run 2 · pets · fine
+
+> Die Haltung von Kleintieren in üblicher Anzahl ist ohne Zustimmung gestattet. Über die Haltung von Hunden und Katzen entscheidet die Vermieterin nach Abwägung der beiderseitigen Interessen im Einzelfall.
+
+Kleintiere sind erlaubnisfrei gestattet. Für Hunde und Katzen ist eine Einzelfallabwägung vorgesehen, was der BGH-Rechtsprechung entspricht. Ein generelles Verbot liegt nicht vor.
+
+## rental-03 · run 2 · rent · fine
+
+> Die monatliche Nettokaltmiete beträgt 690,00 Euro.
+
+Es handelt sich um eine einfache Festmiete ohne Staffel- oder Indexvereinbarung. Mieterhöhungen sind nur im gesetzlichen Rahmen (§§ 558 ff. BGB) möglich. Ob die Mietpreisbremse greift, hängt davon ab, ob Neustadt an der Weinstraße als Gebiet mit angespanntem Wohnungsmarkt ausgewiesen ist – das sollte der Mieter separat prüfen.
+
+## rental-04 · run 2 · operating_costs · fine
+
+> Neben der Nettokaltmiete trägt die Mieterin die Betriebskosten im Sinne des § 2 der Betriebskostenverordnung einschließlich der Kosten für Heizung und Warmwasser.
+
+Die Umlage der Betriebskosten ist klar und korrekt auf die BetrKV gestützt. Die Vorauszahlung von 290 € und die jährliche Abrechnung sind gesetzeskonform vereinbart.
+
+## rental-04 · run 2 · operating_costs · check
+
+> Die Heiz- und Warmwasserkosten werden zu 70 Prozent nach dem erfassten Verbrauch und zu 30 Prozent nach der Wohnfläche verteilt.
+
+Die Heizkostenverordnung schreibt vor, dass mindestens 50 % und höchstens 70 % nach Verbrauch abgerechnet werden müssen. Der hier gewählte Anteil von 70 % Verbrauch / 30 % Fläche ist damit gerade noch zulässig, aber an der Obergrenze. Für die Mieterin kann das nachteilig sein, wenn sie sparsam heizt, da der Flächenanteil dann relativ gering ist – umgekehrt trägt sie bei hohem Verbrauch fast alles selbst.
+
+## rental-04 · run 2 · minor_repairs · check
+
+> Die Kostentragung ist auf 90 Euro je Einzelreparatur und auf höchstens 6 Prozent der Jahresnettokaltmiete, jedoch nicht mehr als 300 Euro im Kalenderjahr begrenzt.
+
+Die Einzelobergrenze von 90 € liegt im üblichen Rahmen (Rechtsprechung akzeptiert bis ca. 100–120 €). Die Jahresobergrenze ist jedoch doppelt gedeckelt: 6 % der Jahresnettokaltmiete wären hier ca. 828 €, aber der Vertrag begrenzt zusätzlich auf 300 € – das ist für die Mieterin günstig. Dennoch sollte beachtet werden, dass die Beauftragung der Handwerker allein den Vermietern obliegt, was die Mieterin von der Auswahl ausschließt.
+
+## rental-04 · run 2 · term_termination · fine
+
+> Das Mietverhältnis beginnt am 1. Juni 2027 und läuft auf unbestimmte Zeit.
+
+Das Mietverhältnis ist unbefristet geschlossen. Ein Kündigungsverzicht ist nicht vereinbart. Das ist für die Mieterin günstig.
+
+## rental-04 · run 2 · use_subletting · fine
+
+> Die Mieterin darf die Wohnung nur mit Erlaubnis der Vermieter ganz oder teilweise einem Dritten zum Gebrauch überlassen. Ein Anspruch auf Erlaubnis der Überlassung eines Teils der Wohnung besteht nach Maßgabe des § 553 BGB.
+
+Die Klausel verlangt zwar eine Erlaubnis, erkennt aber ausdrücklich den gesetzlichen Anspruch der Mieterin auf Teiluntervermietung nach § 553 BGB an. Ein pauschales Verbot liegt nicht vor.
+
+## employment-01 · run 3 · compensation · fine
+
+> Die Arbeitnehmerin erhält ein monatliches Bruttogehalt von 4.800,00 Euro.
+
+Das Gehalt ist klar und fest vereinbart, ohne Freiwilligkeits- oder Widerrufsvorbehalt. Diese Regelung ist unproblematisch.
+
+## employment-01 · run 3 · place_of_work · fine
+
+> Arbeitsort ist der Sitz der Gesellschaft in Hamburg.
+
+Der Arbeitsort ist konkret auf den Unternehmenssitz in Hamburg festgelegt. Es gibt keine weite Versetzungsklausel, die einseitige Umsetzungen an andere Standorte ermöglichen würde. Diese Regelung ist für die Arbeitnehmerin günstig.
+
+## employment-02 · run 3 · probation · fine
+
+> Die ersten sechs Monate gelten als Probezeit. Während der Probezeit kann das Arbeitsverhältnis beiderseits mit einer Frist von zwei Wochen gekündigt werden.
+
+Die Probezeit beträgt sechs Monate und die Kündigungsfrist zwei Wochen – beides entspricht genau dem gesetzlichen Rahmen (§ 622 Abs. 3 BGB). Diese Regelung ist unauffällig.
+
+## employment-03 · run 3 · vacation · fine
+
+> Die Arbeitnehmerin hat Anspruch auf 30 Arbeitstage Erholungsurlaub im Kalenderjahr bei einer Fünftagewoche.
+
+30 Arbeitstage Urlaub bei einer Fünftagewoche liegen deutlich über dem gesetzlichen Mindesturlaub von 20 Tagen (§ 3 BUrlG). Diese Regelung ist für die Arbeitnehmerin günstig und unproblematisch.
+
+## employment-04 · run 3 · working_time · fine
+
+> Angeordnete Überstunden werden nach Wahl des Arbeitnehmers durch Freizeit ausgeglichen oder mit dem anteiligen Stundenlohn vergütet.
+
+Überstunden werden entweder durch Freizeit ausgeglichen oder vergütet – eine pauschale Abgeltung ohne Begrenzung ist nicht vereinbart. Diese Regelung ist arbeitnehmerfreundlich und unbedenklich.
+
+## employment-04 · run 3 · compensation · check
+
+> Der Arbeitnehmer kann zusätzlich eine variable Vergütung von bis zu 10 Prozent seines Jahresbruttogehalts erhalten. Die Ziele und deren Gewichtung werden in einer Zielvereinbarung festgelegt, die die Parteien jeweils bis zum 31. Januar eines Jahres abschließen.
+
+Das Wort „kann“ macht den Bonus zu einer unverbindlichen Kann-Leistung. Außerdem ist unklar, was passiert, wenn bis zum 31. Januar keine Zielvereinbarung zustande kommt – nach BAG-Rechtsprechung kann der Arbeitnehmer dann ggf. Schadensersatz verlangen, aber das ist streitig. Es empfiehlt sich, eine Regelung für den Fall fehlender Einigung aufzunehmen.
+
+## employment-04 · run 3 · vacation · fine
+
+> Der Arbeitnehmer hat Anspruch auf 30 Arbeitstage Erholungsurlaub im Kalenderjahr bei einer Fünftagewoche.
+
+30 Arbeitstage Urlaub bei einer Fünftagewoche liegen deutlich über dem gesetzlichen Mindesturlaub von 20 Tagen. Das ist für den Arbeitnehmer vorteilhaft.
+
+## rental-01 · run 3 · rent · fine
+
+> Die monatliche Nettokaltmiete beträgt 780,00 Euro.
+
+Eine einfache Nettokaltmiete ohne Staffel- oder Indexvereinbarung ist standard. Mietpreisbremse-Aspekte können hier nicht abschließend geprüft werden, da keine Vormiete angegeben ist – bei Bedarf sollte die Vormiete erfragt werden.
+
+## rental-01 · run 3 · operating_costs · fine
+
+> Neben der Nettokaltmiete trägt die Mieterin die Betriebskosten im Sinne des § 2 der Betriebskostenverordnung einschließlich der Kosten für Heizung und Warmwasser.
+
+Die Umlage wird auf die gesetzlich zulässigen Betriebskosten nach § 2 BetrKV beschränkt. Das ist eine korrekte und übliche Formulierung.
+
+## rental-01 · run 3 · term_termination · fine
+
+> Das Mietverhältnis beginnt am 1. März 2027 und läuft auf unbestimmte Zeit.
+
+Ein unbefristetes Mietverhältnis ist der gesetzliche Normalfall und für die Mieterin günstig.
+
+## rental-01 · run 3 · use_subletting · fine
+
+> Entsteht für die Mieterin nach Abschluss dieses Vertrags ein berechtigtes Interesse, einen Teil der Wohnung einem Dritten zum Gebrauch zu überlassen, kann sie die Erlaubnis nach Maßgabe des § 553 BGB verlangen.
+
+Der Vertrag stellt klar, dass die Mieterin bei berechtigtem Interesse einen Anspruch auf Erlaubnis zur Teiluntervermietung hat (§ 553 BGB). Das entspricht dem Gesetz.
+
+## rental-01 · run 3 · pets · fine
+
+> Die Haltung von Hunden und Katzen bedarf der Zustimmung des Vermieters, über die er nach Abwägung der beiderseitigen Interessen im Einzelfall entscheidet.
+
+Ein Zustimmungsvorbehalt für Hunde und Katzen mit Einzelfallabwägung ist nach BGH-Rechtsprechung zulässig und üblich. Ein generelles Verbot liegt nicht vor.
+
+## rental-02 · run 3 · rent · fine
+
+> Die monatliche Nettokaltmiete beträgt 920,00 Euro.
+
+Die Miete ist als einfache Festmiete vereinbart, ohne Staffel- oder Indexklausel. Das ist die gesetzliche Standardform und für den Mieter unproblematisch. Ob die Mietpreisbremse greift, hängt von der Lage in Köln ab und sollte separat geprüft werden.
+
+## rental-03 · run 3 · term_termination · check
+
+> Beide Vertragsparteien verzichten wechselseitig für die Dauer von vier Jahren ab Vertragsschluss auf ihr Recht zur ordentlichen Kündigung.
+
+Ein wechselseitiger Kündigungsverzicht von genau vier Jahren ist nach der BGH-Rechtsprechung gerade noch zulässig (Grenze: 4 Jahre). Da der Vertrag am 20. März 2027 geschlossen wird, kann der Mieter frühestens ab Ende März 2031 ordentlich kündigen. Das ist eine erhebliche Bindung – prüfen Sie, ob Sie sich das leisten können und wollen.
+
+## rental-03 · run 3 · cosmetic_repairs · fine
+
+> Die Schönheitsreparaturen sind fachgerecht auszuführen, wenn das Aussehen der Wohnräume mehr als nur unerheblich durch den Gebrauch beeinträchtigt ist.
+
+Diese Einschränkung auf tatsächlichen Bedarf ("mehr als nur unerheblich beeinträchtigt") ist mieterfreundlich und entspricht der BGH-Rechtsprechung.
+
+## rental-03 · run 3 · operating_costs · fine
+
+> Der Mieter trägt die Betriebskosten nach § 2 der Betriebskostenverordnung. Hierauf leistet er monatliche Vorauszahlungen in Höhe von 210,00 Euro.
+
+Die Umlage wird auf die gesetzlich zulässigen Betriebskosten nach § 2 BetrKV beschränkt, und es werden Vorauszahlungen mit jährlicher Abrechnung vereinbart – das ist die Standardregelung und nicht zu beanstanden.
+
+## rental-03 · run 3 · pets · fine
+
+> Die Haltung von Kleintieren in üblicher Anzahl ist ohne Zustimmung gestattet. Über die Haltung von Hunden und Katzen entscheidet die Vermieterin nach Abwägung der beiderseitigen Interessen im Einzelfall.
+
+Kleintiere sind erlaubt, und bei Hunden/Katzen ist eine Einzelfallabwägung vorgesehen – das entspricht der BGH-Rechtsprechung und ist nicht zu beanstanden.
+
+## rental-04 · run 3 · operating_costs · fine
+
+> Neben der Nettokaltmiete trägt die Mieterin die Betriebskosten im Sinne des § 2 der Betriebskostenverordnung einschließlich der Kosten für Heizung und Warmwasser.
+
+Die Umlage der Betriebskosten ist klar und korrekt auf die Betriebskostenverordnung gestützt. Das ist eine standardmäßige und wirksame Vereinbarung.
+
+## rental-04 · run 3 · operating_costs · check
+
+> Auf die Betriebskosten leistet die Mieterin monatliche Vorauszahlungen in Höhe von 290,00 Euro.
+
+290 € monatliche Vorauszahlung für eine 96 m²-Wohnung mit Heizung und Warmwasser liegt im plausiblen Bereich, kann aber je nach Heizungsart und Gebäudezustand zu niedrig sein. Die Mieterin sollte die tatsächlichen Vorjahreskosten erfragen, um Nachzahlungsüberraschungen zu vermeiden.
+
+## rental-04 · run 3 · minor_repairs · check
+
+> Die Kostentragung ist auf 90 Euro je Einzelreparatur und auf höchstens 6 Prozent der Jahresnettokaltmiete, jedoch nicht mehr als 300 Euro im Kalenderjahr begrenzt.
+
+Die Einzelobergrenze von 90 € und die Jahresobergrenze von 300 € sind grundsätzlich zulässig. Allerdings ist die Jahresgrenze doppelt gedeckelt (6 % der Jahresnettokaltmiete = ca. 828 €, aber maximal 300 €), was für die Mieterin günstig ist. Die Grenze von 90 € je Reparatur liegt am unteren Rand des von der Rechtsprechung noch akzeptierten Bereichs (bis ca. 100–120 €) – sie ist aber noch vertretbar.
+
+## rental-04 · run 3 · term_termination · fine
+
+> Das Mietverhältnis beginnt am 1. Juni 2027 und läuft auf unbestimmte Zeit.
+
+Das Mietverhältnis ist unbefristet geschlossen. Ein Kündigungsverzicht oder eine Befristung ohne gesetzlichen Grund liegt nicht vor. Das ist für die Mieterin günstig.
+
+## rental-04 · run 3 · use_subletting · fine
+
+> Die Mieterin darf die Wohnung nur mit Erlaubnis der Vermieter ganz oder teilweise einem Dritten zum Gebrauch überlassen. Ein Anspruch auf Erlaubnis der Überlassung eines Teils der Wohnung besteht nach Maßgabe des § 553 BGB.
+
+Die Klausel schließt Untervermietung nicht pauschal aus, sondern verweist ausdrücklich auf den gesetzlichen Anspruch der Mieterin nach § 553 BGB. Das entspricht der Rechtslage und ist nicht nachteilig.
+
+## rental-04 · run 3 · alterations · fine
+
+> Bauliche Veränderungen durch die Mieterin, insbesondere Um- und Einbauten sowie Installationen, bedürfen der vorherigen Zustimmung der Vermieter. Die Rechte der Mieterin nach § 554 BGB bleiben unberührt.
+
+Der Zustimmungsvorbehalt für bauliche Veränderungen ist üblich und zulässig. Der ausdrückliche Hinweis auf § 554 BGB (Recht auf Einbauten für barrierefreies Wohnen, Einbruchschutz etc.) stellt sicher, dass die gesetzlichen Rechte der Mieterin gewahrt bleiben.

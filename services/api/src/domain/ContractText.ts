@@ -3,7 +3,25 @@ import { storedClauseSchema, type LlmClause, type StoredClause } from './schemas
 
 export interface QuoteVerificationResult {
   clauses: StoredClause[];
+  /** Quotes found character for character (whitespace and quote marks aside). */
+  exactQuotes: number;
+  /** Quotes found by token alignment, with a few source tokens skipped such as "(2)". */
+  alignedQuotes: number;
   unverifiedQuotes: number;
+}
+
+/** Punctuation that stays attached to the last aligned word (no whitespace in between). */
+const TRAILING_PUNCTUATION = new Set(['.', ',', ';', ':', '!', '?', ')', '“', '"', '»']);
+
+interface Token {
+  word: string;
+  start: number;
+  end: number;
+}
+
+interface Alignment {
+  start: number;
+  end: number;
 }
 
 const MIN_CHARS_PER_PAGE = 100;
@@ -20,6 +38,57 @@ const ENDS_SENTENCE = /[.:;?!]$/;
 
 function normalizeMarks(s: string): string {
   return s.replace(/[„“”«»]/g, '"').replace(/[‚‘’]/g, "'");
+}
+
+function tokenize(s: string): Token[] {
+  return Array.from(s.matchAll(/[\p{L}\p{N}]+/gu), (m) => ({
+    word: m[0].toLowerCase(),
+    start: m.index,
+    end: m.index + m[0].length,
+  }));
+}
+
+const MARKER_WORD = /^(?:\d{1,2}|\p{L})$/u;
+const ONLY_BEFORE_MARKER = /^[\s(]*$/;
+
+/**
+ * A source token that may be skipped during alignment: an enumeration marker such as "(2)",
+ * "2." or "a)". It is one or two digits or a single letter, and only whitespace and "("
+ * stand between it and the start of its line.
+ */
+function isEnumerationMarker(text: string, token: Token): boolean {
+  if (!MARKER_WORD.test(token.word)) return false;
+  const lineStart = text.lastIndexOf('\n', token.start - 1) + 1;
+  return ONLY_BEFORE_MARKER.test(text.slice(lineStart, token.start));
+}
+
+/**
+ * Finds the quote in the source with every quote token matched, in order and contiguously.
+ * The only source tokens that may be skipped in between are enumeration markers.
+ * Returns offsets in the source string, or null if the quote does not align.
+ */
+function alignTokens(text: string, source: Token[], quote: Token[]): Alignment | null {
+  const first = quote[0];
+  if (first === undefined) return null;
+  for (let i = 0; i < source.length; i++) {
+    if (source[i]?.word !== first.word) continue;
+    let k = i + 1;
+    let j = 1;
+    while (j < quote.length) {
+      const token = source[k];
+      if (token === undefined) break;
+      if (token.word === quote[j]?.word) {
+        j++;
+        k++;
+      } else if (isEnumerationMarker(text, token)) {
+        k++;
+      } else break;
+    }
+    const start = source[i]?.start;
+    const end = source[k - 1]?.end;
+    if (j === quote.length && start !== undefined && end !== undefined) return { start, end };
+  }
+  return null;
 }
 
 function cleanParagraph(paragraph: string): string {
@@ -113,17 +182,32 @@ export class ContractText {
 
   verifyQuotes(clauses: LlmClause[]): QuoteVerificationResult {
     const haystack = normalizeMarks(this.value);
+    let sourceTokens: Token[] | undefined;
     const verified: StoredClause[] = [];
+    let exactQuotes = 0;
+    let alignedQuotes = 0;
     let unverifiedQuotes = 0;
 
     for (const clause of clauses) {
-      const needle = normalizeMarks(clause.quote.normalize('NFKC')).replace(/\s+/g, ' ').trim();
-      const start = needle.length > 0 ? haystack.indexOf(needle) : -1;
+      const normalized = normalizeMarks(clause.quote.normalize('NFKC'));
+      const needle = normalized.replace(/\s+/g, ' ').trim();
+      let start = needle.length > 0 ? haystack.indexOf(needle) : -1;
+      let end = start + needle.length;
+      let aligned = false;
+      if (start === -1) {
+        sourceTokens ??= tokenize(haystack);
+        const alignment = alignTokens(haystack, sourceTokens, tokenize(normalized));
+        if (alignment) {
+          ({ start } = alignment);
+          end = alignment.end;
+          while (TRAILING_PUNCTUATION.has(this.value[end] ?? '')) end++;
+          aligned = true;
+        }
+      }
       if (start === -1) {
         unverifiedQuotes++;
         continue;
       }
-      const end = start + needle.length;
       const candidate = {
         ...(clause.ref !== undefined ? { ref: clause.ref } : {}),
         category: clause.category,
@@ -134,9 +218,12 @@ export class ContractText {
         end,
       };
       const parsed = storedClauseSchema.safeParse(candidate);
-      if (parsed.success) verified.push(parsed.data);
-      else unverifiedQuotes++;
+      if (parsed.success) {
+        verified.push(parsed.data);
+        if (aligned) alignedQuotes++;
+        else exactQuotes++;
+      } else unverifiedQuotes++;
     }
-    return { clauses: verified, unverifiedQuotes };
+    return { clauses: verified, exactQuotes, alignedQuotes, unverifiedQuotes };
   }
 }
