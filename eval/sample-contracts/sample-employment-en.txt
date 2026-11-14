@@ -1,0 +1,71 @@
+Employment Agreement
+
+Between Northwind Digital Services GmbH, Example Quay 12, 10000 Berlin, represented by its Managing Director Ms Helena Voss, hereinafter the Employer, and Mr Daniel Marlowe, Sample Lane 5, 10000 Berlin, hereinafter the Employee, the following employment agreement is concluded.
+
+Section 1 Commencement and Position
+
+(1) The employment relationship begins on 1 February 2027 and is concluded for an indefinite period.
+
+(2) The Employee is employed as Senior Software Engineer. The place of work is the Employer's office in Berlin. The Employer may occasionally assign work at other locations within Berlin if this is reasonable for the Employee.
+
+Section 2 Probationary Period
+
+(1) The first six months of the employment relationship are a probationary period. During the probationary period, either party may terminate the employment relationship with two weeks' notice.
+
+Section 3 Working Hours and Overtime
+
+(1) The regular working time is 40 hours per week, distributed over five working days from Monday to Friday.
+
+(2) The Employee is obliged to work overtime where operationally required. Any overtime is fully covered by the salary under Section 4 and shall not be compensated separately or compensated by time off.
+
+Section 4 Remuneration and Bonus
+
+(1) The Employee receives a gross monthly salary of EUR 5,200.00, payable at the end of each calendar month by bank transfer.
+
+(2) In addition, the Employer may pay an annual bonus. Any such payment is made on a voluntary basis and subject to revocation at any time. No legal entitlement to a bonus arises, neither for the current year nor for future years, even if the bonus has been paid repeatedly or without reservation.
+
+Section 5 Vacation
+
+(1) The Employee is entitled to 28 working days of paid vacation per calendar year, based on a five-day week. Statutory provisions on the carry-over of vacation remain unaffected.
+
+Section 6 Incapacity for Work
+
+(1) The Employee must notify the Employer of any incapacity for work and its expected duration without undue delay and, if it lasts longer than three calendar days, submit a medical certificate.
+
+(2) Continued payment of remuneration in the event of illness is governed by the statutory provisions.
+
+Section 7 Further Training
+
+(1) If the Employer bears the costs of a training course for the Employee, the Employee undertakes to repay these costs in full if the employment relationship ends at the Employee's request within 24 months after completion of the training course.
+
+(2) The repayment obligation applies regardless of when within this period the employment relationship ends.
+
+Section 8 Termination
+
+(1) After the probationary period, the statutory notice periods under Section 622 of the German Civil Code (BGB) apply to both parties.
+
+(2) Any termination must be in written form with a handwritten signature.
+
+Section 9 Post-Contractual Non-Competition
+
+(1) For a period of two years after the termination of the employment relationship, the Employee shall not work, whether as an employee, freelancer or in any other capacity, for a company that competes with the Employer in Germany or in any other European country.
+
+(2) The Employee shall not receive any compensation for this restriction.
+
+Section 10 Contractual Penalty
+
+(1) If the Employee fails to take up work, terminates the employment relationship without observing the notice period, or breaches the non-competition obligation under Section 9, the Employee shall pay a contractual penalty of three gross monthly salaries.
+
+Section 11 Exclusion Period
+
+(1) All claims arising from the employment relationship and those connected with it must be asserted in writing against the other party within one month of falling due. Claims not asserted within this period are forfeited.
+
+Section 12 Final Provisions
+
+(1) Amendments and supplements to this agreement must be made in writing. This also applies to any waiver of this written form requirement.
+
+(2) Should individual provisions of this agreement be or become invalid, the validity of the remaining provisions shall not be affected.
+
+Berlin, 15 December 2026
+
+Northwind Digital Services GmbH                 Daniel Marlowe
