@@ -11,7 +11,7 @@ import { SqsDestination } from 'aws-cdk-lib/aws-s3-notifications';
 import { Queue } from 'aws-cdk-lib/aws-sqs';
 import { Construct } from 'constructs';
 
-export const DEFAULT_MODEL_ID = 'eu.anthropic.claude-haiku-4-5-20251001-v1:0';
+export const DEFAULT_MODEL_ID = 'eu.anthropic.claude-sonnet-4-6';
 export const DEFAULT_PROMPT_VERSION = 'v1';
 
 export const MAX_CONCURRENCY = 2;

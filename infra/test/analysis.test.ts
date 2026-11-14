@@ -107,7 +107,7 @@ describe('analysis Lambda', () => {
         Variables: {
           TABLE_NAME: Match.anyValue(),
           UPLOAD_BUCKET: Match.anyValue(),
-          MODEL_ID: 'eu.anthropic.claude-haiku-4-5-20251001-v1:0',
+          MODEL_ID: 'eu.anthropic.claude-sonnet-4-6',
           PROMPT_VERSION: Match.anyValue(),
           BUDGET_LIMIT_MICRO_USD: '10000000',
         },
@@ -150,7 +150,7 @@ describe('least privilege', () => {
     const profile = bedrock.find((s) => s.Condition === undefined);
     expect(profile?.Action).toBe('bedrock:InvokeModel');
     expect(JSON.stringify(profile?.Resource)).toContain(
-      'inference-profile/eu.anthropic.claude-haiku-4-5-20251001-v1:0',
+      'inference-profile/eu.anthropic.claude-sonnet-4-6',
     );
     expect(JSON.stringify(profile?.Resource)).not.toContain('foundation-model');
   });
@@ -159,11 +159,11 @@ describe('least privilege', () => {
     const model = withAction('bedrock:').find((s) => s.Condition !== undefined);
     expect(model?.Action).toBe('bedrock:InvokeModel');
     expect(JSON.stringify(model?.Resource)).toContain(
-      ':bedrock:eu-*::foundation-model/anthropic.claude-haiku-4-5-20251001-v1:0',
+      ':bedrock:eu-*::foundation-model/anthropic.claude-sonnet-4-6',
     );
     const condition = JSON.stringify(model?.Condition);
     expect(condition).toContain('bedrock:InferenceProfileArn');
-    expect(condition).toContain('inference-profile/eu.anthropic.claude-haiku-4-5-20251001-v1:0');
+    expect(condition).toContain('inference-profile/eu.anthropic.claude-sonnet-4-6');
     expect(JSON.stringify(model)).not.toContain('us-east');
   });
 });
