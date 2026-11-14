@@ -74,24 +74,24 @@
   },
   "eu.anthropic.claude-sonnet-4-6": {
     "model": "eu.anthropic.claude-sonnet-4-6",
-    "promptVersion": "v1",
-    "date": "2026-11-14T11:02:22.408Z",
+    "promptVersion": "v4",
+    "date": "2026-11-14T13:36:34.008Z",
     "runs": 3,
     "contracts": 8,
     "labels": 72,
     "summary": {
       "recall": {
-        "num": 96,
+        "num": 102,
         "den": 111,
-        "mean": 0.8648648648648649,
-        "min": 0.8378378378378378,
+        "mean": 0.918918918918919,
+        "min": 0.918918918918919,
         "max": 0.918918918918919
       },
       "recallCritical": {
-        "num": 90,
+        "num": 96,
         "den": 105,
-        "mean": 0.8571428571428572,
-        "min": 0.8285714285714286,
+        "mean": 0.9142857142857143,
+        "min": 0.9142857142857143,
         "max": 0.9142857142857143
       },
       "recallCheck": {
@@ -102,46 +102,54 @@
         "max": 1
       },
       "missedSeenAsFine": 0,
-      "missedNotHit": 15,
+      "missedNotHit": 9,
       "consistency": {
-        "num": 31,
+        "num": 34,
         "den": 37
       },
       "levelAccuracy": {
-        "num": 91,
-        "den": 96
+        "num": 98,
+        "den": 102
       },
       "categoryAccuracy": {
-        "num": 90,
-        "den": 96
+        "num": 96,
+        "den": 102
       },
       "falseAlarmRate": {
-        "num": 8,
+        "num": 6,
         "den": 105
       },
       "overcautiousRate": {
         "num": 16,
         "den": 105
       },
+      "exactQuotes": {
+        "num": 237,
+        "den": 245
+      },
+      "alignedQuotes": {
+        "num": 7,
+        "den": 245
+      },
       "unverifiedQuotes": {
-        "num": 12,
-        "den": 244
+        "num": 1,
+        "den": 245
       },
       "invalidClauses": {
         "num": 0,
-        "den": 244
+        "den": 245
       },
       "failedRuns": {
         "num": 0,
         "den": 24
       },
       "costMicroUsd": {
-        "mean": 48019.041666666664,
-        "total": 1152457
+        "mean": 48731.041666666664,
+        "total": 1169545
       },
       "latencyMs": {
-        "mean": 16699.5,
-        "p95": 26081
+        "mean": 16827.875,
+        "p95": 26285
       }
     }
   },

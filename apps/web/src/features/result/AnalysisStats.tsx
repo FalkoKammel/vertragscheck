@@ -11,7 +11,11 @@ interface Props {
   expiresAt: string;
 }
 
-const MODEL_MESSAGE = { haiku45Eu: 'modelHaiku45Eu', haiku45: 'modelHaiku45' } as const;
+const MODEL_MESSAGE = {
+  haiku45Eu: 'modelHaiku45Eu',
+  haiku45: 'modelHaiku45',
+  sonnet46Eu: 'modelSonnet46Eu',
+} as const;
 
 export function AnalysisStats({ result, expiresAt }: Props) {
   const t = useTranslations('Result');

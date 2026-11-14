@@ -44,12 +44,14 @@ export function countByLevel(clauses: Clause[]): Record<Level, number> {
   return counts;
 }
 
-export type ModelLabelKey = 'haiku45Eu' | 'haiku45';
+export type ModelLabelKey = 'haiku45Eu' | 'haiku45' | 'sonnet46Eu';
 
 /** Message key for a known model ID, null for anything else (then the raw ID is shown). */
 export function modelLabelKey(modelId: string): ModelLabelKey | null {
-  if (!modelId.includes('claude-haiku-4-5')) return null;
-  return modelId.startsWith('eu.') ? 'haiku45Eu' : 'haiku45';
+  const isEu = modelId.startsWith('eu.');
+  if (modelId.includes('claude-haiku-4-5')) return isEu ? 'haiku45Eu' : 'haiku45';
+  if (isEu && modelId.includes('claude-sonnet-4-6')) return 'sonnet46Eu';
+  return null;
 }
 
 export const CATEGORY_IDS = {
