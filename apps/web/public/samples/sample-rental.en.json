@@ -1,0 +1,117 @@
+{
+  "id": "sample-rental",
+  "status": "done",
+  "contractType": "rental",
+  "language": "en",
+  "createdAt": "2026-11-14T00:00:00.000Z",
+  "expiresAt": "9999-12-31T23:59:59.000Z",
+  "pageCount": 1,
+  "result": {
+    "text": "Wohnraummietvertrag\n\nZwischen der Rheinauen Wohnbau Sommer GmbH, vertreten durch den Geschäftsführer Henrik Sommer, Uferpromenade 12, 50668 Köln, nachfolgend Vermieterin genannt, und Herrn Jonas Wieland, derzeit wohnhaft Bachstraße 9, 53111 Bonn, nachfolgend Mieter genannt, wird folgender Mietvertrag geschlossen.\n\n§ 1 Mietgegenstand\n\n(1) Die Vermieterin vermietet dem Mieter zu Wohnzwecken die Wohnung im dritten Obergeschoss rechts des Hauses Marienstraße 40, 50825 Köln, bestehend aus drei Zimmern, einer Küche, einem Bad und einem Flur. Die Wohnfläche beträgt etwa 81 Quadratmeter.\n\n(2) Mitvermietet ist der Kellerraum Nr. 9.\n\n§ 2 Mietbeginn, Laufzeit und Kündigung\n\n(1) Das Mietverhältnis beginnt am 1. April 2027 und läuft auf unbestimmte Zeit.\n\n(2) Der Mieter verzichtet für die Dauer von fünf Jahren ab Vertragsschluss auf sein Recht zur ordentlichen Kündigung. Das Recht der Vermieterin zur Kündigung nach den gesetzlichen Vorschriften bleibt unberührt.\n\n(3) Die Kündigung bedarf der Schriftform.\n\n§ 3 Miete\n\n(1) Die monatliche Nettokaltmiete beträgt 920,00 Euro.\n\n(2) Die Miete ist monatlich im Voraus, spätestens bis zum dritten Werktag eines jeden Monats, auf das Konto der Vermieterin zu zahlen.\n\n§ 4 Betriebskosten\n\n(1) Neben der Nettokaltmiete trägt der Mieter die Betriebskosten im Sinne des § 2 der Betriebskostenverordnung.\n\n(2) Darüber hinaus trägt der Mieter anteilig die Kosten der Hausverwaltung sowie die Kontoführungsgebühren der Vermieterin.\n\n(3) Auf die Betriebskosten leistet der Mieter monatliche Vorauszahlungen in Höhe von 260,00 Euro. Die Vermieterin rechnet jährlich über die Vorauszahlungen ab.\n\n§ 5 Mietsicherheit\n\n(1) Der Mieter leistet eine Kaution in Höhe von vier Nettokaltmieten, das sind 3.680,00 Euro.\n\n(2) Die Kaution ist vor Übergabe der Wohnung in einer Summe zu zahlen. Eine Zahlung in Teilbeträgen ist ausgeschlossen.\n\n(3) Die Vermieterin legt die Kaution getrennt von ihrem Vermögen bei einem Kreditinstitut an.\n\n§ 6 Schönheitsreparaturen\n\n(1) Der Mieter übernimmt die Schönheitsreparaturen. Er hat sie in Küche und Bad spätestens alle drei Jahre, in Wohn- und Schlafräumen spätestens alle fünf Jahre und in sonstigen Räumen spätestens alle sieben Jahre fachgerecht auszuführen.\n\n(2) Bei Beendigung des Mietverhältnisses hat der Mieter die Wohnung unabhängig vom Zeitpunkt der letzten Schönheitsreparaturen vollständig renoviert zurückzugeben.\n\n§ 7 Untervermietung\n\n(1) Die Untervermietung ist ausnahmslos untersagt, auch die Überlassung einzelner Räume an Dritte.\n\n§ 8 Tierhaltung\n\n(1) Jede Tierhaltung, auch die Haltung von Kleintieren wie Zierfischen oder Hamstern, ist in der Wohnung untersagt.\n\n§ 9 Schlüssel\n\n(1) Der Mieter erhält bei Einzug zwei Wohnungsschlüssel und zwei Hausschlüssel.\n\n(2) Der Verlust eines Schlüssels ist der Vermieterin unverzüglich anzuzeigen.\n\n§ 10 Schlussbestimmungen\n\n(1) Die Hausordnung ist Bestandteil dieses Vertrags.\n\n(2) Sollte eine Bestimmung dieses Vertrags unwirksam sein, bleibt die Wirksamkeit der übrigen Bestimmungen unberührt.\n\nKöln, den 2. Februar 2027\n\nRheinauen Wohnbau Sommer GmbH, Henrik Sommer, Vermieterin\n\nJonas Wieland, Mieter",
+    "pageStarts": [
+      0
+    ],
+    "clauses": [
+      {
+        "ref": "§ 2 Abs. 2",
+        "category": "term_termination",
+        "level": "critical",
+        "quote": "Der Mieter verzichtet für die Dauer von fünf Jahren ab Vertragsschluss auf sein Recht zur ordentlichen Kündigung. Das Recht der Vermieterin zur Kündigung nach den gesetzlichen Vorschriften bleibt unberührt.",
+        "reason": "A unilateral waiver of the tenant's right to terminate for five years is likely invalid under German law. The BGH permits mutual (bilateral) termination waivers of up to four years; a one-sided waiver that only binds the tenant while leaving the landlord free to terminate is considered an unfair disadvantage and is likely unenforceable (§ 307 BGB).",
+        "start": 757,
+        "end": 963
+      },
+      {
+        "ref": "§ 3 Abs. 1",
+        "category": "rent",
+        "level": "fine",
+        "quote": "Die monatliche Nettokaltmiete beträgt 920,00 Euro.",
+        "reason": "The rent is stated as a fixed net cold rent with no index or stepped-rent clause. This is the standard arrangement and raises no concerns on its face.",
+        "start": 1023,
+        "end": 1073
+      },
+      {
+        "ref": "§ 4 Abs. 2",
+        "category": "operating_costs",
+        "level": "critical",
+        "quote": "Darüber hinaus trägt der Mieter anteilig die Kosten der Hausverwaltung sowie die Kontoführungsgebühren der Vermieterin.",
+        "reason": "Property management costs (Hausverwaltungskosten) and the landlord's bank account fees (Kontoführungsgebühren) are not listed as recoverable operating costs under the Betriebskostenverordnung (BetrKV). Passing these costs on to the tenant is likely invalid.",
+        "start": 1348,
+        "end": 1467
+      },
+      {
+        "ref": "§ 4 Abs. 1",
+        "category": "operating_costs",
+        "level": "fine",
+        "quote": "Neben der Nettokaltmiete trägt der Mieter die Betriebskosten im Sinne des § 2 der Betriebskostenverordnung.",
+        "reason": "The operating costs are properly referenced to § 2 BetrKV, which is the standard and legally correct way to agree on operating cost allocation.",
+        "start": 1235,
+        "end": 1342
+      },
+      {
+        "ref": "§ 5 Abs. 1",
+        "category": "deposit",
+        "level": "critical",
+        "quote": "Der Mieter leistet eine Kaution in Höhe von vier Nettokaltmieten, das sind 3.680,00 Euro.",
+        "reason": "Under § 551 BGB, the security deposit may not exceed three net cold rents. Four months' rent exceeds this statutory maximum and is likely invalid; the tenant would only be obliged to pay up to three months' rent (2,760 €).",
+        "start": 1654,
+        "end": 1743
+      },
+      {
+        "ref": "§ 5 Abs. 2",
+        "category": "deposit",
+        "level": "critical",
+        "quote": "Die Kaution ist vor Übergabe der Wohnung in einer Summe zu zahlen. Eine Zahlung in Teilbeträgen ist ausgeschlossen.",
+        "reason": "Under § 551 Abs. 2 BGB, the tenant has a statutory right to pay the deposit in three equal monthly instalments. Any contractual clause excluding this right is likely invalid.",
+        "start": 1749,
+        "end": 1864
+      },
+      {
+        "ref": "§ 6 Abs. 1",
+        "category": "cosmetic_repairs",
+        "level": "critical",
+        "quote": "Der Mieter übernimmt die Schönheitsreparaturen. Er hat sie in Küche und Bad spätestens alle drei Jahre, in Wohn- und Schlafräumen spätestens alle fünf Jahre und in sonstigen Räumen spätestens alle sieben Jahre fachgerecht auszuführen.",
+        "reason": "Fixed renovation intervals (\"starre Fristen\") are consistently held to be invalid by the BGH (e.g. BGH VIII ZR 361/03), because they require renovation regardless of the actual condition of the apartment. This clause is likely unenforceable.",
+        "start": 1992,
+        "end": 2226
+      },
+      {
+        "ref": "§ 6 Abs. 2",
+        "category": "cosmetic_repairs",
+        "level": "critical",
+        "quote": "Bei Beendigung des Mietverhältnisses hat der Mieter die Wohnung unabhängig vom Zeitpunkt der letzten Schönheitsreparaturen vollständig renoviert zurückzugeben.",
+        "reason": "An obligation to return the apartment fully renovated regardless of when the last renovation took place is a so-called \"Endrenovierungsklausel\" and is likely invalid under BGH case law, as it requires renovation irrespective of the actual need.",
+        "start": 2232,
+        "end": 2391
+      },
+      {
+        "ref": "§ 7 Abs. 1",
+        "category": "use_subletting",
+        "level": "critical",
+        "quote": "Die Untervermietung ist ausnahmslos untersagt, auch die Überlassung einzelner Räume an Dritte.",
+        "reason": "A blanket, unconditional ban on subletting is likely invalid. Under § 553 BGB, the tenant has a right to sublet part of the apartment if there is a legitimate interest (e.g. financial hardship, new partner). A clause that excludes this right entirely without exception is likely unenforceable.",
+        "start": 2418,
+        "end": 2512
+      },
+      {
+        "ref": "§ 8 Abs. 1",
+        "category": "pets",
+        "level": "critical",
+        "quote": "Jede Tierhaltung, auch die Haltung von Kleintieren wie Zierfischen oder Hamstern, ist in der Wohnung untersagt.",
+        "reason": "A total ban on all pet-keeping, including small animals that pose no risk to the property or other tenants (such as fish or hamsters), is likely invalid under BGH case law (BGH VIII ZR 168/12). Keeping small caged or tank animals is generally considered part of the ordinary use of a dwelling and cannot be prohibited.",
+        "start": 2535,
+        "end": 2646
+      }
+    ],
+    "unverifiedQuotes": 0,
+    "invalidClauses": 0,
+    "run": {
+      "modelId": "eu.anthropic.claude-sonnet-4-6",
+      "promptVersion": "v4",
+      "costMicroUsd": 36459,
+      "latencyMs": 12586,
+      "inputTokens": 3018,
+      "outputTokens": 1606
+    }
+  }
+}

@@ -1,0 +1,108 @@
+{
+  "id": "sample-employment",
+  "status": "done",
+  "contractType": "employment",
+  "language": "en",
+  "createdAt": "2026-11-14T00:00:00.000Z",
+  "expiresAt": "9999-12-31T23:59:59.000Z",
+  "pageCount": 1,
+  "result": {
+    "text": "Employment Agreement\n\nBetween Northwind Digital Services GmbH, Example Quay 12, 10000 Berlin, represented by its Managing Director Ms Helena Voss, hereinafter the Employer, and Mr Daniel Marlowe, Sample Lane 5, 10000 Berlin, hereinafter the Employee, the following employment agreement is concluded.\n\nSection 1 Commencement and Position\n\n(1) The employment relationship begins on 1 February 2027 and is concluded for an indefinite period.\n\n(2) The Employee is employed as Senior Software Engineer. The place of work is the Employer's office in Berlin. The Employer may occasionally assign work at other locations within Berlin if this is reasonable for the Employee.\n\nSection 2 Probationary Period\n\n(1) The first six months of the employment relationship are a probationary period. During the probationary period, either party may terminate the employment relationship with two weeks' notice.\n\nSection 3 Working Hours and Overtime\n\n(1) The regular working time is 40 hours per week, distributed over five working days from Monday to Friday.\n\n(2) The Employee is obliged to work overtime where operationally required. Any overtime is fully covered by the salary under Section 4 and shall not be compensated separately or compensated by time off.\n\nSection 4 Remuneration and Bonus\n\n(1) The Employee receives a gross monthly salary of EUR 5,200.00, payable at the end of each calendar month by bank transfer.\n\n(2) In addition, the Employer may pay an annual bonus. Any such payment is made on a voluntary basis and subject to revocation at any time. No legal entitlement to a bonus arises, neither for the current year nor for future years, even if the bonus has been paid repeatedly or without reservation.\n\nSection 5 Vacation\n\n(1) The Employee is entitled to 28 working days of paid vacation per calendar year, based on a five-day week. Statutory provisions on the carry-over of vacation remain unaffected.\n\nSection 6 Incapacity for Work\n\n(1) The Employee must notify the Employer of any incapacity for work and its expected duration without undue delay and, if it lasts longer than three calendar days, submit a medical certificate.\n\n(2) Continued payment of remuneration in the event of illness is governed by the statutory provisions.\n\nSection 7 Further Training\n\n(1) If the Employer bears the costs of a training course for the Employee, the Employee undertakes to repay these costs in full if the employment relationship ends at the Employee's request within 24 months after completion of the training course.\n\n(2) The repayment obligation applies regardless of when within this period the employment relationship ends.\n\nSection 8 Termination\n\n(1) After the probationary period, the statutory notice periods under Section 622 of the German Civil Code (BGB) apply to both parties.\n\n(2) Any termination must be in written form with a handwritten signature.\n\nSection 9 Post-Contractual Non-Competition\n\n(1) For a period of two years after the termination of the employment relationship, the Employee shall not work, whether as an employee, freelancer or in any other capacity, for a company that competes with the Employer in Germany or in any other European country.\n\n(2) The Employee shall not receive any compensation for this restriction.\n\nSection 10 Contractual Penalty\n\n(1) If the Employee fails to take up work, terminates the employment relationship without observing the notice period, or breaches the non-competition obligation under Section 9, the Employee shall pay a contractual penalty of three gross monthly salaries.\n\nSection 11 Exclusion Period\n\n(1) All claims arising from the employment relationship and those connected with it must be asserted in writing against the other party within one month of falling due. Claims not asserted within this period are forfeited.\n\nSection 12 Final Provisions\n\n(1) Amendments and supplements to this agreement must be made in writing. This also applies to any waiver of this written form requirement.\n\n(2) Should individual provisions of this agreement be or become invalid, the validity of the remaining provisions shall not be affected.\n\nBerlin, 15 December 2026\n\nNorthwind Digital Services GmbH Daniel Marlowe",
+    "pageStarts": [
+      0
+    ],
+    "clauses": [
+      {
+        "ref": "Section 2",
+        "category": "probation",
+        "level": "fine",
+        "quote": "The first six months of the employment relationship are a probationary period. During the probationary period, either party may terminate the employment relationship with two weeks' notice.",
+        "reason": "The probationary period is exactly six months (the legal maximum) and the two-week notice period during probation matches the statutory minimum under § 622 Abs. 3 BGB. This is standard and unproblematic.",
+        "start": 703,
+        "end": 892
+      },
+      {
+        "ref": "Section 3 (2)",
+        "category": "working_time",
+        "level": "critical",
+        "quote": "The Employee is obliged to work overtime where operationally required. Any overtime is fully covered by the salary under Section 4 and shall not be compensated separately or compensated by time off.",
+        "reason": "A blanket clause stating that all overtime is covered by the fixed salary, with no cap on the number of overtime hours, is likely invalid under German law (BAG case law). Courts regularly strike down such clauses unless the contract specifies a reasonable maximum number of overtime hours that are included in the salary. Without such a limit, the employee could be required to work an unlimited amount of unpaid overtime.",
+        "start": 1046,
+        "end": 1244
+      },
+      {
+        "ref": "Section 4 (2)",
+        "category": "compensation",
+        "level": "check",
+        "quote": "Any such payment is made on a voluntary basis and subject to revocation at any time. No legal entitlement to a bonus arises, neither for the current year nor for future years, even if the bonus has been paid repeatedly or without reservation.",
+        "reason": "Combining a 'voluntary' reservation with a 'revocability' reservation in the same clause is problematic. The BAG has held that such a double reservation can be contradictory and may be ineffective, potentially giving the employee a legal entitlement to the bonus after repeated payment. The clause should be reviewed carefully.",
+        "start": 1462,
+        "end": 1704
+      },
+      {
+        "ref": "Section 5 (1)",
+        "category": "vacation",
+        "level": "fine",
+        "quote": "The Employee is entitled to 28 working days of paid vacation per calendar year, based on a five-day week. Statutory provisions on the carry-over of vacation remain unaffected.",
+        "reason": "28 working days on a five-day week is above the statutory minimum of 20 days (§ 3 BUrlG), and the carry-over rule defers to the statutory provisions. This is favourable and unproblematic.",
+        "start": 1730,
+        "end": 1905
+      },
+      {
+        "ref": "Section 7",
+        "category": "repayment",
+        "level": "critical",
+        "quote": "If the Employer bears the costs of a training course for the Employee, the Employee undertakes to repay these costs in full if the employment relationship ends at the Employee's request within 24 months after completion of the training course.\n\n(2) The repayment obligation applies regardless of when within this period the employment relationship ends.",
+        "reason": "Two problems make this clause likely invalid: (1) There is no sliding scale (Staffelung) — the employee must repay 100% whether they leave one month or 23 months after the training, which the BAG considers unreasonably one-sided. (2) The clause covers any training paid by the employer without specifying a minimum value or type, making it potentially overbroad. A valid repayment clause must pro-rate the repayment amount depending on how long after the training the employee leaves.",
+        "start": 2270,
+        "end": 2623
+      },
+      {
+        "ref": "Section 8 (1)",
+        "category": "termination",
+        "level": "fine",
+        "quote": "After the probationary period, the statutory notice periods under Section 622 of the German Civil Code (BGB) apply to both parties.",
+        "reason": "The statutory notice periods under § 622 BGB apply equally to both parties. This is the legal default and is unproblematic.",
+        "start": 2652,
+        "end": 2783
+      },
+      {
+        "ref": "Section 9",
+        "category": "non_compete",
+        "level": "critical",
+        "quote": "For a period of two years after the termination of the employment relationship, the Employee shall not work, whether as an employee, freelancer or in any other capacity, for a company that competes with the Employer in Germany or in any other European country.\n\n(2) The Employee shall not receive any compensation for this restriction.",
+        "reason": "Under §§ 74 ff. HGB, a post-contractual non-compete clause is only binding if the employer pays compensation of at least 50% of the employee's last contractual remuneration for the entire duration of the restriction. This clause explicitly provides zero compensation, making it likely invalid and unenforceable. Additionally, the geographic scope (all of Europe) is very broad and may be disproportionate.",
+        "start": 2908,
+        "end": 3243
+      },
+      {
+        "ref": "Section 10 (1)",
+        "category": "penalty",
+        "level": "critical",
+        "quote": "If the Employee fails to take up work, terminates the employment relationship without observing the notice period, or breaches the non-competition obligation under Section 9, the Employee shall pay a contractual penalty of three gross monthly salaries.",
+        "reason": "The BAG generally considers contractual penalties exceeding one gross monthly salary to be disproportionately high and therefore likely invalid under § 307 BGB. A penalty of three gross monthly salaries is well above this threshold. Furthermore, tying the penalty to a breach of the non-compete clause in Section 9 — which is itself likely invalid — is doubly problematic.",
+        "start": 3281,
+        "end": 3533
+      },
+      {
+        "ref": "Section 11 (1)",
+        "category": "exclusion_periods",
+        "level": "critical",
+        "quote": "All claims arising from the employment relationship and those connected with it must be asserted in writing against the other party within one month of falling due. Claims not asserted within this period are forfeited.",
+        "reason": "This clause is likely invalid on two grounds: (1) The BAG requires exclusion periods (Ausschlussfristen) in standard employment contracts to be at least three months; one month is far too short. (2) The clause does not explicitly exempt minimum wage claims (Mindestlohn) as required by § 3 MiLoG, which makes the entire clause likely void.",
+        "start": 3568,
+        "end": 3786
+      }
+    ],
+    "unverifiedQuotes": 0,
+    "invalidClauses": 0,
+    "run": {
+      "modelId": "eu.anthropic.claude-sonnet-4-6",
+      "promptVersion": "v4",
+      "costMicroUsd": 34499,
+      "latencyMs": 13003,
+      "inputTokens": 2804,
+      "outputTokens": 1530
+    }
+  }
+}

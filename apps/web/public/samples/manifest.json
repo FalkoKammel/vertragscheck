@@ -1,0 +1,28 @@
+{
+  "files": {
+    "sample-employment.de.json": {
+      "model": "eu.anthropic.claude-sonnet-4-6",
+      "promptVersion": "v4",
+      "commit": "7817e79f4acddb7b6f8d06477a1000214519b90e",
+      "date": "2026-11-14T14:36:39.665Z"
+    },
+    "sample-employment.en.json": {
+      "model": "eu.anthropic.claude-sonnet-4-6",
+      "promptVersion": "v4",
+      "commit": "7817e79f4acddb7b6f8d06477a1000214519b90e",
+      "date": "2026-11-14T14:36:52.778Z"
+    },
+    "sample-rental.de.json": {
+      "model": "eu.anthropic.claude-sonnet-4-6",
+      "promptVersion": "v4",
+      "commit": "7817e79f4acddb7b6f8d06477a1000214519b90e",
+      "date": "2026-11-14T14:36:10.671Z"
+    },
+    "sample-rental.en.json": {
+      "model": "eu.anthropic.claude-sonnet-4-6",
+      "promptVersion": "v4",
+      "commit": "7817e79f4acddb7b6f8d06477a1000214519b90e",
+      "date": "2026-11-14T14:36:23.375Z"
+    }
+  }
+}

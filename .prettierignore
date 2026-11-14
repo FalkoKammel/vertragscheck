@@ -8,3 +8,4 @@ coverage
 docs
 .claude
 eval/results
+apps/web/public/samples
