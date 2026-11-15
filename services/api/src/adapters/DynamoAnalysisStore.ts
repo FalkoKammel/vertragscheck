@@ -4,12 +4,14 @@ import {
   DynamoDBDocumentClient,
   GetCommand,
   PutCommand,
+  QueryCommand,
   UpdateCommand,
 } from '@aws-sdk/lib-dynamodb';
 import { z } from 'zod';
 import type { DeletesAnalysis } from '../application/adapters/DeletesAnalysis';
 import type { StoresAnalysis } from '../application/adapters/StoresAnalysis';
 import type { GetsAnalysis } from '../application/adapters/GetsAnalysis';
+import type { ListsMonthAnalyses } from '../application/adapters/ListsMonthAnalyses';
 import type { StoresAnalysisResult } from '../application/adapters/StoresAnalysisResult';
 import type { MarksAnalysisRunning } from '../application/adapters/MarksAnalysisRunning';
 import type { MarksAnalysisStage } from '../application/adapters/MarksAnalysisStage';
@@ -22,6 +24,7 @@ import {
   LANGUAGES,
   type AnalysisStage,
 } from '../domain/analysis';
+import type { MonthAnalysisSummary } from '../domain/monthStats';
 import { monthKey } from '../domain/policy';
 import { storedClauseSchema } from '../domain/schemas';
 
@@ -33,6 +36,16 @@ const runSchema = z.object({
   usage: z.object({ inputTokens: z.number(), outputTokens: z.number() }),
   costMicroUsd: z.number().int(),
   latencyMs: z.number(),
+});
+
+export const GSI1_NAME = 'GSI1';
+
+const monthItemSchema = z.object({
+  status: z.enum(ANALYSIS_STATUSES),
+  run: z.object({ costMicroUsd: z.number(), latencyMs: z.number() }).optional(),
+  clauses: z.array(z.unknown()).default([]),
+  unverifiedQuotes: z.number().int().default(0),
+  invalidClauses: z.number().int().default(0),
 });
 
 const analysisItemSchema = z.object({
@@ -60,7 +73,8 @@ export class DynamoAnalysisStore
     MarksAnalysisRunning,
     MarksAnalysisStage,
     StoresAnalysisResult,
-    DeletesAnalysis
+    DeletesAnalysis,
+    ListsMonthAnalyses
 {
   constructor(
     private readonly db: DynamoDBDocumentClient,
@@ -221,5 +235,37 @@ export class DynamoAnalysisStore
       run: item.run,
       failureReason: item.failureReason,
     });
+  }
+
+  async listMonth(month: string): Promise<MonthAnalysisSummary[]> {
+    const items: MonthAnalysisSummary[] = [];
+    let startKey: Record<string, unknown> | undefined;
+    do {
+      const res = await this.db.send(
+        new QueryCommand({
+          TableName: this.tableName,
+          IndexName: GSI1_NAME,
+          KeyConditionExpression: 'GSI1PK = :month',
+          ExpressionAttributeValues: { ':month': `MONTH#${month}` },
+          ProjectionExpression:
+            '#status, #run.costMicroUsd, #run.latencyMs, clauses, unverifiedQuotes, invalidClauses',
+          ExpressionAttributeNames: { '#status': 'status', '#run': 'run' },
+          ExclusiveStartKey: startKey,
+        }),
+      );
+      for (const raw of res.Items ?? []) {
+        const item = monthItemSchema.parse(raw);
+        items.push({
+          status: item.status,
+          costMicroUsd: item.run?.costMicroUsd,
+          latencyMs: item.run?.latencyMs,
+          clauseCount: item.clauses.length,
+          unverifiedQuotes: item.unverifiedQuotes,
+          invalidClauses: item.invalidClauses,
+        });
+      }
+      startKey = res.LastEvaluatedKey;
+    } while (startKey);
+    return items;
   }
 }

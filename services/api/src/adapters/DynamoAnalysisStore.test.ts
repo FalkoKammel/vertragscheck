@@ -396,4 +396,58 @@ describe('DynamoAnalysisStore', () => {
       ).rejects.toThrow('throttled');
     });
   });
+
+  it('lists a month from GSI1, follows pages and keeps only the stats fields', async () => {
+    const inputs: Record<string, unknown>[] = [];
+    const pages = [
+      {
+        Items: [
+          {
+            status: 'done',
+            run: { costMicroUsd: 100, latencyMs: 900 },
+            clauses: [{}, {}],
+            unverifiedQuotes: 1,
+            invalidClauses: 0,
+          },
+        ],
+        LastEvaluatedKey: { PK: 'x' },
+      },
+      { Items: [{ status: 'failed' }] },
+    ];
+    const db = {
+      send: (command: { input: Record<string, unknown> }) => {
+        inputs.push(command.input);
+        return Promise.resolve(pages[inputs.length - 1]);
+      },
+    } as unknown as DynamoDBDocumentClient;
+
+    const items = await new DynamoAnalysisStore(db, 'table').listMonth('2026-11');
+
+    expect(inputs[0]).toMatchObject({
+      TableName: 'table',
+      IndexName: 'GSI1',
+      KeyConditionExpression: 'GSI1PK = :month',
+      ExpressionAttributeValues: { ':month': 'MONTH#2026-11' },
+    });
+    expect(inputs[0]?.ProjectionExpression).not.toContain('deleteTokenHash');
+    expect(inputs[1]?.ExclusiveStartKey).toEqual({ PK: 'x' });
+    expect(items).toEqual([
+      {
+        status: 'done',
+        costMicroUsd: 100,
+        latencyMs: 900,
+        clauseCount: 2,
+        unverifiedQuotes: 1,
+        invalidClauses: 0,
+      },
+      {
+        status: 'failed',
+        costMicroUsd: undefined,
+        latencyMs: undefined,
+        clauseCount: 0,
+        unverifiedQuotes: 0,
+        invalidClauses: 0,
+      },
+    ]);
+  });
 });

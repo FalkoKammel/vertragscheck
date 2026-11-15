@@ -15,6 +15,7 @@ import { TurnstileCaptchaVerifier } from '../adapters/TurnstileCaptchaVerifier';
 import { UuidGenerator } from '../adapters/UuidGenerator';
 import { S3DocumentStore } from '../adapters/S3DocumentStore';
 import { DeleteAnalysis } from '../application/DeleteAnalysis';
+import { GetStats } from '../application/GetStats';
 import { GetAnalysis } from '../application/GetAnalysis';
 import { RequestUpload } from '../application/RequestUpload';
 
@@ -38,10 +39,17 @@ const s3 = new S3Client({});
 const analysisStore = new DynamoAnalysisStore(db, tableName);
 const documentStore = new S3DocumentStore(s3, env('UPLOAD_BUCKET'));
 
+const budgetStore = new DynamoBudgetStore(
+  db,
+  tableName,
+  clock,
+  Number(env('BUDGET_LIMIT_MICRO_USD')),
+);
+
 const controller = new ApiController({
   requestsUpload: new RequestUpload({
     captchaVerifier: new TurnstileCaptchaVerifier(turnstileSecret, siteHostname),
-    budget: new DynamoBudgetStore(db, tableName, clock, Number(env('BUDGET_LIMIT_MICRO_USD'))),
+    budget: budgetStore,
     rateLimiter: new DynamoRateLimiter(db, tableName, ipHashSecret),
     analysisStore: new DynamoAnalysisStore(db, tableName),
     uploadTicketIssuer: new S3UploadTicketIssuer(s3, env('UPLOAD_BUCKET')),
@@ -51,6 +59,12 @@ const controller = new ApiController({
   }),
   getsAnalysis: new GetAnalysis({ analysisStore, textStore: documentStore, clock }),
   deletesAnalysis: new DeleteAnalysis({ analysisStore, documentStore, clock }),
+  getsStats: new GetStats({
+    analyses: analysisStore,
+    budget: budgetStore,
+    clock,
+    activeModelId: env('MODEL_ID'),
+  }),
 });
 
 export function routerApiHandler(event: APIGatewayProxyEventV2) {

@@ -2,6 +2,7 @@ import { DynamoDBDocumentClient, GetCommand, UpdateCommand } from '@aws-sdk/lib-
 import { z } from 'zod';
 import type { AddsBudget } from '../application/adapters/AddsBudget';
 import type { ChecksMonthlyBudget } from '../application/adapters/ChecksMonthlyBudget';
+import type { MonthBudget, ReadsMonthlyBudget } from '../application/adapters/ReadsMonthlyBudget';
 import type { ProvidesTime } from '../application/adapters/ProvidesTime';
 import { monthKey } from '../domain/policy';
 
@@ -10,7 +11,7 @@ const budgetItem = z.object({
   limitMicroUsd: z.number().optional(),
 });
 
-export class DynamoBudgetStore implements ChecksMonthlyBudget, AddsBudget {
+export class DynamoBudgetStore implements ChecksMonthlyBudget, AddsBudget, ReadsMonthlyBudget {
   constructor(
     private readonly db: DynamoDBDocumentClient,
     private readonly tableName: string,
@@ -28,6 +29,20 @@ export class DynamoBudgetStore implements ChecksMonthlyBudget, AddsBudget {
     if (!res.Item) return true;
     const item = budgetItem.parse(res.Item);
     return item.costMicroUsd < (item.limitMicroUsd ?? this.defaultLimitMicroUsd);
+  }
+
+  async getMonthBudget(month: string): Promise<MonthBudget> {
+    const res = await this.db.send(
+      new GetCommand({
+        TableName: this.tableName,
+        Key: { PK: `BUDGET#${month}`, SK: 'TOTAL' },
+      }),
+    );
+    const item = res.Item ? budgetItem.parse(res.Item) : undefined;
+    return {
+      spentMicroUsd: item?.costMicroUsd ?? 0,
+      limitMicroUsd: item?.limitMicroUsd ?? this.defaultLimitMicroUsd,
+    };
   }
 
   async add(cost: number): Promise<void> {

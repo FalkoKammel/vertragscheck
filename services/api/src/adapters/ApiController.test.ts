@@ -1,5 +1,6 @@
 import type { APIGatewayProxyEventV2 } from 'aws-lambda';
 import { afterEach, describe, expect, it, vi } from 'vitest';
+import type { GetStatsOutput } from '../application/GetStats';
 import type { GetAnalysisOutput } from '../application/GetAnalysis';
 import { Analysis } from '../domain/analysis';
 import { AnalysisNotFoundError, InvalidDeleteTokenError } from '../domain/DomainError';
@@ -25,6 +26,7 @@ function setup(getsAnalysis: (id: string) => Promise<GetAnalysisOutput> | GetAna
   const controller = new ApiController({
     requestsUpload: { execute: () => Promise.reject(new Error('not used')) },
     deletesAnalysis: { execute: () => Promise.reject(new Error('not used')) },
+    getsStats: { execute: () => Promise.reject(new Error('not used')) },
     getsAnalysis: {
       execute: ({ analysisId }) => {
         reads.push(analysisId);
@@ -107,6 +109,7 @@ describe('DELETE /api/analyses/{id}', () => {
     const controller = new ApiController({
       requestsUpload: { execute: () => Promise.reject(new Error('not used')) },
       getsAnalysis: { execute: () => Promise.reject(new Error('not used')) },
+      getsStats: { execute: () => Promise.reject(new Error('not used')) },
       deletesAnalysis: {
         execute: async (input) => {
           calls.push(input);
@@ -167,5 +170,57 @@ describe('DELETE /api/analyses/{id}', () => {
     await setupDelete(() => undefined).del(ID, `Bearer ${TOKEN}`);
     await setupDelete(() => Promise.reject(new Error(TOKEN))).del(ID, `Bearer ${TOKEN}`);
     expect(JSON.stringify([...log.mock.calls, ...error.mock.calls])).not.toContain(TOKEN);
+  });
+});
+
+describe('GET /api/stats', () => {
+  const output: GetStatsOutput = {
+    month: '2026-11',
+    stats: {
+      done: 4,
+      failed: 1,
+      meanCostMicroUsd: 48_000,
+      p95LatencyMs: 26_000,
+      unverifiedQuotes: { num: 1, den: 52 },
+    },
+    budget: { spentMicroUsd: 2_400_000, limitMicroUsd: 10_000_000 },
+    activeModelId: 'model-x',
+  };
+
+  function statsController(execute: () => Promise<GetStatsOutput>) {
+    const controller = new ApiController({
+      requestsUpload: { execute: () => Promise.reject(new Error('not used')) },
+      getsAnalysis: { execute: () => Promise.reject(new Error('not used')) },
+      deletesAnalysis: { execute: () => Promise.reject(new Error('not used')) },
+      getsStats: { execute },
+    });
+    return controller.handle({
+      routeKey: 'GET /api/stats',
+      headers: {},
+      requestContext: { http: { sourceIp: '203.0.113.7' } },
+    } as unknown as APIGatewayProxyEventV2);
+  }
+
+  it('returns the figures with a public 5 minute Cache-Control', async () => {
+    vi.spyOn(console, 'log').mockImplementation(() => undefined);
+    const res = await statsController(() => Promise.resolve(output));
+    expect(res.statusCode).toBe(200);
+    expect(res.headers['cache-control']).toBe('public, max-age=300');
+    expect(JSON.parse(res.body)).toEqual({
+      month: '2026-11',
+      analyses: { done: 4, failed: 1 },
+      meanCostMicroUsd: 48_000,
+      p95LatencyMs: 26_000,
+      unverifiedQuotes: { num: 1, den: 52 },
+      budget: { spentMicroUsd: 2_400_000, limitMicroUsd: 10_000_000 },
+      activeModelId: 'model-x',
+    });
+  });
+
+  it('keeps no-store on errors so a failure is never cached', async () => {
+    vi.spyOn(console, 'error').mockImplementation(() => undefined);
+    const res = await statsController(() => Promise.reject(new Error('boom')));
+    expect(res.statusCode).toBe(500);
+    expect(res.headers['cache-control']).toBe('no-store');
   });
 });

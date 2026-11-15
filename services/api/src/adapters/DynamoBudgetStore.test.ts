@@ -52,4 +52,20 @@ describe('DynamoBudgetStore', () => {
       ExpressionAttributeValues: { ':cost': 3850 },
     });
   });
+
+  it('reads spent and limit of a month, with the default limit as fallback', async () => {
+    const { store, keys } = checker({ costMicroUsd: 2_400_000 });
+    expect(await store.getMonthBudget('2026-10')).toEqual({
+      spentMicroUsd: 2_400_000,
+      limitMicroUsd: LIMIT,
+    });
+    expect(keys).toEqual([{ PK: 'BUDGET#2026-10', SK: 'TOTAL' }]);
+  });
+
+  it('reports 0 spent for a month without a budget item', async () => {
+    expect(await checker(undefined).store.getMonthBudget('2026-11')).toEqual({
+      spentMicroUsd: 0,
+      limitMicroUsd: LIMIT,
+    });
+  });
 });
