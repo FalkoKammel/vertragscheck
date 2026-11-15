@@ -45,6 +45,7 @@ describe('router Lambda', () => {
       Environment: {
         Variables: Match.objectLike({
           BUDGET_LIMIT_MICRO_USD: '10000000',
+          MODEL_ID: 'eu.anthropic.claude-sonnet-4-6',
           IP_HASH_SECRET_PARAM: '/vertragscheck/ip-hash-secret',
           TURNSTILE_SECRET_PARAM: '/vertragscheck/turnstile-secret',
           SITE_HOSTNAME_PARAM: '/vertragscheck/site-hostname',
@@ -75,6 +76,20 @@ describe('least privilege', () => {
     expect(JSON.stringify(put?.Resource)).toContain('/uploads/*');
     expect(JSON.stringify(get?.Resource)).toContain('/texts/*');
     expect(JSON.stringify(get?.Resource)).not.toContain('uploads');
+  });
+
+  it('grants DynamoDB only Get/Put/Update/DeleteItem on the table and Query on GSI1', () => {
+    const ddb = statements().filter((s) => JSON.stringify(s.Action).includes('dynamodb:'));
+    const actions = ddb.flatMap((s) => (Array.isArray(s.Action) ? s.Action : [s.Action]));
+    expect([...actions].sort()).toEqual([
+      'dynamodb:DeleteItem',
+      'dynamodb:GetItem',
+      'dynamodb:PutItem',
+      'dynamodb:Query',
+      'dynamodb:UpdateItem',
+    ]);
+    const query = ddb.find((s) => s.Action === 'dynamodb:Query');
+    expect(JSON.stringify(query?.Resource)).toContain('/index/GSI1');
   });
 
   it('grants DynamoDB read/write on the table, without wildcard resources', () => {
@@ -128,7 +143,11 @@ describe('HTTP API', () => {
     template.hasResourceProperties('AWS::ApiGatewayV2::Route', {
       RouteKey: 'DELETE /api/analyses/{id}',
     });
-    template.resourceCountIs('AWS::ApiGatewayV2::Route', 3);
+    template.resourceCountIs('AWS::ApiGatewayV2::Route', 4);
+  });
+
+  it('routes GET /api/stats to the same Lambda', () => {
+    template.hasResourceProperties('AWS::ApiGatewayV2::Route', { RouteKey: 'GET /api/stats' });
   });
 
   it('throttles the stage', () => {
@@ -177,6 +196,45 @@ describe('CloudFront /api/*', () => {
         QueryStringsConfig: { QueryStringBehavior: 'all' },
       }),
     });
+  });
+});
+
+describe('CloudFront /api/stats', () => {
+  const behaviors = () => {
+    const [dist] = Object.values(template.findResources('AWS::CloudFront::Distribution'));
+    return (
+      dist?.Properties as {
+        DistributionConfig: { CacheBehaviors: { PathPattern: string; CachePolicyId: unknown }[] };
+      }
+    ).DistributionConfig.CacheBehaviors;
+  };
+
+  it('is matched before /api/*, so only this route is cached', () => {
+    const paths = behaviors().map((b) => b.PathPattern);
+    expect(paths.indexOf('/api/stats')).toBeGreaterThanOrEqual(0);
+    expect(paths.indexOf('/api/stats')).toBeLessThan(paths.indexOf('/api/*'));
+  });
+
+  it('uses a cache policy that honours the origin header up to 5 minutes, GET/HEAD only', () => {
+    const stats = behaviors().find((b) => b.PathPattern === '/api/stats');
+    expect(stats).toMatchObject({ AllowedMethods: ['GET', 'HEAD'] });
+    template.hasResourceProperties('AWS::CloudFront::CachePolicy', {
+      CachePolicyConfig: Match.objectLike({
+        MinTTL: 0,
+        DefaultTTL: 0,
+        MaxTTL: 300,
+        ParametersInCacheKeyAndForwardedToOrigin: Match.objectLike({
+          CookiesConfig: { CookieBehavior: 'none' },
+          HeadersConfig: { HeaderBehavior: 'none' },
+          QueryStringsConfig: { QueryStringBehavior: 'none' },
+        }),
+      }),
+    });
+  });
+
+  it('keeps everything else under /api/* uncached', () => {
+    const rest = behaviors().find((b) => b.PathPattern === '/api/*');
+    expect(rest?.CachePolicyId).toBe('4135ea2d-6df8-44a3-9df3-4b5a84be39ad');
   });
 });
 
