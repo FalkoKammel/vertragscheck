@@ -1,4 +1,4 @@
-import { Stack, type StackProps } from 'aws-cdk-lib';
+import { Duration, Stack, type StackProps } from 'aws-cdk-lib';
 import {
   AllowedMethods,
   CachePolicy,
@@ -12,7 +12,7 @@ import { HttpOrigin } from 'aws-cdk-lib/aws-cloudfront-origins';
 import type { ITable } from 'aws-cdk-lib/aws-dynamodb';
 import type { IBucket } from 'aws-cdk-lib/aws-s3';
 import type { Construct } from 'constructs';
-import { Analysis } from './constructs/analysis.js';
+import { Analysis, DEFAULT_MODEL_ID } from './constructs/analysis.js';
 import { DEFAULT_BUDGET_LIMIT_MICRO_USD, UploadApi } from './constructs/upload-api.js';
 import { WebHosting } from './constructs/web-hosting.js';
 
@@ -22,6 +22,7 @@ export interface AppStackProps extends StackProps {
   /** Uploads and extracted texts (DataStack). */
   readonly bucket: IBucket;
   readonly budgetLimitMicroUsd?: number;
+  readonly modelId?: string;
 }
 
 export class AppStack extends Stack {
@@ -34,6 +35,7 @@ export class AppStack extends Stack {
   constructor(scope: Construct, id: string, props: AppStackProps) {
     super(scope, id, props);
 
+    const modelId = props.modelId ?? DEFAULT_MODEL_ID;
     this.table = props.table;
     this.bucket = props.bucket;
     this.web = new WebHosting(this, 'Web', { assetPath: props.webAssetPath });
@@ -41,12 +43,14 @@ export class AppStack extends Stack {
       table: props.table,
       bucket: props.bucket,
       budgetLimitMicroUsd: props.budgetLimitMicroUsd ?? DEFAULT_BUDGET_LIMIT_MICRO_USD,
+      modelId,
     });
 
     this.analysis = new Analysis(this, 'Analysis', {
       table: props.table,
       bucket: props.bucket,
       budgetLimitMicroUsd: props.budgetLimitMicroUsd ?? DEFAULT_BUDGET_LIMIT_MICRO_USD,
+      modelId,
     });
 
     const apiOriginRequestPolicy = new OriginRequestPolicy(this, 'ApiOriginRequest', {
@@ -57,6 +61,19 @@ export class AppStack extends Stack {
       ),
       queryStringBehavior: OriginRequestQueryStringBehavior.all(),
       cookieBehavior: OriginRequestCookieBehavior.none(),
+    });
+
+    const statsOrigin = new HttpOrigin(this.uploadApi.originDomainName);
+    this.web.distribution.addBehavior('/api/stats', statsOrigin, {
+      viewerProtocolPolicy: ViewerProtocolPolicy.HTTPS_ONLY,
+      allowedMethods: AllowedMethods.ALLOW_GET_HEAD,
+      cachePolicy: new CachePolicy(this, 'ApiStatsCache', {
+        minTtl: Duration.seconds(0),
+        defaultTtl: Duration.seconds(0),
+        maxTtl: Duration.minutes(5),
+        enableAcceptEncodingGzip: true,
+        enableAcceptEncodingBrotli: true,
+      }),
     });
 
     this.web.distribution.addBehavior('/api/*', new HttpOrigin(this.uploadApi.originDomainName), {

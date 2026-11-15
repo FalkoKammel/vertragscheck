@@ -9,6 +9,8 @@ import { NodejsFunction, OutputFormat } from 'aws-cdk-lib/aws-lambda-nodejs';
 import { LogGroup, RetentionDays } from 'aws-cdk-lib/aws-logs';
 import type { IBucket } from 'aws-cdk-lib/aws-s3';
 import { Construct } from 'constructs';
+import { GSI1_NAME } from '../data-stack.js';
+import { DEFAULT_MODEL_ID } from './analysis.js';
 
 export const IP_HASH_SECRET_PARAM = '/vertragscheck/ip-hash-secret';
 export const TURNSTILE_SECRET_PARAM = '/vertragscheck/turnstile-secret';
@@ -20,6 +22,7 @@ export interface UploadApiProps {
   readonly table: ITable;
   readonly bucket: IBucket;
   readonly budgetLimitMicroUsd: number;
+  readonly modelId?: string;
   readonly throttlingRateLimit?: number;
   readonly throttlingBurstLimit?: number;
 }
@@ -52,6 +55,7 @@ export class UploadApi extends Construct {
         TABLE_NAME: props.table.tableName,
         UPLOAD_BUCKET: props.bucket.bucketName,
         BUDGET_LIMIT_MICRO_USD: String(props.budgetLimitMicroUsd),
+        MODEL_ID: props.modelId ?? DEFAULT_MODEL_ID,
         IP_HASH_SECRET_PARAM,
         TURNSTILE_SECRET_PARAM,
         SITE_HOSTNAME_PARAM,
@@ -69,7 +73,25 @@ export class UploadApi extends Construct {
       },
     });
 
-    props.table.grantReadWriteData(this.function);
+    this.function.addToRolePolicy(
+      new PolicyStatement({
+        effect: Effect.ALLOW,
+        actions: [
+          'dynamodb:GetItem',
+          'dynamodb:PutItem',
+          'dynamodb:UpdateItem',
+          'dynamodb:DeleteItem',
+        ],
+        resources: [props.table.tableArn],
+      }),
+    );
+    this.function.addToRolePolicy(
+      new PolicyStatement({
+        effect: Effect.ALLOW,
+        actions: ['dynamodb:Query'],
+        resources: [`${props.table.tableArn}/index/${GSI1_NAME}`],
+      }),
+    );
     this.function.addToRolePolicy(
       new PolicyStatement({
         effect: Effect.ALLOW,
@@ -140,6 +162,11 @@ export class UploadApi extends Construct {
       path: '/api/uploads',
       methods: [HttpMethod.POST],
       integration: new HttpLambdaIntegration('Router', this.function),
+    });
+    this.api.addRoutes({
+      path: '/api/stats',
+      methods: [HttpMethod.GET],
+      integration: new HttpLambdaIntegration('RouterStats', this.function),
     });
     this.api.addRoutes({
       path: '/api/analyses/{id}',

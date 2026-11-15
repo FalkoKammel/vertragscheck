@@ -4,6 +4,7 @@ import { z } from 'zod';
 import type { UseCase } from '../application/UseCase';
 import type { DeleteAnalysisInput } from '../application/DeleteAnalysis';
 import type { GetAnalysisInput, GetAnalysisOutput } from '../application/GetAnalysis';
+import type { GetStatsOutput } from '../application/GetStats';
 import type { RequestUploadInput, RequestUploadOutput } from '../application/RequestUpload';
 import { AnalysisNotFoundError, DomainError, InvalidDeleteTokenError } from '../domain/DomainError';
 import { toAnalysisResponse } from './AnalysisResponseMapper';
@@ -12,6 +13,7 @@ export interface ApiUseCases {
   requestsUpload: UseCase<RequestUploadInput, RequestUploadOutput>;
   getsAnalysis: UseCase<GetAnalysisInput, GetAnalysisOutput>;
   deletesAnalysis: UseCase<DeleteAnalysisInput, void>;
+  getsStats: UseCase<undefined, GetStatsOutput>;
 }
 
 export const STATUS_BY_CODE: Record<string, number> = {
@@ -23,6 +25,11 @@ export const STATUS_BY_CODE: Record<string, number> = {
 };
 
 const HEADERS = { 'content-type': 'application/json', 'cache-control': 'no-store' };
+
+const STATS_HEADERS = {
+  'content-type': 'application/json',
+  'cache-control': 'public, max-age=300',
+};
 
 const analysisIdSchema = z.uuid();
 
@@ -105,6 +112,24 @@ export class ApiController {
           await this._useCases.deletesAnalysis.execute({ analysisId: id.data, deleteToken });
           console.log({ msg: 'analysis deleted', id: id.data });
           return { statusCode: 204, headers: HEADERS, body: '' };
+        }
+        case 'GET /api/stats': {
+          const { month, stats, budget, activeModelId } =
+            await this._useCases.getsStats.execute(undefined);
+          console.log({ msg: 'stats read', month, done: stats.done, failed: stats.failed });
+          return {
+            statusCode: 200,
+            headers: STATS_HEADERS,
+            body: JSON.stringify({
+              month,
+              analyses: { done: stats.done, failed: stats.failed },
+              meanCostMicroUsd: stats.meanCostMicroUsd,
+              p95LatencyMs: stats.p95LatencyMs,
+              unverifiedQuotes: stats.unverifiedQuotes,
+              budget,
+              activeModelId,
+            }),
+          };
         }
         default:
           return json(404, { code: 'NOT_FOUND' });
