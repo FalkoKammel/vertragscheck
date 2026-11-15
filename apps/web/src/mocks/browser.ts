@@ -51,6 +51,20 @@ async function startWorker(): Promise<void> {
         headers: { 'cache-control': 'no-store' },
       });
     }),
+    http.get('/api/stats', () => {
+      const mock = new URLSearchParams(window.location.search).get('mock');
+      if (mock === 'internal') return HttpResponse.json({ code: 'INTERNAL' }, { status: 500 });
+      const empty = mock === 'empty';
+      return HttpResponse.json({
+        month: '2026-11',
+        analyses: { done: empty ? 0 : 184, failed: empty ? 0 : 3 },
+        meanCostMicroUsd: empty ? null : 13_000,
+        p95LatencyMs: empty ? null : 9_800,
+        unverifiedQuotes: { num: empty ? 0 : 21, den: empty ? 0 : 1000 },
+        budget: { spentMicroUsd: empty ? 0 : 2_400_000, limitMicroUsd: 10_000_000 },
+        activeModelId: 'eu.anthropic.claude-sonnet-4-6',
+      });
+    }),
     // ?mock=delete403 or delete404 for the error answers; everything else deletes.
     http.delete('/api/analyses/:id', () => {
       const mock = new URLSearchParams(window.location.search).get('mock');

@@ -80,7 +80,7 @@ describe('least privilege', () => {
 
   it('grants DynamoDB only Get/Put/Update/DeleteItem on the table and Query on GSI1', () => {
     const ddb = statements().filter((s) => JSON.stringify(s.Action).includes('dynamodb:'));
-    const actions = ddb.flatMap((s) => (Array.isArray(s.Action) ? s.Action : [s.Action]));
+    const actions = ddb.flatMap((s) => [s.Action].flat() as string[]);
     expect([...actions].sort()).toEqual([
       'dynamodb:DeleteItem',
       'dynamodb:GetItem',
