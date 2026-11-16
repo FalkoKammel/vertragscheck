@@ -10,12 +10,12 @@ Upload a German rental or employment contract and get notable clauses highlighte
 
 ![Result page: contract text with highlights and the clause list](docs/screenshots/result.png)
 
-| Start | Upload |
-| --- | --- |
+| Start                                     | Upload                                      |
+| ----------------------------------------- | ------------------------------------------- |
 | ![Start page](docs/screenshots/start.png) | ![Upload page](docs/screenshots/upload.png) |
 
-| Transparency | Result (German) |
-| --- | --- |
+| Transparency                                            | Result (German)                                          |
+| ------------------------------------------------------- | -------------------------------------------------------- |
 | ![Transparency page](docs/screenshots/transparency.png) | ![Result page in German](docs/screenshots/result-de.png) |
 
 ## Disclaimer
@@ -62,11 +62,11 @@ Details and data model: [`docs/PLAN.md`](docs/PLAN.md).
 
 The test set has 8 synthetic contracts (4 rental, 4 employment) with hand-labelled clauses: 37 problem clauses and 35 clean ones. A returned clause counts as found when it overlaps a labelled span. "False alarms" are clean passages rated `check` or `critical`. Every prompt or model change is run through the same code path as production; raw results are committed and can be re-graded.
 
-| Model | Prompt | Runs per contract | Recall | Level accuracy | False alarms | Cost per analysis | p95 latency |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| Claude Haiku 4.5 | v1 | 1 | 78 % (29/37) | 93 % (27/29) | 3 % (1/35) | $0.0109 | 11.9 s |
-| Claude Sonnet 4.6 | v1 | 1 | 92 % (34/37) | 97 % (33/34) | 9 % (3/35) | $0.0471 | 26.2 s |
-| Claude Sonnet 4.6 (production) | v4 | 3 | 92 % (102/111) | 96 % (98/102) | 6 % (6/105) | $0.0487 | 26.3 s |
+| Model                          | Prompt | Runs per contract | Recall         | Level accuracy | False alarms | Cost per analysis | p95 latency |
+| ------------------------------ | ------ | ----------------- | -------------- | -------------- | ------------ | ----------------- | ----------- |
+| Claude Haiku 4.5               | v1     | 1                 | 78 % (29/37)   | 93 % (27/29)   | 3 % (1/35)   | $0.0109           | 11.9 s      |
+| Claude Sonnet 4.6              | v1     | 1                 | 92 % (34/37)   | 97 % (33/34)   | 9 % (3/35)   | $0.0471           | 26.2 s      |
+| Claude Sonnet 4.6 (production) | v4     | 3                 | 92 % (102/111) | 96 % (98/102)  | 6 % (6/105)  | $0.0487           | 26.3 s      |
 
 Recall is the share of labelled problem clauses that were found, level accuracy the share of found clauses with the correct traffic-light level. With 8 contracts every figure rests on small counts, so treat them as indications. Sonnet found most problems Haiku missed with every prompt variant, so I chose it despite the higher cost and latency. Prompt versions v2 and v3 (Haiku) were not adopted.
 
