@@ -7,6 +7,9 @@ const nextConfig: NextConfig = {
   output: 'export',
   reactStrictMode: true,
   agentRules: false,
+  experimental: {
+    agentUpgrade: 'security',
+  },
   turbopack: {
     resolveAlias: {
       // msw's exports mark `msw/browser` as "node: null", which fails the server-side pass of
