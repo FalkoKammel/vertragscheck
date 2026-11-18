@@ -92,8 +92,8 @@ The PDF is only needed for extraction, so it is not kept. The extracted text liv
     "costMicroUsd": 14300,            // integer, no float rounding
     "latencyMs": 6200                 // from the Converse response metrics
   },
-  "unverifiedQuotes": 1,              // clauses dropped because their quote was not found in the text
-  "invalidClauses": 0,                // clauses dropped because they failed schema validation
+  "unverifiedQuotes": 1,              // clauses dropped because their quote was not found in the text (counts as "dropped" on the transparency page)
+  "invalidClauses": 0,                // clauses dropped because they failed Zod validation before quote verification; only in the denominator of the quote share
   "clauses": [
     {
       "ref": "§ 4",
@@ -112,15 +112,15 @@ The PDF is only needed for extraction, so it is not kept. The extracted text liv
 
 Clauses are embedded because they are always read and written together with their analysis, and 20–30 clauses stay well below 50 KB. One `GetItem` loads the whole result. The model run (model, prompt version, usage, cost, latency) belongs to the analysis, so they sit in the same item.
 
-**Monthly budget and counters:**
+**Monthly budget:**
 
 ```jsonc
 { "PK": "BUDGET#2026-11", "SK": "TOTAL",
-  "costMicroUsd": 2400000, "limitMicroUsd": 10000000,
-  "analyses": 184, "quotesTotal": 3510, "quotesDropped": 74 }
+  "costMicroUsd": 2400000,            // atomic ADD after every model call (a retry is booked too)
+  "limitMicroUsd": 10000000 }         // optional; without it the BUDGET_LIMIT_MICRO_USD default applies
 ```
 
-Updated with an atomic `ADD` after every analysis.
+The budget item holds only cost. Counts and quote statistics for the transparency page are not stored: `GET /api/stats` reads all analyses of the month via `GSI1` and aggregates them (`aggregateMonthStats`).
 
 **Daily limit per client:**
 
@@ -183,7 +183,7 @@ Because this app is the only caller of Bedrock in the account, counting in the a
 ## LLM output
 
 - The model answers in a fixed JSON schema (tool use / structured output) and the answer is validated with Zod. An invalid answer is retried once, then the analysis is marked as failed.
-- Every clause needs a verbatim quote. Code searches for it in the extracted text (after whitespace normalisation) and stores its offsets; quotes that are not found are dropped and counted.
+- Every clause needs a verbatim quote. `ContractText.verifyQuotes` looks for it in the extracted text in two steps: (1) exact match after Unicode NFKC normalisation, unified quotation marks and collapsed whitespace; (2) if that fails, a token alignment (words and numbers, case-insensitive, punctuation ignored) that may only skip enumeration markers such as `(2)`, `2.` or `a)` at the start of a line. There is no fuzzy or percentage match. The stored quote is the original text slice at the found offsets, not the model's string. Quotes that are not found are dropped and counted as `unverifiedQuotes`; clauses that fail Zod validation earlier are counted separately as `invalidClauses`.
 - Categories are fixed per contract type. Prompt and categories are versioned in the repo, and the version is stored with every analysis.
 - The model ID is configuration (`MODEL_ID`), never hardcoded.
 
