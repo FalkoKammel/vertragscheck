@@ -54,8 +54,8 @@ Format per entry: **Context** (the problem), **Decision**, **Consequences** (tra
 ## 008 · Structured output, Zod validation and quote verification
 
 - **Context:** LLMs can return invalid JSON or invent clauses that aren't in the contract.
-- **Decision:** The model answers in a fixed JSON schema. The answer is validated with Zod; invalid answers are retried once, then stored as an error. Every clause must contain a verbatim quote, and code checks that the quote exists in the extracted text (after whitespace normalisation). Quotes that aren't found are dropped and counted.
-- **Consequences:** Users only see text that is really in their contract. The rate of dropped quotes becomes a quality metric on the transparency page.
+- **Decision:** The model answers in a fixed JSON schema. The answer is validated with Zod; invalid answers are retried once, then stored as an error. Every clause must contain a verbatim quote, and code checks that the quote exists in the extracted text: first an exact match after Unicode, quotation-mark and whitespace normalisation, then a token alignment that may skip only enumeration markers such as "(2)" (no fuzzy matching). Quotes that aren't found are dropped and counted as `unverifiedQuotes`; clauses that already fail Zod validation are counted separately as `invalidClauses`.
+- **Consequences:** Users only see text that is really in their contract. The rate of dropped quotes (`unverifiedQuotes` over kept + unverified + invalid clauses) becomes a quality metric on the transparency page, computed from the analysis items, not from counters in the budget item.
 
 ## 009 · Highlighting in the extracted text, not in the PDF
 
